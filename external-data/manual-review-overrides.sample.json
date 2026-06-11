@@ -1,0 +1,19 @@
+{
+  "items": {
+    "samsung-fire.2025-q1.csm_movement": {
+      "decision": "approved",
+      "reviewedBy": "actuary-reviewer",
+      "reviewedAt": "2026-06-11T09:00:00+09:00",
+      "reviewerNote": "원문 표 기준으로 이자부리 흡수 표시를 승인합니다."
+    },
+    "samsung-life.2025-q4.financial_metrics": {
+      "decision": "adjusted",
+      "reviewedBy": "actuary-reviewer",
+      "reviewedAt": "2026-06-11T09:30:00+09:00",
+      "reviewerNote": "보고용 표기 정리를 위해 검토 완료 처리합니다.",
+      "adjustedValue": {
+        "investmentProfit": 2021.629
+      }
+    }
+  }
+}

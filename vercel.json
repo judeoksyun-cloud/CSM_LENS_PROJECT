@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/csm-prototype/index.html",
+      "permanent": false
+    }
+  ]
+}

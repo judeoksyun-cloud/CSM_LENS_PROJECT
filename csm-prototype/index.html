@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>보험 CSM 벤치마크 대시보드</title>
+    <link rel="stylesheet" href="./styles.css?v=20260611-ia-redesign-v2" />
+  </head>
+  <body>
+    <main class="lens-app">
+      <header class="shell-card" aria-labelledby="page-title">
+        <div class="shell-top">
+          <div class="shell-copy">
+            <div class="brand-row">
+              <a class="brand" href="./index.html#overview" aria-label="CSM Lens">
+                <span class="brand-mark" aria-hidden="true">CL</span>
+                <span>CSM Lens</span>
+              </a>
+              <div class="shell-badges" aria-label="제품 배지">
+                <span>Open DART 기반</span>
+                <span>IFRS17 Pilot</span>
+                <span>검증 중심</span>
+              </div>
+            </div>
+            <p class="eyebrow">보험 CSM 벤치마킹 · 리서치 보조 시스템</p>
+            <h1 id="page-title">검증된 CSM 데이터를 한 제품 체계로 읽는 대시보드</h1>
+            <p class="shell-lede" id="shell-summary">
+              삼성생명과 삼성화재의 공시 데이터를 기준으로 CSM, 손익, K-ICS,
+              Movement, 데이터 품질을 한 화면 체계 안에서 읽는 프로토타입입니다.
+            </p>
+          </div>
+
+          <div class="shell-actions" aria-label="공통 제어">
+            <div class="filter-grid">
+              <label>
+                회사
+                <select id="company-select">
+                  <option value="samsung-life">삼성생명</option>
+                  <option value="samsung-fire">삼성화재</option>
+                </select>
+              </label>
+              <label>
+                기간
+                <select id="period-select">
+                  <option value="2025-q4">2025 Q4</option>
+                  <option value="2025-q3">2025 Q3</option>
+                  <option value="2025-q2">2025 Q2</option>
+                  <option value="2025-q1">2025 Q1</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="quick-jump" aria-label="빠른 이동">
+              <button type="button" class="quick-link" data-jump-tab="company-analysis">
+                회사 분석
+              </button>
+              <button type="button" class="quick-link" data-jump-tab="market">
+                시장 비교
+              </button>
+              <button type="button" class="quick-link" data-jump-tab="forecast">
+                전망
+              </button>
+              <button type="button" class="quick-link" data-jump-tab="quality">
+                데이터 품질
+              </button>
+              <button type="button" class="primary-button" id="ai-drawer-button">
+                AI 열기
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <section class="basis-banner" aria-label="데이터 기준">
+          <strong>데이터 기준</strong>
+          <span>보유 CSM은 별도재무제표 기준, 재보험 제외 기준입니다.</span>
+          <small>
+            보험손익은 별도 보험서비스손익 기준입니다. 투자손익은 별도 투자손익,
+            영업외손익, 연결효과를 포함하는 관리 기준으로 표시하며, 화면 계산은
+            당기순이익과 법인세를 활용한 역산값을 적용합니다. K-ICS는 지급여력
+            공시 기준입니다.
+          </small>
+        </section>
+
+        <nav class="tab-nav" aria-label="주요 보기">
+          <button type="button" class="tab-button" data-tab="overview">개요</button>
+          <button type="button" class="tab-button" data-tab="company-analysis">
+            회사 분석
+          </button>
+          <button type="button" class="tab-button" data-tab="market">시장 비교</button>
+          <button type="button" class="tab-button" data-tab="forecast">전망</button>
+          <button type="button" class="tab-button" data-tab="quality">데이터 품질</button>
+        </nav>
+      </header>
+
+      <div class="app-workspace">
+        <div class="main-column">
+          <section
+            id="overview-panel"
+            class="tab-panel"
+            data-tab-panel="overview"
+            aria-labelledby="overview-title"
+          >
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Portfolio Overview</p>
+                  <h2 id="overview-title">포트폴리오 개요판</h2>
+                </div>
+                <span class="section-chip" id="overview-status-chip">-</span>
+              </div>
+              <div class="overview-intro">
+                <div>
+                  <h3 id="overview-company-title">-</h3>
+                  <p id="overview-summary">-</p>
+                </div>
+                <div class="overview-kicker">
+                  <span>현재 기준</span>
+                  <strong id="overview-period-label">-</strong>
+                  <small id="overview-quality-note">-</small>
+                </div>
+              </div>
+              <div class="metric-grid metric-grid-equal" id="overview-metric-grid"></div>
+            </article>
+
+            <div class="two-column-grid">
+              <article class="panel">
+                <div class="panel-heading">
+                  <div>
+                    <p class="eyebrow">Watchlist</p>
+                    <h3>주요 경고와 검토</h3>
+                  </div>
+                </div>
+                <div class="watchlist" id="overview-watchlist"></div>
+              </article>
+
+              <article class="panel">
+                <div class="panel-heading">
+                  <div>
+                    <p class="eyebrow">Recent Change</p>
+                    <h3>최근 변동 요약</h3>
+                  </div>
+                </div>
+                <div class="overview-change-grid" id="overview-change-grid"></div>
+              </article>
+            </div>
+
+            <section class="shortcut-grid" aria-label="바로가기">
+              <button
+                type="button"
+                class="shortcut-card"
+                data-jump-tab="company-analysis"
+                data-company-subtab="movement"
+              >
+                <span>Movement</span>
+                <strong>CSM 변동과 원인분해 보기</strong>
+                <small>선택 회사의 워터폴과 검산 결과로 이동합니다.</small>
+              </button>
+              <button
+                type="button"
+                class="shortcut-card"
+                data-jump-tab="market"
+              >
+                <span>Market</span>
+                <strong>시장 비교 보드 열기</strong>
+                <small>같은 기간 기준으로 경쟁사 지표를 비교합니다.</small>
+              </button>
+              <button
+                type="button"
+                class="shortcut-card"
+                data-jump-tab="forecast"
+              >
+                <span>Forecast</span>
+                <strong>최신 기준 연말 전망 보기</strong>
+                <small>최신 검증 기간만 기반으로 전망 초안을 확인합니다.</small>
+              </button>
+              <button
+                type="button"
+                class="shortcut-card"
+                data-jump-tab="quality"
+              >
+                <span>Quality</span>
+                <strong>출처와 휴먼리뷰 추적</strong>
+                <small>근거, 검산 상태, 수작업 보정을 한곳에서 봅니다.</small>
+              </button>
+            </section>
+          </section>
+
+          <section
+            id="company-analysis-panel"
+            class="tab-panel"
+            data-tab-panel="company-analysis"
+            aria-labelledby="company-analysis-title"
+            hidden
+          >
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Company Analysis</p>
+                  <h2 id="company-analysis-title">회사 분석</h2>
+                </div>
+                <span class="section-chip" id="company-analysis-status-chip">-</span>
+              </div>
+              <div class="overview-intro company-intro">
+                <div>
+                  <h3 id="company-analysis-company">-</h3>
+                  <p id="company-analysis-summary">-</p>
+                </div>
+                <div class="overview-kicker">
+                  <span>선택 기간</span>
+                  <strong id="company-analysis-period">-</strong>
+                  <small id="company-analysis-quality-note">-</small>
+                </div>
+              </div>
+              <div class="metric-grid metric-grid-equal" id="company-metric-grid"></div>
+            </article>
+
+            <nav class="subtab-nav" aria-label="회사 분석 상세">
+              <button type="button" class="subtab-button" data-company-subtab="movement">
+                Movement
+              </button>
+              <button type="button" class="subtab-button" data-company-subtab="profit">
+                손익
+              </button>
+              <button type="button" class="subtab-button" data-company-subtab="portfolio">
+                포트폴리오
+              </button>
+              <button type="button" class="subtab-button" data-company-subtab="trend">
+                추세
+              </button>
+            </nav>
+
+            <section
+              class="company-subtab-panel"
+              data-company-subtab-panel="movement"
+            >
+              <article class="panel movement-panel">
+                <div class="panel-heading">
+                  <div>
+                    <p class="eyebrow">Movement</p>
+                    <h3 id="movement-title">CSM 변동 내역</h3>
+                  </div>
+                  <span class="quality-pill" id="quality-pill">-</span>
+                </div>
+                <p class="movement-headline" id="movement-headline">-</p>
+                <div class="waterfall" id="waterfall" aria-label="CSM Movement 차트"></div>
+                <div class="movement-summary" id="movement-summary"></div>
+              </article>
+            </section>
+
+            <section
+              class="company-subtab-panel"
+              data-company-subtab-panel="profit"
+              hidden
+            >
+              <div class="two-column-grid">
+                <article class="panel">
+                  <div class="panel-heading">
+                    <div>
+                      <p class="eyebrow">Profit View</p>
+                      <h3>손익 구조</h3>
+                    </div>
+                  </div>
+                  <div class="profit-card-grid" id="profit-card-grid"></div>
+                </article>
+
+                <article class="panel">
+                  <div class="panel-heading">
+                    <div>
+                      <p class="eyebrow">Interpretation</p>
+                      <h3>기준과 해석</h3>
+                    </div>
+                  </div>
+                  <div class="profit-basis-list" id="profit-basis-list"></div>
+                  <div class="insight-list" id="profit-insight-list"></div>
+                </article>
+              </div>
+            </section>
+
+            <section
+              class="company-subtab-panel"
+              data-company-subtab-panel="portfolio"
+              hidden
+            >
+              <div class="two-column-grid">
+                <article class="panel">
+                  <div class="panel-heading">
+                    <div>
+                      <p class="eyebrow">Portfolio</p>
+                      <h3>보유 CSM 구성</h3>
+                    </div>
+                  </div>
+                  <div class="portfolio-stack-view" id="portfolio-stack"></div>
+                </article>
+
+                <article class="panel">
+                  <div class="panel-heading">
+                    <div>
+                      <p class="eyebrow">Breakdown</p>
+                      <h3>구성 설명</h3>
+                    </div>
+                  </div>
+                  <div class="portfolio-list" id="portfolio-list"></div>
+                </article>
+              </div>
+            </section>
+
+            <section
+              class="company-subtab-panel"
+              data-company-subtab-panel="trend"
+              hidden
+            >
+              <article class="panel">
+                <div class="panel-heading">
+                  <div>
+                    <p class="eyebrow">Quarterly Trend</p>
+                    <h3>분기 추세와 변화 포인트</h3>
+                  </div>
+                </div>
+                <div class="trend-summary" id="trend-summary"></div>
+                <div class="table-wrap">
+                  <table class="trend-table">
+                    <thead>
+                      <tr>
+                        <th>기간</th>
+                        <th>보유 CSM</th>
+                        <th>성장률</th>
+                        <th>보험손익</th>
+                        <th>투자손익</th>
+                        <th>당기순이익</th>
+                        <th>K-ICS</th>
+                      </tr>
+                    </thead>
+                    <tbody id="trend-table-body"></tbody>
+                  </table>
+                </div>
+              </article>
+            </section>
+          </section>
+
+          <section
+            id="market-panel"
+            class="tab-panel"
+            data-tab-panel="market"
+            aria-labelledby="market-title"
+            hidden
+          >
+            <div class="two-column-grid">
+              <article class="panel">
+                <div class="panel-heading">
+                  <div>
+                    <p class="eyebrow">Market Board</p>
+                    <h2 id="market-title">시장 비교</h2>
+                  </div>
+                  <div class="inline-controls">
+                    <label>
+                      정렬
+                      <select id="market-sort-select">
+                        <option value="csm">보유 CSM</option>
+                        <option value="growth">성장률</option>
+                        <option value="insurance">보험손익</option>
+                        <option value="investment">투자손익</option>
+                        <option value="kics">K-ICS</option>
+                      </select>
+                    </label>
+                    <label>
+                      필터
+                      <select id="market-filter-select">
+                        <option value="all">전체</option>
+                        <option value="life">생명보험</option>
+                        <option value="non-life">손해보험</option>
+                      </select>
+                    </label>
+                  </div>
+                </div>
+                <div class="market-topline" id="market-topline"></div>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>회사</th>
+                        <th>기준</th>
+                        <th>보유 CSM</th>
+                        <th>성장률</th>
+                        <th>보험손익</th>
+                        <th>투자손익</th>
+                        <th>당기순이익</th>
+                        <th>K-ICS</th>
+                        <th>주요 특성</th>
+                      </tr>
+                    </thead>
+                    <tbody id="comparison-table"></tbody>
+                  </table>
+                </div>
+              </article>
+
+              <article class="panel">
+                <div class="panel-heading">
+                  <div>
+                    <p class="eyebrow">Drill-down</p>
+                    <h3>선택 회사 비교</h3>
+                  </div>
+                  <label>
+                    비교 대상
+                    <select id="market-peer-select"></select>
+                  </label>
+                </div>
+                <div class="market-drilldown" id="market-drilldown"></div>
+                <div class="market-ranking" id="market-ranking"></div>
+              </article>
+            </div>
+          </section>
+
+          <section
+            id="forecast-panel"
+            class="tab-panel"
+            data-tab-panel="forecast"
+            aria-labelledby="forecast-title"
+            hidden
+          >
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Forecast Studio</p>
+                  <h2 id="forecast-title">전망</h2>
+                </div>
+                <label class="scenario-control">
+                  시나리오
+                  <select id="scenario-select">
+                    <option value="base">Base</option>
+                    <option value="conservative">Conservative</option>
+                    <option value="optimistic">Optimistic</option>
+                  </select>
+                </label>
+              </div>
+              <div class="draft-card" id="forecast">
+                <p id="forecast-summary">-</p>
+                <div class="projection-grid" aria-label="연말 전망">
+                  <article class="projection-card" id="projection-csm-card">
+                    <span>전망 보유 CSM</span>
+                    <strong id="projection-csm">-</strong>
+                    <small id="projection-csm-target">-</small>
+                    <small id="projection-csm-change">-</small>
+                  </article>
+                  <article>
+                    <span>보험손익 전망</span>
+                    <strong id="projection-insurance">-</strong>
+                    <small>CSM 상각과 RA 방출 기반</small>
+                  </article>
+                  <article>
+                    <span>투자손익 전망</span>
+                    <strong id="projection-investment">-</strong>
+                    <small>공시 run-rate 반영</small>
+                  </article>
+                  <article>
+                    <span>당기손익 전망</span>
+                    <strong id="projection-net">-</strong>
+                    <small>단순 초안, 의사결정 자동화 아님</small>
+                  </article>
+                </div>
+                <div class="assumption-box">
+                  <strong>전망 방식</strong>
+                  <p id="forecast-method">-</p>
+                  <ul id="assumption-list"></ul>
+                </div>
+                <div class="forecast-movement-detail" id="forecast-movement-detail"></div>
+                <dl class="forecast-narrative-grid">
+                  <div>
+                    <dt>보유 CSM 코멘트</dt>
+                    <dd id="forecast-csm">-</dd>
+                  </div>
+                  <div>
+                    <dt>보험손익 코멘트</dt>
+                    <dd id="forecast-insurance">-</dd>
+                  </div>
+                  <div>
+                    <dt>투자손익 코멘트</dt>
+                    <dd id="forecast-investment">-</dd>
+                  </div>
+                </dl>
+              </div>
+            </article>
+          </section>
+
+          <section
+            id="quality-panel"
+            class="tab-panel"
+            data-tab-panel="quality"
+            aria-labelledby="quality-title"
+            hidden
+          >
+            <div class="two-column-grid">
+              <article class="panel">
+                <div class="panel-heading">
+                  <div>
+                    <p class="eyebrow">Data Quality</p>
+                    <h2 id="quality-title">데이터 품질</h2>
+                  </div>
+                </div>
+                <ul class="quality-list">
+                  <li>
+                    <span>원문 공시 링크</span>
+                    <strong id="source-status">-</strong>
+                  </li>
+                  <li>
+                    <span>CSM 파서 출처</span>
+                    <strong id="parser-status">-</strong>
+                  </li>
+                  <li>
+                    <span>Movement 검산</span>
+                    <strong id="movement-status">-</strong>
+                  </li>
+                  <li>
+                    <span>수작업 보정</span>
+                    <strong id="manual-review-status">원본값 유지</strong>
+                  </li>
+                </ul>
+                <div
+                  class="quality-detail-list"
+                  id="quality-detail-list"
+                  aria-label="검산 상세"
+                ></div>
+              </article>
+
+              <article class="panel">
+                <section class="review-workbench" aria-label="Human Review Workbench">
+                  <div class="review-heading">
+                    <div>
+                      <p class="eyebrow">Human Review</p>
+                      <h4>휴먼리뷰 현황</h4>
+                    </div>
+                    <strong id="review-summary">-</strong>
+                  </div>
+                  <div class="review-item-list" id="review-item-list"></div>
+                </section>
+              </article>
+            </div>
+          </section>
+        </div>
+
+        <div class="ai-overlay" id="ai-overlay" hidden></div>
+        <aside
+          class="ai-drawer"
+          id="ai-drawer"
+          aria-labelledby="ai-title"
+          aria-hidden="true"
+        >
+          <div class="ai-drawer-head">
+            <div>
+              <p class="eyebrow">AI Copilot</p>
+              <h2 id="ai-title">탭 문맥 기반 분석</h2>
+            </div>
+            <button type="button" class="secondary-button" id="ai-close-button">
+              닫기
+            </button>
+          </div>
+          <p class="ai-drawer-description" id="ai-context-description">
+            현재 탭 문맥에 맞는 질문 제안과 검증된 기간 기준 요약을 제공합니다.
+          </p>
+          <div class="ai-context-list" id="ai-context-list"></div>
+
+          <section class="ai-surface" aria-labelledby="ai-title">
+            <div class="panel-heading ai-panel-heading">
+              <div>
+                <p class="eyebrow">AI Summary</p>
+                <h3>AI 분석 요약</h3>
+              </div>
+              <div class="ai-controls">
+                <label>
+                  분석
+                  <select id="ai-focus-select">
+                    <option value="briefing">요약</option>
+                    <option value="anomaly">이상징후</option>
+                    <option value="movement">원인분해</option>
+                    <option value="peer">Peer 비교</option>
+                  </select>
+                </label>
+                <button type="button" id="ai-refresh-button">새로고침</button>
+              </div>
+            </div>
+            <div class="ai-status-row" aria-live="polite">
+              <span id="ai-snapshot-status">스냅샷 기준 -</span>
+              <span id="ai-period-status">기간 기준 -</span>
+              <span id="ai-validation-status">검증 상태 -</span>
+            </div>
+            <div class="ai-layout">
+              <section class="ai-card-column" aria-label="AI 분석 카드">
+                <div id="ai-insight-cards" class="ai-card-grid"></div>
+              </section>
+              <section class="ai-chat-column" aria-labelledby="ai-chat-title">
+                <div class="ai-chat-heading">
+                  <strong id="ai-chat-title">자연어 질의</strong>
+                  <span>항상 최신 검증 기간 기준으로 답변합니다.</span>
+                </div>
+                <form id="ai-chat-form" class="ai-chat-form">
+                  <label class="ai-chat-input-label" for="ai-chat-input">질문</label>
+                  <textarea
+                    id="ai-chat-input"
+                    rows="3"
+                    placeholder="예: 삼성생명 2025년 4분기 CSM 변동의 핵심 원인을 설명해줘"
+                  ></textarea>
+                  <div class="ai-chat-actions">
+                    <button type="submit">질의하기</button>
+                  </div>
+                </form>
+                <div id="ai-chat-thread" class="ai-chat-thread" aria-live="polite"></div>
+              </section>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <script src="./dashboard-data.generated.js?v=20260611-manual-review"></script>
+    <script src="./script.js?v=20260611-ia-redesign-v2"></script>
+  </body>
+</html>

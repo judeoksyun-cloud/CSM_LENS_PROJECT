@@ -1,0 +1,9 @@
+model = "openai/gpt-5.4-mini"
+model_provider = "bizrouter"
+
+[model_providers.bizrouter]
+name = "BizRouter"
+base_url = "https://api.bizrouter.ai/v1"
+env_key = "BIZROUTER_API_KEY"
+wire_api = "chat"
+requires_openai_auth = false

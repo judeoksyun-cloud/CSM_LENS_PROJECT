@@ -1,0 +1,347 @@
+:root {
+  color-scheme: dark;
+  --binance-yellow: #fcd535;
+  --binance-yellow-active: #f0b90b;
+  --canvas-dark: #0b0e11;
+  --surface-card-dark: #1e2329;
+  --surface-elevated-dark: #2b3139;
+  --body-on-dark: #eaecef;
+  --on-dark: #ffffff;
+  --on-primary: #181a20;
+  --muted: #929aa5;
+  --hairline-on-dark: #2b3139;
+  --trading-up: #0ecb81;
+  --trading-down: #f6465d;
+  --ink: var(--body-on-dark);
+  --surface: var(--surface-card-dark);
+  --line: var(--hairline-on-dark);
+  --shadow: 0 20px 44px rgba(0, 0, 0, 0.28);
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family:
+    BinanceNova, Inter, Pretendard, "Noto Sans KR", "Apple SD Gothic Neo",
+    "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--canvas-dark);
+}
+
+.page-shell {
+  width: min(100% - 32px, 1180px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 24px 0 48px;
+}
+
+.market-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 64px;
+  margin-bottom: 44px;
+  border-bottom: 1px solid var(--hairline-on-dark);
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--binance-yellow);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-decoration: none;
+}
+
+.brand-symbol {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 3px;
+  transform: rotate(45deg);
+}
+
+.brand-symbol span {
+  border-radius: 2px;
+  background: var(--binance-yellow);
+}
+
+.brand-symbol span:nth-child(1) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.brand-symbol span:nth-child(2) {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.brand-symbol span:nth-child(3) {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.brand-symbol span:nth-child(4) {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 0 28px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--binance-yellow);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+h1 {
+  margin: 0;
+  color: var(--on-dark);
+  font-size: clamp(2.45rem, 7vw, 4.6rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.data-badge {
+  flex: 0 0 auto;
+  min-height: 36px;
+  padding: 10px 18px;
+  border-radius: 6px;
+  color: var(--on-primary);
+  background: var(--binance-yellow);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.summary-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  padding: 20px 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-card-dark);
+  box-shadow: none;
+}
+
+.summary-label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--binance-yellow);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.summary-strip strong {
+  color: var(--body-on-dark);
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.summary-time {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.metric-card {
+  position: relative;
+  min-height: 208px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.metric-card::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: var(--accent);
+  content: "";
+}
+
+.metric-card-inner {
+  display: grid;
+  min-height: 208px;
+  grid-template-rows: auto 1fr auto;
+  gap: 18px;
+  padding: 24px;
+}
+
+.metric-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.metric-label {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.96rem;
+  font-weight: 600;
+}
+
+.metric-status {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border-radius: 4px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.metric-value {
+  align-self: center;
+  margin: 0;
+  color: var(--on-dark);
+  font-family:
+    BinancePlex, "IBM Plex Sans", Inter, Pretendard, "Noto Sans KR",
+    sans-serif;
+  font-size: clamp(2.35rem, 6vw, 4rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.metric-detail {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.metric-change {
+  color: var(--accent);
+  font-family:
+    BinancePlex, "IBM Plex Sans", Inter, Pretendard, "Noto Sans KR",
+    sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.metric-change--up {
+  color: var(--trading-up);
+}
+
+.metric-change--down {
+  color: var(--trading-down);
+}
+
+.metric-change--neutral {
+  color: var(--binance-yellow);
+}
+
+.metric-note {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: right;
+}
+
+.sparkline {
+  width: 88px;
+  height: 34px;
+  flex: 0 0 88px;
+}
+
+.sparkline polyline {
+  fill: none;
+  stroke: var(--accent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4;
+}
+
+@media (max-width: 640px) {
+  .page-shell {
+    width: min(100% - 24px, 420px);
+    padding: 22px 0;
+  }
+
+  .market-nav {
+    min-height: 56px;
+    margin-bottom: 28px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .dashboard-header,
+  .summary-strip,
+  .metric-detail {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .dashboard-header {
+    gap: 14px;
+    padding-bottom: 18px;
+  }
+
+  .summary-strip {
+    margin-bottom: 14px;
+  }
+
+  .summary-time,
+  .metric-note {
+    text-align: left;
+  }
+
+  .metric-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .metric-card,
+  .metric-card-inner {
+    min-height: 188px;
+  }
+
+  .metric-card-inner {
+    gap: 14px;
+    padding: 19px;
+  }
+}

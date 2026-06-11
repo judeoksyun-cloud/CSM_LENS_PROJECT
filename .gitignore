@@ -1,0 +1,10 @@
+.vercel
+.env
+vercel-home/
+vercel-cache/
+*.log
+*.out
+*.err
+test-start-output.txt
+__pycache__/
+*.pyc

@@ -1,0 +1,3704 @@
+{
+  "dataContractVersion": "csm-dashboard-agent-output/v0.4",
+  "generatedAt": "2026-06-11T01:42:40.639208+00:00",
+  "sourcePolicy": "external DART API only; local PDFs, uploaded files, and user-provided documents excluded",
+  "generatedFrom": "https://opendart.fss.or.kr/api/",
+  "analysisPolicy": {
+    "aiResponseContractVersion": "csm-ai-layer/v1",
+    "supportedCompanies": [
+      "samsung-fire",
+      "samsung-life"
+    ],
+    "latestValidatedPeriodByCompany": {
+      "samsung-life": "2025-q4",
+      "samsung-fire": "2025-q4"
+    },
+    "supportedAnalysisTypes": [
+      "anomaly",
+      "movement",
+      "peer",
+      "briefing",
+      "chat"
+    ],
+    "forecastDisplayBasis": "latest-validated-only",
+    "sameOriginGateway": true
+  },
+  "agents": [
+    "dart-ingestion-agent",
+    "csm-movement-mapping-agent",
+    "financial-metric-agent",
+    "quality-validation-agent",
+    "human-review-workbench-agent",
+    "dashboard-writer-agent"
+  ],
+  "sampleData": {
+    "samsung-life": {
+      "name": "삼성생명",
+      "sector": "생명보험",
+      "type": "신계약 확보형",
+      "profitBase": {
+        "investment": 8800,
+        "other": -1100
+      },
+      "periods": {
+        "2025-q1": {
+          "csm": 13309,
+          "growth": 3.2,
+          "movement": {
+            "opening": 12902,
+            "newbiz": 658,
+            "interest": 116,
+            "adjustment": -6,
+            "amortization": -361,
+            "closing": 13309
+          },
+          "mix": [
+            [
+              "금융",
+              9,
+              "#69b7cd"
+            ],
+            [
+              "사망",
+              32,
+              "#4f83c3"
+            ],
+            [
+              "건강",
+              59,
+              "#1d416d"
+            ]
+          ],
+          "quality": "DART 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250530002283",
+            "reportName": "[기재정정]분기보고서 (2025.03)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250530002283",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART document.xml table",
+            "sourceTables": [
+              733,
+              735,
+              737
+            ],
+            "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+            "manualAdjustment": false
+          },
+          "summary": "Open DART 외부 공시 기준으로 삼성생명 2025 Q1 보유 CSM은 13.3조원이며, 전년도말 기시 CSM 대비 +0.4조원 변동했습니다. Movement 합계 검산은 일치합니다.",
+          "forecast": {
+            "csm": "가장 최근 공시 실적을 기준으로 다음 연말 보유 CSM을 전망합니다.",
+            "insurance": "보험손익 전망은 CSM 상각과 경험조정 흐름을 함께 검토해야 합니다.",
+            "investment": "투자손익 전망은 공시 손익과 시장 변수 민감도를 구분해 해석합니다."
+          }
+        },
+        "2025-q2": {
+          "csm": 13746,
+          "growth": 6.5,
+          "movement": {
+            "opening": 12902,
+            "newbiz": 1426,
+            "interest": 234,
+            "adjustment": -72,
+            "amortization": -744,
+            "closing": 13746
+          },
+          "mix": [
+            [
+              "금융",
+              8,
+              "#69b7cd"
+            ],
+            [
+              "사망",
+              33,
+              "#4f83c3"
+            ],
+            [
+              "건강",
+              59,
+              "#1d416d"
+            ]
+          ],
+          "quality": "DART 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250813000585",
+            "reportName": "반기보고서 (2025.06)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250813000585",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART document.xml table",
+            "sourceTables": [
+              2076
+            ],
+            "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+            "manualAdjustment": false
+          },
+          "summary": "Open DART 외부 공시 기준으로 삼성생명 2025 Q2 보유 CSM은 13.7조원이며, 전년도말 기시 CSM 대비 +0.8조원 변동했습니다. Movement 합계 검산은 일치합니다.",
+          "forecast": {
+            "csm": "가장 최근 공시 실적을 기준으로 다음 연말 보유 CSM을 전망합니다.",
+            "insurance": "보험손익 전망은 CSM 상각과 경험조정 흐름을 함께 검토해야 합니다.",
+            "investment": "투자손익 전망은 공시 손익과 시장 변수 민감도를 구분해 해석합니다."
+          }
+        },
+        "2025-q3": {
+          "csm": 14047,
+          "growth": 8.9,
+          "movement": {
+            "opening": 12902,
+            "newbiz": 2298,
+            "interest": 363,
+            "adjustment": -394,
+            "amortization": -1122,
+            "closing": 14047
+          },
+          "mix": [
+            [
+              "금융",
+              8,
+              "#69b7cd"
+            ],
+            [
+              "사망",
+              32,
+              "#4f83c3"
+            ],
+            [
+              "건강",
+              60,
+              "#1d416d"
+            ]
+          ],
+          "quality": "DART 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20251114002091",
+            "reportName": "분기보고서 (2025.09)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002091",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART document.xml table",
+            "sourceTables": [
+              2038
+            ],
+            "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+            "manualAdjustment": false
+          },
+          "summary": "Open DART 외부 공시 기준으로 삼성생명 2025 Q3 보유 CSM은 14.0조원이며, 전년도말 기시 CSM 대비 +1.1조원 변동했습니다. Movement 합계 검산은 일치합니다.",
+          "forecast": {
+            "csm": "가장 최근 공시 실적을 기준으로 다음 연말 보유 CSM을 전망합니다.",
+            "insurance": "보험손익 전망은 CSM 상각과 경험조정 흐름을 함께 검토해야 합니다.",
+            "investment": "투자손익 전망은 공시 손익과 시장 변수 민감도를 구분해 해석합니다."
+          }
+        },
+        "2025-q4": {
+          "csm": 13218,
+          "growth": 2.4,
+          "movement": {
+            "opening": 12902,
+            "newbiz": 3059,
+            "interest": 494,
+            "adjustment": -1757,
+            "amortization": -1480,
+            "closing": 13218
+          },
+          "mix": [
+            [
+              "금융",
+              7,
+              "#69b7cd"
+            ],
+            [
+              "사망",
+              33,
+              "#4f83c3"
+            ],
+            [
+              "건강",
+              60,
+              "#1d416d"
+            ]
+          ],
+          "quality": "DART 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260331004244",
+            "reportName": "[기재정정]사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331004244",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART document.xml table",
+            "sourceTables": [
+              2654
+            ],
+            "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+            "manualAdjustment": false
+          },
+          "summary": "Open DART 외부 공시 기준으로 삼성생명 2025 Q4 보유 CSM은 13.2조원이며, 전년도말 기시 CSM 대비 +0.3조원 변동했습니다. Movement 합계 검산은 일치합니다.",
+          "forecast": {
+            "csm": "가장 최근 공시 실적을 기준으로 다음 연말 보유 CSM을 전망합니다.",
+            "insurance": "보험손익 전망은 CSM 상각과 경험조정 흐름을 함께 검토해야 합니다.",
+            "investment": "투자손익 전망은 공시 손익과 시장 변수 민감도를 구분해 해석합니다."
+          }
+        }
+      }
+    },
+    "samsung-fire": {
+      "name": "삼성화재",
+      "sector": "손해보험",
+      "type": "상각 방어형",
+      "profitBase": {
+        "investment": 6400,
+        "other": -850
+      },
+      "periods": {
+        "2025-q1": {
+          "csm": 14333,
+          "growth": 1.8,
+          "movement": {
+            "opening": 14074,
+            "newbiz": 702,
+            "interest": 0,
+            "adjustment": -37,
+            "amortization": -406,
+            "closing": 14333
+          },
+          "mix": [
+            [
+              "일반",
+              12,
+              "#69b7cd"
+            ],
+            [
+              "자동차",
+              19,
+              "#4f83c3"
+            ],
+            [
+              "장기",
+              69,
+              "#1d416d"
+            ]
+          ],
+          "quality": "DART 검산 · 이자부리 별도 표시 없음",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250515002709",
+            "reportName": "분기보고서 (2025.03)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250515002709",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART document.xml table",
+            "sourceTables": [
+              310,
+              312,
+              314,
+              346
+            ],
+            "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+            "manualAdjustment": false
+          },
+          "summary": "Open DART 외부 공시 기준으로 삼성화재 2025 Q1 보유 CSM은 14.3조원이며, 전년도말 기시 CSM 대비 +0.3조원 변동했습니다. Movement 합계 검산은 일치합니다.",
+          "forecast": {
+            "csm": "가장 최근 공시 실적을 기준으로 다음 연말 보유 CSM을 전망합니다.",
+            "insurance": "보험손익 전망은 CSM 상각과 경험조정 흐름을 함께 검토해야 합니다.",
+            "investment": "투자손익 전망은 공시 손익과 시장 변수 민감도를 구분해 해석합니다."
+          }
+        },
+        "2025-q2": {
+          "csm": 14578,
+          "growth": 3.6,
+          "movement": {
+            "opening": 14074,
+            "newbiz": 1421,
+            "interest": 248,
+            "adjustment": -353,
+            "amortization": -812,
+            "closing": 14578
+          },
+          "mix": [
+            [
+              "일반",
+              11,
+              "#69b7cd"
+            ],
+            [
+              "자동차",
+              19,
+              "#4f83c3"
+            ],
+            [
+              "장기",
+              70,
+              "#1d416d"
+            ]
+          ],
+          "quality": "DART 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250814004098",
+            "reportName": "반기보고서 (2025.06)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250814004098",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART document.xml table",
+            "sourceTables": [
+              745
+            ],
+            "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+            "manualAdjustment": false
+          },
+          "summary": "Open DART 외부 공시 기준으로 삼성화재 2025 Q2 보유 CSM은 14.6조원이며, 전년도말 기시 CSM 대비 +0.5조원 변동했습니다. Movement 합계 검산은 일치합니다.",
+          "forecast": {
+            "csm": "가장 최근 공시 실적을 기준으로 다음 연말 보유 CSM을 전망합니다.",
+            "insurance": "보험손익 전망은 CSM 상각과 경험조정 흐름을 함께 검토해야 합니다.",
+            "investment": "투자손익 전망은 공시 손익과 시장 변수 민감도를 구분해 해석합니다."
+          }
+        },
+        "2025-q3": {
+          "csm": 15008,
+          "growth": 6.6,
+          "movement": {
+            "opening": 14074,
+            "newbiz": 2188,
+            "interest": 374,
+            "adjustment": -399,
+            "amortization": -1229,
+            "closing": 15008
+          },
+          "mix": [
+            [
+              "일반",
+              11,
+              "#69b7cd"
+            ],
+            [
+              "자동차",
+              18,
+              "#4f83c3"
+            ],
+            [
+              "장기",
+              71,
+              "#1d416d"
+            ]
+          ],
+          "quality": "DART 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20251114002900",
+            "reportName": "분기보고서 (2025.09)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002900",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART document.xml table",
+            "sourceTables": [
+              720
+            ],
+            "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+            "manualAdjustment": false
+          },
+          "summary": "Open DART 외부 공시 기준으로 삼성화재 2025 Q3 보유 CSM은 15.0조원이며, 전년도말 기시 CSM 대비 +0.9조원 변동했습니다. Movement 합계 검산은 일치합니다.",
+          "forecast": {
+            "csm": "가장 최근 공시 실적을 기준으로 다음 연말 보유 CSM을 전망합니다.",
+            "insurance": "보험손익 전망은 CSM 상각과 경험조정 흐름을 함께 검토해야 합니다.",
+            "investment": "투자손익 전망은 공시 손익과 시장 변수 민감도를 구분해 해석합니다."
+          }
+        },
+        "2025-q4": {
+          "csm": 14168,
+          "growth": 0.7,
+          "movement": {
+            "opening": 14074,
+            "newbiz": 2898,
+            "interest": 502,
+            "adjustment": -1685,
+            "amortization": -1621,
+            "closing": 14168
+          },
+          "mix": [
+            [
+              "일반",
+              10,
+              "#69b7cd"
+            ],
+            [
+              "자동차",
+              18,
+              "#4f83c3"
+            ],
+            [
+              "장기",
+              72,
+              "#1d416d"
+            ]
+          ],
+          "quality": "DART 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260312001399",
+            "reportName": "사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001399",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART document.xml table",
+            "sourceTables": [
+              479,
+              481
+            ],
+            "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+            "manualAdjustment": false
+          },
+          "summary": "Open DART 외부 공시 기준으로 삼성화재 2025 Q4 보유 CSM은 14.2조원이며, 전년도말 기시 CSM 대비 +0.1조원 변동했습니다. Movement 합계 검산은 일치합니다.",
+          "forecast": {
+            "csm": "가장 최근 공시 실적을 기준으로 다음 연말 보유 CSM을 전망합니다.",
+            "insurance": "보험손익 전망은 CSM 상각과 경험조정 흐름을 함께 검토해야 합니다.",
+            "investment": "투자손익 전망은 공시 손익과 시장 변수 민감도를 구분해 해석합니다."
+          }
+        }
+      }
+    }
+  },
+  "financialMetrics": {
+    "samsung-life": {
+      "2025-q1": {
+        "insuranceProfit": 277.882,
+        "investmentProfit": 564.575,
+        "netIncome": 635.259,
+        "kics": 177.2,
+        "csmScope": "별도 재무제표 기준 · 재보험 제외",
+        "profitScope": "2025 Q1 · 관리손익",
+        "insuranceScope": "별도 보험서비스손익",
+        "investmentScope": "별도 투자손익 + 영업외손익 + 연결효과",
+        "investmentCalcNote": "계산은 지배주주 연결순익 + 비지배지분 + 법인세비용 - 별도 보험손익으로 역산하여 적용",
+        "netIncomeScope": "지배주주 연결손익",
+        "kicsScope": "2025.3월말",
+        "note": "Open DART API 및 원문 주석 기준",
+        "investmentFormula": {
+          "parentNetIncome": 635.259,
+          "nonControllingInterest": 42.237,
+          "incomeTaxExpense": 164.961
+        },
+        "sourceReferences": {
+          "insuranceProfit": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250530002283",
+            "reportName": "[기재정정]분기보고서 (2025.03)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250530002283",
+            "valueKind": "actual",
+            "basis": "separate_insurance_service_result",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART fnlttSinglAcntAll",
+            "account": {
+              "account_nm": "보험손익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 1분기",
+              "raw_amount": "277882000000",
+              "amount_bn": 277.882
+            },
+            "manualAdjustment": false
+          },
+          "investmentProfit": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250530002283",
+            "reportName": "[기재정정]분기보고서 (2025.03)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250530002283",
+            "valueKind": "calculated",
+            "basis": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+            "unit": "KRW billion",
+            "sourceLayer": "derived from Open DART account values",
+            "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit",
+            "formulaInputs": {
+              "parentNetIncome": 635.259,
+              "nonControllingInterest": 42.237,
+              "incomeTaxExpense": 164.961,
+              "insuranceProfit": 277.882
+            },
+            "sourceAccounts": {
+              "insuranceProfit": {
+                "account_nm": "보험손익",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 70 기 1분기",
+                "raw_amount": "277882000000",
+                "amount_bn": 277.882
+              },
+              "parentNetIncome": {
+                "account_nm": "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 70 기 1분기",
+                "raw_amount": "635259000000",
+                "amount_bn": 635.259
+              },
+              "nonControllingInterest": {
+                "account_nm": "비지배지분에 귀속되는 당기순이익(손실)",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 70 기 1분기",
+                "raw_amount": "42237000000",
+                "amount_bn": 42.237
+              },
+              "incomeTaxExpense": {
+                "account_nm": "법인세비용",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 70 기 1분기",
+                "raw_amount": "164961000000",
+                "amount_bn": 164.961
+              }
+            },
+            "manualAdjustment": false
+          },
+          "netIncome": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250530002283",
+            "reportName": "[기재정정]분기보고서 (2025.03)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250530002283",
+            "valueKind": "actual",
+            "basis": "controlling_parent_consolidated_net_income",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART fnlttSinglAcntAll",
+            "account": {
+              "account_nm": "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 1분기",
+              "raw_amount": "635259000000",
+              "amount_bn": 635.259
+            },
+            "manualAdjustment": false
+          },
+          "kics": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250530002283",
+            "reportName": "[기재정정]분기보고서 (2025.03)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250530002283",
+            "valueKind": "actual",
+            "basis": "public_solvency_disclosure",
+            "unit": "percent",
+            "sourceLayer": "Open DART document.xml table",
+            "sourceTables": [
+              8
+            ],
+            "manualAdjustment": false
+          }
+        }
+      },
+      "2025-q2": {
+        "insuranceProfit": 553.464,
+        "investmentProfit": 456.163,
+        "netIncome": 758.89,
+        "kics": 186.7,
+        "csmScope": "별도 재무제표 기준 · 재보험 제외",
+        "profitScope": "2025 Q2 · 관리손익",
+        "insuranceScope": "별도 보험서비스손익",
+        "investmentScope": "별도 투자손익 + 영업외손익 + 연결효과",
+        "investmentCalcNote": "계산은 지배주주 연결순익 + 비지배지분 + 법인세비용 - 별도 보험손익으로 역산하여 적용",
+        "netIncomeScope": "지배주주 연결손익",
+        "kicsScope": "2025.6월말",
+        "note": "Open DART API 및 원문 주석 기준",
+        "investmentFormula": {
+          "parentNetIncome": 758.89,
+          "nonControllingInterest": 34.69,
+          "incomeTaxExpense": 216.047
+        },
+        "sourceReferences": {
+          "insuranceProfit": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250813000585",
+            "reportName": "반기보고서 (2025.06)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250813000585",
+            "valueKind": "actual",
+            "basis": "separate_insurance_service_result",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART fnlttSinglAcntAll",
+            "account": {
+              "account_nm": "보험서비스결과",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 반기",
+              "raw_amount": "553464000000",
+              "amount_bn": 553.464
+            },
+            "manualAdjustment": false
+          },
+          "investmentProfit": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250813000585",
+            "reportName": "반기보고서 (2025.06)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250813000585",
+            "valueKind": "calculated",
+            "basis": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+            "unit": "KRW billion",
+            "sourceLayer": "derived from Open DART account values",
+            "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit",
+            "formulaInputs": {
+              "parentNetIncome": 758.89,
+              "nonControllingInterest": 34.69,
+              "incomeTaxExpense": 216.047,
+              "insuranceProfit": 553.464
+            },
+            "sourceAccounts": {
+              "insuranceProfit": {
+                "account_nm": "보험서비스결과",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 70 기 반기",
+                "raw_amount": "553464000000",
+                "amount_bn": 553.464
+              },
+              "parentNetIncome": {
+                "account_nm": "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 70 기 반기",
+                "raw_amount": "758890000000",
+                "amount_bn": 758.89
+              },
+              "nonControllingInterest": {
+                "account_nm": "비지배지분에 귀속되는 당기순이익(손실)",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 70 기 반기",
+                "raw_amount": "34690000000",
+                "amount_bn": 34.69
+              },
+              "incomeTaxExpense": {
+                "account_nm": "법인세비용",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 70 기 반기",
+                "raw_amount": "216047000000",
+                "amount_bn": 216.047
+              }
+            },
+            "manualAdjustment": false
+          },
+          "netIncome": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250813000585",
+            "reportName": "반기보고서 (2025.06)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250813000585",
+            "valueKind": "actual",
+            "basis": "controlling_parent_consolidated_net_income",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART fnlttSinglAcntAll",
+            "account": {
+              "account_nm": "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 반기",
+              "raw_amount": "758890000000",
+              "amount_bn": 758.89
+            },
+            "manualAdjustment": false
+          },
+          "kics": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250813000585",
+            "reportName": "반기보고서 (2025.06)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250813000585",
+            "valueKind": "actual",
+            "basis": "public_solvency_disclosure",
+            "unit": "percent",
+            "sourceLayer": "Open DART document.xml table",
+            "sourceTables": [
+              196
+            ],
+            "manualAdjustment": false
+          }
+        }
+      },
+      "2025-q3": {
+        "insuranceProfit": 261.597,
+        "investmentProfit": 692.145,
+        "netIncome": 722.985,
+        "kics": 192.7,
+        "csmScope": "별도 재무제표 기준 · 재보험 제외",
+        "profitScope": "2025 Q3 · 관리손익",
+        "insuranceScope": "별도 보험서비스손익",
+        "investmentScope": "별도 투자손익 + 영업외손익 + 연결효과",
+        "investmentCalcNote": "계산은 지배주주 연결순익 + 비지배지분 + 법인세비용 - 별도 보험손익으로 역산하여 적용",
+        "netIncomeScope": "지배주주 연결손익",
+        "kicsScope": "2025.9월말",
+        "note": "Open DART API 및 원문 주석 기준",
+        "investmentFormula": {
+          "parentNetIncome": 722.985,
+          "nonControllingInterest": 37.962,
+          "incomeTaxExpense": 192.795
+        },
+        "sourceReferences": {
+          "insuranceProfit": {
+            "sourceType": "Open DART",
+            "rceptNo": "20251114002091",
+            "reportName": "분기보고서 (2025.09)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002091",
+            "valueKind": "actual",
+            "basis": "separate_insurance_service_result",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART fnlttSinglAcntAll",
+            "account": {
+              "account_nm": "보험서비스결과",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 3분기",
+              "raw_amount": "261597000000",
+              "amount_bn": 261.597
+            },
+            "manualAdjustment": false
+          },
+          "investmentProfit": {
+            "sourceType": "Open DART",
+            "rceptNo": "20251114002091",
+            "reportName": "분기보고서 (2025.09)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002091",
+            "valueKind": "calculated",
+            "basis": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+            "unit": "KRW billion",
+            "sourceLayer": "derived from Open DART account values",
+            "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit",
+            "formulaInputs": {
+              "parentNetIncome": 722.985,
+              "nonControllingInterest": 37.962,
+              "incomeTaxExpense": 192.795,
+              "insuranceProfit": 261.597
+            },
+            "sourceAccounts": {
+              "insuranceProfit": {
+                "account_nm": "보험서비스결과",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 70 기 3분기",
+                "raw_amount": "261597000000",
+                "amount_bn": 261.597
+              },
+              "parentNetIncome": {
+                "account_nm": "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 70 기 3분기",
+                "raw_amount": "722985000000",
+                "amount_bn": 722.985
+              },
+              "nonControllingInterest": {
+                "account_nm": "비지배지분에 귀속되는 당기순이익(손실)",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 70 기 3분기",
+                "raw_amount": "37962000000",
+                "amount_bn": 37.962
+              },
+              "incomeTaxExpense": {
+                "account_nm": "법인세비용",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 70 기 3분기",
+                "raw_amount": "192795000000",
+                "amount_bn": 192.795
+              }
+            },
+            "manualAdjustment": false
+          },
+          "netIncome": {
+            "sourceType": "Open DART",
+            "rceptNo": "20251114002091",
+            "reportName": "분기보고서 (2025.09)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002091",
+            "valueKind": "actual",
+            "basis": "controlling_parent_consolidated_net_income",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART fnlttSinglAcntAll",
+            "account": {
+              "account_nm": "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 3분기",
+              "raw_amount": "722985000000",
+              "amount_bn": 722.985
+            },
+            "manualAdjustment": false
+          },
+          "kics": {
+            "sourceType": "Open DART",
+            "rceptNo": "20251114002091",
+            "reportName": "분기보고서 (2025.09)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002091",
+            "valueKind": "actual",
+            "basis": "public_solvency_disclosure",
+            "unit": "percent",
+            "sourceLayer": "Open DART document.xml table",
+            "sourceTables": [
+              172
+            ],
+            "manualAdjustment": false
+          }
+        }
+      },
+      "2025-q4": {
+        "insuranceProfit": 974.716,
+        "investmentProfit": 2021.629,
+        "netIncome": 2302.837,
+        "kics": 198.0,
+        "csmScope": "별도 재무제표 기준 · 재보험 제외",
+        "profitScope": "2025 Q4 · 관리손익",
+        "insuranceScope": "별도 보험서비스손익",
+        "investmentScope": "별도 투자손익 + 영업외손익 + 연결효과",
+        "investmentCalcNote": "계산은 지배주주 연결순익 + 비지배지분 + 법인세비용 - 별도 보험손익으로 역산하여 적용",
+        "netIncomeScope": "지배주주 연결손익",
+        "kicsScope": "2025.12월말",
+        "note": "Open DART API 및 원문 주석 기준",
+        "investmentFormula": {
+          "parentNetIncome": 2302.837,
+          "nonControllingInterest": 148.678,
+          "incomeTaxExpense": 544.83
+        },
+        "sourceReferences": {
+          "insuranceProfit": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260331004244",
+            "reportName": "[기재정정]사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331004244",
+            "valueKind": "actual",
+            "basis": "separate_insurance_service_result",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART fnlttSinglAcntAll",
+            "account": {
+              "account_nm": "보험서비스결과",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기",
+              "raw_amount": "974716000000",
+              "amount_bn": 974.716
+            },
+            "manualAdjustment": false
+          },
+          "investmentProfit": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260331004244",
+            "reportName": "[기재정정]사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331004244",
+            "valueKind": "calculated",
+            "basis": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+            "unit": "KRW billion",
+            "sourceLayer": "derived from Open DART account values",
+            "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit",
+            "formulaInputs": {
+              "parentNetIncome": 2302.837,
+              "nonControllingInterest": 148.678,
+              "incomeTaxExpense": 544.83,
+              "insuranceProfit": 974.716
+            },
+            "sourceAccounts": {
+              "insuranceProfit": {
+                "account_nm": "보험서비스결과",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 70 기",
+                "raw_amount": "974716000000",
+                "amount_bn": 974.716
+              },
+              "parentNetIncome": {
+                "account_nm": "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 70 기",
+                "raw_amount": "2302837000000",
+                "amount_bn": 2302.837
+              },
+              "nonControllingInterest": {
+                "account_nm": "비지배지분에 귀속되는 당기순이익(손실)",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 70 기",
+                "raw_amount": "148678000000",
+                "amount_bn": 148.678
+              },
+              "incomeTaxExpense": {
+                "account_nm": "법인세비용",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 70 기",
+                "raw_amount": "544830000000",
+                "amount_bn": 544.83
+              }
+            },
+            "manualAdjustment": false
+          },
+          "netIncome": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260331004244",
+            "reportName": "[기재정정]사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331004244",
+            "valueKind": "actual",
+            "basis": "controlling_parent_consolidated_net_income",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART fnlttSinglAcntAll",
+            "account": {
+              "account_nm": "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기",
+              "raw_amount": "2302837000000",
+              "amount_bn": 2302.837
+            },
+            "manualAdjustment": false
+          },
+          "kics": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260331004244",
+            "reportName": "[기재정정]사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331004244",
+            "valueKind": "actual",
+            "basis": "public_solvency_disclosure",
+            "unit": "percent",
+            "sourceLayer": "Open DART document.xml table",
+            "sourceTables": [
+              6
+            ],
+            "manualAdjustment": false
+          }
+        }
+      }
+    },
+    "samsung-fire": {
+      "2025-q1": {
+        "insuranceProfit": 481.593,
+        "investmentProfit": 340.71,
+        "netIncome": 608.133,
+        "kics": 266.61,
+        "csmScope": "별도 재무제표 기준 · 재보험 제외",
+        "profitScope": "2025 Q1 · 관리손익",
+        "insuranceScope": "별도 보험서비스손익",
+        "investmentScope": "별도 투자손익 + 영업외손익 + 연결효과",
+        "investmentCalcNote": "계산은 지배주주 연결순익 + 비지배지분 + 법인세비용 - 별도 보험손익으로 역산하여 적용",
+        "netIncomeScope": "지배주주 연결손익",
+        "kicsScope": "2025.3월말",
+        "note": "Open DART API 및 원문 주석 기준",
+        "investmentFormula": {
+          "parentNetIncome": 608.133,
+          "nonControllingInterest": 0.898,
+          "incomeTaxExpense": 213.272
+        },
+        "sourceReferences": {
+          "insuranceProfit": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250515002709",
+            "reportName": "분기보고서 (2025.03)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250515002709",
+            "valueKind": "actual",
+            "basis": "separate_insurance_service_result",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART fnlttSinglAcntAll",
+            "account": {
+              "account_nm": "보험손익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 1분기",
+              "raw_amount": "481593295456",
+              "amount_bn": 481.593
+            },
+            "manualAdjustment": false
+          },
+          "investmentProfit": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250515002709",
+            "reportName": "분기보고서 (2025.03)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250515002709",
+            "valueKind": "calculated",
+            "basis": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+            "unit": "KRW billion",
+            "sourceLayer": "derived from Open DART account values",
+            "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit",
+            "formulaInputs": {
+              "parentNetIncome": 608.133,
+              "nonControllingInterest": 0.898,
+              "incomeTaxExpense": 213.272,
+              "insuranceProfit": 481.593
+            },
+            "sourceAccounts": {
+              "insuranceProfit": {
+                "account_nm": "보험손익",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 76 기 1분기",
+                "raw_amount": "481593295456",
+                "amount_bn": 481.593
+              },
+              "parentNetIncome": {
+                "account_nm": "지배기업의 소유주에게 귀속되는 연결분기순이익",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 76 기 1분기",
+                "raw_amount": "608132550479",
+                "amount_bn": 608.133
+              },
+              "nonControllingInterest": {
+                "account_nm": "비지배지분에 귀속되는 연결분기순이익",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 76 기 1분기",
+                "raw_amount": "898074549",
+                "amount_bn": 0.898
+              },
+              "incomeTaxExpense": {
+                "account_nm": "법인세비용",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 76 기 1분기",
+                "raw_amount": "213272182867",
+                "amount_bn": 213.272
+              }
+            },
+            "manualAdjustment": false
+          },
+          "netIncome": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250515002709",
+            "reportName": "분기보고서 (2025.03)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250515002709",
+            "valueKind": "actual",
+            "basis": "controlling_parent_consolidated_net_income",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART fnlttSinglAcntAll",
+            "account": {
+              "account_nm": "지배기업의 소유주에게 귀속되는 연결분기순이익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 1분기",
+              "raw_amount": "608132550479",
+              "amount_bn": 608.133
+            },
+            "manualAdjustment": false
+          },
+          "kics": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250515002709",
+            "reportName": "분기보고서 (2025.03)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250515002709",
+            "valueKind": "actual",
+            "basis": "public_solvency_disclosure",
+            "unit": "percent",
+            "sourceLayer": "Open DART document.xml table",
+            "sourceTables": [
+              55
+            ],
+            "manualAdjustment": false
+          }
+        }
+      },
+      "2025-q2": {
+        "insuranceProfit": 454.138,
+        "investmentProfit": 388.488,
+        "netIncome": 637.45,
+        "kics": 274.48,
+        "csmScope": "별도 재무제표 기준 · 재보험 제외",
+        "profitScope": "2025 Q2 · 관리손익",
+        "insuranceScope": "별도 보험서비스손익",
+        "investmentScope": "별도 투자손익 + 영업외손익 + 연결효과",
+        "investmentCalcNote": "계산은 지배주주 연결순익 + 비지배지분 + 법인세비용 - 별도 보험손익으로 역산하여 적용",
+        "netIncomeScope": "지배주주 연결손익",
+        "kicsScope": "2025.6월말",
+        "note": "Open DART API 및 원문 주석 기준",
+        "investmentFormula": {
+          "parentNetIncome": 637.45,
+          "nonControllingInterest": 0.928,
+          "incomeTaxExpense": 204.248
+        },
+        "sourceReferences": {
+          "insuranceProfit": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250814004098",
+            "reportName": "반기보고서 (2025.06)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250814004098",
+            "valueKind": "actual",
+            "basis": "separate_insurance_service_result",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART fnlttSinglAcntAll",
+            "account": {
+              "account_nm": "보험손익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 반기",
+              "raw_amount": "454137600149",
+              "amount_bn": 454.138
+            },
+            "manualAdjustment": false
+          },
+          "investmentProfit": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250814004098",
+            "reportName": "반기보고서 (2025.06)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250814004098",
+            "valueKind": "calculated",
+            "basis": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+            "unit": "KRW billion",
+            "sourceLayer": "derived from Open DART account values",
+            "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit",
+            "formulaInputs": {
+              "parentNetIncome": 637.45,
+              "nonControllingInterest": 0.928,
+              "incomeTaxExpense": 204.248,
+              "insuranceProfit": 454.138
+            },
+            "sourceAccounts": {
+              "insuranceProfit": {
+                "account_nm": "보험손익",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 76 기 반기",
+                "raw_amount": "454137600149",
+                "amount_bn": 454.138
+              },
+              "parentNetIncome": {
+                "account_nm": "지배기업의 소유주에게 귀속되는 연결반기순이익",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 76 기 반기",
+                "raw_amount": "637450415176",
+                "amount_bn": 637.45
+              },
+              "nonControllingInterest": {
+                "account_nm": "비지배지분에 귀속되는 연결반기순이익",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 76 기 반기",
+                "raw_amount": "928463188",
+                "amount_bn": 0.928
+              },
+              "incomeTaxExpense": {
+                "account_nm": "법인세비용",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 76 기 반기",
+                "raw_amount": "204248003787",
+                "amount_bn": 204.248
+              }
+            },
+            "manualAdjustment": false
+          },
+          "netIncome": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250814004098",
+            "reportName": "반기보고서 (2025.06)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250814004098",
+            "valueKind": "actual",
+            "basis": "controlling_parent_consolidated_net_income",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART fnlttSinglAcntAll",
+            "account": {
+              "account_nm": "지배기업의 소유주에게 귀속되는 연결반기순이익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 반기",
+              "raw_amount": "637450415176",
+              "amount_bn": 637.45
+            },
+            "manualAdjustment": false
+          },
+          "kics": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250814004098",
+            "reportName": "반기보고서 (2025.06)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250814004098",
+            "valueKind": "actual",
+            "basis": "public_solvency_disclosure",
+            "unit": "percent",
+            "sourceLayer": "Open DART document.xml table",
+            "sourceTables": [
+              79
+            ],
+            "manualAdjustment": false
+          }
+        }
+      },
+      "2025-q3": {
+        "insuranceProfit": 350.546,
+        "investmentProfit": 357.028,
+        "netIncome": 537.972,
+        "kics": 275.92,
+        "csmScope": "별도 재무제표 기준 · 재보험 제외",
+        "profitScope": "2025 Q3 · 관리손익",
+        "insuranceScope": "별도 보험서비스손익",
+        "investmentScope": "별도 투자손익 + 영업외손익 + 연결효과",
+        "investmentCalcNote": "계산은 지배주주 연결순익 + 비지배지분 + 법인세비용 - 별도 보험손익으로 역산하여 적용",
+        "netIncomeScope": "지배주주 연결손익",
+        "kicsScope": "2025.9월말",
+        "note": "Open DART API 및 원문 주석 기준",
+        "investmentFormula": {
+          "parentNetIncome": 537.972,
+          "nonControllingInterest": 0.524,
+          "incomeTaxExpense": 169.078
+        },
+        "sourceReferences": {
+          "insuranceProfit": {
+            "sourceType": "Open DART",
+            "rceptNo": "20251114002900",
+            "reportName": "분기보고서 (2025.09)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002900",
+            "valueKind": "actual",
+            "basis": "separate_insurance_service_result",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART fnlttSinglAcntAll",
+            "account": {
+              "account_nm": "보험손익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 3분기",
+              "raw_amount": "350545749132",
+              "amount_bn": 350.546
+            },
+            "manualAdjustment": false
+          },
+          "investmentProfit": {
+            "sourceType": "Open DART",
+            "rceptNo": "20251114002900",
+            "reportName": "분기보고서 (2025.09)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002900",
+            "valueKind": "calculated",
+            "basis": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+            "unit": "KRW billion",
+            "sourceLayer": "derived from Open DART account values",
+            "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit",
+            "formulaInputs": {
+              "parentNetIncome": 537.972,
+              "nonControllingInterest": 0.524,
+              "incomeTaxExpense": 169.078,
+              "insuranceProfit": 350.546
+            },
+            "sourceAccounts": {
+              "insuranceProfit": {
+                "account_nm": "보험손익",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 76 기 3분기",
+                "raw_amount": "350545749132",
+                "amount_bn": 350.546
+              },
+              "parentNetIncome": {
+                "account_nm": "지배기업의 소유주에게 귀속되는 연결분기순이익",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 76 기 3분기",
+                "raw_amount": "537971755577",
+                "amount_bn": 537.972
+              },
+              "nonControllingInterest": {
+                "account_nm": "비지배지분에 귀속되는 연결분기순이익",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 76 기 3분기",
+                "raw_amount": "524081206",
+                "amount_bn": 0.524
+              },
+              "incomeTaxExpense": {
+                "account_nm": "법인세비용",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 76 기 3분기",
+                "raw_amount": "169078142052",
+                "amount_bn": 169.078
+              }
+            },
+            "manualAdjustment": false
+          },
+          "netIncome": {
+            "sourceType": "Open DART",
+            "rceptNo": "20251114002900",
+            "reportName": "분기보고서 (2025.09)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002900",
+            "valueKind": "actual",
+            "basis": "controlling_parent_consolidated_net_income",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART fnlttSinglAcntAll",
+            "account": {
+              "account_nm": "지배기업의 소유주에게 귀속되는 연결분기순이익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 3분기",
+              "raw_amount": "537971755577",
+              "amount_bn": 537.972
+            },
+            "manualAdjustment": false
+          },
+          "kics": {
+            "sourceType": "Open DART",
+            "rceptNo": "20251114002900",
+            "reportName": "분기보고서 (2025.09)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002900",
+            "valueKind": "actual",
+            "basis": "public_solvency_disclosure",
+            "unit": "percent",
+            "sourceLayer": "Open DART document.xml table",
+            "sourceTables": [
+              55
+            ],
+            "manualAdjustment": false
+          }
+        }
+      },
+      "2025-q4": {
+        "insuranceProfit": 1446.696,
+        "investmentProfit": 1336.614,
+        "netIncome": 2018.286,
+        "kics": 262.87,
+        "csmScope": "별도 재무제표 기준 · 재보험 제외",
+        "profitScope": "2025 Q4 · 관리손익",
+        "insuranceScope": "별도 보험서비스손익",
+        "investmentScope": "별도 투자손익 + 영업외손익 + 연결효과",
+        "investmentCalcNote": "계산은 지배주주 연결순익 + 비지배지분 + 법인세비용 - 별도 보험손익으로 역산하여 적용",
+        "netIncomeScope": "지배주주 연결손익",
+        "kicsScope": "2025.12월말",
+        "note": "Open DART API 및 원문 주석 기준",
+        "investmentFormula": {
+          "parentNetIncome": 2018.286,
+          "nonControllingInterest": 2.001,
+          "incomeTaxExpense": 763.023
+        },
+        "sourceReferences": {
+          "insuranceProfit": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260312001399",
+            "reportName": "사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001399",
+            "valueKind": "actual",
+            "basis": "separate_insurance_service_result",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART fnlttSinglAcntAll",
+            "account": {
+              "account_nm": "보험손익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기",
+              "raw_amount": "1446696251285",
+              "amount_bn": 1446.696
+            },
+            "manualAdjustment": false
+          },
+          "investmentProfit": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260312001399",
+            "reportName": "사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001399",
+            "valueKind": "calculated",
+            "basis": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+            "unit": "KRW billion",
+            "sourceLayer": "derived from Open DART account values",
+            "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit",
+            "formulaInputs": {
+              "parentNetIncome": 2018.286,
+              "nonControllingInterest": 2.001,
+              "incomeTaxExpense": 763.023,
+              "insuranceProfit": 1446.696
+            },
+            "sourceAccounts": {
+              "insuranceProfit": {
+                "account_nm": "보험손익",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 76 기",
+                "raw_amount": "1446696251285",
+                "amount_bn": 1446.696
+              },
+              "parentNetIncome": {
+                "account_nm": "지배기업의 소유주에게 귀속되는 연결당기순이익",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 76 기",
+                "raw_amount": "2018286152118",
+                "amount_bn": 2018.286
+              },
+              "nonControllingInterest": {
+                "account_nm": "비지배지분에 귀속되는 연결당기순이익",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 76 기",
+                "raw_amount": "2000980137",
+                "amount_bn": 2.001
+              },
+              "incomeTaxExpense": {
+                "account_nm": "법인세비용",
+                "sj_nm": "포괄손익계산서",
+                "thstrm_nm": "제 76 기",
+                "raw_amount": "763022766199",
+                "amount_bn": 763.023
+              }
+            },
+            "manualAdjustment": false
+          },
+          "netIncome": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260312001399",
+            "reportName": "사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001399",
+            "valueKind": "actual",
+            "basis": "controlling_parent_consolidated_net_income",
+            "unit": "KRW billion",
+            "sourceLayer": "Open DART fnlttSinglAcntAll",
+            "account": {
+              "account_nm": "지배기업의 소유주에게 귀속되는 연결당기순이익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기",
+              "raw_amount": "2018286152118",
+              "amount_bn": 2018.286
+            },
+            "manualAdjustment": false
+          },
+          "kics": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260312001399",
+            "reportName": "사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001399",
+            "valueKind": "actual",
+            "basis": "public_solvency_disclosure",
+            "unit": "percent",
+            "sourceLayer": "Open DART document.xml table",
+            "sourceTables": [
+              87
+            ],
+            "manualAdjustment": false
+          }
+        }
+      }
+    }
+  },
+  "qualityChecks": [
+    {
+      "agent": "csm-movement-mapping-agent",
+      "company": "samsung-life",
+      "period": "2025-q1",
+      "check": "movement_sum",
+      "ok": true,
+      "diff_bn": 0,
+      "source_tables": [
+        733,
+        735,
+        737
+      ]
+    },
+    {
+      "agent": "csm-movement-mapping-agent",
+      "company": "samsung-life",
+      "period": "2025-q2",
+      "check": "movement_sum",
+      "ok": true,
+      "diff_bn": 0,
+      "source_tables": [
+        2076
+      ]
+    },
+    {
+      "agent": "csm-movement-mapping-agent",
+      "company": "samsung-life",
+      "period": "2025-q3",
+      "check": "movement_sum",
+      "ok": true,
+      "diff_bn": 0,
+      "source_tables": [
+        2038
+      ]
+    },
+    {
+      "agent": "csm-movement-mapping-agent",
+      "company": "samsung-life",
+      "period": "2025-q4",
+      "check": "movement_sum",
+      "ok": true,
+      "diff_bn": 0,
+      "source_tables": [
+        2654
+      ]
+    },
+    {
+      "agent": "csm-movement-mapping-agent",
+      "company": "samsung-fire",
+      "period": "2025-q1",
+      "check": "movement_sum",
+      "ok": true,
+      "diff_bn": 0,
+      "source_tables": [
+        310,
+        312,
+        314,
+        346
+      ]
+    },
+    {
+      "agent": "csm-movement-mapping-agent",
+      "company": "samsung-fire",
+      "period": "2025-q2",
+      "check": "movement_sum",
+      "ok": true,
+      "diff_bn": 0,
+      "source_tables": [
+        745
+      ]
+    },
+    {
+      "agent": "csm-movement-mapping-agent",
+      "company": "samsung-fire",
+      "period": "2025-q3",
+      "check": "movement_sum",
+      "ok": true,
+      "diff_bn": 0,
+      "source_tables": [
+        720
+      ]
+    },
+    {
+      "agent": "csm-movement-mapping-agent",
+      "company": "samsung-fire",
+      "period": "2025-q4",
+      "check": "movement_sum",
+      "ok": true,
+      "diff_bn": 0,
+      "source_tables": [
+        479,
+        481
+      ]
+    },
+    {
+      "agent": "financial-metric-agent",
+      "company": "samsung-life",
+      "period": "2025-q1",
+      "check": "investment_formula",
+      "ok": true,
+      "diff_bn": 0.0,
+      "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit"
+    },
+    {
+      "agent": "financial-metric-agent",
+      "company": "samsung-life",
+      "period": "2025-q2",
+      "check": "investment_formula",
+      "ok": true,
+      "diff_bn": 0.0,
+      "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit"
+    },
+    {
+      "agent": "financial-metric-agent",
+      "company": "samsung-life",
+      "period": "2025-q3",
+      "check": "investment_formula",
+      "ok": true,
+      "diff_bn": 0.0,
+      "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit"
+    },
+    {
+      "agent": "financial-metric-agent",
+      "company": "samsung-life",
+      "period": "2025-q4",
+      "check": "investment_formula",
+      "ok": true,
+      "diff_bn": 0.0,
+      "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit"
+    },
+    {
+      "agent": "financial-metric-agent",
+      "company": "samsung-fire",
+      "period": "2025-q1",
+      "check": "investment_formula",
+      "ok": true,
+      "diff_bn": 0.0,
+      "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit"
+    },
+    {
+      "agent": "financial-metric-agent",
+      "company": "samsung-fire",
+      "period": "2025-q2",
+      "check": "investment_formula",
+      "ok": true,
+      "diff_bn": 0.0,
+      "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit"
+    },
+    {
+      "agent": "financial-metric-agent",
+      "company": "samsung-fire",
+      "period": "2025-q3",
+      "check": "investment_formula",
+      "ok": true,
+      "diff_bn": 0.0,
+      "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit"
+    },
+    {
+      "agent": "financial-metric-agent",
+      "company": "samsung-fire",
+      "period": "2025-q4",
+      "check": "investment_formula",
+      "ok": true,
+      "diff_bn": 0.0,
+      "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit"
+    },
+    {
+      "agent": "quality-validation-agent",
+      "check": "source_policy",
+      "ok": true,
+      "source_policy": "external DART API only; local PDFs, uploaded files, and user-provided documents excluded"
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-life",
+      "period": "2025-q1",
+      "check": "dashboard_ready",
+      "ok": true,
+      "movement_diff_bn": 0,
+      "has_kics": true
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-life",
+      "period": "2025-q1",
+      "check": "source_traceability",
+      "ok": true,
+      "movement_reference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20250530002283",
+        "reportName": "[기재정정]분기보고서 (2025.03)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250530002283",
+        "valueKind": "actual",
+        "basis": "separate_financial_statement_excluding_reinsurance",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART document.xml table",
+        "sourceTables": [
+          733,
+          735,
+          737
+        ],
+        "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+        "manualAdjustment": false
+      },
+      "metric_reference_keys": [
+        "insuranceProfit",
+        "investmentProfit",
+        "kics",
+        "netIncome"
+      ]
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-life",
+      "period": "2025-q1",
+      "check": "basis_contract",
+      "ok": true,
+      "movement_basis": "separate_financial_statement_excluding_reinsurance",
+      "metric_bases": {
+        "insuranceProfit": "separate_insurance_service_result",
+        "investmentProfit": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+        "netIncome": "controlling_parent_consolidated_net_income",
+        "kics": "public_solvency_disclosure"
+      }
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-life",
+      "period": "2025-q2",
+      "check": "dashboard_ready",
+      "ok": true,
+      "movement_diff_bn": 0,
+      "has_kics": true
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-life",
+      "period": "2025-q2",
+      "check": "source_traceability",
+      "ok": true,
+      "movement_reference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20250813000585",
+        "reportName": "반기보고서 (2025.06)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250813000585",
+        "valueKind": "actual",
+        "basis": "separate_financial_statement_excluding_reinsurance",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART document.xml table",
+        "sourceTables": [
+          2076
+        ],
+        "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+        "manualAdjustment": false
+      },
+      "metric_reference_keys": [
+        "insuranceProfit",
+        "investmentProfit",
+        "kics",
+        "netIncome"
+      ]
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-life",
+      "period": "2025-q2",
+      "check": "basis_contract",
+      "ok": true,
+      "movement_basis": "separate_financial_statement_excluding_reinsurance",
+      "metric_bases": {
+        "insuranceProfit": "separate_insurance_service_result",
+        "investmentProfit": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+        "netIncome": "controlling_parent_consolidated_net_income",
+        "kics": "public_solvency_disclosure"
+      }
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-life",
+      "period": "2025-q3",
+      "check": "dashboard_ready",
+      "ok": true,
+      "movement_diff_bn": 0,
+      "has_kics": true
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-life",
+      "period": "2025-q3",
+      "check": "source_traceability",
+      "ok": true,
+      "movement_reference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20251114002091",
+        "reportName": "분기보고서 (2025.09)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002091",
+        "valueKind": "actual",
+        "basis": "separate_financial_statement_excluding_reinsurance",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART document.xml table",
+        "sourceTables": [
+          2038
+        ],
+        "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+        "manualAdjustment": false
+      },
+      "metric_reference_keys": [
+        "insuranceProfit",
+        "investmentProfit",
+        "kics",
+        "netIncome"
+      ]
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-life",
+      "period": "2025-q3",
+      "check": "basis_contract",
+      "ok": true,
+      "movement_basis": "separate_financial_statement_excluding_reinsurance",
+      "metric_bases": {
+        "insuranceProfit": "separate_insurance_service_result",
+        "investmentProfit": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+        "netIncome": "controlling_parent_consolidated_net_income",
+        "kics": "public_solvency_disclosure"
+      }
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-life",
+      "period": "2025-q4",
+      "check": "dashboard_ready",
+      "ok": true,
+      "movement_diff_bn": 0,
+      "has_kics": true
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-life",
+      "period": "2025-q4",
+      "check": "source_traceability",
+      "ok": true,
+      "movement_reference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20260331004244",
+        "reportName": "[기재정정]사업보고서 (2025.12)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331004244",
+        "valueKind": "actual",
+        "basis": "separate_financial_statement_excluding_reinsurance",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART document.xml table",
+        "sourceTables": [
+          2654
+        ],
+        "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+        "manualAdjustment": false
+      },
+      "metric_reference_keys": [
+        "insuranceProfit",
+        "investmentProfit",
+        "kics",
+        "netIncome"
+      ]
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-life",
+      "period": "2025-q4",
+      "check": "basis_contract",
+      "ok": true,
+      "movement_basis": "separate_financial_statement_excluding_reinsurance",
+      "metric_bases": {
+        "insuranceProfit": "separate_insurance_service_result",
+        "investmentProfit": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+        "netIncome": "controlling_parent_consolidated_net_income",
+        "kics": "public_solvency_disclosure"
+      }
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-fire",
+      "period": "2025-q1",
+      "check": "dashboard_ready",
+      "ok": true,
+      "movement_diff_bn": 0,
+      "has_kics": true
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-fire",
+      "period": "2025-q1",
+      "check": "source_traceability",
+      "ok": true,
+      "movement_reference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20250515002709",
+        "reportName": "분기보고서 (2025.03)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250515002709",
+        "valueKind": "actual",
+        "basis": "separate_financial_statement_excluding_reinsurance",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART document.xml table",
+        "sourceTables": [
+          310,
+          312,
+          314,
+          346
+        ],
+        "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+        "manualAdjustment": false
+      },
+      "metric_reference_keys": [
+        "insuranceProfit",
+        "investmentProfit",
+        "kics",
+        "netIncome"
+      ]
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-fire",
+      "period": "2025-q1",
+      "check": "basis_contract",
+      "ok": true,
+      "movement_basis": "separate_financial_statement_excluding_reinsurance",
+      "metric_bases": {
+        "insuranceProfit": "separate_insurance_service_result",
+        "investmentProfit": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+        "netIncome": "controlling_parent_consolidated_net_income",
+        "kics": "public_solvency_disclosure"
+      }
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-fire",
+      "period": "2025-q2",
+      "check": "dashboard_ready",
+      "ok": true,
+      "movement_diff_bn": 0,
+      "has_kics": true
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-fire",
+      "period": "2025-q2",
+      "check": "source_traceability",
+      "ok": true,
+      "movement_reference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20250814004098",
+        "reportName": "반기보고서 (2025.06)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250814004098",
+        "valueKind": "actual",
+        "basis": "separate_financial_statement_excluding_reinsurance",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART document.xml table",
+        "sourceTables": [
+          745
+        ],
+        "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+        "manualAdjustment": false
+      },
+      "metric_reference_keys": [
+        "insuranceProfit",
+        "investmentProfit",
+        "kics",
+        "netIncome"
+      ]
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-fire",
+      "period": "2025-q2",
+      "check": "basis_contract",
+      "ok": true,
+      "movement_basis": "separate_financial_statement_excluding_reinsurance",
+      "metric_bases": {
+        "insuranceProfit": "separate_insurance_service_result",
+        "investmentProfit": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+        "netIncome": "controlling_parent_consolidated_net_income",
+        "kics": "public_solvency_disclosure"
+      }
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-fire",
+      "period": "2025-q3",
+      "check": "dashboard_ready",
+      "ok": true,
+      "movement_diff_bn": 0,
+      "has_kics": true
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-fire",
+      "period": "2025-q3",
+      "check": "source_traceability",
+      "ok": true,
+      "movement_reference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20251114002900",
+        "reportName": "분기보고서 (2025.09)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002900",
+        "valueKind": "actual",
+        "basis": "separate_financial_statement_excluding_reinsurance",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART document.xml table",
+        "sourceTables": [
+          720
+        ],
+        "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+        "manualAdjustment": false
+      },
+      "metric_reference_keys": [
+        "insuranceProfit",
+        "investmentProfit",
+        "kics",
+        "netIncome"
+      ]
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-fire",
+      "period": "2025-q3",
+      "check": "basis_contract",
+      "ok": true,
+      "movement_basis": "separate_financial_statement_excluding_reinsurance",
+      "metric_bases": {
+        "insuranceProfit": "separate_insurance_service_result",
+        "investmentProfit": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+        "netIncome": "controlling_parent_consolidated_net_income",
+        "kics": "public_solvency_disclosure"
+      }
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-fire",
+      "period": "2025-q4",
+      "check": "dashboard_ready",
+      "ok": true,
+      "movement_diff_bn": 0,
+      "has_kics": true
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-fire",
+      "period": "2025-q4",
+      "check": "source_traceability",
+      "ok": true,
+      "movement_reference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20260312001399",
+        "reportName": "사업보고서 (2025.12)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001399",
+        "valueKind": "actual",
+        "basis": "separate_financial_statement_excluding_reinsurance",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART document.xml table",
+        "sourceTables": [
+          479,
+          481
+        ],
+        "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+        "manualAdjustment": false
+      },
+      "metric_reference_keys": [
+        "insuranceProfit",
+        "investmentProfit",
+        "kics",
+        "netIncome"
+      ]
+    },
+    {
+      "agent": "quality-validation-agent",
+      "company": "samsung-fire",
+      "period": "2025-q4",
+      "check": "basis_contract",
+      "ok": true,
+      "movement_basis": "separate_financial_statement_excluding_reinsurance",
+      "metric_bases": {
+        "insuranceProfit": "separate_insurance_service_result",
+        "investmentProfit": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+        "netIncome": "controlling_parent_consolidated_net_income",
+        "kics": "public_solvency_disclosure"
+      }
+    }
+  ],
+  "reviewSummary": {
+    "total": 16,
+    "passed": 15,
+    "needs_review": 1,
+    "failed": 0
+  },
+  "reviewItems": [
+    {
+      "id": "samsung-life.2025-q1.csm_movement",
+      "company": "samsung-life",
+      "companyName": "삼성생명",
+      "period": "2025-q1",
+      "category": "csm",
+      "metric": "csm_movement",
+      "title": "삼성생명 2025-q1 CSM Movement",
+      "status": "passed",
+      "systemStatus": "passed",
+      "severity": "info",
+      "systemSeverity": "info",
+      "systemValue": {
+        "opening": 12902,
+        "newbiz": 658,
+        "interest": 116,
+        "adjustment": -6,
+        "amortization": -361,
+        "closing": 13309
+      },
+      "basis": "separate_financial_statement_excluding_reinsurance",
+      "sourceReference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20250530002283",
+        "reportName": "[기재정정]분기보고서 (2025.03)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250530002283",
+        "valueKind": "actual",
+        "basis": "separate_financial_statement_excluding_reinsurance",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART document.xml table",
+        "sourceTables": [
+          733,
+          735,
+          737
+        ],
+        "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+        "manualAdjustment": false
+      },
+      "reviewReason": "Movement 합계와 기말 CSM이 일치하고 출처 메타데이터가 존재합니다.",
+      "recommendedAction": "정기 리뷰 시 원문 표 번호와 Movement 합계만 재확인합니다.",
+      "manualAdjustment": {
+        "applied": false,
+        "decision": null,
+        "originalValue": {
+          "opening": 12902,
+          "newbiz": 658,
+          "interest": 116,
+          "adjustment": -6,
+          "amortization": -361,
+          "closing": 13309
+        },
+        "adjustedValue": null,
+        "reviewerNote": "",
+        "reviewedBy": "",
+        "reviewedAt": ""
+      }
+    },
+    {
+      "id": "samsung-life.2025-q1.financial_metrics",
+      "company": "samsung-life",
+      "companyName": "삼성생명",
+      "period": "2025-q1",
+      "category": "profit",
+      "metric": "financial_metrics",
+      "title": "삼성생명 2025-q1 손익/K-ICS",
+      "status": "passed",
+      "systemStatus": "passed",
+      "severity": "info",
+      "systemSeverity": "info",
+      "systemValue": {
+        "insuranceProfit": 277.882,
+        "investmentProfit": 564.575,
+        "netIncome": 635.259,
+        "kics": 177.2
+      },
+      "basis": "mixed_profit_and_solvency_basis",
+      "sourceReference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20250530002283",
+        "reportName": "[기재정정]분기보고서 (2025.03)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250530002283",
+        "valueKind": "actual",
+        "basis": "separate_insurance_service_result",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART fnlttSinglAcntAll",
+        "account": {
+          "account_nm": "보험손익",
+          "sj_nm": "포괄손익계산서",
+          "thstrm_nm": "제 70 기 1분기",
+          "raw_amount": "277882000000",
+          "amount_bn": 277.882
+        },
+        "manualAdjustment": false
+      },
+      "sourceReferences": {
+        "insuranceProfit": {
+          "sourceType": "Open DART",
+          "rceptNo": "20250530002283",
+          "reportName": "[기재정정]분기보고서 (2025.03)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250530002283",
+          "valueKind": "actual",
+          "basis": "separate_insurance_service_result",
+          "unit": "KRW billion",
+          "sourceLayer": "Open DART fnlttSinglAcntAll",
+          "account": {
+            "account_nm": "보험손익",
+            "sj_nm": "포괄손익계산서",
+            "thstrm_nm": "제 70 기 1분기",
+            "raw_amount": "277882000000",
+            "amount_bn": 277.882
+          },
+          "manualAdjustment": false
+        },
+        "investmentProfit": {
+          "sourceType": "Open DART",
+          "rceptNo": "20250530002283",
+          "reportName": "[기재정정]분기보고서 (2025.03)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250530002283",
+          "valueKind": "calculated",
+          "basis": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+          "unit": "KRW billion",
+          "sourceLayer": "derived from Open DART account values",
+          "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit",
+          "formulaInputs": {
+            "parentNetIncome": 635.259,
+            "nonControllingInterest": 42.237,
+            "incomeTaxExpense": 164.961,
+            "insuranceProfit": 277.882
+          },
+          "sourceAccounts": {
+            "insuranceProfit": {
+              "account_nm": "보험손익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 1분기",
+              "raw_amount": "277882000000",
+              "amount_bn": 277.882
+            },
+            "parentNetIncome": {
+              "account_nm": "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 1분기",
+              "raw_amount": "635259000000",
+              "amount_bn": 635.259
+            },
+            "nonControllingInterest": {
+              "account_nm": "비지배지분에 귀속되는 당기순이익(손실)",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 1분기",
+              "raw_amount": "42237000000",
+              "amount_bn": 42.237
+            },
+            "incomeTaxExpense": {
+              "account_nm": "법인세비용",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 1분기",
+              "raw_amount": "164961000000",
+              "amount_bn": 164.961
+            }
+          },
+          "manualAdjustment": false
+        },
+        "netIncome": {
+          "sourceType": "Open DART",
+          "rceptNo": "20250530002283",
+          "reportName": "[기재정정]분기보고서 (2025.03)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250530002283",
+          "valueKind": "actual",
+          "basis": "controlling_parent_consolidated_net_income",
+          "unit": "KRW billion",
+          "sourceLayer": "Open DART fnlttSinglAcntAll",
+          "account": {
+            "account_nm": "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+            "sj_nm": "포괄손익계산서",
+            "thstrm_nm": "제 70 기 1분기",
+            "raw_amount": "635259000000",
+            "amount_bn": 635.259
+          },
+          "manualAdjustment": false
+        },
+        "kics": {
+          "sourceType": "Open DART",
+          "rceptNo": "20250530002283",
+          "reportName": "[기재정정]분기보고서 (2025.03)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250530002283",
+          "valueKind": "actual",
+          "basis": "public_solvency_disclosure",
+          "unit": "percent",
+          "sourceLayer": "Open DART document.xml table",
+          "sourceTables": [
+            8
+          ],
+          "manualAdjustment": false
+        }
+      },
+      "reviewReason": "보험손익, 투자손익, 당기순이익, K-ICS 출처와 산식 메타데이터가 존재합니다.",
+      "recommendedAction": "보고 전 손익 기준과 투자손익 역산식을 확인합니다.",
+      "manualAdjustment": {
+        "applied": false,
+        "decision": null,
+        "originalValue": {
+          "insuranceProfit": 277.882,
+          "investmentProfit": 564.575,
+          "netIncome": 635.259,
+          "kics": 177.2
+        },
+        "adjustedValue": null,
+        "reviewerNote": "",
+        "reviewedBy": "",
+        "reviewedAt": ""
+      }
+    },
+    {
+      "id": "samsung-life.2025-q2.csm_movement",
+      "company": "samsung-life",
+      "companyName": "삼성생명",
+      "period": "2025-q2",
+      "category": "csm",
+      "metric": "csm_movement",
+      "title": "삼성생명 2025-q2 CSM Movement",
+      "status": "passed",
+      "systemStatus": "passed",
+      "severity": "info",
+      "systemSeverity": "info",
+      "systemValue": {
+        "opening": 12902,
+        "newbiz": 1426,
+        "interest": 234,
+        "adjustment": -72,
+        "amortization": -744,
+        "closing": 13746
+      },
+      "basis": "separate_financial_statement_excluding_reinsurance",
+      "sourceReference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20250813000585",
+        "reportName": "반기보고서 (2025.06)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250813000585",
+        "valueKind": "actual",
+        "basis": "separate_financial_statement_excluding_reinsurance",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART document.xml table",
+        "sourceTables": [
+          2076
+        ],
+        "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+        "manualAdjustment": false
+      },
+      "reviewReason": "Movement 합계와 기말 CSM이 일치하고 출처 메타데이터가 존재합니다.",
+      "recommendedAction": "정기 리뷰 시 원문 표 번호와 Movement 합계만 재확인합니다.",
+      "manualAdjustment": {
+        "applied": false,
+        "decision": null,
+        "originalValue": {
+          "opening": 12902,
+          "newbiz": 1426,
+          "interest": 234,
+          "adjustment": -72,
+          "amortization": -744,
+          "closing": 13746
+        },
+        "adjustedValue": null,
+        "reviewerNote": "",
+        "reviewedBy": "",
+        "reviewedAt": ""
+      }
+    },
+    {
+      "id": "samsung-life.2025-q2.financial_metrics",
+      "company": "samsung-life",
+      "companyName": "삼성생명",
+      "period": "2025-q2",
+      "category": "profit",
+      "metric": "financial_metrics",
+      "title": "삼성생명 2025-q2 손익/K-ICS",
+      "status": "passed",
+      "systemStatus": "passed",
+      "severity": "info",
+      "systemSeverity": "info",
+      "systemValue": {
+        "insuranceProfit": 553.464,
+        "investmentProfit": 456.163,
+        "netIncome": 758.89,
+        "kics": 186.7
+      },
+      "basis": "mixed_profit_and_solvency_basis",
+      "sourceReference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20250813000585",
+        "reportName": "반기보고서 (2025.06)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250813000585",
+        "valueKind": "actual",
+        "basis": "separate_insurance_service_result",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART fnlttSinglAcntAll",
+        "account": {
+          "account_nm": "보험서비스결과",
+          "sj_nm": "포괄손익계산서",
+          "thstrm_nm": "제 70 기 반기",
+          "raw_amount": "553464000000",
+          "amount_bn": 553.464
+        },
+        "manualAdjustment": false
+      },
+      "sourceReferences": {
+        "insuranceProfit": {
+          "sourceType": "Open DART",
+          "rceptNo": "20250813000585",
+          "reportName": "반기보고서 (2025.06)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250813000585",
+          "valueKind": "actual",
+          "basis": "separate_insurance_service_result",
+          "unit": "KRW billion",
+          "sourceLayer": "Open DART fnlttSinglAcntAll",
+          "account": {
+            "account_nm": "보험서비스결과",
+            "sj_nm": "포괄손익계산서",
+            "thstrm_nm": "제 70 기 반기",
+            "raw_amount": "553464000000",
+            "amount_bn": 553.464
+          },
+          "manualAdjustment": false
+        },
+        "investmentProfit": {
+          "sourceType": "Open DART",
+          "rceptNo": "20250813000585",
+          "reportName": "반기보고서 (2025.06)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250813000585",
+          "valueKind": "calculated",
+          "basis": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+          "unit": "KRW billion",
+          "sourceLayer": "derived from Open DART account values",
+          "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit",
+          "formulaInputs": {
+            "parentNetIncome": 758.89,
+            "nonControllingInterest": 34.69,
+            "incomeTaxExpense": 216.047,
+            "insuranceProfit": 553.464
+          },
+          "sourceAccounts": {
+            "insuranceProfit": {
+              "account_nm": "보험서비스결과",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 반기",
+              "raw_amount": "553464000000",
+              "amount_bn": 553.464
+            },
+            "parentNetIncome": {
+              "account_nm": "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 반기",
+              "raw_amount": "758890000000",
+              "amount_bn": 758.89
+            },
+            "nonControllingInterest": {
+              "account_nm": "비지배지분에 귀속되는 당기순이익(손실)",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 반기",
+              "raw_amount": "34690000000",
+              "amount_bn": 34.69
+            },
+            "incomeTaxExpense": {
+              "account_nm": "법인세비용",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 반기",
+              "raw_amount": "216047000000",
+              "amount_bn": 216.047
+            }
+          },
+          "manualAdjustment": false
+        },
+        "netIncome": {
+          "sourceType": "Open DART",
+          "rceptNo": "20250813000585",
+          "reportName": "반기보고서 (2025.06)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250813000585",
+          "valueKind": "actual",
+          "basis": "controlling_parent_consolidated_net_income",
+          "unit": "KRW billion",
+          "sourceLayer": "Open DART fnlttSinglAcntAll",
+          "account": {
+            "account_nm": "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+            "sj_nm": "포괄손익계산서",
+            "thstrm_nm": "제 70 기 반기",
+            "raw_amount": "758890000000",
+            "amount_bn": 758.89
+          },
+          "manualAdjustment": false
+        },
+        "kics": {
+          "sourceType": "Open DART",
+          "rceptNo": "20250813000585",
+          "reportName": "반기보고서 (2025.06)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250813000585",
+          "valueKind": "actual",
+          "basis": "public_solvency_disclosure",
+          "unit": "percent",
+          "sourceLayer": "Open DART document.xml table",
+          "sourceTables": [
+            196
+          ],
+          "manualAdjustment": false
+        }
+      },
+      "reviewReason": "보험손익, 투자손익, 당기순이익, K-ICS 출처와 산식 메타데이터가 존재합니다.",
+      "recommendedAction": "보고 전 손익 기준과 투자손익 역산식을 확인합니다.",
+      "manualAdjustment": {
+        "applied": false,
+        "decision": null,
+        "originalValue": {
+          "insuranceProfit": 553.464,
+          "investmentProfit": 456.163,
+          "netIncome": 758.89,
+          "kics": 186.7
+        },
+        "adjustedValue": null,
+        "reviewerNote": "",
+        "reviewedBy": "",
+        "reviewedAt": ""
+      }
+    },
+    {
+      "id": "samsung-life.2025-q3.csm_movement",
+      "company": "samsung-life",
+      "companyName": "삼성생명",
+      "period": "2025-q3",
+      "category": "csm",
+      "metric": "csm_movement",
+      "title": "삼성생명 2025-q3 CSM Movement",
+      "status": "passed",
+      "systemStatus": "passed",
+      "severity": "info",
+      "systemSeverity": "info",
+      "systemValue": {
+        "opening": 12902,
+        "newbiz": 2298,
+        "interest": 363,
+        "adjustment": -394,
+        "amortization": -1122,
+        "closing": 14047
+      },
+      "basis": "separate_financial_statement_excluding_reinsurance",
+      "sourceReference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20251114002091",
+        "reportName": "분기보고서 (2025.09)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002091",
+        "valueKind": "actual",
+        "basis": "separate_financial_statement_excluding_reinsurance",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART document.xml table",
+        "sourceTables": [
+          2038
+        ],
+        "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+        "manualAdjustment": false
+      },
+      "reviewReason": "Movement 합계와 기말 CSM이 일치하고 출처 메타데이터가 존재합니다.",
+      "recommendedAction": "정기 리뷰 시 원문 표 번호와 Movement 합계만 재확인합니다.",
+      "manualAdjustment": {
+        "applied": false,
+        "decision": null,
+        "originalValue": {
+          "opening": 12902,
+          "newbiz": 2298,
+          "interest": 363,
+          "adjustment": -394,
+          "amortization": -1122,
+          "closing": 14047
+        },
+        "adjustedValue": null,
+        "reviewerNote": "",
+        "reviewedBy": "",
+        "reviewedAt": ""
+      }
+    },
+    {
+      "id": "samsung-life.2025-q3.financial_metrics",
+      "company": "samsung-life",
+      "companyName": "삼성생명",
+      "period": "2025-q3",
+      "category": "profit",
+      "metric": "financial_metrics",
+      "title": "삼성생명 2025-q3 손익/K-ICS",
+      "status": "passed",
+      "systemStatus": "passed",
+      "severity": "info",
+      "systemSeverity": "info",
+      "systemValue": {
+        "insuranceProfit": 261.597,
+        "investmentProfit": 692.145,
+        "netIncome": 722.985,
+        "kics": 192.7
+      },
+      "basis": "mixed_profit_and_solvency_basis",
+      "sourceReference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20251114002091",
+        "reportName": "분기보고서 (2025.09)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002091",
+        "valueKind": "actual",
+        "basis": "separate_insurance_service_result",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART fnlttSinglAcntAll",
+        "account": {
+          "account_nm": "보험서비스결과",
+          "sj_nm": "포괄손익계산서",
+          "thstrm_nm": "제 70 기 3분기",
+          "raw_amount": "261597000000",
+          "amount_bn": 261.597
+        },
+        "manualAdjustment": false
+      },
+      "sourceReferences": {
+        "insuranceProfit": {
+          "sourceType": "Open DART",
+          "rceptNo": "20251114002091",
+          "reportName": "분기보고서 (2025.09)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002091",
+          "valueKind": "actual",
+          "basis": "separate_insurance_service_result",
+          "unit": "KRW billion",
+          "sourceLayer": "Open DART fnlttSinglAcntAll",
+          "account": {
+            "account_nm": "보험서비스결과",
+            "sj_nm": "포괄손익계산서",
+            "thstrm_nm": "제 70 기 3분기",
+            "raw_amount": "261597000000",
+            "amount_bn": 261.597
+          },
+          "manualAdjustment": false
+        },
+        "investmentProfit": {
+          "sourceType": "Open DART",
+          "rceptNo": "20251114002091",
+          "reportName": "분기보고서 (2025.09)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002091",
+          "valueKind": "calculated",
+          "basis": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+          "unit": "KRW billion",
+          "sourceLayer": "derived from Open DART account values",
+          "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit",
+          "formulaInputs": {
+            "parentNetIncome": 722.985,
+            "nonControllingInterest": 37.962,
+            "incomeTaxExpense": 192.795,
+            "insuranceProfit": 261.597
+          },
+          "sourceAccounts": {
+            "insuranceProfit": {
+              "account_nm": "보험서비스결과",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 3분기",
+              "raw_amount": "261597000000",
+              "amount_bn": 261.597
+            },
+            "parentNetIncome": {
+              "account_nm": "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 3분기",
+              "raw_amount": "722985000000",
+              "amount_bn": 722.985
+            },
+            "nonControllingInterest": {
+              "account_nm": "비지배지분에 귀속되는 당기순이익(손실)",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 3분기",
+              "raw_amount": "37962000000",
+              "amount_bn": 37.962
+            },
+            "incomeTaxExpense": {
+              "account_nm": "법인세비용",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기 3분기",
+              "raw_amount": "192795000000",
+              "amount_bn": 192.795
+            }
+          },
+          "manualAdjustment": false
+        },
+        "netIncome": {
+          "sourceType": "Open DART",
+          "rceptNo": "20251114002091",
+          "reportName": "분기보고서 (2025.09)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002091",
+          "valueKind": "actual",
+          "basis": "controlling_parent_consolidated_net_income",
+          "unit": "KRW billion",
+          "sourceLayer": "Open DART fnlttSinglAcntAll",
+          "account": {
+            "account_nm": "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+            "sj_nm": "포괄손익계산서",
+            "thstrm_nm": "제 70 기 3분기",
+            "raw_amount": "722985000000",
+            "amount_bn": 722.985
+          },
+          "manualAdjustment": false
+        },
+        "kics": {
+          "sourceType": "Open DART",
+          "rceptNo": "20251114002091",
+          "reportName": "분기보고서 (2025.09)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002091",
+          "valueKind": "actual",
+          "basis": "public_solvency_disclosure",
+          "unit": "percent",
+          "sourceLayer": "Open DART document.xml table",
+          "sourceTables": [
+            172
+          ],
+          "manualAdjustment": false
+        }
+      },
+      "reviewReason": "보험손익, 투자손익, 당기순이익, K-ICS 출처와 산식 메타데이터가 존재합니다.",
+      "recommendedAction": "보고 전 손익 기준과 투자손익 역산식을 확인합니다.",
+      "manualAdjustment": {
+        "applied": false,
+        "decision": null,
+        "originalValue": {
+          "insuranceProfit": 261.597,
+          "investmentProfit": 692.145,
+          "netIncome": 722.985,
+          "kics": 192.7
+        },
+        "adjustedValue": null,
+        "reviewerNote": "",
+        "reviewedBy": "",
+        "reviewedAt": ""
+      }
+    },
+    {
+      "id": "samsung-life.2025-q4.csm_movement",
+      "company": "samsung-life",
+      "companyName": "삼성생명",
+      "period": "2025-q4",
+      "category": "csm",
+      "metric": "csm_movement",
+      "title": "삼성생명 2025-q4 CSM Movement",
+      "status": "passed",
+      "systemStatus": "passed",
+      "severity": "info",
+      "systemSeverity": "info",
+      "systemValue": {
+        "opening": 12902,
+        "newbiz": 3059,
+        "interest": 494,
+        "adjustment": -1757,
+        "amortization": -1480,
+        "closing": 13218
+      },
+      "basis": "separate_financial_statement_excluding_reinsurance",
+      "sourceReference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20260331004244",
+        "reportName": "[기재정정]사업보고서 (2025.12)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331004244",
+        "valueKind": "actual",
+        "basis": "separate_financial_statement_excluding_reinsurance",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART document.xml table",
+        "sourceTables": [
+          2654
+        ],
+        "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+        "manualAdjustment": false
+      },
+      "reviewReason": "Movement 합계와 기말 CSM이 일치하고 출처 메타데이터가 존재합니다.",
+      "recommendedAction": "정기 리뷰 시 원문 표 번호와 Movement 합계만 재확인합니다.",
+      "manualAdjustment": {
+        "applied": false,
+        "decision": null,
+        "originalValue": {
+          "opening": 12902,
+          "newbiz": 3059,
+          "interest": 494,
+          "adjustment": -1757,
+          "amortization": -1480,
+          "closing": 13218
+        },
+        "adjustedValue": null,
+        "reviewerNote": "",
+        "reviewedBy": "",
+        "reviewedAt": ""
+      }
+    },
+    {
+      "id": "samsung-life.2025-q4.financial_metrics",
+      "company": "samsung-life",
+      "companyName": "삼성생명",
+      "period": "2025-q4",
+      "category": "profit",
+      "metric": "financial_metrics",
+      "title": "삼성생명 2025-q4 손익/K-ICS",
+      "status": "passed",
+      "systemStatus": "passed",
+      "severity": "info",
+      "systemSeverity": "info",
+      "systemValue": {
+        "insuranceProfit": 974.716,
+        "investmentProfit": 2021.629,
+        "netIncome": 2302.837,
+        "kics": 198.0
+      },
+      "basis": "mixed_profit_and_solvency_basis",
+      "sourceReference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20260331004244",
+        "reportName": "[기재정정]사업보고서 (2025.12)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331004244",
+        "valueKind": "actual",
+        "basis": "separate_insurance_service_result",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART fnlttSinglAcntAll",
+        "account": {
+          "account_nm": "보험서비스결과",
+          "sj_nm": "포괄손익계산서",
+          "thstrm_nm": "제 70 기",
+          "raw_amount": "974716000000",
+          "amount_bn": 974.716
+        },
+        "manualAdjustment": false
+      },
+      "sourceReferences": {
+        "insuranceProfit": {
+          "sourceType": "Open DART",
+          "rceptNo": "20260331004244",
+          "reportName": "[기재정정]사업보고서 (2025.12)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331004244",
+          "valueKind": "actual",
+          "basis": "separate_insurance_service_result",
+          "unit": "KRW billion",
+          "sourceLayer": "Open DART fnlttSinglAcntAll",
+          "account": {
+            "account_nm": "보험서비스결과",
+            "sj_nm": "포괄손익계산서",
+            "thstrm_nm": "제 70 기",
+            "raw_amount": "974716000000",
+            "amount_bn": 974.716
+          },
+          "manualAdjustment": false
+        },
+        "investmentProfit": {
+          "sourceType": "Open DART",
+          "rceptNo": "20260331004244",
+          "reportName": "[기재정정]사업보고서 (2025.12)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331004244",
+          "valueKind": "calculated",
+          "basis": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+          "unit": "KRW billion",
+          "sourceLayer": "derived from Open DART account values",
+          "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit",
+          "formulaInputs": {
+            "parentNetIncome": 2302.837,
+            "nonControllingInterest": 148.678,
+            "incomeTaxExpense": 544.83,
+            "insuranceProfit": 974.716
+          },
+          "sourceAccounts": {
+            "insuranceProfit": {
+              "account_nm": "보험서비스결과",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기",
+              "raw_amount": "974716000000",
+              "amount_bn": 974.716
+            },
+            "parentNetIncome": {
+              "account_nm": "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기",
+              "raw_amount": "2302837000000",
+              "amount_bn": 2302.837
+            },
+            "nonControllingInterest": {
+              "account_nm": "비지배지분에 귀속되는 당기순이익(손실)",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기",
+              "raw_amount": "148678000000",
+              "amount_bn": 148.678
+            },
+            "incomeTaxExpense": {
+              "account_nm": "법인세비용",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 70 기",
+              "raw_amount": "544830000000",
+              "amount_bn": 544.83
+            }
+          },
+          "manualAdjustment": false
+        },
+        "netIncome": {
+          "sourceType": "Open DART",
+          "rceptNo": "20260331004244",
+          "reportName": "[기재정정]사업보고서 (2025.12)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331004244",
+          "valueKind": "actual",
+          "basis": "controlling_parent_consolidated_net_income",
+          "unit": "KRW billion",
+          "sourceLayer": "Open DART fnlttSinglAcntAll",
+          "account": {
+            "account_nm": "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+            "sj_nm": "포괄손익계산서",
+            "thstrm_nm": "제 70 기",
+            "raw_amount": "2302837000000",
+            "amount_bn": 2302.837
+          },
+          "manualAdjustment": false
+        },
+        "kics": {
+          "sourceType": "Open DART",
+          "rceptNo": "20260331004244",
+          "reportName": "[기재정정]사업보고서 (2025.12)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331004244",
+          "valueKind": "actual",
+          "basis": "public_solvency_disclosure",
+          "unit": "percent",
+          "sourceLayer": "Open DART document.xml table",
+          "sourceTables": [
+            6
+          ],
+          "manualAdjustment": false
+        }
+      },
+      "reviewReason": "보험손익, 투자손익, 당기순이익, K-ICS 출처와 산식 메타데이터가 존재합니다.",
+      "recommendedAction": "보고 전 손익 기준과 투자손익 역산식을 확인합니다.",
+      "manualAdjustment": {
+        "applied": false,
+        "decision": null,
+        "originalValue": {
+          "insuranceProfit": 974.716,
+          "investmentProfit": 2021.629,
+          "netIncome": 2302.837,
+          "kics": 198.0
+        },
+        "adjustedValue": null,
+        "reviewerNote": "",
+        "reviewedBy": "",
+        "reviewedAt": ""
+      }
+    },
+    {
+      "id": "samsung-fire.2025-q1.csm_movement",
+      "company": "samsung-fire",
+      "companyName": "삼성화재",
+      "period": "2025-q1",
+      "category": "csm",
+      "metric": "csm_movement",
+      "title": "삼성화재 2025-q1 CSM Movement",
+      "status": "needs_review",
+      "systemStatus": "needs_review",
+      "severity": "warning",
+      "systemSeverity": "warning",
+      "systemValue": {
+        "opening": 14074,
+        "newbiz": 702,
+        "interest": 0,
+        "adjustment": -37,
+        "amortization": -406,
+        "closing": 14333
+      },
+      "basis": "separate_financial_statement_excluding_reinsurance",
+      "sourceReference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20250515002709",
+        "reportName": "분기보고서 (2025.03)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250515002709",
+        "valueKind": "actual",
+        "basis": "separate_financial_statement_excluding_reinsurance",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART document.xml table",
+        "sourceTables": [
+          310,
+          312,
+          314,
+          346
+        ],
+        "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+        "manualAdjustment": false
+      },
+      "reviewReason": "원문에서 이자부리가 별도 행으로 표시되지 않아 조정 등에 흡수된 값입니다.",
+      "recommendedAction": "원문 표에서 이자부리 표시 방식과 CSM 조정 등 잔차를 사람이 확인합니다.",
+      "manualAdjustment": {
+        "applied": false,
+        "decision": null,
+        "originalValue": {
+          "opening": 14074,
+          "newbiz": 702,
+          "interest": 0,
+          "adjustment": -37,
+          "amortization": -406,
+          "closing": 14333
+        },
+        "adjustedValue": null,
+        "reviewerNote": "",
+        "reviewedBy": "",
+        "reviewedAt": ""
+      }
+    },
+    {
+      "id": "samsung-fire.2025-q1.financial_metrics",
+      "company": "samsung-fire",
+      "companyName": "삼성화재",
+      "period": "2025-q1",
+      "category": "profit",
+      "metric": "financial_metrics",
+      "title": "삼성화재 2025-q1 손익/K-ICS",
+      "status": "passed",
+      "systemStatus": "passed",
+      "severity": "info",
+      "systemSeverity": "info",
+      "systemValue": {
+        "insuranceProfit": 481.593,
+        "investmentProfit": 340.71,
+        "netIncome": 608.133,
+        "kics": 266.61
+      },
+      "basis": "mixed_profit_and_solvency_basis",
+      "sourceReference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20250515002709",
+        "reportName": "분기보고서 (2025.03)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250515002709",
+        "valueKind": "actual",
+        "basis": "separate_insurance_service_result",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART fnlttSinglAcntAll",
+        "account": {
+          "account_nm": "보험손익",
+          "sj_nm": "포괄손익계산서",
+          "thstrm_nm": "제 76 기 1분기",
+          "raw_amount": "481593295456",
+          "amount_bn": 481.593
+        },
+        "manualAdjustment": false
+      },
+      "sourceReferences": {
+        "insuranceProfit": {
+          "sourceType": "Open DART",
+          "rceptNo": "20250515002709",
+          "reportName": "분기보고서 (2025.03)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250515002709",
+          "valueKind": "actual",
+          "basis": "separate_insurance_service_result",
+          "unit": "KRW billion",
+          "sourceLayer": "Open DART fnlttSinglAcntAll",
+          "account": {
+            "account_nm": "보험손익",
+            "sj_nm": "포괄손익계산서",
+            "thstrm_nm": "제 76 기 1분기",
+            "raw_amount": "481593295456",
+            "amount_bn": 481.593
+          },
+          "manualAdjustment": false
+        },
+        "investmentProfit": {
+          "sourceType": "Open DART",
+          "rceptNo": "20250515002709",
+          "reportName": "분기보고서 (2025.03)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250515002709",
+          "valueKind": "calculated",
+          "basis": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+          "unit": "KRW billion",
+          "sourceLayer": "derived from Open DART account values",
+          "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit",
+          "formulaInputs": {
+            "parentNetIncome": 608.133,
+            "nonControllingInterest": 0.898,
+            "incomeTaxExpense": 213.272,
+            "insuranceProfit": 481.593
+          },
+          "sourceAccounts": {
+            "insuranceProfit": {
+              "account_nm": "보험손익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 1분기",
+              "raw_amount": "481593295456",
+              "amount_bn": 481.593
+            },
+            "parentNetIncome": {
+              "account_nm": "지배기업의 소유주에게 귀속되는 연결분기순이익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 1분기",
+              "raw_amount": "608132550479",
+              "amount_bn": 608.133
+            },
+            "nonControllingInterest": {
+              "account_nm": "비지배지분에 귀속되는 연결분기순이익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 1분기",
+              "raw_amount": "898074549",
+              "amount_bn": 0.898
+            },
+            "incomeTaxExpense": {
+              "account_nm": "법인세비용",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 1분기",
+              "raw_amount": "213272182867",
+              "amount_bn": 213.272
+            }
+          },
+          "manualAdjustment": false
+        },
+        "netIncome": {
+          "sourceType": "Open DART",
+          "rceptNo": "20250515002709",
+          "reportName": "분기보고서 (2025.03)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250515002709",
+          "valueKind": "actual",
+          "basis": "controlling_parent_consolidated_net_income",
+          "unit": "KRW billion",
+          "sourceLayer": "Open DART fnlttSinglAcntAll",
+          "account": {
+            "account_nm": "지배기업의 소유주에게 귀속되는 연결분기순이익",
+            "sj_nm": "포괄손익계산서",
+            "thstrm_nm": "제 76 기 1분기",
+            "raw_amount": "608132550479",
+            "amount_bn": 608.133
+          },
+          "manualAdjustment": false
+        },
+        "kics": {
+          "sourceType": "Open DART",
+          "rceptNo": "20250515002709",
+          "reportName": "분기보고서 (2025.03)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250515002709",
+          "valueKind": "actual",
+          "basis": "public_solvency_disclosure",
+          "unit": "percent",
+          "sourceLayer": "Open DART document.xml table",
+          "sourceTables": [
+            55
+          ],
+          "manualAdjustment": false
+        }
+      },
+      "reviewReason": "보험손익, 투자손익, 당기순이익, K-ICS 출처와 산식 메타데이터가 존재합니다.",
+      "recommendedAction": "보고 전 손익 기준과 투자손익 역산식을 확인합니다.",
+      "manualAdjustment": {
+        "applied": false,
+        "decision": null,
+        "originalValue": {
+          "insuranceProfit": 481.593,
+          "investmentProfit": 340.71,
+          "netIncome": 608.133,
+          "kics": 266.61
+        },
+        "adjustedValue": null,
+        "reviewerNote": "",
+        "reviewedBy": "",
+        "reviewedAt": ""
+      }
+    },
+    {
+      "id": "samsung-fire.2025-q2.csm_movement",
+      "company": "samsung-fire",
+      "companyName": "삼성화재",
+      "period": "2025-q2",
+      "category": "csm",
+      "metric": "csm_movement",
+      "title": "삼성화재 2025-q2 CSM Movement",
+      "status": "passed",
+      "systemStatus": "passed",
+      "severity": "info",
+      "systemSeverity": "info",
+      "systemValue": {
+        "opening": 14074,
+        "newbiz": 1421,
+        "interest": 248,
+        "adjustment": -353,
+        "amortization": -812,
+        "closing": 14578
+      },
+      "basis": "separate_financial_statement_excluding_reinsurance",
+      "sourceReference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20250814004098",
+        "reportName": "반기보고서 (2025.06)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250814004098",
+        "valueKind": "actual",
+        "basis": "separate_financial_statement_excluding_reinsurance",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART document.xml table",
+        "sourceTables": [
+          745
+        ],
+        "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+        "manualAdjustment": false
+      },
+      "reviewReason": "Movement 합계와 기말 CSM이 일치하고 출처 메타데이터가 존재합니다.",
+      "recommendedAction": "정기 리뷰 시 원문 표 번호와 Movement 합계만 재확인합니다.",
+      "manualAdjustment": {
+        "applied": false,
+        "decision": null,
+        "originalValue": {
+          "opening": 14074,
+          "newbiz": 1421,
+          "interest": 248,
+          "adjustment": -353,
+          "amortization": -812,
+          "closing": 14578
+        },
+        "adjustedValue": null,
+        "reviewerNote": "",
+        "reviewedBy": "",
+        "reviewedAt": ""
+      }
+    },
+    {
+      "id": "samsung-fire.2025-q2.financial_metrics",
+      "company": "samsung-fire",
+      "companyName": "삼성화재",
+      "period": "2025-q2",
+      "category": "profit",
+      "metric": "financial_metrics",
+      "title": "삼성화재 2025-q2 손익/K-ICS",
+      "status": "passed",
+      "systemStatus": "passed",
+      "severity": "info",
+      "systemSeverity": "info",
+      "systemValue": {
+        "insuranceProfit": 454.138,
+        "investmentProfit": 388.488,
+        "netIncome": 637.45,
+        "kics": 274.48
+      },
+      "basis": "mixed_profit_and_solvency_basis",
+      "sourceReference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20250814004098",
+        "reportName": "반기보고서 (2025.06)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250814004098",
+        "valueKind": "actual",
+        "basis": "separate_insurance_service_result",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART fnlttSinglAcntAll",
+        "account": {
+          "account_nm": "보험손익",
+          "sj_nm": "포괄손익계산서",
+          "thstrm_nm": "제 76 기 반기",
+          "raw_amount": "454137600149",
+          "amount_bn": 454.138
+        },
+        "manualAdjustment": false
+      },
+      "sourceReferences": {
+        "insuranceProfit": {
+          "sourceType": "Open DART",
+          "rceptNo": "20250814004098",
+          "reportName": "반기보고서 (2025.06)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250814004098",
+          "valueKind": "actual",
+          "basis": "separate_insurance_service_result",
+          "unit": "KRW billion",
+          "sourceLayer": "Open DART fnlttSinglAcntAll",
+          "account": {
+            "account_nm": "보험손익",
+            "sj_nm": "포괄손익계산서",
+            "thstrm_nm": "제 76 기 반기",
+            "raw_amount": "454137600149",
+            "amount_bn": 454.138
+          },
+          "manualAdjustment": false
+        },
+        "investmentProfit": {
+          "sourceType": "Open DART",
+          "rceptNo": "20250814004098",
+          "reportName": "반기보고서 (2025.06)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250814004098",
+          "valueKind": "calculated",
+          "basis": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+          "unit": "KRW billion",
+          "sourceLayer": "derived from Open DART account values",
+          "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit",
+          "formulaInputs": {
+            "parentNetIncome": 637.45,
+            "nonControllingInterest": 0.928,
+            "incomeTaxExpense": 204.248,
+            "insuranceProfit": 454.138
+          },
+          "sourceAccounts": {
+            "insuranceProfit": {
+              "account_nm": "보험손익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 반기",
+              "raw_amount": "454137600149",
+              "amount_bn": 454.138
+            },
+            "parentNetIncome": {
+              "account_nm": "지배기업의 소유주에게 귀속되는 연결반기순이익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 반기",
+              "raw_amount": "637450415176",
+              "amount_bn": 637.45
+            },
+            "nonControllingInterest": {
+              "account_nm": "비지배지분에 귀속되는 연결반기순이익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 반기",
+              "raw_amount": "928463188",
+              "amount_bn": 0.928
+            },
+            "incomeTaxExpense": {
+              "account_nm": "법인세비용",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 반기",
+              "raw_amount": "204248003787",
+              "amount_bn": 204.248
+            }
+          },
+          "manualAdjustment": false
+        },
+        "netIncome": {
+          "sourceType": "Open DART",
+          "rceptNo": "20250814004098",
+          "reportName": "반기보고서 (2025.06)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250814004098",
+          "valueKind": "actual",
+          "basis": "controlling_parent_consolidated_net_income",
+          "unit": "KRW billion",
+          "sourceLayer": "Open DART fnlttSinglAcntAll",
+          "account": {
+            "account_nm": "지배기업의 소유주에게 귀속되는 연결반기순이익",
+            "sj_nm": "포괄손익계산서",
+            "thstrm_nm": "제 76 기 반기",
+            "raw_amount": "637450415176",
+            "amount_bn": 637.45
+          },
+          "manualAdjustment": false
+        },
+        "kics": {
+          "sourceType": "Open DART",
+          "rceptNo": "20250814004098",
+          "reportName": "반기보고서 (2025.06)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250814004098",
+          "valueKind": "actual",
+          "basis": "public_solvency_disclosure",
+          "unit": "percent",
+          "sourceLayer": "Open DART document.xml table",
+          "sourceTables": [
+            79
+          ],
+          "manualAdjustment": false
+        }
+      },
+      "reviewReason": "보험손익, 투자손익, 당기순이익, K-ICS 출처와 산식 메타데이터가 존재합니다.",
+      "recommendedAction": "보고 전 손익 기준과 투자손익 역산식을 확인합니다.",
+      "manualAdjustment": {
+        "applied": false,
+        "decision": null,
+        "originalValue": {
+          "insuranceProfit": 454.138,
+          "investmentProfit": 388.488,
+          "netIncome": 637.45,
+          "kics": 274.48
+        },
+        "adjustedValue": null,
+        "reviewerNote": "",
+        "reviewedBy": "",
+        "reviewedAt": ""
+      }
+    },
+    {
+      "id": "samsung-fire.2025-q3.csm_movement",
+      "company": "samsung-fire",
+      "companyName": "삼성화재",
+      "period": "2025-q3",
+      "category": "csm",
+      "metric": "csm_movement",
+      "title": "삼성화재 2025-q3 CSM Movement",
+      "status": "passed",
+      "systemStatus": "passed",
+      "severity": "info",
+      "systemSeverity": "info",
+      "systemValue": {
+        "opening": 14074,
+        "newbiz": 2188,
+        "interest": 374,
+        "adjustment": -399,
+        "amortization": -1229,
+        "closing": 15008
+      },
+      "basis": "separate_financial_statement_excluding_reinsurance",
+      "sourceReference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20251114002900",
+        "reportName": "분기보고서 (2025.09)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002900",
+        "valueKind": "actual",
+        "basis": "separate_financial_statement_excluding_reinsurance",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART document.xml table",
+        "sourceTables": [
+          720
+        ],
+        "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+        "manualAdjustment": false
+      },
+      "reviewReason": "Movement 합계와 기말 CSM이 일치하고 출처 메타데이터가 존재합니다.",
+      "recommendedAction": "정기 리뷰 시 원문 표 번호와 Movement 합계만 재확인합니다.",
+      "manualAdjustment": {
+        "applied": false,
+        "decision": null,
+        "originalValue": {
+          "opening": 14074,
+          "newbiz": 2188,
+          "interest": 374,
+          "adjustment": -399,
+          "amortization": -1229,
+          "closing": 15008
+        },
+        "adjustedValue": null,
+        "reviewerNote": "",
+        "reviewedBy": "",
+        "reviewedAt": ""
+      }
+    },
+    {
+      "id": "samsung-fire.2025-q3.financial_metrics",
+      "company": "samsung-fire",
+      "companyName": "삼성화재",
+      "period": "2025-q3",
+      "category": "profit",
+      "metric": "financial_metrics",
+      "title": "삼성화재 2025-q3 손익/K-ICS",
+      "status": "passed",
+      "systemStatus": "passed",
+      "severity": "info",
+      "systemSeverity": "info",
+      "systemValue": {
+        "insuranceProfit": 350.546,
+        "investmentProfit": 357.028,
+        "netIncome": 537.972,
+        "kics": 275.92
+      },
+      "basis": "mixed_profit_and_solvency_basis",
+      "sourceReference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20251114002900",
+        "reportName": "분기보고서 (2025.09)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002900",
+        "valueKind": "actual",
+        "basis": "separate_insurance_service_result",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART fnlttSinglAcntAll",
+        "account": {
+          "account_nm": "보험손익",
+          "sj_nm": "포괄손익계산서",
+          "thstrm_nm": "제 76 기 3분기",
+          "raw_amount": "350545749132",
+          "amount_bn": 350.546
+        },
+        "manualAdjustment": false
+      },
+      "sourceReferences": {
+        "insuranceProfit": {
+          "sourceType": "Open DART",
+          "rceptNo": "20251114002900",
+          "reportName": "분기보고서 (2025.09)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002900",
+          "valueKind": "actual",
+          "basis": "separate_insurance_service_result",
+          "unit": "KRW billion",
+          "sourceLayer": "Open DART fnlttSinglAcntAll",
+          "account": {
+            "account_nm": "보험손익",
+            "sj_nm": "포괄손익계산서",
+            "thstrm_nm": "제 76 기 3분기",
+            "raw_amount": "350545749132",
+            "amount_bn": 350.546
+          },
+          "manualAdjustment": false
+        },
+        "investmentProfit": {
+          "sourceType": "Open DART",
+          "rceptNo": "20251114002900",
+          "reportName": "분기보고서 (2025.09)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002900",
+          "valueKind": "calculated",
+          "basis": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+          "unit": "KRW billion",
+          "sourceLayer": "derived from Open DART account values",
+          "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit",
+          "formulaInputs": {
+            "parentNetIncome": 537.972,
+            "nonControllingInterest": 0.524,
+            "incomeTaxExpense": 169.078,
+            "insuranceProfit": 350.546
+          },
+          "sourceAccounts": {
+            "insuranceProfit": {
+              "account_nm": "보험손익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 3분기",
+              "raw_amount": "350545749132",
+              "amount_bn": 350.546
+            },
+            "parentNetIncome": {
+              "account_nm": "지배기업의 소유주에게 귀속되는 연결분기순이익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 3분기",
+              "raw_amount": "537971755577",
+              "amount_bn": 537.972
+            },
+            "nonControllingInterest": {
+              "account_nm": "비지배지분에 귀속되는 연결분기순이익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 3분기",
+              "raw_amount": "524081206",
+              "amount_bn": 0.524
+            },
+            "incomeTaxExpense": {
+              "account_nm": "법인세비용",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기 3분기",
+              "raw_amount": "169078142052",
+              "amount_bn": 169.078
+            }
+          },
+          "manualAdjustment": false
+        },
+        "netIncome": {
+          "sourceType": "Open DART",
+          "rceptNo": "20251114002900",
+          "reportName": "분기보고서 (2025.09)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002900",
+          "valueKind": "actual",
+          "basis": "controlling_parent_consolidated_net_income",
+          "unit": "KRW billion",
+          "sourceLayer": "Open DART fnlttSinglAcntAll",
+          "account": {
+            "account_nm": "지배기업의 소유주에게 귀속되는 연결분기순이익",
+            "sj_nm": "포괄손익계산서",
+            "thstrm_nm": "제 76 기 3분기",
+            "raw_amount": "537971755577",
+            "amount_bn": 537.972
+          },
+          "manualAdjustment": false
+        },
+        "kics": {
+          "sourceType": "Open DART",
+          "rceptNo": "20251114002900",
+          "reportName": "분기보고서 (2025.09)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114002900",
+          "valueKind": "actual",
+          "basis": "public_solvency_disclosure",
+          "unit": "percent",
+          "sourceLayer": "Open DART document.xml table",
+          "sourceTables": [
+            55
+          ],
+          "manualAdjustment": false
+        }
+      },
+      "reviewReason": "보험손익, 투자손익, 당기순이익, K-ICS 출처와 산식 메타데이터가 존재합니다.",
+      "recommendedAction": "보고 전 손익 기준과 투자손익 역산식을 확인합니다.",
+      "manualAdjustment": {
+        "applied": false,
+        "decision": null,
+        "originalValue": {
+          "insuranceProfit": 350.546,
+          "investmentProfit": 357.028,
+          "netIncome": 537.972,
+          "kics": 275.92
+        },
+        "adjustedValue": null,
+        "reviewerNote": "",
+        "reviewedBy": "",
+        "reviewedAt": ""
+      }
+    },
+    {
+      "id": "samsung-fire.2025-q4.csm_movement",
+      "company": "samsung-fire",
+      "companyName": "삼성화재",
+      "period": "2025-q4",
+      "category": "csm",
+      "metric": "csm_movement",
+      "title": "삼성화재 2025-q4 CSM Movement",
+      "status": "passed",
+      "systemStatus": "passed",
+      "severity": "info",
+      "systemSeverity": "info",
+      "systemValue": {
+        "opening": 14074,
+        "newbiz": 2898,
+        "interest": 502,
+        "adjustment": -1685,
+        "amortization": -1621,
+        "closing": 14168
+      },
+      "basis": "separate_financial_statement_excluding_reinsurance",
+      "sourceReference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20260312001399",
+        "reportName": "사업보고서 (2025.12)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001399",
+        "valueKind": "actual",
+        "basis": "separate_financial_statement_excluding_reinsurance",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART document.xml table",
+        "sourceTables": [
+          479,
+          481
+        ],
+        "formula": "closing = opening + newbiz + interest + adjustment + amortization",
+        "manualAdjustment": false
+      },
+      "reviewReason": "Movement 합계와 기말 CSM이 일치하고 출처 메타데이터가 존재합니다.",
+      "recommendedAction": "정기 리뷰 시 원문 표 번호와 Movement 합계만 재확인합니다.",
+      "manualAdjustment": {
+        "applied": false,
+        "decision": null,
+        "originalValue": {
+          "opening": 14074,
+          "newbiz": 2898,
+          "interest": 502,
+          "adjustment": -1685,
+          "amortization": -1621,
+          "closing": 14168
+        },
+        "adjustedValue": null,
+        "reviewerNote": "",
+        "reviewedBy": "",
+        "reviewedAt": ""
+      }
+    },
+    {
+      "id": "samsung-fire.2025-q4.financial_metrics",
+      "company": "samsung-fire",
+      "companyName": "삼성화재",
+      "period": "2025-q4",
+      "category": "profit",
+      "metric": "financial_metrics",
+      "title": "삼성화재 2025-q4 손익/K-ICS",
+      "status": "passed",
+      "systemStatus": "passed",
+      "severity": "info",
+      "systemSeverity": "info",
+      "systemValue": {
+        "insuranceProfit": 1446.696,
+        "investmentProfit": 1336.614,
+        "netIncome": 2018.286,
+        "kics": 262.87
+      },
+      "basis": "mixed_profit_and_solvency_basis",
+      "sourceReference": {
+        "sourceType": "Open DART",
+        "rceptNo": "20260312001399",
+        "reportName": "사업보고서 (2025.12)",
+        "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001399",
+        "valueKind": "actual",
+        "basis": "separate_insurance_service_result",
+        "unit": "KRW billion",
+        "sourceLayer": "Open DART fnlttSinglAcntAll",
+        "account": {
+          "account_nm": "보험손익",
+          "sj_nm": "포괄손익계산서",
+          "thstrm_nm": "제 76 기",
+          "raw_amount": "1446696251285",
+          "amount_bn": 1446.696
+        },
+        "manualAdjustment": false
+      },
+      "sourceReferences": {
+        "insuranceProfit": {
+          "sourceType": "Open DART",
+          "rceptNo": "20260312001399",
+          "reportName": "사업보고서 (2025.12)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001399",
+          "valueKind": "actual",
+          "basis": "separate_insurance_service_result",
+          "unit": "KRW billion",
+          "sourceLayer": "Open DART fnlttSinglAcntAll",
+          "account": {
+            "account_nm": "보험손익",
+            "sj_nm": "포괄손익계산서",
+            "thstrm_nm": "제 76 기",
+            "raw_amount": "1446696251285",
+            "amount_bn": 1446.696
+          },
+          "manualAdjustment": false
+        },
+        "investmentProfit": {
+          "sourceType": "Open DART",
+          "rceptNo": "20260312001399",
+          "reportName": "사업보고서 (2025.12)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001399",
+          "valueKind": "calculated",
+          "basis": "separate_investment_profit_plus_non_operating_and_consolidation_effect",
+          "unit": "KRW billion",
+          "sourceLayer": "derived from Open DART account values",
+          "formula": "parentNetIncome + nonControllingInterest + incomeTaxExpense - insuranceProfit",
+          "formulaInputs": {
+            "parentNetIncome": 2018.286,
+            "nonControllingInterest": 2.001,
+            "incomeTaxExpense": 763.023,
+            "insuranceProfit": 1446.696
+          },
+          "sourceAccounts": {
+            "insuranceProfit": {
+              "account_nm": "보험손익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기",
+              "raw_amount": "1446696251285",
+              "amount_bn": 1446.696
+            },
+            "parentNetIncome": {
+              "account_nm": "지배기업의 소유주에게 귀속되는 연결당기순이익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기",
+              "raw_amount": "2018286152118",
+              "amount_bn": 2018.286
+            },
+            "nonControllingInterest": {
+              "account_nm": "비지배지분에 귀속되는 연결당기순이익",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기",
+              "raw_amount": "2000980137",
+              "amount_bn": 2.001
+            },
+            "incomeTaxExpense": {
+              "account_nm": "법인세비용",
+              "sj_nm": "포괄손익계산서",
+              "thstrm_nm": "제 76 기",
+              "raw_amount": "763022766199",
+              "amount_bn": 763.023
+            }
+          },
+          "manualAdjustment": false
+        },
+        "netIncome": {
+          "sourceType": "Open DART",
+          "rceptNo": "20260312001399",
+          "reportName": "사업보고서 (2025.12)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001399",
+          "valueKind": "actual",
+          "basis": "controlling_parent_consolidated_net_income",
+          "unit": "KRW billion",
+          "sourceLayer": "Open DART fnlttSinglAcntAll",
+          "account": {
+            "account_nm": "지배기업의 소유주에게 귀속되는 연결당기순이익",
+            "sj_nm": "포괄손익계산서",
+            "thstrm_nm": "제 76 기",
+            "raw_amount": "2018286152118",
+            "amount_bn": 2018.286
+          },
+          "manualAdjustment": false
+        },
+        "kics": {
+          "sourceType": "Open DART",
+          "rceptNo": "20260312001399",
+          "reportName": "사업보고서 (2025.12)",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001399",
+          "valueKind": "actual",
+          "basis": "public_solvency_disclosure",
+          "unit": "percent",
+          "sourceLayer": "Open DART document.xml table",
+          "sourceTables": [
+            87
+          ],
+          "manualAdjustment": false
+        }
+      },
+      "reviewReason": "보험손익, 투자손익, 당기순이익, K-ICS 출처와 산식 메타데이터가 존재합니다.",
+      "recommendedAction": "보고 전 손익 기준과 투자손익 역산식을 확인합니다.",
+      "manualAdjustment": {
+        "applied": false,
+        "decision": null,
+        "originalValue": {
+          "insuranceProfit": 1446.696,
+          "investmentProfit": 1336.614,
+          "netIncome": 2018.286,
+          "kics": 262.87
+        },
+        "adjustedValue": null,
+        "reviewerNote": "",
+        "reviewedBy": "",
+        "reviewedAt": ""
+      }
+    }
+  ]
+}
