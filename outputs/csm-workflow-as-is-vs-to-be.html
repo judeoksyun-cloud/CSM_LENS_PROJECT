@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>보험업계 CSM 분석 업무 재설계</title>
+    <style>
+      :root {
+        --bg: #f5f3ef;
+        --panel: #fffdf9;
+        --line: #ddd3c5;
+        --ink: #1f2a37;
+        --muted: #667085;
+        --asis-accent: #c96e48;
+        --asis-soft: #fff4ee;
+        --tobe-accent: #416a97;
+        --tobe-soft: #eef4fb;
+        --ok-accent: #5c8a72;
+        --summary-soft: #f8f5ef;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+      }
+
+      .frame {
+        width: 2400px;
+        min-height: 1350px;
+        margin: 0 auto;
+        padding: 56px 64px 44px;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(247, 244, 238, 0.96)),
+          var(--bg);
+      }
+
+      .header {
+        display: grid;
+        gap: 10px;
+        margin-bottom: 28px;
+      }
+
+      .eyebrow {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #8b7554;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 44px;
+        line-height: 1.15;
+        color: #17212f;
+      }
+
+      .subtitle {
+        margin: 0;
+        font-size: 24px;
+        color: var(--muted);
+      }
+
+      .summary-lead {
+        margin: 0;
+        max-width: 1900px;
+        font-size: 24px;
+        line-height: 1.55;
+        color: #445164;
+      }
+
+      .compare-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 26px;
+        align-items: start;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--panel);
+        padding: 26px 24px 22px;
+        box-shadow: 0 12px 28px rgba(28, 37, 52, 0.05);
+      }
+
+      .panel.asis {
+        background: linear-gradient(180deg, rgba(255, 244, 238, 0.7), rgba(255, 253, 249, 0.98));
+      }
+
+      .panel.tobe {
+        background: linear-gradient(180deg, rgba(238, 244, 251, 0.84), rgba(255, 253, 249, 0.98));
+      }
+
+      .panel-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 14px;
+      }
+
+      .panel-title-wrap {
+        display: grid;
+        gap: 6px;
+      }
+
+      .panel-kicker {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .asis .panel-kicker {
+        color: var(--asis-accent);
+      }
+
+      .tobe .panel-kicker {
+        color: var(--tobe-accent);
+      }
+
+      .panel h2 {
+        margin: 0;
+        font-size: 34px;
+        line-height: 1.15;
+      }
+
+      .panel-note {
+        display: inline-flex;
+        align-items: center;
+        min-height: 36px;
+        padding: 0 14px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: #fff;
+        font-size: 17px;
+        font-weight: 700;
+        color: #475467;
+      }
+
+      .mermaid-card {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.92);
+        padding: 10px 12px 8px;
+      }
+
+      .diagram-slot {
+        width: 100%;
+        min-height: 710px;
+      }
+
+      .legend {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .legend-item {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px 14px;
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      .legend-item strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 18px;
+      }
+
+      .legend-item p {
+        margin: 0;
+        font-size: 17px;
+        line-height: 1.45;
+        color: #526070;
+      }
+
+      .compare-summary {
+        margin-top: 26px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--summary-soft);
+        padding: 22px 22px 18px;
+      }
+
+      .compare-summary h3 {
+        margin: 0 0 16px;
+        font-size: 30px;
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: 220px 1fr 1fr;
+        gap: 10px;
+      }
+
+      .summary-head,
+      .summary-cell {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px 16px;
+        background: rgba(255, 255, 255, 0.88);
+      }
+
+      .summary-head {
+        font-size: 18px;
+        font-weight: 800;
+        color: #344054;
+      }
+
+      .summary-cell {
+        font-size: 18px;
+        line-height: 1.45;
+        color: #475467;
+      }
+
+      .summary-cell strong {
+        color: #1f2937;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="frame">
+      <section class="header">
+        <p class="eyebrow">Consulting Workflow Redesign</p>
+        <h1>보험업계 CSM 분석 업무 재설계</h1>
+        <p class="subtitle">AS-IS vs TO-BE Workflow</p>
+        <p class="summary-lead">
+          기존에는 공시 탐색, 표 해석, 기준 정렬, 엑셀 재가공, 보고자료 재편집이 사람 중심으로
+          반복되며 질문이나 정정공시가 생길 때마다 원문과 엑셀을 다시 오가는 재작업이 컸다.
+          CSM Lens system은 이를 수집·파싱·정규화·검산·리뷰 파이프라인으로 묶어, 실무자는
+          수집 노동보다 검토와 해석에 집중하고 리더와 임원은 검증된 요약을 더 빠르게 활용하게 한다.
+        </p>
+      </section>
+
+      <section class="compare-grid">
+        <article class="panel asis">
+          <div class="panel-head">
+            <div class="panel-title-wrap">
+              <p class="panel-kicker">AS-IS</p>
+              <h2>기존 업무방식</h2>
+            </div>
+            <span class="panel-note">병목과 재작업 반복</span>
+          </div>
+          <div class="mermaid-card">
+            <div class="mermaid diagram-slot" id="asis-diagram"></div>
+          </div>
+          <div class="legend">
+            <div class="legend-item">
+              <strong>핵심 병목</strong>
+              <p>공시 위치 탐색, 표 구조 상이, 단위·기준 혼선</p>
+            </div>
+            <div class="legend-item">
+              <strong>반복 작업</strong>
+              <p>엑셀 재가공, Peer 비교표 재작성, 보고자료 재편집</p>
+            </div>
+            <div class="legend-item">
+              <strong>재작업 루프</strong>
+              <p>질문 대응, 오류 수정, 정정공시 반영 때 앞 단계로 회귀</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel tobe">
+          <div class="panel-head">
+            <div class="panel-title-wrap">
+              <p class="panel-kicker">TO-BE</p>
+              <h2>CSM Lens system 기반</h2>
+            </div>
+            <span class="panel-note">검산 가능한 파이프라인</span>
+          </div>
+          <div class="mermaid-card">
+            <div class="mermaid diagram-slot" id="tobe-diagram"></div>
+          </div>
+          <div class="legend">
+            <div class="legend-item">
+              <strong>자동화 지점</strong>
+              <p>Open DART 수집, 후보 표 탐지, 표준 매핑, 기준 정규화</p>
+            </div>
+            <div class="legend-item">
+              <strong>신뢰 장치</strong>
+              <p>검산 규칙, 휴먼리뷰 큐, 출처·기준·검산상태 유지</p>
+            </div>
+            <div class="legend-item">
+              <strong>활용 확장</strong>
+              <p>대시보드, 시장 비교, 전망, AI 해설을 같은 기준으로 연결</p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="compare-summary">
+        <h3>업무 재설계 비교 요약</h3>
+        <div class="summary-grid">
+          <div class="summary-head">비교 항목</div>
+          <div class="summary-head">AS-IS</div>
+          <div class="summary-head">TO-BE</div>
+
+          <div class="summary-cell"><strong>사람의 역할</strong></div>
+          <div class="summary-cell">수집·정리·가공·보고자료 작성까지 대부분 수작업</div>
+          <div class="summary-cell">예외 검토, 해석, 휴먼리뷰, 보고 메시지 정교화 중심</div>
+
+          <div class="summary-cell"><strong>반복작업량</strong></div>
+          <div class="summary-cell">공시 탐색과 엑셀 재가공 반복</div>
+          <div class="summary-cell">자동 수집·탐지·매핑으로 반복작업 대폭 축소</div>
+
+          <div class="summary-cell"><strong>재작업 발생지점</strong></div>
+          <div class="summary-cell">질문·오류·정정공시 때 앞 단계 전체를 다시 손봄</div>
+          <div class="summary-cell">검산과 휴먼리뷰 단계로 재작업을 국소화</div>
+
+          <div class="summary-cell"><strong>출처 추적성</strong></div>
+          <div class="summary-cell">원문과 엑셀을 다시 오가며 수기 확인</div>
+          <div class="summary-cell">공시 링크, 기준, 검산상태가 결과물에 함께 남음</div>
+
+          <div class="summary-cell"><strong>검증 가능성</strong></div>
+          <div class="summary-cell">사람 기억과 개별 파일 관리에 의존</div>
+          <div class="summary-cell">규칙 검산 + 휴먼리뷰 기반의 신뢰 가능한 흐름</div>
+
+          <div class="summary-cell"><strong>보고 대응 속도</strong></div>
+          <div class="summary-cell">보고자료 재편집 후 질문 대응에 시간 소요</div>
+          <div class="summary-cell">대시보드 / 비교 / 전망 / AI 해설로 즉시 대응</div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+
+      const asis = String.raw`flowchart TB
+    subgraph L1["실무자"]
+        direction TB
+        A1["공시 탐색<br/>사업·반기·분기보고서 수기 검색"]
+        A2["CSM 주석 수기 확인<br/>표 위치 직접 탐색"]
+        A3["보험사별 표 해석<br/>단위·기준·재보험 제외 여부 수기 정렬"]
+        A4["엑셀 재가공<br/>표준화 · 증감분 계산 · Peer 비교표 작성"]
+        A5["보고자료 재편집<br/>표와 문구를 별도 재작성"]
+        A1 --> A2 --> A3 --> A4 --> A5
+    end
+    subgraph L2["검증 / 리뷰"]
+        direction TB
+        B1["질문·오류 대응<br/>원문 공시와 엑셀 재확인"]
+        B2["정정공시 / 기준 혼선 발생<br/>앞 단계 재작업"]
+    end
+    subgraph L3["리더 / 임원 활용"]
+        direction TB
+        C1["보고 검토 및 추가 질문<br/>출처·기준 재확인 요청"]
+    end
+    A5 --> C1
+    C1 -. 추가 질문 .-> B1
+    B1 -. 엑셀 수정 후 재보고 .-> A4
+    B2 -. 정정공시 반영 .-> A3
+    classDef work fill:#FFF4EE,stroke:#D27C52,color:#4E3427,stroke-width:1px;
+    classDef pain fill:#FFF1EB,stroke:#C95F38,color:#7A2E19,stroke-width:1px;
+    classDef leader fill:#F8F9FB,stroke:#A7B0BE,color:#394150,stroke-width:1px;
+    class A1,A2,A3,A4,A5 work;
+    class B1,B2 pain;
+    class C1 leader;`;
+
+      const tobe = String.raw`flowchart TB
+    subgraph L1["실무자"]
+        direction TB
+        A1["회사·분기 선택<br/>실행 대상 지정"]
+    end
+    subgraph SYS["CSM Lens system"]
+        direction TB
+        B1["Open DART 수집<br/>공시 원문·재무 메타 확보"]
+        B2["CSM 후보 표 탐지<br/>보험사별 주석 구조 자동 식별"]
+        B3["Movement 표준 매핑<br/>손익 / K-ICS 기준 정규화"]
+        B4["검산 규칙 적용<br/>기시·기말·합계·기준 일치 확인"]
+        B5["휴먼리뷰 큐 분리<br/>검토 필요 항목만 예외 처리"]
+        B6["검증된 Snapshot 생성<br/>출처·기준·검산상태 유지"]
+        B1 --> B2 --> B3 --> B4 --> B5 --> B6
+    end
+    subgraph L3["리더 / 임원 활용"]
+        direction TB
+        C1["대시보드 반영<br/>보유 CSM · 손익 · K-ICS 즉시 확인"]
+        C2["시장 비교 / 전망 / AI 해설<br/>자연어 질의응답과 해석 보조"]
+        C3["검증된 요약 활용<br/>경고 신호와 차이 원인 빠른 파악"]
+        C1 --> C2 --> C3
+    end
+    A1 --> B1
+    B6 --> C1
+    classDef work fill:#F3F8F5,stroke:#5C8A72,color:#1F3B2F,stroke-width:1px;
+    classDef system fill:#EEF4FB,stroke:#5477A8,color:#213A5B,stroke-width:1px;
+    classDef leader fill:#F6FAF7,stroke:#7BA18D,color:#244636,stroke-width:1px;
+    class A1 work;
+    class B1,B2,B3,B4,B5,B6 system;
+    class C1,C2,C3 leader;`;
+
+      mermaid.initialize({
+        startOnLoad: false,
+        securityLevel: "loose",
+        theme: "base",
+        flowchart: {
+          htmlLabels: true,
+          curve: "basis",
+          nodeSpacing: 28,
+          rankSpacing: 42,
+          padding: 18,
+          useMaxWidth: true
+        },
+        themeVariables: {
+          fontFamily: "Segoe UI, Apple SD Gothic Neo, Noto Sans KR, sans-serif",
+          primaryTextColor: "#1f2a37",
+          lineColor: "#8f7c67",
+          clusterBorder: "#d9cfbf",
+          clusterBkg: "#fffdfa",
+          tertiaryColor: "#fffdfa",
+          fontSize: "18px"
+        }
+      });
+
+      async function renderOne(id, graph) {
+        const { svg } = await mermaid.render(`${id}-svg`, graph);
+        document.getElementById(id).innerHTML = svg;
+      }
+
+      await renderOne("asis-diagram", asis);
+      await renderOne("tobe-diagram", tobe);
+      document.body.setAttribute("data-rendered", "true");
+    </script>
+  </body>
+</html>

@@ -3,12 +3,12 @@
     ? structuredClone
     : (value) => JSON.parse(JSON.stringify(value));
 
-const agentDashboardData =
+let agentDashboardData =
   typeof window !== "undefined" ? window.CSM_AGENT_DATA ?? {} : {};
 
-const sampleData = cloneData(agentDashboardData.sampleData ?? {});
-const financialMetrics = cloneData(agentDashboardData.financialMetrics ?? {});
-const reviewItems = agentDashboardData.reviewItems ?? [];
+let sampleData = cloneData(agentDashboardData.sampleData ?? {});
+let financialMetrics = cloneData(agentDashboardData.financialMetrics ?? {});
+let reviewItems = cloneData(agentDashboardData.reviewItems ?? []);
 
 function normalizeMovementOpeningBasis(data) {
   Object.values(data).forEach((company) => {
@@ -99,6 +99,13 @@ const forecastScenarios = {
 
 const companySelect = document.querySelector("#company-select");
 const periodSelect = document.querySelector("#period-select");
+const agentRunButton = document.querySelector("#agent-run-button");
+const agentRunTimeline = document.querySelector("#agent-timeline");
+const agentRunLiveStatus = document.querySelector("#agent-run-live-status");
+const agentLastRunAt = document.querySelector("#agent-last-run-at");
+const agentLastRunResult = document.querySelector("#agent-last-run-result");
+const agentRunNote = document.querySelector("#agent-run-note");
+const agentSnapshotKind = document.querySelector("#agent-snapshot-kind");
 const scenarioSelect = document.querySelector("#scenario-select");
 const marketSortSelect = document.querySelector("#market-sort-select");
 const marketFilterSelect = document.querySelector("#market-filter-select");
@@ -127,7 +134,15 @@ const companySubtabPanels = [
 
 const topLevelTabs = ["overview", "company-analysis", "market", "forecast", "quality"];
 const companySubtabs = ["movement", "profit", "portfolio", "trend"];
-const supportedCompanies = Object.keys(sampleData);
+let supportedCompanies = Object.keys(sampleData);
+
+const agentStageOrder = [
+  { key: "dart_ingestion", label: "DART 수집" },
+  { key: "csm_parsing", label: "CSM 파싱" },
+  { key: "movement_mapping", label: "Movement 매핑" },
+  { key: "validation", label: "검산" },
+  { key: "human_review", label: "휴먼리뷰" },
+];
 
 if (!supportedCompanies.length) {
   throw new Error("CSM dashboard data is not available.");
@@ -136,6 +151,9 @@ if (!supportedCompanies.length) {
 if (!supportedCompanies.includes(companySelect.value)) {
   companySelect.value = supportedCompanies[0];
 }
+
+syncCompanyOptions(companySelect.value);
+syncPeriodOptions(companySelect.value, periodSelect.value);
 
 const tabAiContexts = {
   overview: {
@@ -194,6 +212,17 @@ const state = {
   activeTab: parseHashTab(window.location.hash),
   activeCompanySubtab: "movement",
   aiOpen: false,
+  agentRun: {
+    runId: null,
+    status: "idle",
+    selectedCompany: null,
+    selectedPeriod: null,
+    stages: createDefaultAgentStages(),
+    lastUpdatedAt: null,
+    failureReason: null,
+    snapshotAppliedRunId: null,
+    pollTimer: null,
+  },
 };
 
 let aiConversation = [];
@@ -258,6 +287,80 @@ function getSelectedPeriodLabel() {
     periodSelect?.options?.[periodSelect.selectedIndex]?.text ??
     getPeriodLabel(periodSelect.value)
   );
+}
+
+function createDefaultAgentStages() {
+  return agentStageOrder.map((stage) => ({
+    key: stage.key,
+    label: stage.label,
+    status: "idle",
+    message: "실행 대기",
+    startedAt: null,
+    finishedAt: null,
+  }));
+}
+
+function getDashboardDataKind() {
+  return agentDashboardData.sourcePolicy ? "actual" : "sample";
+}
+
+function syncCompanyOptions(preferredCompanyKey = companySelect.value) {
+  if (!companySelect) return;
+
+  companySelect.innerHTML = supportedCompanies
+    .map((companyKey) => {
+      const companyName = sampleData[companyKey]?.name ?? companyKey;
+      return `<option value="${companyKey}">${companyName}</option>`;
+    })
+    .join("");
+
+  companySelect.value = supportedCompanies.includes(preferredCompanyKey)
+    ? preferredCompanyKey
+    : supportedCompanies[0];
+}
+
+function syncPeriodOptions(companyKey, preferredPeriodKey = periodSelect.value) {
+  if (!periodSelect) return;
+
+  const company = sampleData[companyKey];
+  const sortedPeriods = getSortedPeriodKeys(company).reverse();
+
+  periodSelect.innerHTML = sortedPeriods
+    .map((periodKey) => `<option value="${periodKey}">${getPeriodLabel(periodKey)}</option>`)
+    .join("");
+
+  periodSelect.value = sortedPeriods.includes(preferredPeriodKey)
+    ? preferredPeriodKey
+    : sortedPeriods[0];
+}
+
+function applyDashboardSnapshot(snapshot, options = {}) {
+  if (!snapshot?.sampleData || !snapshot?.financialMetrics) {
+    return false;
+  }
+
+  agentDashboardData = {
+    ...agentDashboardData,
+    ...snapshot,
+  };
+
+  sampleData = cloneData(snapshot.sampleData);
+  financialMetrics = cloneData(snapshot.financialMetrics);
+  reviewItems = cloneData(snapshot.reviewItems ?? []);
+  normalizeMovementOpeningBasis(sampleData);
+  applyInvestmentProfitFormula(financialMetrics);
+  supportedCompanies = Object.keys(sampleData);
+
+  if (!supportedCompanies.length) {
+    return false;
+  }
+
+  const nextCompanyKey = supportedCompanies.includes(options.companyKey)
+    ? options.companyKey
+    : getCurrentCompanyKey();
+  syncCompanyOptions(nextCompanyKey);
+  syncPeriodOptions(companySelect.value, options.periodKey);
+  return true;
 }
 
 function getCurrentCompanyKey() {
@@ -487,20 +590,28 @@ function renderOverview() {
 
 function renderCompanySummary() {
   const { company, period, financial } = getCurrentData();
+  const statusChip = document.querySelector("#company-analysis-status-chip");
+  const companyTitle = document.querySelector("#company-analysis-company");
+  const companySummary = document.querySelector("#company-analysis-summary");
+  const companyPeriod = document.querySelector("#company-analysis-period");
+  const companyQualityNote = document.querySelector("#company-analysis-quality-note");
+  const companyMetricGrid = document.querySelector("#company-metric-grid");
 
-  document.querySelector("#company-analysis-status-chip").textContent = period.quality;
-  document.querySelector("#company-analysis-company").textContent =
-    `${company.name} · ${company.type}`;
-  document.querySelector("#company-analysis-summary").textContent = period.summary;
-  document.querySelector("#company-analysis-period").textContent =
-    getSelectedPeriodLabel();
-  document.querySelector("#company-analysis-quality-note").textContent =
-    `${financial.profitScope} | CSM ${financial.csmScope}`;
+  if (!statusChip && !companyTitle && !companySummary && !companyPeriod && !companyQualityNote) {
+    return;
+  }
 
-  renderMetricGrid(
-    document.querySelector("#company-metric-grid"),
-    buildMetricItems(company, period, financial),
-  );
+  if (statusChip) statusChip.textContent = period.quality;
+  if (companyTitle) companyTitle.textContent = `${company.name} · ${company.type}`;
+  if (companySummary) companySummary.textContent = period.summary;
+  if (companyPeriod) companyPeriod.textContent = getSelectedPeriodLabel();
+  if (companyQualityNote) {
+    companyQualityNote.textContent = `${financial.profitScope} | CSM ${financial.csmScope}`;
+  }
+
+  if (companyMetricGrid) {
+    renderMetricGrid(companyMetricGrid, buildMetricItems(company, period, financial));
+  }
 }
 
 function formatReviewStatus(status) {
@@ -1871,6 +1982,250 @@ function buildLocalAiResponse({
   };
 }
 
+function formatAgentStatusLabel(status) {
+  const labels = {
+    idle: "대기",
+    running: "실행 중",
+    completed: "완료",
+    needs_review: "검토 필요",
+    failed: "실패",
+    not_required: "검토 없음",
+  };
+
+  return labels[status] ?? status;
+}
+
+function formatAgentTimestamp(value) {
+  if (!value) return "-";
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "-";
+
+  return new Intl.DateTimeFormat("ko-KR", {
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(date);
+}
+
+function setAgentControlLock(isLocked) {
+  companySelect.disabled = isLocked;
+  periodSelect.disabled = isLocked;
+  if (agentRunButton) {
+    agentRunButton.disabled = isLocked;
+    agentRunButton.textContent = isLocked ? "실행 중..." : "에이전트 실행";
+  }
+}
+
+function renderAgentTimeline() {
+  if (!agentRunTimeline) return;
+
+  agentRunTimeline.innerHTML = state.agentRun.stages
+    .map((stage) => {
+      return `
+        <article class="agent-stage" data-status="${stage.status}">
+          <div class="agent-stage-head">
+            <strong class="agent-stage-title">${stage.label}</strong>
+            <span class="agent-stage-status">${formatAgentStatusLabel(stage.status)}</span>
+          </div>
+          <p class="agent-stage-message">${stage.message || "실행 대기"}</p>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function renderAgentRunState() {
+  if (agentRunLiveStatus) {
+    agentRunLiveStatus.dataset.status = state.agentRun.status;
+    agentRunLiveStatus.textContent = formatAgentStatusLabel(state.agentRun.status);
+  }
+
+  if (agentSnapshotKind) {
+    const dataKind = getDashboardDataKind();
+    agentSnapshotKind.dataset.kind = dataKind;
+    agentSnapshotKind.textContent = dataKind === "actual" ? "실데이터" : "실데이터 아님";
+  }
+
+  if (agentLastRunAt) {
+    agentLastRunAt.textContent = `마지막 실행 ${formatAgentTimestamp(state.agentRun.lastUpdatedAt)}`;
+  }
+
+  if (agentLastRunResult) {
+    const finalStage = state.agentRun.stages.at(-1);
+    let resultText = "마지막 결과 -";
+
+    if (state.agentRun.status === "running") {
+      resultText = "마지막 결과 자동 단계 진행 중";
+    } else if (state.agentRun.status === "completed") {
+      resultText =
+        finalStage?.status === "needs_review"
+          ? "마지막 결과 검산 완료 · 휴먼리뷰 검토 필요"
+          : "마지막 결과 검산 완료 · 휴먼리뷰 없음";
+    } else if (state.agentRun.status === "failed") {
+      resultText = "마지막 결과 검산 실패";
+    }
+
+    agentLastRunResult.textContent = resultText;
+  }
+
+  if (agentRunNote) {
+    agentRunNote.textContent =
+      state.agentRun.failureReason ||
+      "실행 실패 시 마지막 검증 완료 스냅샷은 유지되고, 단계 상태와 실패 사유만 갱신됩니다.";
+  }
+
+  setAgentControlLock(state.agentRun.status === "running");
+  renderAgentTimeline();
+}
+
+function setAgentRunState(nextState) {
+  const defaultStages = createDefaultAgentStages();
+  state.agentRun = {
+    ...state.agentRun,
+    ...nextState,
+    stages: nextState.stages ?? state.agentRun.stages ?? defaultStages,
+  };
+  renderAgentRunState();
+}
+
+function clearAgentRunPolling() {
+  if (state.agentRun.pollTimer) {
+    window.clearTimeout(state.agentRun.pollTimer);
+  }
+  state.agentRun.pollTimer = null;
+}
+
+function buildAgentRunHint(message) {
+  if (window.location.port !== "8766") {
+    return `${message} 에이전트 실행은 preview server origin에서만 동작합니다. http://127.0.0.1:8766/csm-prototype/index.html 로 열어주세요.`;
+  }
+
+  return message;
+}
+
+async function requestJson(endpoint, options = {}) {
+  const response = await fetch(endpoint, options);
+  const rawText = await response.text();
+  let payload = null;
+
+  try {
+    payload = rawText ? JSON.parse(rawText) : {};
+  } catch {
+    payload = { message: rawText };
+  }
+
+  if (!response.ok) {
+    const message = payload?.message || payload?.error || `Request failed (${response.status})`;
+    throw new Error(buildAgentRunHint(message));
+  }
+
+  return payload;
+}
+
+function applyAgentSnapshotIfReady(response) {
+  const validationStage = response.stages?.find((stage) => stage.key === "validation");
+  const snapshotReady =
+    validationStage?.status === "completed" && response.snapshot && response.runId;
+
+  if (!snapshotReady || state.agentRun.snapshotAppliedRunId === response.runId) {
+    return;
+  }
+
+  const applied = applyDashboardSnapshot(response.snapshot, {
+    companyKey: response.selectedCompany,
+    periodKey: response.selectedPeriod,
+  });
+
+  if (!applied) return;
+
+  state.agentRun.snapshotAppliedRunId = response.runId;
+  renderDashboard();
+}
+
+function consumeAgentRunResponse(response) {
+  applyAgentSnapshotIfReady(response);
+  setAgentRunState({
+    runId: response.runId,
+    status: response.status,
+    selectedCompany: response.selectedCompany,
+    selectedPeriod: response.selectedPeriod,
+    stages: response.stages ?? createDefaultAgentStages(),
+    lastUpdatedAt: response.updatedAt ?? new Date().toISOString(),
+    failureReason: response.failureReason ?? null,
+    snapshotAppliedRunId: state.agentRun.snapshotAppliedRunId,
+  });
+}
+
+async function pollAgentRun(runId) {
+  try {
+    const response = await requestJson(`/api/agent/run/${encodeURIComponent(runId)}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    consumeAgentRunResponse(response);
+
+    if (response.status === "running") {
+      state.agentRun.pollTimer = window.setTimeout(() => {
+        void pollAgentRun(runId);
+      }, 500);
+      return;
+    }
+
+    clearAgentRunPolling();
+  } catch (error) {
+    clearAgentRunPolling();
+    setAgentRunState({
+      status: "failed",
+      failureReason: String(error?.message ?? error),
+      lastUpdatedAt: new Date().toISOString(),
+    });
+  }
+}
+
+async function startAgentRun() {
+  clearAgentRunPolling();
+  setAgentRunState({
+    runId: null,
+    status: "running",
+    selectedCompany: companySelect.value,
+    selectedPeriod: periodSelect.value,
+    stages: createDefaultAgentStages(),
+    failureReason: null,
+    lastUpdatedAt: new Date().toISOString(),
+    snapshotAppliedRunId: null,
+  });
+
+  try {
+    const response = await requestJson("/api/agent/run", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        companyKey: companySelect.value,
+        periodKey: periodSelect.value,
+      }),
+    });
+
+    consumeAgentRunResponse(response);
+    await pollAgentRun(response.runId);
+  } catch (error) {
+    clearAgentRunPolling();
+    setAgentRunState({
+      status: "failed",
+      stages: createDefaultAgentStages(),
+      failureReason: String(error?.message ?? error),
+      lastUpdatedAt: new Date().toISOString(),
+    });
+  }
+}
+
 async function requestAiResponse(endpoint, payload, fallbackFactory) {
   try {
     const response = await fetch(endpoint, {
@@ -1988,7 +2343,9 @@ function applyTopLevelTabState() {
   });
 
   tabPanels.forEach((panel) => {
-    panel.hidden = panel.dataset.tabPanel !== state.activeTab;
+    const isActive = panel.dataset.tabPanel === state.activeTab;
+    panel.dataset.activePanel = String(isActive);
+    panel.hidden = !isActive;
   });
 }
 
@@ -2000,7 +2357,9 @@ function applyCompanySubtabState() {
   });
 
   companySubtabPanels.forEach((panel) => {
-    panel.hidden = panel.dataset.companySubtabPanel !== state.activeCompanySubtab;
+    const isActive = panel.dataset.companySubtabPanel === state.activeCompanySubtab;
+    panel.dataset.activeSubpanel = String(isActive);
+    panel.hidden = !isActive;
   });
 }
 
@@ -2036,6 +2395,7 @@ function setAiDrawerOpen(isOpen) {
 
   aiDrawer.dataset.open = String(state.aiOpen);
   aiDrawer.setAttribute("aria-hidden", String(!state.aiOpen));
+  aiOverlay.dataset.open = String(state.aiOpen);
   aiOverlay.hidden = !state.aiOpen;
   document.body.classList.toggle("ai-drawer-open", state.aiOpen);
 }
@@ -2058,10 +2418,12 @@ function renderDashboard() {
   applyTopLevelTabState();
   applyCompanySubtabState();
   renderAiThread();
+  renderAgentRunState();
   void refreshAiInsights();
 }
 
 companySelect.addEventListener("change", () => {
+  syncPeriodOptions(companySelect.value, periodSelect.value);
   renderDashboard();
 });
 
@@ -2094,6 +2456,9 @@ aiChatForm?.addEventListener("submit", submitAiChat);
 aiDrawerButton?.addEventListener("click", () => setAiDrawerOpen(true));
 aiCloseButton?.addEventListener("click", () => setAiDrawerOpen(false));
 aiOverlay?.addEventListener("click", () => setAiDrawerOpen(false));
+agentRunButton?.addEventListener("click", () => {
+  void startAgentRun();
+});
 
 quickJumpButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -2125,7 +2490,10 @@ window.addEventListener("hashchange", () => {
   }
 });
 
+window.addEventListener("resize", () => setAiDrawerOpen(state.aiOpen));
+
 renderDashboard();
 setActiveCompanySubtab(state.activeCompanySubtab, { refreshAi: false });
 setActiveTab(state.activeTab, { syncHash: false, refreshAi: false });
+setAiDrawerOpen(state.aiOpen);
 

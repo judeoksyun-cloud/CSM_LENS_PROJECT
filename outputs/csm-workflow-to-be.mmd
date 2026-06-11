@@ -1,0 +1,35 @@
+flowchart TB
+    subgraph L1["실무자"]
+        direction TB
+        A1["회사·분기 선택<br/>실행 대상 지정"]
+    end
+
+    subgraph SYS["CSM Lens system"]
+        direction TB
+        B1["Open DART 수집<br/>공시 원문·재무 메타 확보"]
+        B2["CSM 후보 표 탐지<br/>보험사별 주석 구조 자동 식별"]
+        B3["Movement 표준 매핑<br/>손익 / K-ICS 기준 정규화"]
+        B4["검산 규칙 적용<br/>기시·기말·합계·기준 일치 확인"]
+        B5["휴먼리뷰 큐 분리<br/>검토 필요 항목만 예외 처리"]
+        B6["검증된 Snapshot 생성<br/>출처·기준·검산상태 유지"]
+        B1 --> B2 --> B3 --> B4 --> B5 --> B6
+    end
+
+    subgraph L3["리더 / 임원 활용"]
+        direction TB
+        C1["대시보드 반영<br/>보유 CSM · 손익 · K-ICS 즉시 확인"]
+        C2["시장 비교 / 전망 / AI 해설<br/>자연어 질의응답과 해석 보조"]
+        C3["검증된 요약 활용<br/>경고 신호와 차이 원인 빠른 파악"]
+        C1 --> C2 --> C3
+    end
+
+    A1 --> B1
+    B6 --> C1
+
+    classDef work fill:#F3F8F5,stroke:#5C8A72,color:#1F3B2F,stroke-width:1px;
+    classDef system fill:#EEF4FB,stroke:#5477A8,color:#213A5B,stroke-width:1px;
+    classDef leader fill:#F6FAF7,stroke:#7BA18D,color:#244636,stroke-width:1px;
+
+    class A1 work;
+    class B1,B2,B3,B4,B5,B6 system;
+    class C1,C2,C3 leader;

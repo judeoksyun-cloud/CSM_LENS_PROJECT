@@ -1,0 +1,34 @@
+flowchart TB
+    subgraph L1["실무자"]
+        direction TB
+        A1["공시 탐색<br/>사업·반기·분기보고서 수기 검색"]
+        A2["CSM 주석 수기 확인<br/>표 위치 직접 탐색"]
+        A3["보험사별 표 해석<br/>단위·기준·재보험 제외 여부 수기 정렬"]
+        A4["엑셀 재가공<br/>표준화 · 증감분 계산 · Peer 비교표 작성"]
+        A5["보고자료 재편집<br/>표와 문구를 별도 재작성"]
+        A1 --> A2 --> A3 --> A4 --> A5
+    end
+
+    subgraph L2["검증 / 리뷰"]
+        direction TB
+        B1["질문·오류 대응<br/>원문 공시와 엑셀 재확인"]
+        B2["정정공시 / 기준 혼선 발생<br/>앞 단계 재작업"]
+    end
+
+    subgraph L3["리더 / 임원 활용"]
+        direction TB
+        C1["보고 검토 및 추가 질문<br/>출처·기준 재확인 요청"]
+    end
+
+    A5 --> C1
+    C1 -. 추가 질문 .-> B1
+    B1 -. 엑셀 수정 후 재보고 .-> A4
+    B2 -. 정정공시 반영 .-> A3
+
+    classDef work fill:#FFF4EE,stroke:#D27C52,color:#4E3427,stroke-width:1px;
+    classDef pain fill:#FFF1EB,stroke:#C95F38,color:#7A2E19,stroke-width:1px;
+    classDef leader fill:#F8F9FB,stroke:#A7B0BE,color:#394150,stroke-width:1px;
+
+    class A1,A2,A3,A4,A5 work;
+    class B1,B2 pain;
+    class C1 leader;

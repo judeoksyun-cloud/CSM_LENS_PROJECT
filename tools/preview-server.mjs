@@ -1,12 +1,14 @@
 import { createServer } from 'node:http';
 import { dirname, extname, resolve } from 'node:path';
 import { createAiGateway } from './ai-gateway.mjs';
+import { createAgentRunGateway } from './agent-run-gateway.mjs';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const port = Number.parseInt(process.env.PORT || '8766', 10);
 const aiGateway = createAiGateway();
+const agentRunGateway = createAgentRunGateway();
 
 const contentTypes = {
   '.html': 'text/html; charset=utf-8',
@@ -51,7 +53,9 @@ function readJsonBody(request) {
 function statusForError(error) {
   const message = String(error?.message ?? error);
   if (message.includes('unsupported company')) return 400;
+  if (message.includes('unsupported period')) return 400;
   if (message.includes('missing company-period data')) return 400;
+  if (message.includes('unknown run')) return 404;
   if (message.includes('Request body too large')) return 413;
   if (message.includes('Unexpected token')) return 400;
   return 500;
@@ -59,6 +63,47 @@ function statusForError(error) {
 
 const server = createServer(async (request, response) => {
   const requestUrl = new URL(request.url || '/', `http://${request.headers.host}`);
+  if (requestUrl.pathname === '/api/agent/run') {
+    if (request.method !== 'POST') {
+      sendJson(response, 405, { error: 'Method Not Allowed' });
+      return;
+    }
+
+    try {
+      const body = await readJsonBody(request);
+      const result = await agentRunGateway.startRun({
+        companyKey: body.companyKey,
+        periodKey: body.periodKey,
+      });
+      sendJson(response, 200, result);
+    } catch (error) {
+      sendJson(response, statusForError(error), {
+        error: 'Agent run start failed',
+        message: String(error?.message ?? error),
+      });
+    }
+    return;
+  }
+
+  if (requestUrl.pathname.startsWith('/api/agent/run/')) {
+    if (request.method !== 'GET') {
+      sendJson(response, 405, { error: 'Method Not Allowed' });
+      return;
+    }
+
+    try {
+      const runId = decodeURIComponent(requestUrl.pathname.replace('/api/agent/run/', ''));
+      const result = await agentRunGateway.getRun(runId);
+      sendJson(response, 200, result);
+    } catch (error) {
+      sendJson(response, statusForError(error), {
+        error: 'Agent run status failed',
+        message: String(error?.message ?? error),
+      });
+    }
+    return;
+  }
+
   if (requestUrl.pathname === '/api/ai/analyze') {
     if (request.method !== 'POST') {
       sendJson(response, 405, { error: 'Method Not Allowed' });
