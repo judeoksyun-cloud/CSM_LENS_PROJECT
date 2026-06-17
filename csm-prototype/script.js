@@ -99,6 +99,7 @@ const forecastScenarios = {
 
 const companySelect = document.querySelector("#company-select");
 const periodSelect = document.querySelector("#period-select");
+const agentTargetSelect = document.querySelector("#agent-target-select");
 const agentRunButton = document.querySelector("#agent-run-button");
 const agentRunTimeline = document.querySelector("#agent-timeline");
 const agentRunLiveStatus = document.querySelector("#agent-run-live-status");
@@ -106,6 +107,7 @@ const agentLastRunAt = document.querySelector("#agent-last-run-at");
 const agentLastRunResult = document.querySelector("#agent-last-run-result");
 const agentRunNote = document.querySelector("#agent-run-note");
 const agentSnapshotKind = document.querySelector("#agent-snapshot-kind");
+const agentTargetSummary = document.querySelector("#agent-target-summary");
 const scenarioSelect = document.querySelector("#scenario-select");
 const marketSortSelect = document.querySelector("#market-sort-select");
 const marketFilterSelect = document.querySelector("#market-filter-select");
@@ -212,6 +214,15 @@ const state = {
   activeTab: parseHashTab(window.location.hash),
   activeCompanySubtab: "movement",
   aiOpen: false,
+  agentTargets: {
+    targets: [],
+    summary: {
+      backlog: 0,
+      completed: 0,
+      failed: 0,
+      needs_review: 0,
+    },
+  },
   agentRun: {
     runId: null,
     status: "idle",
@@ -332,6 +343,178 @@ function syncPeriodOptions(companyKey, preferredPeriodKey = periodSelect.value) 
   periodSelect.value = sortedPeriods.includes(preferredPeriodKey)
     ? preferredPeriodKey
     : sortedPeriods[0];
+}
+
+function comparePeriodKeysDesc(periodAKey, periodBKey) {
+  const periodA = parsePeriodKey(periodAKey);
+  const periodB = parsePeriodKey(periodBKey);
+
+  if (periodA.year !== periodB.year) {
+    return periodB.year - periodA.year;
+  }
+
+  return periodB.quarter - periodA.quarter;
+}
+
+function getAgentTargetLifecycleStatus(companyKey, periodKey) {
+  const reviewState = summarizeReviewStateForPeriod(companyKey, periodKey);
+  if (reviewState.failed > 0) return "failed";
+  if (reviewState.needsReview > 0) return "needs_review";
+  return "completed";
+}
+
+function buildLocalAgentTargetCatalog({ includeCompleted = false } = {}) {
+  const targets = [];
+  const summary = {
+    backlog: 0,
+    completed: 0,
+    failed: 0,
+    needs_review: 0,
+  };
+
+  supportedCompanies.forEach((companyKey) => {
+    const company = sampleData[companyKey];
+    if (!company) return;
+
+    getSortedPeriodKeys(company)
+      .slice()
+      .sort(comparePeriodKeysDesc)
+      .forEach((periodKey) => {
+        const status = getAgentTargetLifecycleStatus(companyKey, periodKey);
+        const reviewState = summarizeReviewStateForPeriod(companyKey, periodKey);
+        const period = company.periods?.[periodKey];
+
+        if (status === "completed") {
+          summary.completed += 1;
+        } else {
+          summary.backlog += 1;
+        }
+
+        if (status === "failed") summary.failed += 1;
+        if (status === "needs_review") summary.needs_review += 1;
+
+        if (!includeCompleted && status === "completed") {
+          return;
+        }
+
+        targets.push({
+          id: `${companyKey}.${periodKey}`,
+          companyKey,
+          companyName: company.name ?? companyKey,
+          periodKey,
+          periodLabel: getPeriodLabel(periodKey),
+          status,
+          reviewSummary: reviewState,
+          valueKind: period?.sourceReference?.valueKind ?? getDashboardDataKind(),
+        });
+      });
+  });
+
+  targets.sort((targetA, targetB) => {
+    const statusRank = {
+      failed: 0,
+      needs_review: 1,
+      completed: 2,
+    };
+    const rankA = statusRank[targetA.status] ?? 9;
+    const rankB = statusRank[targetB.status] ?? 9;
+
+    if (rankA !== rankB) {
+      return rankA - rankB;
+    }
+
+    const periodCompare = comparePeriodKeysDesc(targetA.periodKey, targetB.periodKey);
+    if (periodCompare !== 0) {
+      return periodCompare;
+    }
+
+    return targetA.companyName.localeCompare(targetB.companyName, "ko");
+  });
+
+  return { targets, summary };
+}
+
+function formatAgentTargetStatus(status) {
+  const labels = {
+    failed: "실패",
+    needs_review: "검토 필요",
+    completed: "검증 완료",
+  };
+
+  return labels[status] ?? status;
+}
+
+function getAgentTargetMeta(target) {
+  if (!target) return "-";
+
+  if (target.status === "failed") {
+    return `검산 실패 ${target.reviewSummary.failed}건`;
+  }
+
+  if (target.status === "needs_review") {
+    return `휴먼리뷰 ${target.reviewSummary.needsReview}건`;
+  }
+
+  return "검증 완료";
+}
+
+function getSelectedAgentTarget() {
+  const targetId = agentTargetSelect?.value;
+  if (!targetId) return null;
+  return state.agentTargets.targets.find((target) => target.id === targetId) ?? null;
+}
+
+function syncAgentTargetOptions(preferredTargetId = agentTargetSelect?.value ?? null) {
+  if (!agentTargetSelect) return;
+
+  const targets = state.agentTargets.targets ?? [];
+  if (!targets.length) {
+    agentTargetSelect.innerHTML = `<option value="">현재 실행할 미완료 대상 없음</option>`;
+    agentTargetSelect.value = "";
+    agentTargetSelect.disabled = true;
+
+    if (agentTargetSummary) {
+      agentTargetSummary.textContent =
+        "검증 완료 조합은 숨기고, 미완료 대상이 생길 때만 실행할 수 있습니다.";
+    }
+    return;
+  }
+
+  agentTargetSelect.innerHTML = targets
+    .map(
+      (target) =>
+        `<option value="${target.id}">${target.companyName} · ${target.periodLabel} · ${formatAgentTargetStatus(target.status)}</option>`,
+    )
+    .join("");
+
+  const selectedTarget = targets.find((target) => target.id === preferredTargetId);
+  agentTargetSelect.value = selectedTarget?.id ?? targets[0].id;
+  agentTargetSelect.disabled = false;
+
+  const currentTarget = getSelectedAgentTarget();
+  if (agentTargetSummary) {
+    const backlog = state.agentTargets.summary.backlog;
+    const completed = state.agentTargets.summary.completed;
+    agentTargetSummary.textContent =
+      `${backlog}건 실행 가능 · 현재 선택 ${getAgentTargetMeta(currentTarget)} · 완료 ${completed}건은 기본 숨김`;
+  }
+}
+
+async function refreshAgentTargetCatalog(preferredTargetId = agentTargetSelect?.value ?? null) {
+  try {
+    const response = await requestJson("/api/agent/targets", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    });
+    state.agentTargets = response;
+  } catch {
+    state.agentTargets = buildLocalAgentTargetCatalog();
+  }
+
+  syncAgentTargetOptions(preferredTargetId);
+  renderAgentRunState();
 }
 
 function applyDashboardSnapshot(snapshot, options = {}) {
@@ -2012,8 +2195,11 @@ function formatAgentTimestamp(value) {
 function setAgentControlLock(isLocked) {
   companySelect.disabled = isLocked;
   periodSelect.disabled = isLocked;
+  if (agentTargetSelect) {
+    agentTargetSelect.disabled = isLocked || !(state.agentTargets.targets?.length);
+  }
   if (agentRunButton) {
-    agentRunButton.disabled = isLocked;
+    agentRunButton.disabled = isLocked || !getSelectedAgentTarget();
     agentRunButton.textContent = isLocked ? "실행 중..." : "에이전트 실행";
   }
 }
@@ -2071,9 +2257,10 @@ function renderAgentRunState() {
   }
 
   if (agentRunNote) {
-    agentRunNote.textContent =
-      state.agentRun.failureReason ||
-      "실행 실패 시 마지막 검증 완료 스냅샷은 유지되고, 단계 상태와 실패 사유만 갱신됩니다.";
+    agentRunNote.textContent = state.agentRun.failureReason
+      || (state.agentTargets.targets?.length
+        ? "실행 실패 시 마지막 검증 완료 스냅샷은 유지되고, 단계 상태와 실패 사유만 갱신됩니다."
+        : "현재는 미완료 실행 대상이 없어 에이전트 실행이 비활성화되어 있습니다.");
   }
 
   setAgentControlLock(state.agentRun.status === "running");
@@ -2142,6 +2329,7 @@ function applyAgentSnapshotIfReady(response) {
 
   state.agentRun.snapshotAppliedRunId = response.runId;
   renderDashboard();
+  void refreshAgentTargetCatalog(`${response.selectedCompany}.${response.selectedPeriod}`);
 }
 
 function consumeAgentRunResponse(response) {
@@ -2188,12 +2376,22 @@ async function pollAgentRun(runId) {
 }
 
 async function startAgentRun() {
+  const target = getSelectedAgentTarget();
+  if (!target) {
+    setAgentRunState({
+      status: "idle",
+      failureReason: null,
+      lastUpdatedAt: state.agentRun.lastUpdatedAt,
+    });
+    return;
+  }
+
   clearAgentRunPolling();
   setAgentRunState({
     runId: null,
     status: "running",
-    selectedCompany: companySelect.value,
-    selectedPeriod: periodSelect.value,
+    selectedCompany: target.companyKey,
+    selectedPeriod: target.periodKey,
     stages: createDefaultAgentStages(),
     failureReason: null,
     lastUpdatedAt: new Date().toISOString(),
@@ -2208,8 +2406,8 @@ async function startAgentRun() {
         Accept: "application/json",
       },
       body: JSON.stringify({
-        companyKey: companySelect.value,
-        periodKey: periodSelect.value,
+        companyKey: target.companyKey,
+        periodKey: target.periodKey,
       }),
     });
 
@@ -2431,6 +2629,18 @@ periodSelect.addEventListener("change", () => {
   renderDashboard();
 });
 
+agentTargetSelect?.addEventListener("change", () => {
+  const currentTarget = getSelectedAgentTarget();
+  if (agentTargetSummary) {
+    const backlog = state.agentTargets.summary.backlog;
+    const completed = state.agentTargets.summary.completed;
+    agentTargetSummary.textContent = currentTarget
+      ? `${backlog}건 실행 가능 · 현재 선택 ${getAgentTargetMeta(currentTarget)} · 완료 ${completed}건은 기본 숨김`
+      : "검증 완료 조합은 숨기고, 미완료 대상만 표시합니다.";
+  }
+  renderAgentRunState();
+});
+
 scenarioSelect.addEventListener("change", () => {
   renderForecast();
   if (state.activeTab === "forecast") {
@@ -2492,6 +2702,7 @@ window.addEventListener("hashchange", () => {
 
 window.addEventListener("resize", () => setAiDrawerOpen(state.aiOpen));
 
+void refreshAgentTargetCatalog();
 renderDashboard();
 setActiveCompanySubtab(state.activeCompanySubtab, { refreshAi: false });
 setActiveTab(state.activeTab, { syncHash: false, refreshAi: false });

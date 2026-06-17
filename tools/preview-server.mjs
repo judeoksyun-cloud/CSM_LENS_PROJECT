@@ -55,6 +55,7 @@ function statusForError(error) {
   if (message.includes('unsupported company')) return 400;
   if (message.includes('unsupported period')) return 400;
   if (message.includes('missing company-period data')) return 400;
+  if (message.includes('completed target already validated')) return 409;
   if (message.includes('unknown run')) return 404;
   if (message.includes('Request body too large')) return 413;
   if (message.includes('Unexpected token')) return 400;
@@ -63,6 +64,25 @@ function statusForError(error) {
 
 const server = createServer(async (request, response) => {
   const requestUrl = new URL(request.url || '/', `http://${request.headers.host}`);
+  if (requestUrl.pathname === '/api/agent/targets') {
+    if (request.method !== 'GET') {
+      sendJson(response, 405, { error: 'Method Not Allowed' });
+      return;
+    }
+
+    try {
+      const includeCompleted = requestUrl.searchParams.get('includeCompleted') === '1';
+      const result = await agentRunGateway.listTargets({ includeCompleted });
+      sendJson(response, 200, result);
+    } catch (error) {
+      sendJson(response, statusForError(error), {
+        error: 'Agent target list failed',
+        message: String(error?.message ?? error),
+      });
+    }
+    return;
+  }
+
   if (requestUrl.pathname === '/api/agent/run') {
     if (request.method !== 'POST') {
       sendJson(response, 405, { error: 'Method Not Allowed' });
@@ -74,6 +94,7 @@ const server = createServer(async (request, response) => {
       const result = await agentRunGateway.startRun({
         companyKey: body.companyKey,
         periodKey: body.periodKey,
+        allowRerun: body.allowRerun === true,
       });
       sendJson(response, 200, result);
     } catch (error) {

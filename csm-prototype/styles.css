@@ -1823,13 +1823,24 @@ body.ai-drawer-open {
 
 .agent-run-controls {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(200px, 0.95fr) minmax(260px, 1.05fr) auto;
   gap: 10px;
   align-items: end;
 }
 
 .agent-filter-grid {
   grid-template-columns: minmax(130px, 1fr) minmax(118px, 0.9fr);
+}
+
+.agent-run-target {
+  display: grid;
+  gap: 5px;
+}
+
+.agent-run-target small {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.4;
 }
 
 .agent-run-meta {

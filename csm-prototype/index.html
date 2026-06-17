@@ -111,6 +111,17 @@
                   </select>
                 </label>
               </div>
+              <div class="agent-run-target">
+                <label>
+                  실행 대상
+                  <select id="agent-target-select">
+                    <option value="">실행 대상 불러오는 중...</option>
+                  </select>
+                </label>
+                <small id="agent-target-summary">
+                  검증 완료 조합은 실행 목록에서 숨기고, 미완료 대상만 표시합니다.
+                </small>
+              </div>
               <button type="button" class="primary-button" id="agent-run-button">
                 에이전트 실행
               </button>

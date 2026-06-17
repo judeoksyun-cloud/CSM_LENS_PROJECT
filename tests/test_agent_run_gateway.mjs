@@ -5,12 +5,35 @@ import { createAgentRunGateway } from "../tools/agent-run-gateway.mjs";
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+test("agent target list defaults to incomplete backlog targets only", async () => {
+  const gateway = createAgentRunGateway({ stageDelayMs: 8 });
+
+  const result = await gateway.listTargets();
+
+  assert.equal(result.targets.length, 1);
+  assert.equal(result.targets[0].companyKey, "samsung-fire");
+  assert.equal(result.targets[0].periodKey, "2025-q1");
+  assert.equal(result.targets[0].status, "needs_review");
+  assert.equal(result.summary.backlog, 1);
+  assert.equal(result.summary.completed, 7);
+});
+
 test("agent run returns a validation-gated snapshot and finishes with no review when data is clean", async () => {
   const gateway = createAgentRunGateway({ stageDelayMs: 8 });
+
+  await assert.rejects(
+    () =>
+      gateway.startRun({
+        companyKey: "samsung-life",
+        periodKey: "2025-q4",
+      }),
+    /completed target|already validated/i,
+  );
 
   const started = await gateway.startRun({
     companyKey: "samsung-life",
     periodKey: "2025-q4",
+    allowRerun: true,
   });
 
   assert.equal(started.status, "running");

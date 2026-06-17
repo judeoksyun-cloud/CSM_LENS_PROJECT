@@ -17,8 +17,9 @@ from pathlib import Path
 from lxml import html
 
 
-ENV_PATH = Path(r"C:\Users\user\Desktop\codex_day2\.env")
-OUT_PATH = Path(r"C:\Users\user\Desktop\Codex_Practice\external-data\dart-2025-insurance-extract.json")
+ROOT = Path(__file__).resolve().parents[1]
+ENV_PATH = ROOT / ".env"
+OUT_PATH = ROOT / "external-data" / "dart-2025-insurance-extract.json"
 
 COMPANIES = {
     "samsung-life": {

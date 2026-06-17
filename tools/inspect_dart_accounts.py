@@ -4,7 +4,8 @@ import urllib.request
 from pathlib import Path
 
 
-ENV_PATH = Path(r"C:\Users\user\Desktop\codex_day2\.env")
+ROOT = Path(__file__).resolve().parents[1]
+ENV_PATH = ROOT / ".env"
 API_KEY = [
     line.split("=", 1)[1].strip().strip("\"'")
     for line in ENV_PATH.read_text(encoding="utf-8").splitlines()

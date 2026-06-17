@@ -27,9 +27,17 @@ export function createAgentRunGateway({
   const runs = new Map();
 
   return {
-    startRun: async ({ companyKey, periodKey } = {}) => {
+    listTargets: async ({ includeCompleted = false } = {}) => {
+      const snapshot = await readSnapshot(snapshotPath);
+      return buildRunTargetCatalog(snapshot.data, { includeCompleted });
+    },
+    startRun: async ({ companyKey, periodKey, allowRerun = false } = {}) => {
       const snapshot = await readSnapshot(snapshotPath);
       const supportedCompanies = getSupportedCompanyKeys(snapshot);
+      const catalog = buildRunTargetCatalog(snapshot.data, { includeCompleted: true });
+      const target = catalog.targets.find(
+        (item) => item.companyKey === companyKey && item.periodKey === periodKey,
+      );
 
       if (!supportedCompanies.includes(companyKey)) {
         throw new Error(`unsupported company: ${companyKey}`);
@@ -38,6 +46,10 @@ export function createAgentRunGateway({
       const company = snapshot.data.sampleData?.[companyKey];
       if (!company?.periods?.[periodKey]) {
         throw new Error(`unsupported period: ${companyKey}.${periodKey}`);
+      }
+
+      if (target?.status === "completed" && !allowRerun) {
+        throw new Error(`completed target already validated: ${companyKey}.${periodKey}`);
       }
 
       const reviewSummary = summarizeReviewState(
@@ -83,12 +95,118 @@ async function readSnapshot(snapshotPath) {
 }
 
 function getSupportedCompanyKeys(snapshot) {
-  const policyCompanies = snapshot.data.analysisPolicy?.supportedCompanies;
+  const snapshotData = snapshot.data ?? snapshot;
+  const policyCompanies = snapshotData.analysisPolicy?.supportedCompanies;
   if (Array.isArray(policyCompanies) && policyCompanies.length) {
     return policyCompanies;
   }
 
-  return Object.keys(snapshot.data.sampleData ?? {});
+  return Object.keys(snapshotData.sampleData ?? {});
+}
+
+function buildRunTargetCatalog(snapshotData, { includeCompleted = false } = {}) {
+  const targets = [];
+  const summary = {
+    backlog: 0,
+    completed: 0,
+    failed: 0,
+    needs_review: 0,
+  };
+
+  for (const companyKey of getSupportedCompanyKeys(snapshotData)) {
+    const company = snapshotData.sampleData?.[companyKey];
+    if (!company) continue;
+
+    const periodKeys = Object.keys(company.periods ?? {}).sort(comparePeriodKeysDesc);
+
+    for (const periodKey of periodKeys) {
+      const period = company.periods?.[periodKey];
+      const reviewSummary = summarizeReviewState(
+        snapshotData.reviewItems ?? [],
+        companyKey,
+        periodKey,
+      );
+      const status = getRunTargetStatus(reviewSummary);
+
+      if (status === "completed") {
+        summary.completed += 1;
+      } else {
+        summary.backlog += 1;
+      }
+
+      if (status === "failed") summary.failed += 1;
+      if (status === "needs_review") summary.needs_review += 1;
+
+      if (!includeCompleted && status === "completed") {
+        continue;
+      }
+
+      targets.push({
+        id: `${companyKey}.${periodKey}`,
+        companyKey,
+        companyName: company.name ?? companyKey,
+        periodKey,
+        periodLabel: getPeriodLabel(periodKey),
+        status,
+        reviewSummary,
+        valueKind: period?.sourceReference?.valueKind ?? "unknown",
+      });
+    }
+  }
+
+  targets.sort(compareRunTargets);
+  return { targets, summary };
+}
+
+function getRunTargetStatus(reviewSummary) {
+  if (reviewSummary.failed > 0) return "failed";
+  if (reviewSummary.needsReview > 0) return "needs_review";
+  return "completed";
+}
+
+function compareRunTargets(targetA, targetB) {
+  const statusRank = {
+    failed: 0,
+    needs_review: 1,
+    completed: 2,
+  };
+  const rankA = statusRank[targetA.status] ?? 9;
+  const rankB = statusRank[targetB.status] ?? 9;
+
+  if (rankA !== rankB) {
+    return rankA - rankB;
+  }
+
+  const periodCompare = comparePeriodKeysDesc(targetA.periodKey, targetB.periodKey);
+  if (periodCompare !== 0) {
+    return periodCompare;
+  }
+
+  return targetA.companyName.localeCompare(targetB.companyName, "ko");
+}
+
+function comparePeriodKeysDesc(periodAKey, periodBKey) {
+  const periodA = parsePeriodKey(periodAKey);
+  const periodB = parsePeriodKey(periodBKey);
+
+  if (periodA.year !== periodB.year) {
+    return periodB.year - periodA.year;
+  }
+
+  return periodB.quarter - periodA.quarter;
+}
+
+function parsePeriodKey(periodKey) {
+  const match = String(periodKey).match(/^(\d{4})-q([1-4])$/);
+  return {
+    year: match ? Number(match[1]) : 0,
+    quarter: match ? Number(match[2]) : 0,
+  };
+}
+
+function getPeriodLabel(periodKey) {
+  const { year, quarter } = parsePeriodKey(periodKey);
+  return `${year} Q${quarter}`;
 }
 
 function summarizeReviewState(reviewItems, companyKey, periodKey) {
