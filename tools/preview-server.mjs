@@ -178,6 +178,7 @@ const server = createServer(async (request, response) => {
     const file = await readFile(filePath);
     response.writeHead(200, {
       'Content-Type': contentTypes[extname(filePath)] || 'application/octet-stream',
+      'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
     });
     response.end(file);
   } catch {

@@ -8,3 +8,21 @@ vercel-cache/
 test-start-output.txt
 __pycache__/
 *.pyc
+.DS_Store
+
+# Local runtimes and temporary inspection artifacts
+node-v20.15.1-darwin-arm64/
+tools/spreadsheet-runtime/
+tmp/
+
+# Internal static reference workbooks: never a production source or validator
+ref_data/
+
+# Re-creatable Open DART raw caches (normalized outputs are versioned)
+external-data/dart-annual-insurance-extract.json
+external-data/dart-quarterly-insurance-extract.json
+external-data/dart-assumption-metrics-*.json
+
+# Deprecated artifacts derived from ref_data
+external-data/liability-assumption-ref-validation.json
+external-data/liability-assumption-workbook-raw.json

@@ -1,0 +1,2375 @@
+{
+  "dataContractVersion": "csm-dashboard-annual/v1",
+  "periodBasis": "year-end-only",
+  "years": [
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "sampleData": {
+    "samsung-life": {
+      "name": "삼성생명",
+      "sector": "생명보험",
+      "type": "신계약 확보형",
+      "periods": {
+        "2022-ye": {
+          "csm": 10749,
+          "growth": 36.3,
+          "movement": {
+            "opening": 7885,
+            "newbiz": 3352,
+            "interest": 304,
+            "amortization": -1101,
+            "closing": 10749,
+            "adjustment": 309
+          },
+          "insuranceProfit": 1623.423,
+          "parentNetIncome": 2170.152,
+          "kics": 243.98,
+          "solvencyBasis": "RBC",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240313001502",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240313001502",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              193,
+              195,
+              197
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "RBC"
+          },
+          "validation": {
+            "summary": "부분 교차검증",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 회사 공식 IR/경영공시",
+            "csm": {
+              "value": 10749,
+              "checkValue": null,
+              "status": "ir_not_available",
+              "source": "회사 공식 IR/경영공시 탐색",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "note": "동일 기준의 독립된 연도말 IR 수치를 찾지 못해 DART 원표만 적용"
+            },
+            "movement": {
+              "status": "arithmetic_validated",
+              "source": "Open DART 별도 주석",
+              "checkValue": {
+                "opening": 7885,
+                "newbiz": 3352,
+                "interest": 304,
+                "amortization": -1101,
+                "closing": 10749,
+                "adjustment": 309
+              },
+              "note": "기말 = 기초 + 신계약 + 이자 + 상각 + 기타조정 검산"
+            },
+            "insuranceProfit": {
+              "value": 1623.423,
+              "checkValue": null,
+              "status": "ir_fallback_required",
+              "source": "회사 공식 IR/경영공시",
+              "basis": "별도 · K-IFRS",
+              "table": "SH154/A"
+            },
+            "parentNetIncome": {
+              "value": 2170.152,
+              "fisisSeparateNetIncome": null,
+              "status": "basis_difference",
+              "source": "FISIS",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도",
+              "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 243.98,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "RBC",
+              "table": "SH148/A",
+              "note": null
+            }
+          }
+        },
+        "2023-ye": {
+          "csm": 12247,
+          "growth": 13.9,
+          "movement": {
+            "opening": 10749,
+            "newbiz": 3628,
+            "interest": 400,
+            "amortization": -1368,
+            "closing": 12247,
+            "adjustment": -1162
+          },
+          "insuranceProfit": 1448.544,
+          "parentNetIncome": 1895.312,
+          "kics": 218.83,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240313001502",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240313001502",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              187,
+              189,
+              191
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": {
+            "summary": "교차검증 완료",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 회사 공식 IR/경영공시",
+            "csm": {
+              "value": 12247,
+              "checkValue": 12200,
+              "status": "matched",
+              "source": "삼성생명 FY2023 경영실적",
+              "sourceUrl": "https://www.samsunglife.com/",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "note": "IR 공시값 12.2조원(십억원 환산·표시단위 반올림)"
+            },
+            "movement": {
+              "status": "arithmetic_validated",
+              "source": "Open DART 별도 주석",
+              "checkValue": {
+                "opening": 10749,
+                "newbiz": 3628,
+                "interest": 400,
+                "amortization": -1368,
+                "closing": 12247,
+                "adjustment": -1162
+              },
+              "note": "기말 = 기초 + 신계약 + 이자 + 상각 + 기타조정 검산"
+            },
+            "insuranceProfit": {
+              "value": 1448.544,
+              "checkValue": 1448.543948,
+              "status": "matched",
+              "source": "FISIS",
+              "basis": "별도 · K-IFRS",
+              "table": "SH154/A"
+            },
+            "parentNetIncome": {
+              "value": 1895.312,
+              "fisisSeparateNetIncome": 1382.901707,
+              "status": "basis_difference",
+              "source": "FISIS",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도",
+              "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 218.83,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "K-ICS",
+              "table": "SH021/A",
+              "note": "경과조치 적용 후 값이 0 또는 미제공되어 적용 전 비율 사용"
+            }
+          }
+        },
+        "2024-ye": {
+          "csm": 12902,
+          "growth": 5.3,
+          "movement": {
+            "opening": 12247,
+            "newbiz": 3261,
+            "interest": 461,
+            "amortization": -1370,
+            "closing": 12902,
+            "adjustment": -1697
+          },
+          "insuranceProfit": 541.99,
+          "parentNetIncome": 2106.839,
+          "kics": 184.88,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250312001063",
+            "reportName": "사업보고서 (2024.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250312001063",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              183,
+              185,
+              187
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": {
+            "summary": "교차검증 완료",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 회사 공식 IR/경영공시",
+            "csm": {
+              "value": 12902,
+              "checkValue": 12900,
+              "status": "matched",
+              "source": "삼성생명 FY2024 경영실적",
+              "sourceUrl": "https://www.samsunglife.com/",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "note": "IR 공시값 12.9조원(십억원 환산·표시단위 반올림)"
+            },
+            "movement": {
+              "status": "arithmetic_validated",
+              "source": "Open DART 별도 주석",
+              "checkValue": {
+                "opening": 12247,
+                "newbiz": 3261,
+                "interest": 461,
+                "amortization": -1370,
+                "closing": 12902,
+                "adjustment": -1697
+              },
+              "note": "기말 = 기초 + 신계약 + 이자 + 상각 + 기타조정 검산"
+            },
+            "insuranceProfit": {
+              "value": 541.99,
+              "checkValue": 541.989663,
+              "status": "matched",
+              "source": "FISIS",
+              "basis": "별도 · K-IFRS",
+              "table": "SH154/A"
+            },
+            "parentNetIncome": {
+              "value": 2106.839,
+              "fisisSeparateNetIncome": 1486.935884,
+              "status": "basis_difference",
+              "source": "FISIS",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도",
+              "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 184.88,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "K-ICS",
+              "table": "SH021/A",
+              "note": "경과조치 적용 후 값이 0 또는 미제공되어 적용 전 비율 사용"
+            }
+          }
+        },
+        "2025-ye": {
+          "csm": 13218,
+          "growth": 2.4,
+          "movement": {
+            "opening": 12902,
+            "newbiz": 3059,
+            "interest": 495,
+            "amortization": -1480,
+            "closing": 13218,
+            "adjustment": -1758
+          },
+          "insuranceProfit": 974.716,
+          "parentNetIncome": 2302.837,
+          "kics": 197.97,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260311004614",
+            "reportName": "사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260311004614",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              204,
+              206,
+              208
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": {
+            "summary": "교차검증 완료",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 회사 공식 IR/경영공시",
+            "csm": {
+              "value": 13218,
+              "checkValue": 13200,
+              "status": "matched",
+              "source": "삼성생명 FY2025 경영실적",
+              "sourceUrl": "https://www.samsunglife.com/",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "note": "IR 공시값 13.2조원(십억원 환산·표시단위 반올림)"
+            },
+            "movement": {
+              "status": "arithmetic_validated",
+              "source": "Open DART 별도 주석",
+              "checkValue": {
+                "opening": 12902,
+                "newbiz": 3059,
+                "interest": 495,
+                "amortization": -1480,
+                "closing": 13218,
+                "adjustment": -1758
+              },
+              "note": "기말 = 기초 + 신계약 + 이자 + 상각 + 기타조정 검산"
+            },
+            "insuranceProfit": {
+              "value": 974.716,
+              "checkValue": 974.715862,
+              "status": "matched",
+              "source": "FISIS",
+              "basis": "별도 · K-IFRS",
+              "table": "SH154/A"
+            },
+            "parentNetIncome": {
+              "value": 2302.837,
+              "fisisSeparateNetIncome": 1699.761749,
+              "status": "basis_difference",
+              "source": "FISIS",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도",
+              "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 197.97,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "K-ICS",
+              "table": "SH021/A",
+              "note": "경과조치 적용 후 값이 0 또는 미제공되어 적용 전 비율 사용"
+            }
+          }
+        }
+      }
+    },
+    "hanwha-life": {
+      "name": "한화생명",
+      "sector": "생명보험",
+      "type": "대형 생보",
+      "periods": {
+        "2022-ye": {
+          "csm": 9763,
+          "growth": 30.6,
+          "movement": {
+            "opening": 7477,
+            "newbiz": 1609,
+            "interest": 263,
+            "amortization": -824,
+            "closing": 9763,
+            "adjustment": 1238
+          },
+          "insuranceProfit": 672.428,
+          "parentNetIncome": 1030.329,
+          "kics": 162.17,
+          "solvencyBasis": "RBC",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240313001679",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240313001679",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              122
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "RBC"
+          },
+          "validation": {
+            "summary": "교차검증 완료",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 한화생명 IR",
+            "csm": {
+              "value": 9763,
+              "checkValue": 9763,
+              "status": "matched",
+              "source": "한화생명 IR",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "sourceUrl": "https://company.hanwhalife.com/ko/investment/investor/earnings-release",
+              "attachmentSeq": 768,
+              "sourcePage": "2023 FY2022 발표자료 p.8 및 2024 FY2023 발표자료 p.7"
+            },
+            "movement": {
+              "status": "matched",
+              "source": "한화생명 IR",
+              "checkValue": {
+                "opening": 7477,
+                "newbiz": 1609,
+                "interest": 263,
+                "amortization": -824,
+                "adjustment": 1238,
+                "closing": 9763
+              }
+            },
+            "insuranceProfit": {
+              "value": 672.428,
+              "checkValue": null,
+              "status": "ir_fallback_required",
+              "source": "한화생명 IR",
+              "basis": "별도 · K-IFRS",
+              "table": "SH154/A"
+            },
+            "parentNetIncome": {
+              "value": 1030.329,
+              "fisisSeparateNetIncome": null,
+              "irConsolidatedNetIncome": null,
+              "status": "basis_difference",
+              "source": "FISIS + 한화생명 IR",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도, IR은 연결 전체",
+              "note": "세 출처의 귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 162.17,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "RBC",
+              "table": "SH148/A"
+            }
+          }
+        },
+        "2023-ye": {
+          "csm": 9238,
+          "growth": -5.4,
+          "movement": {
+            "opening": 9763,
+            "newbiz": 2541,
+            "interest": 353,
+            "amortization": -888,
+            "closing": 9238,
+            "adjustment": -2531
+          },
+          "insuranceProfit": 650.941,
+          "parentNetIncome": 758.48,
+          "kics": 183.81,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240313001679",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240313001679",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              121
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": {
+            "summary": "교차검증 완료",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 한화생명 IR",
+            "csm": {
+              "value": 9238,
+              "checkValue": 9238,
+              "status": "matched",
+              "source": "한화생명 IR",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "sourceUrl": "https://company.hanwhalife.com/ko/investment/investor/earnings-release",
+              "attachmentSeq": 763,
+              "sourcePage": "FY2023 발표자료 p.7-8"
+            },
+            "movement": {
+              "status": "matched",
+              "source": "한화생명 IR",
+              "checkValue": {
+                "opening": 9763,
+                "newbiz": 2541,
+                "interest": 353,
+                "amortization": -888,
+                "adjustment": -2531,
+                "closing": 9238
+              }
+            },
+            "insuranceProfit": {
+              "value": 650.941,
+              "checkValue": 650.941142,
+              "status": "matched",
+              "source": "FISIS",
+              "basis": "별도 · K-IFRS",
+              "table": "SH154/A"
+            },
+            "parentNetIncome": {
+              "value": 758.48,
+              "fisisSeparateNetIncome": 616.261571,
+              "irConsolidatedNetIncome": 826,
+              "status": "basis_difference",
+              "source": "FISIS + 한화생명 IR",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도, IR은 연결 전체",
+              "note": "세 출처의 귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 183.81,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "K-ICS",
+              "table": "SH021/D"
+            }
+          }
+        },
+        "2024-ye": {
+          "csm": 9109,
+          "growth": -1.4,
+          "movement": {
+            "opening": 9238,
+            "newbiz": 2123,
+            "interest": 350,
+            "amortization": -852,
+            "closing": 9109,
+            "adjustment": -1750
+          },
+          "insuranceProfit": 506.305,
+          "parentNetIncome": 737.254,
+          "kics": 163.74,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250312000939",
+            "reportName": "사업보고서 (2024.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250312000939",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              134
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": {
+            "summary": "교차검증 완료",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 한화생명 IR",
+            "csm": {
+              "value": 9109,
+              "checkValue": 9109,
+              "status": "matched",
+              "source": "한화생명 IR",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "sourceUrl": "https://company.hanwhalife.com/ko/investment/investor/earnings-release",
+              "attachmentSeq": 759,
+              "sourcePage": "FY2024 발표자료 p.7-8"
+            },
+            "movement": {
+              "status": "matched",
+              "source": "한화생명 IR",
+              "checkValue": {
+                "opening": 9238,
+                "newbiz": 2123,
+                "interest": 350,
+                "amortization": -852,
+                "adjustment": -1750,
+                "closing": 9109
+              }
+            },
+            "insuranceProfit": {
+              "value": 506.305,
+              "checkValue": 506.304846,
+              "status": "matched",
+              "source": "FISIS",
+              "basis": "별도 · K-IFRS",
+              "table": "SH154/A"
+            },
+            "parentNetIncome": {
+              "value": 737.254,
+              "fisisSeparateNetIncome": 720.569729,
+              "irConsolidatedNetIncome": 866,
+              "status": "basis_difference",
+              "source": "FISIS + 한화생명 IR",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도, IR은 연결 전체",
+              "note": "세 출처의 귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 163.74,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "K-ICS",
+              "table": "SH021/D"
+            }
+          }
+        },
+        "2025-ye": {
+          "csm": 8714,
+          "growth": -4.3,
+          "movement": {
+            "opening": 9109,
+            "newbiz": 2066,
+            "interest": 358,
+            "amortization": -787,
+            "closing": 8714,
+            "adjustment": -2032
+          },
+          "insuranceProfit": 344.419,
+          "parentNetIncome": 641.31,
+          "kics": 157.52,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260316001304",
+            "reportName": "사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260316001304",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              132
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": {
+            "summary": "교차검증 완료",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 한화생명 IR",
+            "csm": {
+              "value": 8714,
+              "checkValue": 8714,
+              "status": "matched",
+              "source": "한화생명 IR",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "sourceUrl": "https://company.hanwhalife.com/ko/investment/investor/earnings-release",
+              "attachmentSeq": 844,
+              "sourcePage": "FY2025 발표자료 p.8-10"
+            },
+            "movement": {
+              "status": "matched",
+              "source": "한화생명 IR",
+              "checkValue": {
+                "opening": 9109,
+                "newbiz": 2066,
+                "interest": 358,
+                "amortization": -787,
+                "adjustment": -2032,
+                "closing": 8714
+              }
+            },
+            "insuranceProfit": {
+              "value": 344.419,
+              "checkValue": 344.419294,
+              "status": "matched",
+              "source": "FISIS",
+              "basis": "별도 · K-IFRS",
+              "table": "SH154/A"
+            },
+            "parentNetIncome": {
+              "value": 641.31,
+              "fisisSeparateNetIncome": 313.319896,
+              "irConsolidatedNetIncome": 836,
+              "status": "basis_difference",
+              "source": "FISIS + 한화생명 IR",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도, IR은 연결 전체",
+              "note": "세 출처의 귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 157.52,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "K-ICS",
+              "table": "SH021/D"
+            }
+          }
+        }
+      }
+    },
+    "kyobo-life": {
+      "name": "교보생명",
+      "sector": "생명보험",
+      "type": "전속채널 중심",
+      "periods": {
+        "2022-ye": {
+          "csm": 5534,
+          "growth": 17.8,
+          "movement": {
+            "opening": 4696,
+            "newbiz": 1262,
+            "interest": -2145,
+            "amortization": -484,
+            "closing": 5534,
+            "adjustment": 2205
+          },
+          "insuranceProfit": -85.465,
+          "parentNetIncome": 524.134,
+          "kics": 180.64,
+          "solvencyBasis": "RBC",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240329003502",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240329003502",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              114
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "RBC"
+          },
+          "validation": {
+            "summary": "부분 교차검증",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 회사 공식 IR/경영공시",
+            "csm": {
+              "value": 5534,
+              "checkValue": null,
+              "status": "ir_not_available",
+              "source": "회사 공식 IR/경영공시 탐색",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "note": "동일 기준의 독립된 연도말 IR 수치를 찾지 못해 DART 원표만 적용"
+            },
+            "movement": {
+              "status": "arithmetic_validated",
+              "source": "Open DART 별도 주석",
+              "checkValue": {
+                "opening": 4696,
+                "newbiz": 1262,
+                "interest": -2145,
+                "amortization": -484,
+                "closing": 5534,
+                "adjustment": 2205
+              },
+              "note": "기말 = 기초 + 신계약 + 이자 + 상각 + 기타조정 검산"
+            },
+            "insuranceProfit": {
+              "value": -85.465,
+              "checkValue": null,
+              "status": "ir_fallback_required",
+              "source": "회사 공식 IR/경영공시",
+              "basis": "별도 · K-IFRS",
+              "table": "SH154/A"
+            },
+            "parentNetIncome": {
+              "value": 524.134,
+              "fisisSeparateNetIncome": null,
+              "status": "basis_difference",
+              "source": "FISIS",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도",
+              "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 180.64,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "RBC",
+              "table": "SH148/A",
+              "note": null
+            }
+          }
+        },
+        "2023-ye": {
+          "csm": 6115,
+          "growth": 10.5,
+          "movement": {
+            "opening": 5534,
+            "newbiz": 1373,
+            "interest": 1457,
+            "amortization": -437,
+            "closing": 6115,
+            "adjustment": -1812
+          },
+          "insuranceProfit": 232.682,
+          "parentNetIncome": 475.364,
+          "kics": 265.36,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240329003502",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240329003502",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              113
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": {
+            "summary": "부분 교차검증",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 회사 공식 IR/경영공시",
+            "csm": {
+              "value": 6115,
+              "checkValue": null,
+              "status": "ir_not_available",
+              "source": "회사 공식 IR/경영공시 탐색",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "note": "동일 기준의 독립된 연도말 IR 수치를 찾지 못해 DART 원표만 적용"
+            },
+            "movement": {
+              "status": "arithmetic_validated",
+              "source": "Open DART 별도 주석",
+              "checkValue": {
+                "opening": 5534,
+                "newbiz": 1373,
+                "interest": 1457,
+                "amortization": -437,
+                "closing": 6115,
+                "adjustment": -1812
+              },
+              "note": "기말 = 기초 + 신계약 + 이자 + 상각 + 기타조정 검산"
+            },
+            "insuranceProfit": {
+              "value": 232.682,
+              "checkValue": 232.681651806,
+              "status": "matched",
+              "source": "FISIS",
+              "basis": "별도 · K-IFRS",
+              "table": "SH154/A"
+            },
+            "parentNetIncome": {
+              "value": 475.364,
+              "fisisSeparateNetIncome": 632.200607207,
+              "status": "basis_difference",
+              "source": "FISIS",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도",
+              "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 265.36,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "K-ICS",
+              "table": "SH021/D",
+              "note": "경과조치 적용 후"
+            }
+          }
+        },
+        "2024-ye": {
+          "csm": 6438,
+          "growth": 10.5,
+          "movement": {
+            "opening": 5825,
+            "newbiz": 1372,
+            "interest": 103,
+            "amortization": -601,
+            "closing": 6438,
+            "adjustment": -261
+          },
+          "insuranceProfit": 473.624,
+          "parentNetIncome": 669.304,
+          "kics": 220.76,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250331004015",
+            "reportName": "사업보고서 (2024.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250331004015",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              112
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": {
+            "summary": "교차검증 완료",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 회사 공식 IR/경영공시",
+            "csm": {
+              "value": 6438,
+              "checkValue": 6438.1,
+              "status": "matched",
+              "source": "교보생명 FY2025 실적 설명자료",
+              "sourceUrl": "https://news.kyobo.com/fy2025-%EC%8B%A4%EC%A0%81-%EC%84%A4%EB%AA%85%EC%9E%90%EB%A3%8C/",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "note": "2024년말 누적 CSM 비교값"
+            },
+            "movement": {
+              "status": "arithmetic_validated",
+              "source": "Open DART 별도 주석",
+              "checkValue": {
+                "opening": 5825,
+                "newbiz": 1372,
+                "interest": 103,
+                "amortization": -601,
+                "closing": 6438,
+                "adjustment": -261
+              },
+              "note": "기말 = 기초 + 신계약 + 이자 + 상각 + 기타조정 검산"
+            },
+            "insuranceProfit": {
+              "value": 473.624,
+              "checkValue": 473.623864404,
+              "status": "matched",
+              "source": "FISIS",
+              "basis": "별도 · K-IFRS",
+              "table": "SH154/A"
+            },
+            "parentNetIncome": {
+              "value": 669.304,
+              "fisisSeparateNetIncome": 698.73608934,
+              "status": "basis_difference",
+              "source": "FISIS",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도",
+              "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 220.76,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "K-ICS",
+              "table": "SH021/D",
+              "note": "경과조치 적용 후"
+            }
+          }
+        },
+        "2025-ye": {
+          "csm": 6511,
+          "growth": 1.1,
+          "movement": {
+            "opening": 6438,
+            "newbiz": 1278,
+            "interest": 187,
+            "amortization": -588,
+            "closing": 6511,
+            "adjustment": -804
+          },
+          "insuranceProfit": 391.59,
+          "parentNetIncome": 752.27,
+          "kics": 225.95,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260331004015",
+            "reportName": "사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331004015",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              116,
+              117,
+              118
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": {
+            "summary": "교차검증 완료",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 회사 공식 IR/경영공시",
+            "csm": {
+              "value": 6511,
+              "checkValue": 6511.0,
+              "status": "matched",
+              "source": "교보생명 FY2025 실적 설명자료",
+              "sourceUrl": "https://news.kyobo.com/fy2025-%EC%8B%A4%EC%A0%81-%EC%84%A4%EB%AA%85%EC%9E%90%EB%A3%8C/",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "note": "누적 CSM 6조5,110억원"
+            },
+            "movement": {
+              "status": "arithmetic_validated",
+              "source": "Open DART 별도 주석",
+              "checkValue": {
+                "opening": 6438,
+                "newbiz": 1278,
+                "interest": 187,
+                "amortization": -588,
+                "closing": 6511,
+                "adjustment": -804
+              },
+              "note": "기말 = 기초 + 신계약 + 이자 + 상각 + 기타조정 검산"
+            },
+            "insuranceProfit": {
+              "value": 391.59,
+              "checkValue": 391.590329838,
+              "status": "matched",
+              "source": "FISIS",
+              "basis": "별도 · K-IFRS",
+              "table": "SH154/A"
+            },
+            "parentNetIncome": {
+              "value": 752.27,
+              "fisisSeparateNetIncome": 763.210477599,
+              "status": "basis_difference",
+              "source": "FISIS",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도",
+              "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 225.95,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "K-ICS",
+              "table": "SH021/D",
+              "note": "경과조치 적용 후"
+            }
+          }
+        }
+      }
+    },
+    "shinhan-life": {
+      "name": "신한라이프",
+      "sector": "생명보험",
+      "type": "금융지주 계열",
+      "periods": {
+        "2022-ye": {
+          "csm": 6925,
+          "growth": 6.7,
+          "movement": {
+            "opening": 6488,
+            "newbiz": 754,
+            "interest": 228,
+            "amortization": -666,
+            "closing": 6925,
+            "adjustment": 121
+          },
+          "insuranceProfit": 637.169,
+          "parentNetIncome": 449.392,
+          "kics": 267.7,
+          "solvencyBasis": "RBC",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240319000450",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240319000450",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              209
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "RBC"
+          },
+          "validation": {
+            "summary": "부분 교차검증",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 회사 공식 IR/경영공시",
+            "csm": {
+              "value": 6925,
+              "checkValue": null,
+              "status": "ir_not_available",
+              "source": "회사 공식 IR/경영공시 탐색",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "note": "동일 기준의 독립된 연도말 IR 수치를 찾지 못해 DART 원표만 적용"
+            },
+            "movement": {
+              "status": "arithmetic_validated",
+              "source": "Open DART 별도 주석",
+              "checkValue": {
+                "opening": 6488,
+                "newbiz": 754,
+                "interest": 228,
+                "amortization": -666,
+                "closing": 6925,
+                "adjustment": 121
+              },
+              "note": "기말 = 기초 + 신계약 + 이자 + 상각 + 기타조정 검산"
+            },
+            "insuranceProfit": {
+              "value": 637.169,
+              "checkValue": null,
+              "status": "ir_fallback_required",
+              "source": "회사 공식 IR/경영공시",
+              "basis": "별도 · K-IFRS",
+              "table": "SH154/A"
+            },
+            "parentNetIncome": {
+              "value": 449.392,
+              "fisisSeparateNetIncome": null,
+              "status": "basis_difference",
+              "source": "FISIS",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도",
+              "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 267.7,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "RBC",
+              "table": "SH148/A",
+              "note": null
+            }
+          }
+        },
+        "2023-ye": {
+          "csm": 7169,
+          "growth": 3.5,
+          "movement": {
+            "opening": 6925,
+            "newbiz": 902,
+            "interest": 240,
+            "amortization": -697,
+            "closing": 7169,
+            "adjustment": -201
+          },
+          "insuranceProfit": 663.624,
+          "parentNetIncome": 472.395,
+          "kics": 250.85,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240319000450",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240319000450",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              208
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": {
+            "summary": "부분 교차검증",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 회사 공식 IR/경영공시",
+            "csm": {
+              "value": 7169,
+              "checkValue": null,
+              "status": "ir_not_available",
+              "source": "회사 공식 IR/경영공시 탐색",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "note": "동일 기준의 독립된 연도말 IR 수치를 찾지 못해 DART 원표만 적용"
+            },
+            "movement": {
+              "status": "arithmetic_validated",
+              "source": "Open DART 별도 주석",
+              "checkValue": {
+                "opening": 6925,
+                "newbiz": 902,
+                "interest": 240,
+                "amortization": -697,
+                "closing": 7169,
+                "adjustment": -201
+              },
+              "note": "기말 = 기초 + 신계약 + 이자 + 상각 + 기타조정 검산"
+            },
+            "insuranceProfit": {
+              "value": 663.624,
+              "checkValue": 663.623582549,
+              "status": "matched",
+              "source": "FISIS",
+              "basis": "별도 · K-IFRS",
+              "table": "SH154/A"
+            },
+            "parentNetIncome": {
+              "value": 472.395,
+              "fisisSeparateNetIncome": 481.850938415,
+              "status": "basis_difference",
+              "source": "FISIS",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도",
+              "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 250.85,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "K-ICS",
+              "table": "SH021/D",
+              "note": "경과조치 적용 후"
+            }
+          }
+        },
+        "2024-ye": {
+          "csm": 7224,
+          "growth": 0.8,
+          "movement": {
+            "opening": 7169,
+            "newbiz": 1265,
+            "interest": 256,
+            "amortization": -733,
+            "closing": 7224,
+            "adjustment": -733
+          },
+          "insuranceProfit": 658.381,
+          "parentNetIncome": 528.401,
+          "kics": 205.74,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250318001216",
+            "reportName": "사업보고서 (2024.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250318001216",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              231
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": {
+            "summary": "교차검증 완료",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 회사 공식 IR/경영공시",
+            "csm": {
+              "value": 7224,
+              "checkValue": 7200,
+              "status": "matched",
+              "source": "신한라이프 공식 보도자료",
+              "sourceUrl": "https://www.shinhangroup.com/kr/archive/press/detail/10",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "note": "회사 공시값 약 7.2조원(표시단위 반올림)"
+            },
+            "movement": {
+              "status": "arithmetic_validated",
+              "source": "Open DART 별도 주석",
+              "checkValue": {
+                "opening": 7169,
+                "newbiz": 1265,
+                "interest": 256,
+                "amortization": -733,
+                "closing": 7224,
+                "adjustment": -733
+              },
+              "note": "기말 = 기초 + 신계약 + 이자 + 상각 + 기타조정 검산"
+            },
+            "insuranceProfit": {
+              "value": 658.381,
+              "checkValue": 658.381335667,
+              "status": "matched",
+              "source": "FISIS",
+              "basis": "별도 · K-IFRS",
+              "table": "SH154/A"
+            },
+            "parentNetIncome": {
+              "value": 528.401,
+              "fisisSeparateNetIncome": 533.681202508,
+              "status": "basis_difference",
+              "source": "FISIS",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도",
+              "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 205.74,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "K-ICS",
+              "table": "SH021/D",
+              "note": "경과조치 적용 후"
+            }
+          }
+        },
+        "2025-ye": {
+          "csm": 7554,
+          "growth": 4.6,
+          "movement": {
+            "opening": 7224,
+            "newbiz": 1646,
+            "interest": 266,
+            "amortization": -735,
+            "closing": 7554,
+            "adjustment": -847
+          },
+          "insuranceProfit": 704.153,
+          "parentNetIncome": 507.708,
+          "kics": 205.98,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260318001034",
+            "reportName": "사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260318001034",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              257,
+              259,
+              261
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": {
+            "summary": "교차검증 완료",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 회사 공식 IR/경영공시",
+            "csm": {
+              "value": 7554,
+              "checkValue": 7600,
+              "status": "matched",
+              "source": "신한라이프 공식 보도자료",
+              "sourceUrl": "https://www.shinhangroup.com/kr/archive/press/detail/788",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "note": "회사 공시값 7.6조원(표시단위 반올림)"
+            },
+            "movement": {
+              "status": "arithmetic_validated",
+              "source": "Open DART 별도 주석",
+              "checkValue": {
+                "opening": 7224,
+                "newbiz": 1646,
+                "interest": 266,
+                "amortization": -735,
+                "closing": 7554,
+                "adjustment": -847
+              },
+              "note": "기말 = 기초 + 신계약 + 이자 + 상각 + 기타조정 검산"
+            },
+            "insuranceProfit": {
+              "value": 704.153,
+              "checkValue": 704.153333526,
+              "status": "matched",
+              "source": "FISIS",
+              "basis": "별도 · K-IFRS",
+              "table": "SH154/A"
+            },
+            "parentNetIncome": {
+              "value": 507.708,
+              "fisisSeparateNetIncome": 515.916484137,
+              "status": "basis_difference",
+              "source": "FISIS",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도",
+              "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 205.98,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "K-ICS",
+              "table": "SH021/D",
+              "note": "경과조치 적용 후"
+            }
+          }
+        }
+      }
+    },
+    "samsung-fire": {
+      "name": "삼성화재",
+      "sector": "손해보험",
+      "type": "대형 손보",
+      "periods": {
+        "2022-ye": {
+          "csm": 12144,
+          "growth": 55.3,
+          "movement": {
+            "opening": 7821,
+            "newbiz": 2137,
+            "interest": 191,
+            "amortization": -1229,
+            "closing": 12144,
+            "adjustment": 3224
+          },
+          "insuranceProfit": 1491.849,
+          "parentNetIncome": 1622.987,
+          "kics": 284.98,
+          "solvencyBasis": "RBC",
+          "quality": "DART 연차 공시 · 무브먼트 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240312001075",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312001075",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              383
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "RBC"
+          },
+          "validation": null
+        },
+        "2023-ye": {
+          "csm": 13303,
+          "growth": 9.5,
+          "movement": {
+            "opening": 12144,
+            "newbiz": 3500,
+            "interest": 398,
+            "amortization": -1539,
+            "closing": 13303,
+            "adjustment": -1200
+          },
+          "insuranceProfit": 1863.079,
+          "parentNetIncome": 1818.434,
+          "kics": 272.33,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 연차 공시 · 무브먼트 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240312001075",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312001075",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              381
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": null
+        },
+        "2024-ye": {
+          "csm": 14074,
+          "growth": 5.8,
+          "movement": {
+            "opening": 13303,
+            "newbiz": 3451,
+            "interest": 491,
+            "amortization": -1612,
+            "closing": 14074,
+            "adjustment": -1559
+          },
+          "insuranceProfit": 1780.37,
+          "parentNetIncome": 2073.572,
+          "kics": 264.96,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 연차 공시 · 무브먼트 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250311001055",
+            "reportName": "사업보고서 (2024.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250311001055",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              384
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": null
+        },
+        "2025-ye": {
+          "csm": 14168,
+          "growth": 0.7,
+          "movement": {
+            "opening": 14074,
+            "newbiz": 2898,
+            "interest": 502,
+            "amortization": -1621,
+            "closing": 14168,
+            "adjustment": -1685
+          },
+          "insuranceProfit": 1446.696,
+          "parentNetIncome": 2018.286,
+          "kics": 262.87,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 연차 공시 · 무브먼트 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260312001399",
+            "reportName": "사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001399",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              479,
+              481
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": null
+        }
+      }
+    },
+    "meritz-fire": {
+      "name": "메리츠화재",
+      "sector": "손해보험",
+      "type": "장기보험 중심",
+      "periods": {
+        "2022-ye": {
+          "csm": 9638,
+          "growth": 29.0,
+          "movement": {
+            "opening": 7469,
+            "newbiz": 1741,
+            "interest": 186,
+            "amortization": -898,
+            "closing": 9638,
+            "adjustment": 1140
+          },
+          "insuranceProfit": 1398.555,
+          "parentNetIncome": 1256.073,
+          "kics": 165.71,
+          "solvencyBasis": "RBC",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240401003572",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240401003572",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              255
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "RBC"
+          },
+          "validation": {
+            "summary": "교차검증 완료",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 메리츠금융그룹 IR",
+            "csm": {
+              "value": 9638,
+              "checkValue": 9638,
+              "status": "dart_comparative_matched",
+              "source": "Open DART 당기·차기 비교표",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "note": "당기표와 차기 사업보고서 비교표의 연도말 CSM 대조"
+            },
+            "movement": {
+              "status": "dart_comparative_matched",
+              "source": "Open DART 당기·차기 비교표",
+              "checkValue": {
+                "opening": 7469,
+                "newbiz": 1741,
+                "interest": 186,
+                "amortization": -898,
+                "closing": 9638,
+                "adjustment": 1140
+              }
+            },
+            "insuranceProfit": {
+              "value": 1398.555,
+              "checkValue": null,
+              "status": "ir_fallback_required",
+              "source": "메리츠금융그룹 IR",
+              "basis": "별도 · K-IFRS",
+              "table": "SI150/A"
+            },
+            "parentNetIncome": {
+              "value": 1256.073,
+              "fisisSeparateNetIncome": null,
+              "status": "basis_difference",
+              "source": "FISIS + Open DART",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 메리츠화재 별도",
+              "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 165.71,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "RBC",
+              "table": "SI139/A"
+            }
+          }
+        },
+        "2023-ye": {
+          "csm": 10469,
+          "growth": 8.6,
+          "movement": {
+            "opening": 9638,
+            "newbiz": 1601,
+            "interest": 298,
+            "amortization": -1070,
+            "closing": 10469,
+            "adjustment": 2
+          },
+          "insuranceProfit": 1497.057,
+          "parentNetIncome": 1566.328,
+          "kics": 242.22,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240401003572",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240401003572",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              253
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": {
+            "summary": "교차검증 완료",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 메리츠금융그룹 IR",
+            "csm": {
+              "value": 10469,
+              "checkValue": 10469,
+              "status": "dart_comparative_matched",
+              "source": "Open DART 당기·차기 비교표",
+              "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+              "note": "당기표와 차기 사업보고서 비교표의 연도말 CSM 대조"
+            },
+            "movement": {
+              "status": "dart_comparative_matched",
+              "source": "Open DART 당기·차기 비교표",
+              "checkValue": {
+                "opening": 9638,
+                "newbiz": 1601,
+                "interest": 298,
+                "amortization": -1070,
+                "closing": 10469,
+                "adjustment": 2
+              }
+            },
+            "insuranceProfit": {
+              "value": 1497.057,
+              "checkValue": 1497.057264,
+              "status": "matched",
+              "source": "FISIS",
+              "basis": "별도 · K-IFRS",
+              "table": "SI150/A"
+            },
+            "parentNetIncome": {
+              "value": 1566.328,
+              "fisisSeparateNetIncome": 1566.982632,
+              "status": "basis_difference",
+              "source": "FISIS + Open DART",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 메리츠화재 별도",
+              "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 242.22,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "K-ICS",
+              "table": "SI021/D"
+            }
+          }
+        },
+        "2024-ye": {
+          "csm": 11188,
+          "growth": 6.9,
+          "movement": {
+            "opening": 10469,
+            "newbiz": 1380,
+            "interest": 338,
+            "amortization": -1150,
+            "closing": 11188,
+            "adjustment": 151
+          },
+          "insuranceProfit": 1533.644,
+          "parentNetIncome": 1713.148,
+          "kics": 248.24,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250331003145",
+            "reportName": "사업보고서 (2024.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250331003145",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              245
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": {
+            "summary": "교차검증 완료",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 메리츠금융그룹 IR",
+            "csm": {
+              "value": 11188,
+              "checkValue": 11187.9,
+              "status": "matched",
+              "source": "메리츠금융그룹 FY2025 IR",
+              "sourceUrl": "https://m.meritzgroup.com/commfiles/hld/attach/2026/20260212/202602121818406070029U.pdf",
+              "basis": "메리츠화재 별도 · 발행 보험계약 CSM",
+              "sourcePage": "2025년말 CSM 및 전년대비 감소액 역산",
+              "note": "11조1,037억원 + 감소액 842억원 = 11조1,879억원"
+            },
+            "movement": {
+              "status": "dart_comparative_matched",
+              "source": "Open DART 당기·차기 비교표",
+              "checkValue": {
+                "opening": 10469,
+                "newbiz": 1380,
+                "interest": 338,
+                "amortization": -1150,
+                "closing": 11188,
+                "adjustment": 151
+              },
+              "note": "기시·기말 CSM은 차기 비교표 및 공식 IR과 일치"
+            },
+            "insuranceProfit": {
+              "value": 1533.644,
+              "checkValue": 1533.644053,
+              "status": "matched",
+              "source": "FISIS",
+              "basis": "별도 · K-IFRS",
+              "table": "SI150/A"
+            },
+            "parentNetIncome": {
+              "value": 1713.148,
+              "fisisSeparateNetIncome": 1710.549881,
+              "status": "basis_difference",
+              "source": "FISIS + Open DART",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 메리츠화재 별도",
+              "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 248.24,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "K-ICS",
+              "table": "SI021/D"
+            }
+          }
+        },
+        "2025-ye": {
+          "csm": 11104,
+          "growth": -0.8,
+          "movement": {
+            "opening": 11188,
+            "newbiz": 1588,
+            "interest": 362,
+            "amortization": -1167,
+            "closing": 11104,
+            "adjustment": -867
+          },
+          "insuranceProfit": 1425.411,
+          "parentNetIncome": 1691.46,
+          "kics": 241.33,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 원문 · FISIS/IR 교차검증",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260331003916",
+            "reportName": "사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331003916",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              324,
+              328
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": {
+            "summary": "교차검증 완료",
+            "primarySource": "Open DART",
+            "validationPriority": "FISIS → 메리츠금융그룹 IR",
+            "csm": {
+              "value": 11104,
+              "checkValue": 11103.7,
+              "status": "matched",
+              "source": "메리츠금융그룹 FY2025 IR",
+              "sourceUrl": "https://m.meritzgroup.com/commfiles/hld/attach/2026/20260212/202602121818406070029U.pdf",
+              "basis": "메리츠화재 별도 · 발행 보험계약 CSM",
+              "sourcePage": "발표자료 p.15 / 컨퍼런스콜 스크립트 p.6",
+              "note": "2025년말 11조1,037억원"
+            },
+            "movement": {
+              "status": "matched",
+              "source": "메리츠금융그룹 FY2025 IR",
+              "checkValue": {
+                "opening": 11188,
+                "newbiz": 1588,
+                "interest": 362,
+                "amortization": -1167,
+                "adjustment": -867,
+                "closing": 11104
+              },
+              "note": "보험계약 표 324와 328 합산 후 IR 표시단위로 반올림"
+            },
+            "insuranceProfit": {
+              "value": 1425.411,
+              "checkValue": 1425.411278,
+              "status": "matched",
+              "source": "FISIS",
+              "basis": "별도 · K-IFRS",
+              "table": "SI150/A"
+            },
+            "parentNetIncome": {
+              "value": 1691.46,
+              "fisisSeparateNetIncome": 1681.02433,
+              "status": "basis_difference",
+              "source": "FISIS + Open DART",
+              "basis": "DART 값은 연결 지배기업 귀속, FISIS는 메리츠화재 별도",
+              "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+            },
+            "kics": {
+              "value": 241.33,
+              "status": "validated",
+              "source": "FISIS",
+              "basis": "K-ICS",
+              "table": "SI021/D"
+            }
+          }
+        }
+      }
+    },
+    "db-insurance": {
+      "name": "DB손해보험",
+      "sector": "손해보험",
+      "type": "대형 손보",
+      "periods": {
+        "2022-ye": {
+          "csm": 11643,
+          "growth": 19.8,
+          "movement": {
+            "opening": 9719,
+            "newbiz": 2793,
+            "interest": 241,
+            "amortization": -1143,
+            "closing": 11643,
+            "adjustment": 33
+          },
+          "insuranceProfit": 2004.682,
+          "parentNetIncome": 2033.901,
+          "kics": null,
+          "solvencyBasis": "RBC",
+          "quality": "DART 연차 공시 · 무브먼트 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240314001788",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240314001788",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              282
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "RBC"
+          },
+          "validation": null
+        },
+        "2023-ye": {
+          "csm": 12152,
+          "growth": 4.4,
+          "movement": {
+            "opening": 11643,
+            "newbiz": 2826,
+            "interest": 364,
+            "amortization": -1262,
+            "closing": 12152,
+            "adjustment": -1419
+          },
+          "insuranceProfit": 1550.008,
+          "parentNetIncome": 1738.569,
+          "kics": 231.1,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 연차 공시 · 무브먼트 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240314001788",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240314001788",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              280
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": null
+        },
+        "2024-ye": {
+          "csm": 12232,
+          "growth": 0.7,
+          "movement": {
+            "opening": 12152,
+            "newbiz": 3078,
+            "interest": 441,
+            "amortization": -1298,
+            "closing": 12232,
+            "adjustment": -2141
+          },
+          "insuranceProfit": 1619.094,
+          "parentNetIncome": 1851.594,
+          "kics": 203.0,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 연차 공시 · 무브먼트 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250313001342",
+            "reportName": "사업보고서 (2024.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250313001342",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              274
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": null
+        },
+        "2025-ye": {
+          "csm": 12187,
+          "growth": -0.2,
+          "movement": {
+            "opening": 12206,
+            "newbiz": 2932,
+            "interest": 443,
+            "amortization": -1284,
+            "closing": 12187,
+            "adjustment": -2110
+          },
+          "insuranceProfit": 1035.95,
+          "parentNetIncome": 1788.026,
+          "kics": 217.8,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 연차 공시 · 무브먼트 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260312001222",
+            "reportName": "사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001222",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              285
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": null
+        }
+      }
+    },
+    "hyundai-marine": {
+      "name": "현대해상",
+      "sector": "손해보험",
+      "type": "대형 손보",
+      "periods": {
+        "2022-ye": {
+          "csm": 8352,
+          "growth": 23.9,
+          "movement": {
+            "opening": 6739,
+            "newbiz": 1825,
+            "interest": 172,
+            "amortization": -721,
+            "closing": 8352,
+            "adjustment": 337
+          },
+          "insuranceProfit": 1357.759,
+          "parentNetIncome": 1294.976,
+          "kics": 174.6,
+          "solvencyBasis": "RBC",
+          "quality": "DART 연차 공시 · 무브먼트 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240314001515",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240314001515",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              362
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "RBC"
+          },
+          "validation": null
+        },
+        "2023-ye": {
+          "csm": 9142,
+          "growth": 9.5,
+          "movement": {
+            "opening": 8352,
+            "newbiz": 1679,
+            "interest": 264,
+            "amortization": -881,
+            "closing": 9142,
+            "adjustment": -272
+          },
+          "insuranceProfit": 526.491,
+          "parentNetIncome": 607.829,
+          "kics": 173.2,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 연차 공시 · 무브먼트 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240314001515",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240314001515",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              360
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": null
+        },
+        "2024-ye": {
+          "csm": 8305,
+          "growth": -9.2,
+          "movement": {
+            "opening": 9142,
+            "newbiz": 1828,
+            "interest": 321,
+            "amortization": -951,
+            "closing": 8305,
+            "adjustment": -2035
+          },
+          "insuranceProfit": 1043.103,
+          "parentNetIncome": 850.533,
+          "kics": 157.0,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 연차 공시 · 무브먼트 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250313001346",
+            "reportName": "사업보고서 (2024.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250313001346",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              381
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": null
+        },
+        "2025-ye": {
+          "csm": 8978,
+          "growth": 8.1,
+          "movement": {
+            "opening": 8305,
+            "newbiz": 2038,
+            "interest": 318,
+            "amortization": -964,
+            "closing": 8978,
+            "adjustment": -719
+          },
+          "insuranceProfit": 396.111,
+          "parentNetIncome": 1019.82,
+          "kics": 190.1,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 연차 공시 · 무브먼트 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260312001448",
+            "reportName": "사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001448",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              397,
+              401
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": null
+        }
+      }
+    },
+    "kb-insurance": {
+      "name": "KB손해보험",
+      "sector": "손해보험",
+      "type": "금융지주 계열",
+      "periods": {
+        "2022-ye": {
+          "csm": 7945,
+          "growth": 9.5,
+          "movement": {
+            "opening": 7255,
+            "newbiz": 1566,
+            "interest": 229,
+            "amortization": -726,
+            "closing": 7945,
+            "adjustment": -379
+          },
+          "insuranceProfit": 866.291,
+          "parentNetIncome": 546.968,
+          "kics": null,
+          "solvencyBasis": "RBC",
+          "quality": "DART 연차 공시 · 무브먼트 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240312000746",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000746",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              197
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "RBC"
+          },
+          "validation": null
+        },
+        "2023-ye": {
+          "csm": 8518,
+          "growth": 7.2,
+          "movement": {
+            "opening": 7945,
+            "newbiz": 1837,
+            "interest": 291,
+            "amortization": -812,
+            "closing": 8518,
+            "adjustment": -743
+          },
+          "insuranceProfit": 832.922,
+          "parentNetIncome": 766.211,
+          "kics": 216.04,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 연차 공시 · 무브먼트 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20240312000746",
+            "reportName": "사업보고서 (2023.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000746",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              196
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": null
+        },
+        "2024-ye": {
+          "csm": 8820,
+          "growth": 3.5,
+          "movement": {
+            "opening": 8518,
+            "newbiz": 1932,
+            "interest": 330,
+            "amortization": -838,
+            "closing": 8820,
+            "adjustment": -1122
+          },
+          "insuranceProfit": 977.999,
+          "parentNetIncome": 835.81,
+          "kics": 186.19,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 연차 공시 · 무브먼트 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20250314001697",
+            "reportName": "사업보고서 (2024.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250314001697",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              199
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": null
+        },
+        "2025-ye": {
+          "csm": 9285,
+          "growth": 5.3,
+          "movement": {
+            "opening": 8820,
+            "newbiz": 1742,
+            "interest": 332,
+            "amortization": -853,
+            "closing": 9285,
+            "adjustment": -756
+          },
+          "insuranceProfit": 626.695,
+          "parentNetIncome": 774.969,
+          "kics": 192.42,
+          "solvencyBasis": "K-ICS",
+          "quality": "DART 연차 공시 · 무브먼트 검산",
+          "sourceReference": {
+            "sourceType": "Open DART",
+            "rceptNo": "20260313001064",
+            "reportName": "사업보고서 (2025.12)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260313001064",
+            "valueKind": "actual",
+            "basis": "separate_financial_statement_excluding_reinsurance",
+            "unit": "KRW billion",
+            "sourceTables": [
+              216
+            ]
+          },
+          "metricBasis": {
+            "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
+            "insuranceProfit": "별도 · K-IFRS",
+            "parentNetIncome": "연결 · 지배기업 소유주 귀속",
+            "solvency": "K-ICS"
+          },
+          "validation": null
+        }
+      }
+    }
+  }
+}

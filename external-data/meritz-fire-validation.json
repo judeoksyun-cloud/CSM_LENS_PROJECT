@@ -1,0 +1,216 @@
+{
+  "schemaVersion": "meritz-fire-validation/v1",
+  "generatedAt": "2026-07-29T04:08:43.575592+00:00",
+  "company": {
+    "key": "meritz-fire",
+    "name": "메리츠화재",
+    "fisisFinanceCd": "0010626"
+  },
+  "sourcePolicy": {
+    "primary": "Open DART",
+    "validation": [
+      "FISIS",
+      "메리츠금융그룹 IR"
+    ]
+  },
+  "periods": {
+    "2022": {
+      "summary": "교차검증 완료",
+      "primarySource": "Open DART",
+      "validationPriority": "FISIS → 메리츠금융그룹 IR",
+      "csm": {
+        "value": 9638,
+        "checkValue": 9638,
+        "status": "dart_comparative_matched",
+        "source": "Open DART 당기·차기 비교표",
+        "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+        "note": "당기표와 차기 사업보고서 비교표의 연도말 CSM 대조"
+      },
+      "movement": {
+        "status": "dart_comparative_matched",
+        "source": "Open DART 당기·차기 비교표",
+        "checkValue": {
+          "opening": 7469,
+          "newbiz": 1741,
+          "interest": 186,
+          "amortization": -898,
+          "closing": 9638,
+          "adjustment": 1140
+        }
+      },
+      "insuranceProfit": {
+        "value": 1398.555,
+        "checkValue": null,
+        "status": "ir_fallback_required",
+        "source": "메리츠금융그룹 IR",
+        "basis": "별도 · K-IFRS",
+        "table": "SI150/A"
+      },
+      "parentNetIncome": {
+        "value": 1256.073,
+        "fisisSeparateNetIncome": null,
+        "status": "basis_difference",
+        "source": "FISIS + Open DART",
+        "basis": "DART 값은 연결 지배기업 귀속, FISIS는 메리츠화재 별도",
+        "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+      },
+      "kics": {
+        "value": 165.71,
+        "status": "validated",
+        "source": "FISIS",
+        "basis": "RBC",
+        "table": "SI139/A"
+      }
+    },
+    "2023": {
+      "summary": "교차검증 완료",
+      "primarySource": "Open DART",
+      "validationPriority": "FISIS → 메리츠금융그룹 IR",
+      "csm": {
+        "value": 10469,
+        "checkValue": 10469,
+        "status": "dart_comparative_matched",
+        "source": "Open DART 당기·차기 비교표",
+        "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+        "note": "당기표와 차기 사업보고서 비교표의 연도말 CSM 대조"
+      },
+      "movement": {
+        "status": "dart_comparative_matched",
+        "source": "Open DART 당기·차기 비교표",
+        "checkValue": {
+          "opening": 9638,
+          "newbiz": 1601,
+          "interest": 298,
+          "amortization": -1070,
+          "closing": 10469,
+          "adjustment": 2
+        }
+      },
+      "insuranceProfit": {
+        "value": 1497.057,
+        "checkValue": 1497.057264,
+        "status": "matched",
+        "source": "FISIS",
+        "basis": "별도 · K-IFRS",
+        "table": "SI150/A"
+      },
+      "parentNetIncome": {
+        "value": 1566.328,
+        "fisisSeparateNetIncome": 1566.982632,
+        "status": "basis_difference",
+        "source": "FISIS + Open DART",
+        "basis": "DART 값은 연결 지배기업 귀속, FISIS는 메리츠화재 별도",
+        "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+      },
+      "kics": {
+        "value": 242.22,
+        "status": "validated",
+        "source": "FISIS",
+        "basis": "K-ICS",
+        "table": "SI021/D"
+      }
+    },
+    "2024": {
+      "summary": "교차검증 완료",
+      "primarySource": "Open DART",
+      "validationPriority": "FISIS → 메리츠금융그룹 IR",
+      "csm": {
+        "value": 11188,
+        "checkValue": 11187.9,
+        "status": "matched",
+        "source": "메리츠금융그룹 FY2025 IR",
+        "sourceUrl": "https://m.meritzgroup.com/commfiles/hld/attach/2026/20260212/202602121818406070029U.pdf",
+        "basis": "메리츠화재 별도 · 발행 보험계약 CSM",
+        "sourcePage": "2025년말 CSM 및 전년대비 감소액 역산",
+        "note": "11조1,037억원 + 감소액 842억원 = 11조1,879억원"
+      },
+      "movement": {
+        "status": "dart_comparative_matched",
+        "source": "Open DART 당기·차기 비교표",
+        "checkValue": {
+          "opening": 10469,
+          "newbiz": 1380,
+          "interest": 338,
+          "amortization": -1150,
+          "closing": 11188,
+          "adjustment": 151
+        },
+        "note": "기시·기말 CSM은 차기 비교표 및 공식 IR과 일치"
+      },
+      "insuranceProfit": {
+        "value": 1533.644,
+        "checkValue": 1533.644053,
+        "status": "matched",
+        "source": "FISIS",
+        "basis": "별도 · K-IFRS",
+        "table": "SI150/A"
+      },
+      "parentNetIncome": {
+        "value": 1713.148,
+        "fisisSeparateNetIncome": 1710.549881,
+        "status": "basis_difference",
+        "source": "FISIS + Open DART",
+        "basis": "DART 값은 연결 지배기업 귀속, FISIS는 메리츠화재 별도",
+        "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+      },
+      "kics": {
+        "value": 248.24,
+        "status": "validated",
+        "source": "FISIS",
+        "basis": "K-ICS",
+        "table": "SI021/D"
+      }
+    },
+    "2025": {
+      "summary": "교차검증 완료",
+      "primarySource": "Open DART",
+      "validationPriority": "FISIS → 메리츠금융그룹 IR",
+      "csm": {
+        "value": 11104,
+        "checkValue": 11103.7,
+        "status": "matched",
+        "source": "메리츠금융그룹 FY2025 IR",
+        "sourceUrl": "https://m.meritzgroup.com/commfiles/hld/attach/2026/20260212/202602121818406070029U.pdf",
+        "basis": "메리츠화재 별도 · 발행 보험계약 CSM",
+        "sourcePage": "발표자료 p.15 / 컨퍼런스콜 스크립트 p.6",
+        "note": "2025년말 11조1,037억원"
+      },
+      "movement": {
+        "status": "matched",
+        "source": "메리츠금융그룹 FY2025 IR",
+        "checkValue": {
+          "opening": 11188,
+          "newbiz": 1588,
+          "interest": 362,
+          "amortization": -1167,
+          "adjustment": -867,
+          "closing": 11104
+        },
+        "note": "보험계약 표 324와 328 합산 후 IR 표시단위로 반올림"
+      },
+      "insuranceProfit": {
+        "value": 1425.411,
+        "checkValue": 1425.411278,
+        "status": "matched",
+        "source": "FISIS",
+        "basis": "별도 · K-IFRS",
+        "table": "SI150/A"
+      },
+      "parentNetIncome": {
+        "value": 1691.46,
+        "fisisSeparateNetIncome": 1681.02433,
+        "status": "basis_difference",
+        "source": "FISIS + Open DART",
+        "basis": "DART 값은 연결 지배기업 귀속, FISIS는 메리츠화재 별도",
+        "note": "귀속 범위가 달라 수치 일치 판정에서 제외"
+      },
+      "kics": {
+        "value": 241.33,
+        "status": "validated",
+        "source": "FISIS",
+        "basis": "K-ICS",
+        "table": "SI021/D"
+      }
+    }
+  }
+}

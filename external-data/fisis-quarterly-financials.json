@@ -1,0 +1,1707 @@
+{
+  "contract": "csm-quarterly-fisis-financials/v1",
+  "source": "FISIS Open API",
+  "companies": {
+    "samsung-life": {
+      "name": "삼성생명",
+      "financeCd": "0010595",
+      "listNo": "SH154",
+      "periods": {
+        "2023-q1": {
+          "insuranceProfit": {
+            "standalone": 383.721,
+            "cumulative": 383.721,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 794.803,
+            "cumulative": 794.803,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q2": {
+          "insuranceProfit": {
+            "standalone": 434.616,
+            "cumulative": 818.337,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 63.084,
+            "cumulative": 857.886,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q3": {
+          "insuranceProfit": {
+            "standalone": 387.728,
+            "cumulative": 1206.065,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 268.176,
+            "cumulative": 1126.062,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q4": {
+          "insuranceProfit": {
+            "standalone": 242.479,
+            "cumulative": 1448.544,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 256.839,
+            "cumulative": 1382.902,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q1": {
+          "insuranceProfit": {
+            "standalone": 268.249,
+            "cumulative": 268.249,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 651.328,
+            "cumulative": 651.328,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q2": {
+          "insuranceProfit": {
+            "standalone": 443.597,
+            "cumulative": 711.845,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 438.637,
+            "cumulative": 1089.965,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q3": {
+          "insuranceProfit": {
+            "standalone": 475.215,
+            "cumulative": 1187.06,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 460.843,
+            "cumulative": 1550.808,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q4": {
+          "insuranceProfit": {
+            "standalone": -645.071,
+            "cumulative": 541.99,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": -63.872,
+            "cumulative": 1486.936,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q1": {
+          "insuranceProfit": {
+            "standalone": 277.882,
+            "cumulative": 277.882,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 703.719,
+            "cumulative": 703.719,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q2": {
+          "insuranceProfit": {
+            "standalone": 553.463,
+            "cumulative": 831.345,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 496.755,
+            "cumulative": 1200.474,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q3": {
+          "insuranceProfit": {
+            "standalone": 261.598,
+            "cumulative": 1092.943,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 409.419,
+            "cumulative": 1609.894,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q4": {
+          "insuranceProfit": {
+            "standalone": -118.227,
+            "cumulative": 974.716,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 89.868,
+            "cumulative": 1699.762,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2026-q1": {
+          "insuranceProfit": {
+            "standalone": 256.477,
+            "cumulative": 256.477,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 1142.11,
+            "cumulative": 1142.11,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        }
+      }
+    },
+    "hanwha-life": {
+      "name": "한화생명",
+      "financeCd": "0010593",
+      "listNo": "SH154",
+      "periods": {
+        "2023-q1": {
+          "insuranceProfit": {
+            "standalone": 172.203,
+            "cumulative": 172.203,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 470.912,
+            "cumulative": 470.912,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q2": {
+          "insuranceProfit": {
+            "standalone": 219.732,
+            "cumulative": 391.935,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 147.784,
+            "cumulative": 618.696,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q3": {
+          "insuranceProfit": {
+            "standalone": 172.604,
+            "cumulative": 564.539,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": -40.803,
+            "cumulative": 577.893,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q4": {
+          "insuranceProfit": {
+            "standalone": 86.402,
+            "cumulative": 650.941,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 38.369,
+            "cumulative": 616.262,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q1": {
+          "insuranceProfit": {
+            "standalone": 90.828,
+            "cumulative": 90.828,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 175.532,
+            "cumulative": 175.532,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q2": {
+          "insuranceProfit": {
+            "standalone": 183.724,
+            "cumulative": 274.552,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 172.286,
+            "cumulative": 347.818,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q3": {
+          "insuranceProfit": {
+            "standalone": 106.828,
+            "cumulative": 381.38,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 236.787,
+            "cumulative": 584.605,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q4": {
+          "insuranceProfit": {
+            "standalone": 124.925,
+            "cumulative": 506.305,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 135.965,
+            "cumulative": 720.57,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q1": {
+          "insuranceProfit": {
+            "standalone": 104.208,
+            "cumulative": 104.208,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 121.991,
+            "cumulative": 121.991,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q2": {
+          "insuranceProfit": {
+            "standalone": 71.792,
+            "cumulative": 175.999,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 57.71,
+            "cumulative": 179.701,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q3": {
+          "insuranceProfit": {
+            "standalone": -36.576,
+            "cumulative": 139.423,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 136.114,
+            "cumulative": 315.815,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q4": {
+          "insuranceProfit": {
+            "standalone": 204.996,
+            "cumulative": 344.419,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": -2.495,
+            "cumulative": 313.32,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2026-q1": {
+          "insuranceProfit": {
+            "standalone": 62.394,
+            "cumulative": 62.394,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 247.844,
+            "cumulative": 247.844,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        }
+      }
+    },
+    "kyobo-life": {
+      "name": "교보생명",
+      "financeCd": "0010597",
+      "listNo": "SH154",
+      "periods": {
+        "2023-q1": {
+          "insuranceProfit": {
+            "standalone": 100.173,
+            "cumulative": 100.173,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 462.408,
+            "cumulative": 462.408,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q2": {
+          "insuranceProfit": {
+            "standalone": 191.989,
+            "cumulative": 292.162,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 272.264,
+            "cumulative": 734.672,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q3": {
+          "insuranceProfit": {
+            "standalone": 89.282,
+            "cumulative": 381.444,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 8.175,
+            "cumulative": 742.847,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q4": {
+          "insuranceProfit": {
+            "standalone": -148.762,
+            "cumulative": 232.682,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": -110.647,
+            "cumulative": 632.201,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q1": {
+          "insuranceProfit": {
+            "standalone": 139.83,
+            "cumulative": 139.83,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 338.637,
+            "cumulative": 338.637,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q2": {
+          "insuranceProfit": {
+            "standalone": 235.812,
+            "cumulative": 375.642,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 323.187,
+            "cumulative": 661.824,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q3": {
+          "insuranceProfit": {
+            "standalone": 181.516,
+            "cumulative": 557.157,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 278.103,
+            "cumulative": 939.926,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q4": {
+          "insuranceProfit": {
+            "standalone": -83.533,
+            "cumulative": 473.624,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": -241.19,
+            "cumulative": 698.736,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q1": {
+          "insuranceProfit": {
+            "standalone": 163.11,
+            "cumulative": 163.11,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 315.282,
+            "cumulative": 315.282,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q2": {
+          "insuranceProfit": {
+            "standalone": 90.491,
+            "cumulative": 253.602,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 270.025,
+            "cumulative": 585.307,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q3": {
+          "insuranceProfit": {
+            "standalone": 167.926,
+            "cumulative": 421.528,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 261.664,
+            "cumulative": 846.972,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q4": {
+          "insuranceProfit": {
+            "standalone": -29.938,
+            "cumulative": 391.59,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": -83.761,
+            "cumulative": 763.21,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2026-q1": {
+          "insuranceProfit": {
+            "standalone": 184.787,
+            "cumulative": 184.787,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 330.14,
+            "cumulative": 330.14,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        }
+      }
+    },
+    "shinhan-life": {
+      "name": "신한라이프",
+      "financeCd": "0010599",
+      "listNo": "SH154",
+      "periods": {
+        "2023-q1": {
+          "insuranceProfit": {
+            "standalone": 133.454,
+            "cumulative": 133.454,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 140.571,
+            "cumulative": 140.571,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q2": {
+          "insuranceProfit": {
+            "standalone": 179.054,
+            "cumulative": 312.509,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 175.186,
+            "cumulative": 315.757,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q3": {
+          "insuranceProfit": {
+            "standalone": 182.848,
+            "cumulative": 495.356,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 114.574,
+            "cumulative": 430.331,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q4": {
+          "insuranceProfit": {
+            "standalone": 168.267,
+            "cumulative": 663.624,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 51.52,
+            "cumulative": 481.851,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q1": {
+          "insuranceProfit": {
+            "standalone": 200.332,
+            "cumulative": 200.332,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 157.757,
+            "cumulative": 157.757,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q2": {
+          "insuranceProfit": {
+            "standalone": 205.713,
+            "cumulative": 406.045,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 165.887,
+            "cumulative": 323.644,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q3": {
+          "insuranceProfit": {
+            "standalone": 192.015,
+            "cumulative": 598.06,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 161.977,
+            "cumulative": 485.621,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q4": {
+          "insuranceProfit": {
+            "standalone": 60.321,
+            "cumulative": 658.381,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 48.06,
+            "cumulative": 533.681,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q1": {
+          "insuranceProfit": {
+            "standalone": 189.026,
+            "cumulative": 189.026,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 165.632,
+            "cumulative": 165.632,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q2": {
+          "insuranceProfit": {
+            "standalone": 186.45,
+            "cumulative": 375.476,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 179.635,
+            "cumulative": 345.267,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q3": {
+          "insuranceProfit": {
+            "standalone": 203.882,
+            "cumulative": 579.358,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 173.994,
+            "cumulative": 519.261,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q4": {
+          "insuranceProfit": {
+            "standalone": 124.796,
+            "cumulative": 704.153,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": -3.345,
+            "cumulative": 515.916,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2026-q1": {
+          "insuranceProfit": {
+            "standalone": 161.305,
+            "cumulative": 161.305,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 112.027,
+            "cumulative": 112.027,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        }
+      }
+    },
+    "samsung-fire": {
+      "name": "삼성화재",
+      "financeCd": "0010633",
+      "listNo": "SI150",
+      "periods": {
+        "2023-q1": {
+          "insuranceProfit": {
+            "standalone": 585.038,
+            "cumulative": 585.038,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 580.138,
+            "cumulative": 580.138,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q2": {
+          "insuranceProfit": {
+            "standalone": 620.513,
+            "cumulative": 1205.55,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 604.384,
+            "cumulative": 1184.522,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q3": {
+          "insuranceProfit": {
+            "standalone": 533.53,
+            "cumulative": 1739.081,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 403.21,
+            "cumulative": 1587.732,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q4": {
+          "insuranceProfit": {
+            "standalone": 194.303,
+            "cumulative": 1933.384,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 167.642,
+            "cumulative": 1755.374,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q1": {
+          "insuranceProfit": {
+            "standalone": 603.762,
+            "cumulative": 603.762,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 683.871,
+            "cumulative": 683.871,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q2": {
+          "insuranceProfit": {
+            "standalone": 566.78,
+            "cumulative": 1170.542,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 593.337,
+            "cumulative": 1277.207,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q3": {
+          "insuranceProfit": {
+            "standalone": 476.999,
+            "cumulative": 1647.541,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 557.223,
+            "cumulative": 1834.43,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q4": {
+          "insuranceProfit": {
+            "standalone": 201.538,
+            "cumulative": 1849.079,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 213.351,
+            "cumulative": 2047.781,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q1": {
+          "insuranceProfit": {
+            "standalone": 498.819,
+            "cumulative": 498.819,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 555.634,
+            "cumulative": 555.634,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q2": {
+          "insuranceProfit": {
+            "standalone": 472.017,
+            "cumulative": 970.836,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 398.227,
+            "cumulative": 953.86,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q3": {
+          "insuranceProfit": {
+            "standalone": 368.961,
+            "cumulative": 1339.797,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 509.323,
+            "cumulative": 1463.184,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q4": {
+          "insuranceProfit": {
+            "standalone": 179.731,
+            "cumulative": 1519.528,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 227.695,
+            "cumulative": 1690.878,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2026-q1": {
+          "insuranceProfit": {
+            "standalone": 535.159,
+            "cumulative": 535.159,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 573.35,
+            "cumulative": 573.35,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        }
+      }
+    },
+    "meritz-fire": {
+      "name": "메리츠화재",
+      "financeCd": "0010626",
+      "listNo": "SI150",
+      "periods": {
+        "2023-q1": {
+          "insuranceProfit": {
+            "standalone": 400.989,
+            "cumulative": 400.989,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 396.526,
+            "cumulative": 396.526,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q2": {
+          "insuranceProfit": {
+            "standalone": 378.314,
+            "cumulative": 779.302,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 419.478,
+            "cumulative": 816.004,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q3": {
+          "insuranceProfit": {
+            "standalone": 454.402,
+            "cumulative": 1233.705,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 480.066,
+            "cumulative": 1296.069,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q4": {
+          "insuranceProfit": {
+            "standalone": 263.353,
+            "cumulative": 1497.057,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 270.913,
+            "cumulative": 1566.983,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q1": {
+          "insuranceProfit": {
+            "standalone": 457.913,
+            "cumulative": 457.913,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 490.864,
+            "cumulative": 490.864,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q2": {
+          "insuranceProfit": {
+            "standalone": 483.228,
+            "cumulative": 941.141,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 506.821,
+            "cumulative": 997.685,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q3": {
+          "insuranceProfit": {
+            "standalone": 463.158,
+            "cumulative": 1404.299,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 495.099,
+            "cumulative": 1492.784,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q4": {
+          "insuranceProfit": {
+            "standalone": 129.345,
+            "cumulative": 1533.644,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 217.765,
+            "cumulative": 1710.55,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q1": {
+          "insuranceProfit": {
+            "standalone": 359.84,
+            "cumulative": 359.84,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 462.513,
+            "cumulative": 462.513,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q2": {
+          "insuranceProfit": {
+            "standalone": 364.352,
+            "cumulative": 724.192,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 524.741,
+            "cumulative": 987.254,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q3": {
+          "insuranceProfit": {
+            "standalone": 300.058,
+            "cumulative": 1024.249,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 463.821,
+            "cumulative": 1451.076,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q4": {
+          "insuranceProfit": {
+            "standalone": 401.162,
+            "cumulative": 1425.411,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 229.948,
+            "cumulative": 1681.024,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2026-q1": {
+          "insuranceProfit": {
+            "standalone": 334.565,
+            "cumulative": 334.565,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 466.071,
+            "cumulative": 466.071,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        }
+      }
+    },
+    "db-insurance": {
+      "name": "DB손해보험",
+      "financeCd": "0010636",
+      "listNo": "SI150",
+      "periods": {
+        "2023-q1": {
+          "insuranceProfit": {
+            "standalone": 456.176,
+            "cumulative": 456.176,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 447.269,
+            "cumulative": 447.269,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q2": {
+          "insuranceProfit": {
+            "standalone": 446.579,
+            "cumulative": 902.755,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 464.975,
+            "cumulative": 912.244,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q3": {
+          "insuranceProfit": {
+            "standalone": 405.003,
+            "cumulative": 1307.759,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 363.457,
+            "cumulative": 1275.701,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q4": {
+          "insuranceProfit": {
+            "standalone": 242.249,
+            "cumulative": 1550.008,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 261.044,
+            "cumulative": 1536.746,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q1": {
+          "insuranceProfit": {
+            "standalone": 562.91,
+            "cumulative": 562.91,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 583.443,
+            "cumulative": 583.443,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q2": {
+          "insuranceProfit": {
+            "standalone": 534.389,
+            "cumulative": 1097.299,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 540.657,
+            "cumulative": 1124.1,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q3": {
+          "insuranceProfit": {
+            "standalone": 361.328,
+            "cumulative": 1458.627,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 453.867,
+            "cumulative": 1577.967,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q4": {
+          "insuranceProfit": {
+            "standalone": 160.467,
+            "cumulative": 1619.094,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 194.263,
+            "cumulative": 1772.229,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q1": {
+          "insuranceProfit": {
+            "standalone": 402.719,
+            "cumulative": 402.719,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 446.987,
+            "cumulative": 446.987,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q2": {
+          "insuranceProfit": {
+            "standalone": 267.692,
+            "cumulative": 670.411,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 459.923,
+            "cumulative": 906.909,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q3": {
+          "insuranceProfit": {
+            "standalone": 102.122,
+            "cumulative": 772.533,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 293.0,
+            "cumulative": 1199.91,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q4": {
+          "insuranceProfit": {
+            "standalone": 263.415,
+            "cumulative": 1035.948,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 334.969,
+            "cumulative": 1534.879,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2026-q1": {
+          "insuranceProfit": {
+            "standalone": 226.559,
+            "cumulative": 226.559,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 268.504,
+            "cumulative": 268.504,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        }
+      }
+    },
+    "hyundai-marine": {
+      "name": "현대해상",
+      "financeCd": "0010634",
+      "listNo": "SI150",
+      "periods": {
+        "2023-q1": {
+          "insuranceProfit": {
+            "standalone": 246.045,
+            "cumulative": 246.045,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 315.302,
+            "cumulative": 315.302,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q2": {
+          "insuranceProfit": {
+            "standalone": 169.607,
+            "cumulative": 415.652,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 181.662,
+            "cumulative": 496.963,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q3": {
+          "insuranceProfit": {
+            "standalone": 338.827,
+            "cumulative": 754.479,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 289.392,
+            "cumulative": 786.355,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q4": {
+          "insuranceProfit": {
+            "standalone": -227.989,
+            "cumulative": 526.491,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 19.366,
+            "cumulative": 805.722,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q1": {
+          "insuranceProfit": {
+            "standalone": 532.889,
+            "cumulative": 532.889,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 477.254,
+            "cumulative": 477.254,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q2": {
+          "insuranceProfit": {
+            "standalone": 375.944,
+            "cumulative": 908.833,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 355.737,
+            "cumulative": 832.991,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q3": {
+          "insuranceProfit": {
+            "standalone": 182.031,
+            "cumulative": 1090.864,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 213.429,
+            "cumulative": 1046.42,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q4": {
+          "insuranceProfit": {
+            "standalone": -47.762,
+            "cumulative": 1043.103,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": -15.736,
+            "cumulative": 1030.684,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q1": {
+          "insuranceProfit": {
+            "standalone": 175.914,
+            "cumulative": 175.914,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 203.195,
+            "cumulative": 203.195,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q2": {
+          "insuranceProfit": {
+            "standalone": 212.662,
+            "cumulative": 388.576,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 247.77,
+            "cumulative": 450.965,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q3": {
+          "insuranceProfit": {
+            "standalone": 161.43,
+            "cumulative": 550.006,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 183.181,
+            "cumulative": 634.147,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q4": {
+          "insuranceProfit": {
+            "standalone": -153.895,
+            "cumulative": 396.111,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": -73.04,
+            "cumulative": 561.106,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2026-q1": {
+          "insuranceProfit": {
+            "standalone": 302.065,
+            "cumulative": 302.065,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 223.267,
+            "cumulative": 223.267,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        }
+      }
+    },
+    "kb-insurance": {
+      "name": "KB손해보험",
+      "financeCd": "0010635",
+      "listNo": "SI150",
+      "periods": {
+        "2023-q1": {
+          "insuranceProfit": {
+            "standalone": 248.907,
+            "cumulative": 248.907,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 264.285,
+            "cumulative": 264.285,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q2": {
+          "insuranceProfit": {
+            "standalone": 280.177,
+            "cumulative": 529.083,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 281.935,
+            "cumulative": 546.22,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q3": {
+          "insuranceProfit": {
+            "standalone": 252.893,
+            "cumulative": 781.976,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 162.623,
+            "cumulative": 708.843,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2023-q4": {
+          "insuranceProfit": {
+            "standalone": 50.946,
+            "cumulative": 832.922,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 67.543,
+            "cumulative": 776.386,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q1": {
+          "insuranceProfit": {
+            "standalone": 366.614,
+            "cumulative": 366.614,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 298.302,
+            "cumulative": 298.302,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q2": {
+          "insuranceProfit": {
+            "standalone": 321.552,
+            "cumulative": 688.166,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 290.791,
+            "cumulative": 589.093,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q3": {
+          "insuranceProfit": {
+            "standalone": 187.482,
+            "cumulative": 875.648,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 169.765,
+            "cumulative": 758.858,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2024-q4": {
+          "insuranceProfit": {
+            "standalone": 102.351,
+            "cumulative": 977.999,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 97.891,
+            "cumulative": 856.749,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q1": {
+          "insuranceProfit": {
+            "standalone": 263.066,
+            "cumulative": 263.066,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 319.819,
+            "cumulative": 319.819,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q2": {
+          "insuranceProfit": {
+            "standalone": 237.93,
+            "cumulative": 500.996,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 246.267,
+            "cumulative": 566.086,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q3": {
+          "insuranceProfit": {
+            "standalone": 154.916,
+            "cumulative": 655.912,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 210.144,
+            "cumulative": 776.23,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2025-q4": {
+          "insuranceProfit": {
+            "standalone": -29.217,
+            "cumulative": 626.695,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 4.847,
+            "cumulative": 781.077,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        },
+        "2026-q1": {
+          "insuranceProfit": {
+            "standalone": 182.8,
+            "cumulative": 182.8,
+            "accountCode": "A",
+            "accountName": "보험손익"
+          },
+          "netIncome": {
+            "standalone": 213.973,
+            "cumulative": 213.973,
+            "accountCode": "G",
+            "accountName": "당기순이익(또는당기순손실"
+          }
+        }
+      }
+    }
+  }
+}

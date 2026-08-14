@@ -1,0 +1,222 @@
+{
+  "schemaVersion": "hanwha-life-validation/v1",
+  "generatedAt": "2026-07-28T03:35:38.599598+00:00",
+  "company": {
+    "key": "hanwha-life",
+    "name": "한화생명",
+    "fisisFinanceCd": "0010593"
+  },
+  "sourcePolicy": {
+    "primary": "Open DART",
+    "validation": [
+      "FISIS",
+      "한화생명 IR"
+    ]
+  },
+  "periods": {
+    "2022": {
+      "summary": "교차검증 완료",
+      "primarySource": "Open DART",
+      "validationPriority": "FISIS → 한화생명 IR",
+      "csm": {
+        "value": 9763,
+        "checkValue": 9763,
+        "status": "matched",
+        "source": "한화생명 IR",
+        "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+        "sourceUrl": "https://company.hanwhalife.com/ko/investment/investor/earnings-release",
+        "attachmentSeq": 768,
+        "sourcePage": "2023 FY2022 발표자료 p.8 및 2024 FY2023 발표자료 p.7"
+      },
+      "movement": {
+        "status": "matched",
+        "source": "한화생명 IR",
+        "checkValue": {
+          "opening": 7477,
+          "newbiz": 1609,
+          "interest": 263,
+          "amortization": -824,
+          "adjustment": 1238,
+          "closing": 9763
+        }
+      },
+      "insuranceProfit": {
+        "value": 672.428,
+        "checkValue": null,
+        "status": "ir_fallback_required",
+        "source": "한화생명 IR",
+        "basis": "별도 · K-IFRS",
+        "table": "SH154/A"
+      },
+      "parentNetIncome": {
+        "value": 1030.329,
+        "fisisSeparateNetIncome": null,
+        "irConsolidatedNetIncome": null,
+        "status": "basis_difference",
+        "source": "FISIS + 한화생명 IR",
+        "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도, IR은 연결 전체",
+        "note": "세 출처의 귀속 범위가 달라 수치 일치 판정에서 제외"
+      },
+      "kics": {
+        "value": 162.17,
+        "status": "validated",
+        "source": "FISIS",
+        "basis": "RBC",
+        "table": "SH148/A"
+      }
+    },
+    "2023": {
+      "summary": "교차검증 완료",
+      "primarySource": "Open DART",
+      "validationPriority": "FISIS → 한화생명 IR",
+      "csm": {
+        "value": 9238,
+        "checkValue": 9238,
+        "status": "matched",
+        "source": "한화생명 IR",
+        "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+        "sourceUrl": "https://company.hanwhalife.com/ko/investment/investor/earnings-release",
+        "attachmentSeq": 763,
+        "sourcePage": "FY2023 발표자료 p.7-8"
+      },
+      "movement": {
+        "status": "matched",
+        "source": "한화생명 IR",
+        "checkValue": {
+          "opening": 9763,
+          "newbiz": 2541,
+          "interest": 353,
+          "amortization": -888,
+          "adjustment": -2531,
+          "closing": 9238
+        }
+      },
+      "insuranceProfit": {
+        "value": 650.941,
+        "checkValue": 650.941142,
+        "status": "matched",
+        "source": "FISIS",
+        "basis": "별도 · K-IFRS",
+        "table": "SH154/A"
+      },
+      "parentNetIncome": {
+        "value": 758.48,
+        "fisisSeparateNetIncome": 616.261571,
+        "irConsolidatedNetIncome": 826,
+        "status": "basis_difference",
+        "source": "FISIS + 한화생명 IR",
+        "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도, IR은 연결 전체",
+        "note": "세 출처의 귀속 범위가 달라 수치 일치 판정에서 제외"
+      },
+      "kics": {
+        "value": 183.81,
+        "status": "validated",
+        "source": "FISIS",
+        "basis": "K-ICS",
+        "table": "SH021/D"
+      }
+    },
+    "2024": {
+      "summary": "교차검증 완료",
+      "primarySource": "Open DART",
+      "validationPriority": "FISIS → 한화생명 IR",
+      "csm": {
+        "value": 9109,
+        "checkValue": 9109,
+        "status": "matched",
+        "source": "한화생명 IR",
+        "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+        "sourceUrl": "https://company.hanwhalife.com/ko/investment/investor/earnings-release",
+        "attachmentSeq": 759,
+        "sourcePage": "FY2024 발표자료 p.7-8"
+      },
+      "movement": {
+        "status": "matched",
+        "source": "한화생명 IR",
+        "checkValue": {
+          "opening": 9238,
+          "newbiz": 2123,
+          "interest": 350,
+          "amortization": -852,
+          "adjustment": -1750,
+          "closing": 9109
+        }
+      },
+      "insuranceProfit": {
+        "value": 506.305,
+        "checkValue": 506.304846,
+        "status": "matched",
+        "source": "FISIS",
+        "basis": "별도 · K-IFRS",
+        "table": "SH154/A"
+      },
+      "parentNetIncome": {
+        "value": 737.254,
+        "fisisSeparateNetIncome": 720.569729,
+        "irConsolidatedNetIncome": 866,
+        "status": "basis_difference",
+        "source": "FISIS + 한화생명 IR",
+        "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도, IR은 연결 전체",
+        "note": "세 출처의 귀속 범위가 달라 수치 일치 판정에서 제외"
+      },
+      "kics": {
+        "value": 163.74,
+        "status": "validated",
+        "source": "FISIS",
+        "basis": "K-ICS",
+        "table": "SH021/D"
+      }
+    },
+    "2025": {
+      "summary": "교차검증 완료",
+      "primarySource": "Open DART",
+      "validationPriority": "FISIS → 한화생명 IR",
+      "csm": {
+        "value": 8714,
+        "checkValue": 8714,
+        "status": "matched",
+        "source": "한화생명 IR",
+        "basis": "별도 · 발행 보험계약 · 출재 재보험 제외",
+        "sourceUrl": "https://company.hanwhalife.com/ko/investment/investor/earnings-release",
+        "attachmentSeq": 844,
+        "sourcePage": "FY2025 발표자료 p.8-10"
+      },
+      "movement": {
+        "status": "matched",
+        "source": "한화생명 IR",
+        "checkValue": {
+          "opening": 9109,
+          "newbiz": 2066,
+          "interest": 358,
+          "amortization": -787,
+          "adjustment": -2032,
+          "closing": 8714
+        }
+      },
+      "insuranceProfit": {
+        "value": 344.419,
+        "checkValue": 344.419294,
+        "status": "matched",
+        "source": "FISIS",
+        "basis": "별도 · K-IFRS",
+        "table": "SH154/A"
+      },
+      "parentNetIncome": {
+        "value": 641.31,
+        "fisisSeparateNetIncome": 313.319896,
+        "irConsolidatedNetIncome": 836,
+        "status": "basis_difference",
+        "source": "FISIS + 한화생명 IR",
+        "basis": "DART 값은 연결 지배기업 귀속, FISIS는 별도, IR은 연결 전체",
+        "note": "세 출처의 귀속 범위가 달라 수치 일치 판정에서 제외"
+      },
+      "kics": {
+        "value": 157.52,
+        "status": "validated",
+        "source": "FISIS",
+        "basis": "K-ICS",
+        "table": "SH021/D"
+      }
+    }
+  }
+}

@@ -1,0 +1,3298 @@
+window.CSM_ASSUMPTION_DATA = {
+  "schemaVersion": "insurance-assumption-dashboard/v3",
+  "availablePeriods": [
+    "2024-ye",
+    "2025-ye"
+  ],
+  "durationBuckets": [
+    "1년",
+    "2년",
+    "3년",
+    "4년",
+    "5년",
+    "6년",
+    "7년",
+    "8년",
+    "9년",
+    "10년",
+    "11~15년",
+    "16~20년",
+    "21~25년",
+    "26~30년",
+    "31년 이후"
+  ],
+  "sourcePolicy": "Open DART annual-report consolidated notes are the sole source and validation basis",
+  "companies": {
+    "samsung-life": {
+      "name": "삼성생명",
+      "sector": "생명보험",
+      "claimExperience": {
+        "values": {
+          "2024": {
+            "expectedLossRatio": 90.8,
+            "actualLossRatio": 99.0,
+            "variance": -8.2,
+            "calculatedVariance": -8.2,
+            "formulaDifference": 0.0
+          },
+          "2025": {
+            "expectedLossRatio": 92.1,
+            "actualLossRatio": 99.1,
+            "variance": -7.0,
+            "calculatedVariance": -7.0,
+            "formulaDifference": 0.0
+          }
+        },
+        "sourceReference": {
+          "sourceType": "Open DART",
+          "reportName": "사업보고서 (2025.12)",
+          "rceptNo": "20260311004614",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260311004614",
+          "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+          "metric": "보험금 예실차 비율",
+          "period": "2025년말",
+          "sourceTables": {
+            "2024": {
+              "reportYear": "2025",
+              "tableIndex": 284
+            },
+            "2025": {
+              "reportYear": "2025",
+              "tableIndex": 284
+            }
+          },
+          "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산",
+          "comparativeReport": {
+            "reportName": "사업보고서 (2024.12)",
+            "rceptNo": "20250312001063",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250312001063"
+          }
+        },
+        "checks": {
+          "formula": "variance = expectedLossRatio - actualLossRatio",
+          "status": "passed"
+        }
+      },
+      "lossRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedClaims": {
+              "duration": [
+                42750.19,
+                42968.4,
+                42666.21,
+                42021.95,
+                41023.55,
+                40193.11,
+                39935.18,
+                39854.98,
+                39815.82,
+                39616.13,
+                192356.71,
+                182566.13,
+                167932.18,
+                145590.65,
+                401324.24
+              ],
+              "presentValue": 809478.85
+            },
+            "riskPremium": {
+              "duration": [
+                52840.79,
+                53141.5,
+                52893.72,
+                52414.63,
+                51540.97,
+                50618.21,
+                50225.29,
+                50151.49,
+                49841.6,
+                49288.72,
+                239172.65,
+                223690.9,
+                202513.05,
+                175505.38,
+                472098.77
+              ],
+              "presentValue": 995659.43
+            },
+            "ratio": {
+              "duration": [
+                80.9,
+                80.86,
+                80.66,
+                80.17,
+                79.59,
+                79.4,
+                79.51,
+                79.47,
+                79.88,
+                80.38,
+                80.43,
+                81.62,
+                82.92,
+                82.96,
+                85.01
+              ],
+              "presentValue": 81.3
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250312001063",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250312001063",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2024년말",
+              "sourceTables": [
+                252
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedClaims": {
+              "duration": [
+                45711.44,
+                45717.3,
+                44641.76,
+                43135.93,
+                41847.77,
+                41265.63,
+                41020.42,
+                40739.74,
+                40334.25,
+                39764.88,
+                191603.32,
+                179054.71,
+                161505.71,
+                139734.14,
+                396354.91
+              ],
+              "presentValue": 777627.61
+            },
+            "riskPremium": {
+              "duration": [
+                55551.49,
+                55253.19,
+                54321.95,
+                53225.23,
+                52035.48,
+                51333.19,
+                51068.25,
+                50561.41,
+                49878.68,
+                49302.54,
+                236999.69,
+                220060.83,
+                198233.3,
+                170986.03,
+                467139.44
+              ],
+              "presentValue": 954980.26
+            },
+            "ratio": {
+              "duration": [
+                82.29,
+                82.74,
+                82.18,
+                81.04,
+                80.42,
+                80.39,
+                80.32,
+                80.57,
+                80.86,
+                80.65,
+                80.85,
+                81.37,
+                81.47,
+                81.72,
+                84.85
+              ],
+              "presentValue": 81.43
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260311004614",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260311004614",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2025년말",
+              "sourceTables": [
+                286
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      },
+      "expenseRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedExpense": {
+              "duration": [
+                16114.8,
+                12125.19,
+                11144.9,
+                9390.75,
+                8578.98,
+                7771.27,
+                7217.07,
+                6810.56,
+                6472.37,
+                6135.8,
+                26903.56,
+                22066.7,
+                17989.12,
+                14431.38,
+                28235.1
+              ],
+              "presentValue": 131598.86
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                25510.61,
+                23027.23,
+                21206.61,
+                19556.84,
+                17283.45,
+                15013.62,
+                13444.81,
+                12388.49,
+                11673.46,
+                10941.15,
+                47344.64,
+                37853.76,
+                31060.0,
+                25690.31,
+                63524.76
+              ],
+              "presentValue": 241340.42
+            },
+            "ratio": {
+              "duration": [
+                63.17,
+                52.66,
+                52.55,
+                48.02,
+                49.64,
+                51.76,
+                53.68,
+                54.97,
+                55.45,
+                56.08,
+                56.82,
+                58.29,
+                57.92,
+                56.17,
+                44.45
+              ],
+              "presentValue": 54.53
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250312001063",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250312001063",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2024년말",
+              "sourceTables": [
+                254
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedExpense": {
+              "duration": [
+                16430.7,
+                13441.71,
+                11195.08,
+                10105.68,
+                8968.63,
+                8150.25,
+                7638.62,
+                7210.68,
+                6836.26,
+                6417.1,
+                28234.41,
+                23225.01,
+                18888.22,
+                15251.32,
+                31322.1
+              ],
+              "presentValue": 134078.82
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                28101.73,
+                25500.35,
+                23288.59,
+                20722.94,
+                17660.85,
+                15413.9,
+                14066.32,
+                13051.77,
+                12231.25,
+                11255.46,
+                48416.08,
+                38376.94,
+                30393.42,
+                25109.63,
+                62458.38
+              ],
+              "presentValue": 244005.75
+            },
+            "ratio": {
+              "duration": [
+                58.47,
+                52.71,
+                48.07,
+                48.77,
+                50.78,
+                52.88,
+                54.3,
+                55.25,
+                55.89,
+                57.01,
+                58.32,
+                60.52,
+                62.15,
+                60.74,
+                50.15
+              ],
+              "presentValue": 54.95
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260311004614",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260311004614",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2025년말",
+              "sourceTables": [
+                288
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      }
+    },
+    "hanwha-life": {
+      "name": "한화생명",
+      "sector": "생명보험",
+      "claimExperience": {
+        "values": {
+          "2024": {
+            "expectedLossRatio": 89.7,
+            "actualLossRatio": 97.4,
+            "variance": -7.7,
+            "calculatedVariance": -7.7,
+            "formulaDifference": 0.0
+          },
+          "2025": {
+            "expectedLossRatio": 86.5,
+            "actualLossRatio": 99.7,
+            "variance": -13.2,
+            "calculatedVariance": -13.2,
+            "formulaDifference": 0.0
+          }
+        },
+        "sourceReference": {
+          "sourceType": "Open DART",
+          "reportName": "사업보고서 (2025.12)",
+          "rceptNo": "20260316001304",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260316001304",
+          "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+          "metric": "보험금 예실차 비율",
+          "period": "2025년말",
+          "sourceTables": {
+            "2024": {
+              "reportYear": "2025",
+              "tableIndex": 169
+            },
+            "2025": {
+              "reportYear": "2025",
+              "tableIndex": 169
+            }
+          },
+          "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산",
+          "comparativeReport": {
+            "reportName": "사업보고서 (2024.12)",
+            "rceptNo": "20250312000939",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250312000939"
+          }
+        },
+        "checks": {
+          "formula": "variance = expectedLossRatio - actualLossRatio",
+          "status": "passed"
+        }
+      },
+      "lossRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedClaims": {
+              "duration": [
+                24516.34,
+                24787.08,
+                24876.38,
+                24988.05,
+                25014.18,
+                25030.93,
+                25148.17,
+                25417.79,
+                25619.28,
+                26019.28,
+                136629.55,
+                143670.23,
+                147429.92,
+                145293.84,
+                538765.79
+              ],
+              "presentValue": 626738.25
+            },
+            "riskPremium": {
+              "duration": [
+                30217.15,
+                29507.83,
+                28539.64,
+                27880.47,
+                27451.98,
+                27038.82,
+                26769.75,
+                26640.33,
+                26565.08,
+                26500.22,
+                132148.23,
+                130162.15,
+                126848.46,
+                120026.88,
+                447610.26
+              ],
+              "presentValue": 592053.76
+            },
+            "ratio": {
+              "duration": [
+                81.13,
+                84.0,
+                87.16,
+                89.63,
+                91.12,
+                92.57,
+                93.94,
+                95.41,
+                96.44,
+                98.19,
+                103.39,
+                110.38,
+                116.23,
+                121.05,
+                120.36
+              ],
+              "presentValue": 105.86
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250312000939",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250312000939",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2024년말",
+              "sourceTables": [
+                169
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedClaims": {
+              "duration": [
+                25274.8,
+                24645.22,
+                24202.81,
+                23640.2,
+                22945.32,
+                22532.07,
+                22421.81,
+                22196.12,
+                22065.78,
+                21947.26,
+                109219.5,
+                108913.34,
+                109902.47,
+                109791.75,
+                479955.63
+              ],
+              "presentValue": 503482.3
+            },
+            "riskPremium": {
+              "duration": [
+                32757.24,
+                31917.26,
+                30838.12,
+                30072.8,
+                29436.14,
+                29060.38,
+                29021.78,
+                28994.1,
+                28933.66,
+                28926.91,
+                145286.1,
+                146489.02,
+                147883.12,
+                146204.96,
+                579614.13
+              ],
+              "presentValue": 655222.06
+            },
+            "ratio": {
+              "duration": [
+                77.16,
+                77.22,
+                78.48,
+                78.61,
+                77.95,
+                77.54,
+                77.26,
+                76.55,
+                76.26,
+                75.87,
+                75.18,
+                74.35,
+                74.32,
+                75.09,
+                82.81
+              ],
+              "presentValue": 76.84
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260316001304",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260316001304",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2025년말",
+              "sourceTables": [
+                170
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      },
+      "expenseRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedExpense": {
+              "duration": [
+                6649.51,
+                6051.67,
+                5743.81,
+                4635.35,
+                4300.48,
+                4024.79,
+                3820.67,
+                3655.48,
+                3505.66,
+                3380.37,
+                15418.58,
+                13674.62,
+                11829.74,
+                10046.64,
+                30967.69
+              ],
+              "presentValue": 74055.4
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                17893.33,
+                15729.18,
+                14157.43,
+                12889.6,
+                10953.21,
+                9288.9,
+                8293.4,
+                7518.45,
+                7003.31,
+                6606.34,
+                28891.98,
+                25366.18,
+                21669.75,
+                19472.42,
+                82396.49
+              ],
+              "presentValue": 165256.76
+            },
+            "ratio": {
+              "duration": [
+                37.16,
+                38.47,
+                40.57,
+                35.96,
+                39.26,
+                43.33,
+                46.07,
+                48.62,
+                50.06,
+                51.17,
+                53.37,
+                53.91,
+                54.59,
+                51.59,
+                37.58
+              ],
+              "presentValue": 44.81
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250312000939",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250312000939",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2024년말",
+              "sourceTables": [
+                173
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedExpense": {
+              "duration": [
+                6932.92,
+                6507.97,
+                5324.21,
+                4916.93,
+                4500.02,
+                4177.73,
+                3980.1,
+                3803.71,
+                3671.85,
+                3521.11,
+                16323.23,
+                14561.24,
+                12442.59,
+                10610.74,
+                33120.97
+              ],
+              "presentValue": 74773.13
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                20749.74,
+                18589.98,
+                16775.51,
+                14525.93,
+                11869.93,
+                9997.52,
+                8987.09,
+                8264.11,
+                7814.33,
+                7252.77,
+                32212.29,
+                27754.97,
+                21870.85,
+                19665.67,
+                80586.4
+              ],
+              "presentValue": 176212.12
+            },
+            "ratio": {
+              "duration": [
+                33.41,
+                35.01,
+                31.74,
+                33.85,
+                37.91,
+                41.79,
+                44.29,
+                46.03,
+                46.99,
+                48.55,
+                50.67,
+                52.46,
+                56.89,
+                53.96,
+                41.1
+              ],
+              "presentValue": 42.43
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260316001304",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260316001304",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2025년말",
+              "sourceTables": [
+                172
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      }
+    },
+    "kyobo-life": {
+      "name": "교보생명",
+      "sector": "생명보험",
+      "claimExperience": {
+        "values": {
+          "2024": {
+            "expectedLossRatio": 76.4,
+            "actualLossRatio": 75.9,
+            "variance": 0.5,
+            "calculatedVariance": 0.5,
+            "formulaDifference": 0.0
+          },
+          "2025": {
+            "expectedLossRatio": 81.2,
+            "actualLossRatio": 78.5,
+            "variance": 2.7,
+            "calculatedVariance": 2.7,
+            "formulaDifference": 0.0
+          }
+        },
+        "sourceReference": {
+          "sourceType": "Open DART",
+          "reportName": "사업보고서 (2025.12)",
+          "rceptNo": "20260331004015",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331004015",
+          "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+          "metric": "보험금 예실차 비율",
+          "period": "2025년말",
+          "sourceTables": {
+            "2024": {
+              "reportYear": "2024",
+              "tableIndex": 246
+            },
+            "2025": {
+              "reportYear": "2025",
+              "tableIndex": 384
+            }
+          },
+          "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산",
+          "comparativeReport": {
+            "reportName": "사업보고서 (2024.12)",
+            "rceptNo": "20250331004015",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250331004015"
+          }
+        },
+        "checks": {
+          "formula": "variance = expectedLossRatio - actualLossRatio",
+          "status": "passed"
+        }
+      },
+      "lossRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedClaims": {
+              "duration": [
+                18820.6,
+                19026.5,
+                19184.6,
+                19183.9,
+                18902.3,
+                18548.8,
+                18344.7,
+                18245.7,
+                18164.8,
+                18054.8,
+                90109.2,
+                90599.9,
+                88967.2,
+                83546.7,
+                297390.2
+              ],
+              "presentValue": 408074.2
+            },
+            "riskPremium": {
+              "duration": [
+                25048.1,
+                25649.4,
+                25757.8,
+                25837.1,
+                25785.1,
+                25299.0,
+                25299.8,
+                25156.9,
+                24851.7,
+                24698.1,
+                126618.8,
+                120673.8,
+                115884.2,
+                107877.0,
+                352259.8
+              ],
+              "presentValue": 543490.9
+            },
+            "ratio": {
+              "duration": [
+                75.14,
+                74.18,
+                74.48,
+                74.25,
+                73.31,
+                73.32,
+                72.51,
+                72.53,
+                73.09,
+                73.1,
+                71.17,
+                75.08,
+                76.77,
+                77.45,
+                84.42
+              ],
+              "presentValue": 75.08
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250331004015",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250331004015",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2024년말",
+              "sourceTables": [
+                247
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedClaims": {
+              "duration": [
+                17728.1,
+                19630.6,
+                19606.7,
+                19321.7,
+                18927.7,
+                18697.0,
+                18650.3,
+                18561.7,
+                18412.9,
+                18312.3,
+                91606.2,
+                91782.0,
+                89494.2,
+                84040.1,
+                306334.2
+              ],
+              "presentValue": 396345.8
+            },
+            "riskPremium": {
+              "duration": [
+                23146.6,
+                25497.4,
+                25655.7,
+                25591.9,
+                25666.8,
+                25741.7,
+                25533.1,
+                25465.4,
+                25376.2,
+                25442.4,
+                132788.5,
+                130132.8,
+                126901.7,
+                117099.4,
+                399284.7
+              ],
+              "presentValue": 546723.1
+            },
+            "ratio": {
+              "duration": [
+                76.59,
+                76.99,
+                76.42,
+                75.5,
+                73.74,
+                72.63,
+                73.04,
+                72.89,
+                72.56,
+                71.98,
+                68.99,
+                70.53,
+                70.52,
+                71.77,
+                76.72
+              ],
+              "presentValue": 72.49
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260331004015",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331004015",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2025년말",
+              "sourceTables": [
+                257
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      },
+      "expenseRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedExpense": {
+              "duration": [
+                8438.4,
+                6227.3,
+                5922.9,
+                5191.0,
+                4921.2,
+                4635.7,
+                4262.0,
+                3999.1,
+                3805.7,
+                3607.3,
+                15839.2,
+                13212.3,
+                10954.8,
+                8955.0,
+                24979.2
+              ],
+              "presentValue": 76816.8
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                11261.2,
+                10149.0,
+                9392.4,
+                8720.1,
+                8008.5,
+                7263.2,
+                6208.6,
+                5554.8,
+                5164.9,
+                4786.8,
+                20562.2,
+                17186.0,
+                14622.6,
+                12853.1,
+                44095.5
+              ],
+              "presentValue": 111636.0
+            },
+            "ratio": {
+              "duration": [
+                74.93,
+                61.36,
+                63.06,
+                59.53,
+                61.45,
+                63.82,
+                68.65,
+                71.99,
+                73.68,
+                75.36,
+                77.03,
+                76.88,
+                74.92,
+                69.67,
+                56.65
+              ],
+              "presentValue": 68.81
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250331004015",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250331004015",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2024년말",
+              "sourceTables": [
+                248
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedExpense": {
+              "duration": [
+                8279.1,
+                6676.9,
+                5878.6,
+                5543.9,
+                5204.0,
+                4738.9,
+                4419.5,
+                4191.3,
+                3992.0,
+                3749.6,
+                16801.5,
+                14372.7,
+                11923.2,
+                9695.9,
+                26278.8
+              ],
+              "presentValue": 78054.8
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                11593.9,
+                11511.8,
+                10583.0,
+                9766.9,
+                8826.4,
+                7494.6,
+                6611.8,
+                6075.2,
+                5676.9,
+                5146.7,
+                22493.3,
+                19704.2,
+                16746.8,
+                14386.7,
+                48382.0
+              ],
+              "presentValue": 119388.5
+            },
+            "ratio": {
+              "duration": [
+                71.41,
+                58.0,
+                55.55,
+                56.76,
+                58.96,
+                63.23,
+                66.84,
+                68.99,
+                70.32,
+                72.85,
+                74.7,
+                72.94,
+                71.2,
+                67.39,
+                54.32
+              ],
+              "presentValue": 65.38
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260331004015",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331004015",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2025년말",
+              "sourceTables": [
+                258
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      }
+    },
+    "shinhan-life": {
+      "name": "신한라이프",
+      "sector": "생명보험",
+      "claimExperience": {
+        "values": {
+          "2024": {
+            "expectedLossRatio": 93.11,
+            "actualLossRatio": 96.26,
+            "variance": -3.15,
+            "calculatedVariance": -3.15,
+            "formulaDifference": 0.0
+          },
+          "2025": {
+            "expectedLossRatio": 93.12,
+            "actualLossRatio": 99.39,
+            "variance": -6.27,
+            "calculatedVariance": -6.27,
+            "formulaDifference": 0.0
+          }
+        },
+        "sourceReference": {
+          "sourceType": "Open DART",
+          "reportName": "사업보고서 (2025.12)",
+          "rceptNo": "20260318001034",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260318001034",
+          "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+          "metric": "보험금 예실차 비율",
+          "period": "2025년말",
+          "sourceTables": {
+            "2024": {
+              "reportYear": "2025",
+              "tableIndex": 347
+            },
+            "2025": {
+              "reportYear": "2025",
+              "tableIndex": 347
+            }
+          },
+          "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산",
+          "comparativeReport": {
+            "reportName": "사업보고서 (2024.12)",
+            "rceptNo": "20250318001216",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250318001216"
+          }
+        },
+        "checks": {
+          "formula": "variance = expectedLossRatio - actualLossRatio",
+          "status": "passed"
+        }
+      },
+      "lossRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedClaims": {
+              "duration": [
+                13342.72,
+                13190.76,
+                13044.78,
+                12952.57,
+                12926.0,
+                12922.36,
+                12891.86,
+                12890.33,
+                12933.49,
+                13000.73,
+                65760.01,
+                66172.19,
+                63689.66,
+                58556.75,
+                239703.41
+              ],
+              "presentValue": 292610.5
+            },
+            "riskPremium": {
+              "duration": [
+                14584.88,
+                14437.29,
+                14236.62,
+                14065.07,
+                14035.87,
+                14012.23,
+                14008.66,
+                14081.68,
+                14226.71,
+                14331.91,
+                73545.86,
+                75669.36,
+                76247.79,
+                71796.24,
+                266013.58
+              ],
+              "presentValue": 333115.21
+            },
+            "ratio": {
+              "duration": [
+                91.48,
+                91.37,
+                91.63,
+                92.09,
+                92.09,
+                92.22,
+                92.03,
+                91.54,
+                90.91,
+                90.71,
+                89.41,
+                87.45,
+                83.53,
+                81.56,
+                90.11
+              ],
+              "presentValue": 87.84
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250318001216",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250318001216",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2024년말",
+              "sourceTables": [
+                322
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedClaims": {
+              "duration": [
+                14838.81,
+                14681.12,
+                14472.17,
+                14361.7,
+                14293.47,
+                14175.65,
+                14071.74,
+                14007.81,
+                14022.53,
+                14036.0,
+                70657.42,
+                71000.39,
+                67918.79,
+                62456.12,
+                263089.42
+              ],
+              "presentValue": 303492.8
+            },
+            "riskPremium": {
+              "duration": [
+                15850.53,
+                15710.25,
+                15396.58,
+                15247.92,
+                15152.18,
+                15095.97,
+                15071.72,
+                15161.55,
+                15254.5,
+                15336.92,
+                78280.24,
+                79154.69,
+                77693.83,
+                73164.05,
+                306293.34
+              ],
+              "presentValue": 338759.02
+            },
+            "ratio": {
+              "duration": [
+                93.62,
+                93.45,
+                94.0,
+                94.19,
+                94.33,
+                93.9,
+                93.37,
+                92.39,
+                91.92,
+                91.52,
+                90.26,
+                89.7,
+                87.42,
+                85.36,
+                85.89
+              ],
+              "presentValue": 89.59
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260318001034",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260318001034",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2025년말",
+              "sourceTables": [
+                343
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      },
+      "expenseRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedExpense": {
+              "duration": [
+                3152.69,
+                2960.61,
+                2838.31,
+                2462.33,
+                2360.85,
+                2276.64,
+                2197.16,
+                2132.84,
+                2086.99,
+                2043.73,
+                9691.79,
+                8887.95,
+                8178.73,
+                7466.39,
+                29668.8
+              ],
+              "presentValue": 45539.03
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                8431.02,
+                7379.29,
+                6669.75,
+                6152.49,
+                5862.2,
+                5530.31,
+                5341.29,
+                4952.79,
+                4673.28,
+                4488.18,
+                20265.38,
+                15818.65,
+                12610.18,
+                10715.23,
+                29561.13
+              ],
+              "presentValue": 90775.36
+            },
+            "ratio": {
+              "duration": [
+                37.39,
+                40.12,
+                42.55,
+                40.02,
+                40.27,
+                41.17,
+                41.14,
+                43.06,
+                44.66,
+                45.54,
+                47.82,
+                56.19,
+                64.86,
+                69.68,
+                100.36
+              ],
+              "presentValue": 50.17
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250318001216",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250318001216",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2024년말",
+              "sourceTables": [
+                328
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedExpense": {
+              "duration": [
+                3346.68,
+                3189.84,
+                2738.73,
+                2617.7,
+                2512.73,
+                2405.58,
+                2322.74,
+                2261.17,
+                2211.69,
+                2162.32,
+                10282.15,
+                9463.23,
+                8682.99,
+                7903.95,
+                31653.66
+              ],
+              "presentValue": 46223.99
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                9514.31,
+                8450.78,
+                7631.85,
+                7155.7,
+                6691.4,
+                6335.97,
+                5812.15,
+                5424.88,
+                5188.35,
+                5017.36,
+                22240.31,
+                17150.76,
+                13816.4,
+                11609.08,
+                32069.99
+              ],
+              "presentValue": 97628.35
+            },
+            "ratio": {
+              "duration": [
+                35.18,
+                37.75,
+                35.89,
+                36.58,
+                37.55,
+                37.97,
+                39.96,
+                41.68,
+                42.63,
+                43.1,
+                46.23,
+                55.18,
+                62.85,
+                68.08,
+                98.7
+              ],
+              "presentValue": 47.35
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260318001034",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260318001034",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2025년말",
+              "sourceTables": [
+                349
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      }
+    },
+    "samsung-fire": {
+      "name": "삼성화재",
+      "sector": "손해보험",
+      "claimExperience": {
+        "values": {
+          "2024": {
+            "expectedLossRatio": 90.24,
+            "actualLossRatio": 87.56,
+            "variance": 2.68,
+            "calculatedVariance": 2.68,
+            "formulaDifference": 0.0
+          },
+          "2025": {
+            "expectedLossRatio": 95.18,
+            "actualLossRatio": 97.56,
+            "variance": -2.37,
+            "calculatedVariance": -2.38,
+            "formulaDifference": 0.01
+          }
+        },
+        "sourceReference": {
+          "sourceType": "Open DART",
+          "reportName": "사업보고서 (2025.12)",
+          "rceptNo": "20260312001399",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001399",
+          "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+          "metric": "보험금 예실차 비율",
+          "period": "2025년말",
+          "sourceTables": {
+            "2024": {
+              "reportYear": "2025",
+              "tableIndex": 175
+            },
+            "2025": {
+              "reportYear": "2025",
+              "tableIndex": 170
+            }
+          },
+          "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산",
+          "comparativeReport": {
+            "reportName": "사업보고서 (2024.12)",
+            "rceptNo": "20250311001055",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250311001055"
+          }
+        },
+        "checks": {
+          "formula": "variance = expectedLossRatio - actualLossRatio",
+          "status": "passed"
+        }
+      },
+      "lossRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedClaims": {
+              "duration": [
+                51397.6,
+                48729.24,
+                46056.9,
+                43803.07,
+                41719.15,
+                39525.15,
+                38027.03,
+                36855.54,
+                34989.3,
+                32715.72,
+                141308.34,
+                126625.51,
+                111482.23,
+                95443.8,
+                330628.53
+              ],
+              "presentValue": 679820.38
+            },
+            "riskPremium": {
+              "duration": [
+                53134.26,
+                50387.63,
+                47904.84,
+                45211.91,
+                42677.58,
+                40604.16,
+                39149.78,
+                37830.48,
+                36377.94,
+                34450.57,
+                150175.63,
+                133473.16,
+                116906.01,
+                100421.33,
+                353929.9
+              ],
+              "presentValue": 710152.53
+            },
+            "ratio": {
+              "duration": [
+                96.73,
+                96.71,
+                96.14,
+                96.88,
+                97.75,
+                97.34,
+                97.13,
+                97.42,
+                96.18,
+                94.96,
+                94.1,
+                94.87,
+                95.36,
+                95.04,
+                93.42
+              ],
+              "presentValue": 95.73
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250311001055",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250311001055",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2024년말",
+              "sourceTables": [
+                48
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedClaims": {
+              "duration": [
+                58408.43,
+                54253.67,
+                50330.95,
+                47550.55,
+                44689.75,
+                42773.41,
+                41645.02,
+                39835.48,
+                37038.11,
+                34733.48,
+                157801.02,
+                151693.93,
+                141452.84,
+                129199.36,
+                586968.23
+              ],
+              "presentValue": 779539.64
+            },
+            "riskPremium": {
+              "duration": [
+                58466.11,
+                55228.5,
+                51868.17,
+                48385.43,
+                45544.96,
+                43691.86,
+                42269.72,
+                40791.59,
+                38724.48,
+                36456.03,
+                165866.91,
+                156650.54,
+                144829.89,
+                131964.54,
+                586903.91
+              ],
+              "presentValue": 797982.17
+            },
+            "ratio": {
+              "duration": [
+                99.9,
+                98.23,
+                97.04,
+                98.27,
+                98.12,
+                97.9,
+                98.52,
+                97.66,
+                95.65,
+                95.27,
+                95.14,
+                96.84,
+                97.67,
+                97.9,
+                100.01
+              ],
+              "presentValue": 97.69
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260312001399",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001399",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2025년말",
+              "sourceTables": [
+                172
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      },
+      "expenseRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedExpense": {
+              "duration": [
+                10517.63,
+                8260.09,
+                7475.66,
+                6381.92,
+                5696.79,
+                5156.53,
+                4812.43,
+                4578.41,
+                4325.77,
+                4034.37,
+                17315.23,
+                14538.94,
+                11259.74,
+                8970.7,
+                28508.05
+              ],
+              "presentValue": 88101.11
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                18679.11,
+                16297.95,
+                14538.93,
+                13055.97,
+                11535.89,
+                10275.04,
+                9488.34,
+                8747.7,
+                8066.08,
+                7414.45,
+                30502.36,
+                24593.26,
+                17033.23,
+                13116.65,
+                38026.82
+              ],
+              "presentValue": 158876.77
+            },
+            "ratio": {
+              "duration": [
+                56.31,
+                50.68,
+                51.42,
+                48.88,
+                49.38,
+                50.19,
+                50.72,
+                52.34,
+                53.63,
+                54.41,
+                56.77,
+                59.12,
+                66.1,
+                68.39,
+                74.97
+              ],
+              "presentValue": 55.45
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250311001055",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250311001055",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2024년말",
+              "sourceTables": [
+                50
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedExpense": {
+              "duration": [
+                10721.96,
+                8067.62,
+                6826.37,
+                6048.63,
+                5436.69,
+                5010.36,
+                4775.38,
+                4545.84,
+                4214.81,
+                3993.0,
+                17557.29,
+                15397.66,
+                12202.52,
+                10288.06,
+                40398.53
+              ],
+              "presentValue": 87380.85
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                20614.82,
+                17928.03,
+                15927.85,
+                13917.09,
+                12239.78,
+                11233.44,
+                10350.07,
+                9550.48,
+                8845.13,
+                8124.44,
+                35014.14,
+                29022.3,
+                21134.82,
+                17496.08,
+                68002.04
+              ],
+              "presentValue": 176957.0
+            },
+            "ratio": {
+              "duration": [
+                52.01,
+                45.0,
+                42.86,
+                43.46,
+                44.42,
+                44.6,
+                46.14,
+                47.6,
+                47.65,
+                49.15,
+                50.14,
+                53.05,
+                57.74,
+                58.8,
+                59.41
+              ],
+              "presentValue": 49.38
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260312001399",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001399",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2025년말",
+              "sourceTables": [
+                174
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      }
+    },
+    "meritz-fire": {
+      "name": "메리츠화재",
+      "sector": "손해보험",
+      "claimExperience": {
+        "values": {
+          "2024": {
+            "expectedLossRatio": 99.49,
+            "actualLossRatio": 90.18,
+            "variance": 9.31,
+            "calculatedVariance": 9.31,
+            "formulaDifference": 0.0
+          },
+          "2025": {
+            "expectedLossRatio": 96.61,
+            "actualLossRatio": 96.59,
+            "variance": 0.02,
+            "calculatedVariance": 0.02,
+            "formulaDifference": 0.0
+          }
+        },
+        "sourceReference": {
+          "sourceType": "Open DART",
+          "reportName": "사업보고서 (2025.12)",
+          "rceptNo": "20260331003916",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331003916",
+          "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+          "metric": "보험금 예실차 비율",
+          "period": "2025년말",
+          "sourceTables": {
+            "2024": {
+              "reportYear": "2025",
+              "tableIndex": 586
+            },
+            "2025": {
+              "reportYear": "2025",
+              "tableIndex": 579
+            }
+          },
+          "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산",
+          "comparativeReport": {
+            "reportName": "사업보고서 (2024.12)",
+            "rceptNo": "20250331003145",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250331003145"
+          }
+        },
+        "checks": {
+          "formula": "variance = expectedLossRatio - actualLossRatio",
+          "status": "passed"
+        }
+      },
+      "lossRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedClaims": {
+              "duration": [
+                45297.36,
+                45059.93,
+                43891.61,
+                42791.82,
+                41297.13,
+                39426.8,
+                38208.45,
+                37087.13,
+                35200.95,
+                33197.68,
+                145464.58,
+                130812.84,
+                119997.11,
+                109461.33,
+                473605.92
+              ],
+              "presentValue": 706143.06
+            },
+            "riskPremium": {
+              "duration": [
+                47324.3,
+                45728.55,
+                43803.8,
+                42213.96,
+                40233.43,
+                38064.08,
+                36565.46,
+                35229.29,
+                33465.29,
+                31724.82,
+                140065.34,
+                123813.37,
+                111249.89,
+                99890.73,
+                414115.83
+              ],
+              "presentValue": 675794.84
+            },
+            "ratio": {
+              "duration": [
+                95.72,
+                98.54,
+                100.2,
+                101.37,
+                102.64,
+                103.58,
+                104.49,
+                105.27,
+                105.19,
+                104.64,
+                103.85,
+                105.65,
+                107.86,
+                109.58,
+                114.37
+              ],
+              "presentValue": 104.49
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250331003145",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250331003145",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2024년말",
+              "sourceTables": [
+                511
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedClaims": {
+              "duration": [
+                48195.56,
+                47132.62,
+                45764.54,
+                43905.05,
+                41836.55,
+                40310.74,
+                39020.65,
+                37296.31,
+                35216.22,
+                33213.7,
+                147656.42,
+                131682.43,
+                116260.53,
+                99925.51,
+                342998.88
+              ],
+              "presentValue": 665595.08
+            },
+            "riskPremium": {
+              "duration": [
+                50919.45,
+                48639.74,
+                46585.86,
+                44221.09,
+                41616.75,
+                39777.23,
+                38342.88,
+                36435.85,
+                34351.64,
+                32552.82,
+                144319.31,
+                126158.89,
+                108970.58,
+                92486.55,
+                309447.81
+              ],
+              "presentValue": 651598.27
+            },
+            "ratio": {
+              "duration": [
+                94.65,
+                96.9,
+                98.24,
+                99.29,
+                100.53,
+                101.34,
+                101.77,
+                102.36,
+                102.52,
+                102.03,
+                102.31,
+                104.38,
+                106.69,
+                108.04,
+                110.84
+              ],
+              "presentValue": 102.15
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260331003916",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331003916",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2025년말",
+              "sourceTables": [
+                581
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      },
+      "expenseRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedExpense": {
+              "duration": [
+                4767.47,
+                3312.97,
+                3122.17,
+                2775.73,
+                2591.59,
+                2432.72,
+                2309.72,
+                2195.14,
+                2084.89,
+                1976.79,
+                8431.3,
+                6831.91,
+                5687.73,
+                4755.75,
+                17624.26
+              ],
+              "presentValue": 41641.66
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                15221.45,
+                14300.02,
+                13242.07,
+                12250.39,
+                11147.09,
+                10187.93,
+                9453.93,
+                8797.64,
+                8202.19,
+                7626.43,
+                29528.98,
+                20092.69,
+                14378.72,
+                10743.72,
+                33918.16
+              ],
+              "presentValue": 145320.56
+            },
+            "ratio": {
+              "duration": [
+                31.32,
+                23.17,
+                23.58,
+                22.66,
+                23.25,
+                23.88,
+                24.43,
+                24.95,
+                25.42,
+                25.92,
+                28.55,
+                34.0,
+                39.56,
+                44.27,
+                51.96
+              ],
+              "presentValue": 28.66
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250331003145",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250331003145",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2024년말",
+              "sourceTables": [
+                514
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedExpense": {
+              "duration": [
+                5695.18,
+                3911.35,
+                3461.45,
+                3193.87,
+                2963.47,
+                2787.49,
+                2636.12,
+                2488.21,
+                2339.51,
+                2183.54,
+                9277.64,
+                7396.24,
+                5826.28,
+                4664.67,
+                14452.37
+              ],
+              "presentValue": 44229.83
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                15895.88,
+                14879.43,
+                13652.14,
+                12115.04,
+                10759.05,
+                9730.49,
+                8808.43,
+                7930.54,
+                7180.96,
+                6413.17,
+                23429.68,
+                14249.58,
+                8116.94,
+                5249.2,
+                14541.48
+              ],
+              "presentValue": 123496.77
+            },
+            "ratio": {
+              "duration": [
+                35.83,
+                26.29,
+                25.35,
+                26.36,
+                27.54,
+                28.65,
+                29.93,
+                31.38,
+                32.58,
+                34.05,
+                39.6,
+                51.9,
+                71.78,
+                88.86,
+                99.39
+              ],
+              "presentValue": 35.81
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260331003916",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260331003916",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2025년말",
+              "sourceTables": [
+                584
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      }
+    },
+    "db-insurance": {
+      "name": "DB손해보험",
+      "sector": "손해보험",
+      "claimExperience": {
+        "values": {
+          "2024": {
+            "expectedLossRatio": 94.6,
+            "actualLossRatio": 90.3,
+            "variance": 4.3,
+            "calculatedVariance": 4.3,
+            "formulaDifference": 0.0
+          },
+          "2025": {
+            "expectedLossRatio": 91.9,
+            "actualLossRatio": 95.6,
+            "variance": -3.7,
+            "calculatedVariance": -3.7,
+            "formulaDifference": 0.0
+          }
+        },
+        "sourceReference": {
+          "sourceType": "Open DART",
+          "reportName": "사업보고서 (2025.12)",
+          "rceptNo": "20260312001222",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001222",
+          "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+          "metric": "보험금 예실차 비율",
+          "period": "2025년말",
+          "sourceTables": {
+            "2024": {
+              "reportYear": "2025",
+              "tableIndex": 253
+            },
+            "2025": {
+              "reportYear": "2025",
+              "tableIndex": 251
+            }
+          },
+          "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산",
+          "comparativeReport": {
+            "reportName": "사업보고서 (2024.12)",
+            "rceptNo": "20250313001342",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250313001342"
+          }
+        },
+        "checks": {
+          "formula": "variance = expectedLossRatio - actualLossRatio",
+          "status": "passed"
+        }
+      },
+      "lossRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedClaims": {
+              "duration": [
+                49006.38,
+                48730.14,
+                47338.67,
+                46361.78,
+                45615.62,
+                44217.19,
+                43636.91,
+                43601.25,
+                43142.88,
+                42404.29,
+                202004.02,
+                196458.57,
+                187129.58,
+                175710.33,
+                814914.75
+              ],
+              "presentValue": 947463.78
+            },
+            "riskPremium": {
+              "duration": [
+                52621.32,
+                51194.17,
+                48768.9,
+                47225.16,
+                46014.22,
+                44665.05,
+                44057.84,
+                43837.41,
+                43585.31,
+                43123.16,
+                208562.87,
+                206658.08,
+                192052.98,
+                179633.33,
+                821769.38
+              ],
+              "presentValue": 974048.38
+            },
+            "ratio": {
+              "duration": [
+                93.13,
+                95.19,
+                97.07,
+                98.17,
+                99.13,
+                99.0,
+                99.04,
+                99.46,
+                98.98,
+                98.33,
+                96.86,
+                95.06,
+                97.44,
+                97.82,
+                99.17
+              ],
+              "presentValue": 97.27
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250313001342",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250313001342",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2024년말",
+              "sourceTables": [
+                705
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedClaims": {
+              "duration": [
+                53502.11,
+                51826.49,
+                49858.9,
+                48405.03,
+                46354.02,
+                45327.71,
+                45128.76,
+                44631.2,
+                43801.94,
+                42782.74,
+                205414.07,
+                200813.07,
+                189703.43,
+                175263.16,
+                762662.46
+              ],
+              "presentValue": 922423.37
+            },
+            "riskPremium": {
+              "duration": [
+                57252.73,
+                54907.89,
+                52555.16,
+                50562.14,
+                48390.19,
+                47144.16,
+                46639.07,
+                46174.32,
+                45458.67,
+                44612.95,
+                217145.22,
+                211985.61,
+                195275.07,
+                178943.53,
+                771739.95
+              ],
+              "presentValue": 961306.25
+            },
+            "ratio": {
+              "duration": [
+                93.45,
+                94.39,
+                94.87,
+                95.73,
+                95.79,
+                96.15,
+                96.76,
+                96.66,
+                96.36,
+                95.9,
+                94.6,
+                94.73,
+                97.15,
+                97.94,
+                98.82
+              ],
+              "presentValue": 95.96
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260312001222",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001222",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2025년말",
+              "sourceTables": [
+                245
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      },
+      "expenseRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedExpense": {
+              "duration": [
+                5699.16,
+                4258.71,
+                3955.84,
+                3470.91,
+                3202.96,
+                3003.83,
+                2870.31,
+                2752.86,
+                2649.11,
+                2559.08,
+                11665.66,
+                10088.82,
+                8483.1,
+                7242.8,
+                27886.39
+              ],
+              "presentValue": 55965.87
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                17426.9,
+                15852.8,
+                14497.21,
+                13395.51,
+                12151.29,
+                11072.04,
+                10352.98,
+                9665.42,
+                8998.93,
+                8438.27,
+                35593.2,
+                26754.76,
+                18937.45,
+                14319.27,
+                45593.77
+              ],
+              "presentValue": 168981.99
+            },
+            "ratio": {
+              "duration": [
+                32.7,
+                26.86,
+                27.29,
+                25.91,
+                26.36,
+                27.13,
+                27.72,
+                28.48,
+                29.44,
+                30.33,
+                32.77,
+                37.71,
+                44.8,
+                50.58,
+                61.16
+              ],
+              "presentValue": 33.12
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250313001342",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250313001342",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2024년말",
+              "sourceTables": [
+                708
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedExpense": {
+              "duration": [
+                6614.76,
+                5084.97,
+                4449.07,
+                4087.52,
+                3811.26,
+                3624.02,
+                3477.57,
+                3349.86,
+                3234.14,
+                3097.09,
+                14454.95,
+                12715.25,
+                10845.98,
+                9420.07,
+                38391.9
+              ],
+              "presentValue": 66302.04
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                19175.64,
+                17317.12,
+                15721.7,
+                14068.91,
+                12633.1,
+                11633.53,
+                10774.51,
+                9976.65,
+                9308.15,
+                8618.78,
+                36890.81,
+                27158.88,
+                18758.77,
+                13866.37,
+                41062.26
+              ],
+              "presentValue": 170403.04
+            },
+            "ratio": {
+              "duration": [
+                34.5,
+                29.36,
+                28.3,
+                29.05,
+                30.17,
+                31.15,
+                32.28,
+                33.58,
+                34.75,
+                35.93,
+                39.18,
+                46.82,
+                57.82,
+                67.93,
+                93.5
+              ],
+              "presentValue": 38.91
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260312001222",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001222",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2025년말",
+              "sourceTables": [
+                255
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      }
+    },
+    "hyundai-marine": {
+      "name": "현대해상",
+      "sector": "손해보험",
+      "claimExperience": {
+        "values": {
+          "2024": {
+            "expectedLossRatio": 97.9,
+            "actualLossRatio": 101.5,
+            "variance": -3.6,
+            "calculatedVariance": -3.6,
+            "formulaDifference": 0.0
+          },
+          "2025": {
+            "expectedLossRatio": 97.3,
+            "actualLossRatio": 103.9,
+            "variance": -6.6,
+            "calculatedVariance": -6.6,
+            "formulaDifference": 0.0
+          }
+        },
+        "sourceReference": {
+          "sourceType": "Open DART",
+          "reportName": "사업보고서 (2025.12)",
+          "rceptNo": "20260312001448",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001448",
+          "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+          "metric": "보험금 예실차 비율",
+          "period": "2025년말",
+          "sourceTables": {
+            "2024": {
+              "reportYear": "2025",
+              "tableIndex": 579
+            },
+            "2025": {
+              "reportYear": "2025",
+              "tableIndex": 578
+            }
+          },
+          "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산",
+          "comparativeReport": {
+            "reportName": "사업보고서 (2024.12)",
+            "rceptNo": "20250313001346",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250313001346"
+          }
+        },
+        "checks": {
+          "formula": "variance = expectedLossRatio - actualLossRatio",
+          "status": "passed"
+        }
+      },
+      "lossRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedClaims": {
+              "duration": [
+                50052.84,
+                48861.57,
+                47335.5,
+                45456.46,
+                42634.72,
+                40558.9,
+                39472.41,
+                38360.48,
+                37102.06,
+                35679.78,
+                157465.73,
+                150903.85,
+                147034.72,
+                138172.58,
+                728428.42
+              ],
+              "presentValue": 809013.47
+            },
+            "riskPremium": {
+              "duration": [
+                51915.04,
+                50557.04,
+                48600.49,
+                46393.13,
+                43514.77,
+                41288.01,
+                40070.48,
+                38903.18,
+                37751.04,
+                36221.94,
+                162053.63,
+                153614.77,
+                147735.42,
+                137761.41,
+                694629.49
+              ],
+              "presentValue": 820687.36
+            },
+            "ratio": {
+              "duration": [
+                96.41,
+                96.65,
+                97.4,
+                97.98,
+                97.98,
+                98.23,
+                98.51,
+                98.6,
+                98.28,
+                98.5,
+                97.17,
+                98.24,
+                99.53,
+                100.3,
+                104.87
+              ],
+              "presentValue": 98.58
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250313001346",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250313001346",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2024년말",
+              "sourceTables": [
+                510
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedClaims": {
+              "duration": [
+                54972.02,
+                52884.82,
+                50116.74,
+                46406.62,
+                43713.93,
+                42174.45,
+                41028.34,
+                39631.82,
+                37624.07,
+                35440.25,
+                156257.6,
+                147946.37,
+                139021.24,
+                126102.18,
+                593830.39
+              ],
+              "presentValue": 763872.37
+            },
+            "riskPremium": {
+              "duration": [
+                55483.32,
+                53411.69,
+                50324.87,
+                46791.51,
+                44067.72,
+                42504.19,
+                41381.38,
+                40200.68,
+                38194.43,
+                36315.01,
+                162819.13,
+                152773.57,
+                141594.35,
+                127275.75,
+                582153.23
+              ],
+              "presentValue": 776825.33
+            },
+            "ratio": {
+              "duration": [
+                99.08,
+                99.01,
+                99.59,
+                99.18,
+                99.2,
+                99.22,
+                99.15,
+                98.58,
+                98.51,
+                97.59,
+                95.97,
+                96.84,
+                98.18,
+                99.08,
+                102.01
+              ],
+              "presentValue": 98.33
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260312001448",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001448",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2025년말",
+              "sourceTables": [
+                581,
+                583
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      },
+      "expenseRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedExpense": {
+              "duration": [
+                6621.45,
+                6116.99,
+                5693.65,
+                5073.81,
+                4559.02,
+                4163.71,
+                3874.47,
+                3607.72,
+                3346.22,
+                3134.83,
+                12837.77,
+                9812.25,
+                7666.1,
+                6205.41,
+                25202.62
+              ],
+              "presentValue": 65286.35
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                14072.09,
+                13565.16,
+                12594.31,
+                11673.16,
+                10387.19,
+                9176.34,
+                8282.93,
+                7458.91,
+                6729.93,
+                6111.06,
+                21791.31,
+                12944.87,
+                7605.75,
+                4806.53,
+                15249.36
+              ],
+              "presentValue": 117844.74
+            },
+            "ratio": {
+              "duration": [
+                47.05,
+                45.09,
+                45.21,
+                43.47,
+                43.89,
+                45.37,
+                46.78,
+                48.37,
+                49.72,
+                51.3,
+                58.91,
+                75.8,
+                100.79,
+                129.1,
+                165.27
+              ],
+              "presentValue": 55.4
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250313001346",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250313001346",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2024년말",
+              "sourceTables": [
+                512
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedExpense": {
+              "duration": [
+                6610.76,
+                6004.99,
+                5273.94,
+                4716.37,
+                4269.54,
+                3957.39,
+                3706.61,
+                3449.06,
+                3223.46,
+                2973.5,
+                12335.72,
+                9277.74,
+                7065.99,
+                5611.58,
+                21772.09
+              ],
+              "presentValue": 59895.58
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                16937.78,
+                16130.13,
+                14759.04,
+                13036.2,
+                11455.89,
+                10292.67,
+                9319.32,
+                8430.42,
+                7640.56,
+                6763.53,
+                24245.71,
+                14011.88,
+                7786.6,
+                4658.44,
+                13597.43
+              ],
+              "presentValue": 129690.85
+            },
+            "ratio": {
+              "duration": [
+                39.03,
+                37.23,
+                35.73,
+                36.18,
+                37.27,
+                38.45,
+                39.77,
+                40.91,
+                42.19,
+                43.96,
+                50.88,
+                66.21,
+                90.75,
+                120.46,
+                160.12
+              ],
+              "presentValue": 46.18
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260312001448",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260312001448",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2025년말",
+              "sourceTables": [
+                585,
+                587
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      }
+    },
+    "kb-insurance": {
+      "name": "KB손해보험",
+      "sector": "손해보험",
+      "claimExperience": {
+        "values": {
+          "2024": {
+            "expectedLossRatio": 94.6,
+            "actualLossRatio": 88.3,
+            "variance": 6.3,
+            "calculatedVariance": 6.3,
+            "formulaDifference": 0.0
+          },
+          "2025": {
+            "expectedLossRatio": 94.5,
+            "actualLossRatio": 96.9,
+            "variance": -2.4,
+            "calculatedVariance": -2.4,
+            "formulaDifference": 0.0
+          }
+        },
+        "sourceReference": {
+          "sourceType": "Open DART",
+          "reportName": "사업보고서 (2025.12)",
+          "rceptNo": "20260313001064",
+          "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260313001064",
+          "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+          "metric": "보험금 예실차 비율",
+          "period": "2025년말",
+          "sourceTables": {
+            "2024": {
+              "reportYear": "2025",
+              "tableIndex": 208
+            },
+            "2025": {
+              "reportYear": "2025",
+              "tableIndex": 207
+            }
+          },
+          "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산",
+          "comparativeReport": {
+            "reportName": "사업보고서 (2024.12)",
+            "rceptNo": "20250314001697",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250314001697"
+          }
+        },
+        "checks": {
+          "formula": "variance = expectedLossRatio - actualLossRatio",
+          "status": "passed"
+        }
+      },
+      "lossRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedClaims": {
+              "duration": [
+                42471.64,
+                42416.15,
+                41916.59,
+                41437.96,
+                40274.31,
+                38858.94,
+                38312.51,
+                37910.1,
+                37708.28,
+                37354.28,
+                181677.93,
+                176617.1,
+                170017.15,
+                160008.91,
+                707774.74
+              ],
+              "presentValue": 839278.3
+            },
+            "riskPremium": {
+              "duration": [
+                44675.67,
+                43513.85,
+                42238.97,
+                41400.87,
+                39900.42,
+                38271.77,
+                37452.06,
+                36887.4,
+                36613.49,
+                36193.04,
+                174956.5,
+                168252.03,
+                160446.54,
+                148826.25,
+                640940.34
+              ],
+              "presentValue": 811459.17
+            },
+            "ratio": {
+              "duration": [
+                95.07,
+                97.48,
+                99.24,
+                100.09,
+                100.94,
+                101.53,
+                102.3,
+                102.77,
+                102.99,
+                103.21,
+                103.84,
+                104.97,
+                105.96,
+                107.51,
+                110.43
+              ],
+              "presentValue": 103.43
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250314001697",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250314001697",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2024년말",
+              "sourceTables": [
+                294
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedClaims": {
+              "duration": [
+                45281.92,
+                44231.77,
+                42748.77,
+                40765.35,
+                38594.27,
+                37364.78,
+                36582.09,
+                36027.7,
+                35380.69,
+                34614.11,
+                168580.28,
+                165896.99,
+                161078.41,
+                152524.73,
+                732398.75
+              ],
+              "presentValue": 780696.13
+            },
+            "riskPremium": {
+              "duration": [
+                48391.19,
+                46057.79,
+                43662.19,
+                41280.56,
+                38758.66,
+                37214.97,
+                36250.53,
+                35509.92,
+                34746.91,
+                34045.02,
+                162883.14,
+                157464.34,
+                150976.57,
+                140936.39,
+                655858.54
+              ],
+              "presentValue": 758625.72
+            },
+            "ratio": {
+              "duration": [
+                93.57,
+                96.04,
+                97.91,
+                98.75,
+                99.58,
+                100.4,
+                100.91,
+                101.46,
+                101.82,
+                101.67,
+                103.5,
+                105.36,
+                106.69,
+                108.22,
+                111.67
+              ],
+              "presentValue": 102.91
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260313001064",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260313001064",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "위험보험료 대비 예상보험금",
+              "period": "2025년말",
+              "sourceTables": [
+                209,
+                210
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      },
+      "expenseRatioByDuration": {
+        "periods": {
+          "2024-ye": {
+            "expectedExpense": {
+              "duration": [
+                4158.22,
+                3847.41,
+                3614.79,
+                3209.64,
+                2955.97,
+                2768.88,
+                2643.98,
+                2514.47,
+                2391.07,
+                2285.06,
+                10081.56,
+                8848.94,
+                7541.52,
+                6524.61,
+                24669.93
+              ],
+              "presentValue": 49192.64
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                12685.71,
+                12022.83,
+                11541.76,
+                10696.85,
+                9414.96,
+                8255.91,
+                7465.61,
+                6683.67,
+                5901.75,
+                5333.34,
+                19778.82,
+                13683.3,
+                8366.25,
+                5457.22,
+                10818.75
+              ],
+              "presentValue": 108251.56
+            },
+            "ratio": {
+              "duration": [
+                32.78,
+                32.0,
+                31.32,
+                30.01,
+                31.4,
+                33.54,
+                35.42,
+                37.62,
+                40.51,
+                42.84,
+                50.97,
+                64.67,
+                90.14,
+                119.56,
+                228.03
+              ],
+              "presentValue": 45.44
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2024.12)",
+              "rceptNo": "20250314001697",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250314001697",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2024년말",
+              "sourceTables": [
+                295
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          },
+          "2025-ye": {
+            "expectedExpense": {
+              "duration": [
+                4632.63,
+                4234.07,
+                3693.09,
+                3351.27,
+                3080.87,
+                2895.05,
+                2729.22,
+                2568.01,
+                2436.45,
+                2293.97,
+                10301.85,
+                9049.07,
+                7648.73,
+                6666.09,
+                26883.09
+              ],
+              "presentValue": 49525.09
+            },
+            "expectedMaintenanceExpense": {
+              "duration": [
+                13816.52,
+                12683.39,
+                11704.11,
+                10291.78,
+                9047.63,
+                8163.78,
+                7309.45,
+                6478.05,
+                5895.72,
+                5301.21,
+                20817.14,
+                15441.14,
+                9750.45,
+                6764.59,
+                17194.03
+              ],
+              "presentValue": 110115.99
+            },
+            "ratio": {
+              "duration": [
+                33.53,
+                33.38,
+                31.55,
+                32.56,
+                34.05,
+                35.46,
+                37.34,
+                39.64,
+                41.33,
+                43.27,
+                49.49,
+                58.6,
+                78.44,
+                98.54,
+                156.35
+              ],
+              "presentValue": 44.98
+            },
+            "unit": "억원",
+            "sourceReference": {
+              "sourceType": "Open DART",
+              "reportName": "사업보고서 (2025.12)",
+              "rceptNo": "20260313001064",
+              "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260313001064",
+              "basis": "연결재무제표 주석 · 발행한 보험계약 · 합계",
+              "metric": "예정유지비 대비 예상유지비",
+              "period": "2025년말",
+              "sourceTables": [
+                213,
+                214
+              ],
+              "extractionMethod": "Open DART 연결 주석의 지정 표를 직접 추출하고, 합계가 없으면 세부 포트폴리오 행을 합산"
+            }
+          }
+        }
+      }
+    }
+  }
+};

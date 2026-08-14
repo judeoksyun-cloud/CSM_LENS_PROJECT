@@ -1,0 +1,3033 @@
+window.CSM_FORECAST_DATA = {
+  "version": "2026.08.05-v4",
+  "generatedAt": "2026-08-05",
+  "asOfPeriod": "2026-q1",
+  "targetPeriod": "2026-ye",
+  "nearTermPeriods": [
+    "2026-ye",
+    "2027-ye",
+    "2028-ye",
+    "2030-ye"
+  ],
+  "terminalPeriod": "2035-ye",
+  "unit": "KRW billion",
+  "status": "decision-support scenario; not company guidance",
+  "methodologyDocument": "../CSM_FORECAST_METHODOLOGY.md",
+  "forecasts": {
+    "samsung-life": {
+      "companyName": "삼성생명",
+      "asOfPeriod": "2026-q1",
+      "asOfCsm": 13647,
+      "targetPeriod": "2026-ye",
+      "anchor": {
+        "type": "model_generated",
+        "value": 14404,
+        "note": "담당자 입력값 없음 · 모델 Base를 사용"
+      },
+      "ratios": {
+        "interestRate": 0.008889,
+        "amortizationRate": 0.025581,
+        "denominator": "기시 CSM + 신계약 CSM",
+        "lookbackPeriods": [
+          "2025-q2",
+          "2025-q3",
+          "2025-q4",
+          "2026-q1"
+        ],
+        "lookbackWeights": [
+          0.1,
+          0.2,
+          0.3,
+          0.4
+        ],
+        "interestOverride": false
+      },
+      "base": {
+        "opening": 13218,
+        "newbiz": 3249,
+        "interest": 522,
+        "adjustment": -1080,
+        "amortization": -1505,
+        "closing": 14404,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 13218,
+            "newbiz": 849,
+            "interest": 127,
+            "amortization": -367,
+            "adjustment": -180,
+            "closing": 13647
+          },
+          {
+            "period": "2026-q2",
+            "opening": 13647,
+            "newbiz": 768,
+            "interest": 128,
+            "adjustment": -180,
+            "amortization": -369,
+            "closing": 13994
+          },
+          {
+            "period": "2026-q3",
+            "opening": 13994,
+            "newbiz": 872,
+            "interest": 132,
+            "adjustment": -180,
+            "amortization": -380,
+            "closing": 14438
+          },
+          {
+            "period": "2026-q4",
+            "opening": 14438,
+            "newbiz": 760,
+            "interest": 135,
+            "adjustment": -540,
+            "amortization": -389,
+            "closing": 14404
+          }
+        ],
+        "remainingForecast": {
+          "opening": 13647,
+          "newbiz": 2400,
+          "interest": 395,
+          "adjustment": -900,
+          "amortization": -1138,
+          "closing": 14404,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 13647,
+              "newbiz": 768,
+              "interest": 128,
+              "adjustment": -180,
+              "amortization": -369,
+              "closing": 13994
+            },
+            {
+              "period": "2026-q3",
+              "opening": 13994,
+              "newbiz": 872,
+              "interest": 132,
+              "adjustment": -180,
+              "amortization": -380,
+              "closing": 14438
+            },
+            {
+              "period": "2026-q4",
+              "opening": 14438,
+              "newbiz": 760,
+              "interest": 135,
+              "adjustment": -540,
+              "amortization": -389,
+              "closing": 14404
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "1분기 신계약 CSM 0.85조원과 최근 분기 계절성을 반영해 잔여 3개 분기 2.40조원으로 설정. 최근 회사별 조정 추이와 증권사 보험업 전망을 함께 반영해 잔여 조정을 -0.90조원으로 설정."
+      },
+      "worst": {
+        "opening": 13218,
+        "newbiz": 2769,
+        "interest": 513,
+        "adjustment": -1260,
+        "amortization": -1478,
+        "closing": 13762,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 13218,
+            "newbiz": 849,
+            "interest": 127,
+            "amortization": -367,
+            "adjustment": -180,
+            "closing": 13647
+          },
+          {
+            "period": "2026-q2",
+            "opening": 13647,
+            "newbiz": 614,
+            "interest": 127,
+            "adjustment": -216,
+            "amortization": -365,
+            "closing": 13807
+          },
+          {
+            "period": "2026-q3",
+            "opening": 13807,
+            "newbiz": 697,
+            "interest": 129,
+            "adjustment": -216,
+            "amortization": -371,
+            "closing": 14046
+          },
+          {
+            "period": "2026-q4",
+            "opening": 14046,
+            "newbiz": 609,
+            "interest": 130,
+            "adjustment": -648,
+            "amortization": -375,
+            "closing": 13762
+          }
+        ],
+        "remainingForecast": {
+          "opening": 13647,
+          "newbiz": 1920,
+          "interest": 386,
+          "adjustment": -1080,
+          "amortization": -1111,
+          "closing": 13762,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 13647,
+              "newbiz": 614,
+              "interest": 127,
+              "adjustment": -216,
+              "amortization": -365,
+              "closing": 13807
+            },
+            {
+              "period": "2026-q3",
+              "opening": 13807,
+              "newbiz": 697,
+              "interest": 129,
+              "adjustment": -216,
+              "amortization": -371,
+              "closing": 14046
+            },
+            {
+              "period": "2026-q4",
+              "opening": 14046,
+              "newbiz": 609,
+              "interest": 130,
+              "adjustment": -648,
+              "amortization": -375,
+              "closing": 13762
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -0.90조원에서 Worst -1.08조원으로 적용."
+      },
+      "horizon": {
+        "nearTermPeriods": [
+          "2026-ye",
+          "2027-ye",
+          "2028-ye",
+          "2030-ye"
+        ],
+        "terminalPeriod": "2035-ye",
+        "base": [
+          {
+            "period": "2026-ye",
+            "opening": 13218,
+            "newbiz": 3249,
+            "interest": 522,
+            "adjustment": -1080,
+            "amortization": -1505,
+            "closing": 14404
+          },
+          {
+            "period": "2027-ye",
+            "opening": 14404,
+            "newbiz": 3152,
+            "interest": 552,
+            "adjustment": -1177,
+            "amortization": -1592,
+            "closing": 15339
+          },
+          {
+            "period": "2028-ye",
+            "opening": 15339,
+            "newbiz": 3057,
+            "interest": 582,
+            "adjustment": -1253,
+            "amortization": -1676,
+            "closing": 16049
+          },
+          {
+            "period": "2030-ye",
+            "opening": 16568,
+            "newbiz": 2876,
+            "interest": 619,
+            "adjustment": -1354,
+            "amortization": -1783,
+            "closing": 16926
+          }
+        ],
+        "worst": [
+          {
+            "period": "2026-ye",
+            "opening": 13218,
+            "newbiz": 2769,
+            "interest": 513,
+            "adjustment": -1260,
+            "amortization": -1478,
+            "closing": 13762
+          },
+          {
+            "period": "2027-ye",
+            "opening": 13762,
+            "newbiz": 2522,
+            "interest": 514,
+            "adjustment": -1412,
+            "amortization": -1478,
+            "closing": 13908
+          },
+          {
+            "period": "2028-ye",
+            "opening": 13908,
+            "newbiz": 2446,
+            "interest": 516,
+            "adjustment": -1504,
+            "amortization": -1484,
+            "closing": 13882
+          },
+          {
+            "period": "2030-ye",
+            "opening": 13720,
+            "newbiz": 2301,
+            "interest": 504,
+            "adjustment": -1625,
+            "amortization": -1452,
+            "closing": 13448
+          }
+        ],
+        "terminal": {
+          "base": {
+            "period": "2035-ye",
+            "opening": 17678,
+            "newbiz": 2735,
+            "interest": 653,
+            "adjustment": -1444,
+            "amortization": -1882,
+            "closing": 17740
+          },
+          "worst": {
+            "period": "2035-ye",
+            "opening": 12071,
+            "newbiz": 2188,
+            "interest": 443,
+            "adjustment": -1733,
+            "amortization": -1276,
+            "closing": 11693
+          }
+        },
+        "assumptions": {
+          "newbizGrowth": -0.03,
+          "longTermNewbizGrowth": -0.01,
+          "baseAdjustmentRate": -0.081707,
+          "worstNewbizStress": 0.2,
+          "worstAdjustmentStress": 0.2,
+          "longTermMethod": "2031~2035년은 2026~2030년 추세를 절반 수준으로 수렴시켜 내부 연도별 계산 후 2035년말만 표시"
+        },
+        "executiveRationale": {
+          "years1to3": "최근 분기 실적·계절성과 증권사 애널리스트 방향성을 반영해 2026~2028년 Base를 산출하고, Worst는 신계약·조정을 각각 20% 악화",
+          "year5": "과거 신계약 추세를 연 -3.0% 범위로 적용하고 2026년 CSM 조정률을 유지해 2030년까지 Movement를 연결",
+          "year10": "2031~2035년 신계약 증가율을 연 -1.0%로 수렴시키고 중간 연도를 누적 계산해 2035년 종착점 산출"
+        }
+      },
+      "qualitativeJudgment": {
+        "baseNewbiz": "1분기 신계약 CSM 0.85조원과 최근 분기 계절성을 반영해 잔여 3개 분기 2.40조원으로 설정.",
+        "baseAdjustment": "최근 회사별 조정 추이와 증권사 보험업 전망을 함께 반영해 잔여 조정을 -0.90조원으로 설정.",
+        "worst": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -0.90조원에서 Worst -1.08조원으로 적용."
+      },
+      "confidence": "중상",
+      "sources": [
+        {
+          "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
+          "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
+          "type": "sell_side",
+          "use": "보험업 신계약·손해율 방향을 Base 정성 보정에만 참고"
+        }
+      ]
+    },
+    "hanwha-life": {
+      "companyName": "한화생명",
+      "asOfPeriod": "2026-q1",
+      "asOfCsm": 8921,
+      "targetPeriod": "2026-ye",
+      "anchor": {
+        "type": "model_generated",
+        "value": 9497,
+        "note": "담당자 입력값 없음 · 모델 Base를 사용"
+      },
+      "ratios": {
+        "interestRate": 0.009522,
+        "amortizationRate": 0.020594,
+        "denominator": "기시 CSM + 신계약 CSM",
+        "lookbackPeriods": [
+          "2025-q2",
+          "2025-q3",
+          "2025-q4",
+          "2026-q1"
+        ],
+        "lookbackWeights": [
+          0.1,
+          0.2,
+          0.3,
+          0.4
+        ],
+        "interestOverride": false
+      },
+      "base": {
+        "opening": 8714,
+        "newbiz": 2361,
+        "interest": 368,
+        "adjustment": -1152,
+        "amortization": -794,
+        "closing": 9497,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 8714,
+            "newbiz": 611,
+            "interest": 89,
+            "amortization": -191,
+            "adjustment": -302,
+            "closing": 8921
+          },
+          {
+            "period": "2026-q2",
+            "opening": 8921,
+            "newbiz": 486,
+            "interest": 90,
+            "adjustment": -170,
+            "amortization": -194,
+            "closing": 9133
+          },
+          {
+            "period": "2026-q3",
+            "opening": 9133,
+            "newbiz": 625,
+            "interest": 93,
+            "adjustment": -170,
+            "amortization": -201,
+            "closing": 9480
+          },
+          {
+            "period": "2026-q4",
+            "opening": 9480,
+            "newbiz": 639,
+            "interest": 96,
+            "adjustment": -510,
+            "amortization": -208,
+            "closing": 9497
+          }
+        ],
+        "remainingForecast": {
+          "opening": 8921,
+          "newbiz": 1750,
+          "interest": 279,
+          "adjustment": -850,
+          "amortization": -603,
+          "closing": 9497,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 8921,
+              "newbiz": 486,
+              "interest": 90,
+              "adjustment": -170,
+              "amortization": -194,
+              "closing": 9133
+            },
+            {
+              "period": "2026-q3",
+              "opening": 9133,
+              "newbiz": 625,
+              "interest": 93,
+              "adjustment": -170,
+              "amortization": -201,
+              "closing": 9480
+            },
+            {
+              "period": "2026-q4",
+              "opening": 9480,
+              "newbiz": 639,
+              "interest": 96,
+              "adjustment": -510,
+              "amortization": -208,
+              "closing": 9497
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "1분기 신계약 CSM 0.61조원과 종신보험 배수 개선을 반영해 잔여 신계약 1.75조원으로 설정. 회사가 밝힌 조정 감소와 연간 CSM 순증 가능성을 반영하되 2분기 가정 점검 불확실성을 남겨 -0.85조원 적용."
+      },
+      "worst": {
+        "opening": 8714,
+        "newbiz": 2011,
+        "interest": 360,
+        "adjustment": -1322,
+        "amortization": -779,
+        "closing": 8984,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 8714,
+            "newbiz": 611,
+            "interest": 89,
+            "amortization": -191,
+            "adjustment": -302,
+            "closing": 8921
+          },
+          {
+            "period": "2026-q2",
+            "opening": 8921,
+            "newbiz": 389,
+            "interest": 89,
+            "adjustment": -204,
+            "amortization": -192,
+            "closing": 9003
+          },
+          {
+            "period": "2026-q3",
+            "opening": 9003,
+            "newbiz": 500,
+            "interest": 90,
+            "adjustment": -204,
+            "amortization": -196,
+            "closing": 9193
+          },
+          {
+            "period": "2026-q4",
+            "opening": 9193,
+            "newbiz": 511,
+            "interest": 92,
+            "adjustment": -612,
+            "amortization": -200,
+            "closing": 8984
+          }
+        ],
+        "remainingForecast": {
+          "opening": 8921,
+          "newbiz": 1400,
+          "interest": 271,
+          "adjustment": -1020,
+          "amortization": -588,
+          "closing": 8984,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 8921,
+              "newbiz": 389,
+              "interest": 89,
+              "adjustment": -204,
+              "amortization": -192,
+              "closing": 9003
+            },
+            {
+              "period": "2026-q3",
+              "opening": 9003,
+              "newbiz": 500,
+              "interest": 90,
+              "adjustment": -204,
+              "amortization": -196,
+              "closing": 9193
+            },
+            {
+              "period": "2026-q4",
+              "opening": 9193,
+              "newbiz": 511,
+              "interest": 92,
+              "adjustment": -612,
+              "amortization": -200,
+              "closing": 8984
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -0.85조원에서 Worst -1.02조원으로 적용."
+      },
+      "horizon": {
+        "nearTermPeriods": [
+          "2026-ye",
+          "2027-ye",
+          "2028-ye",
+          "2030-ye"
+        ],
+        "terminalPeriod": "2035-ye",
+        "base": [
+          {
+            "period": "2026-ye",
+            "opening": 8714,
+            "newbiz": 2361,
+            "interest": 368,
+            "adjustment": -1152,
+            "amortization": -794,
+            "closing": 9497
+          },
+          {
+            "period": "2027-ye",
+            "opening": 9497,
+            "newbiz": 2290,
+            "interest": 392,
+            "adjustment": -1256,
+            "amortization": -846,
+            "closing": 10077
+          },
+          {
+            "period": "2028-ye",
+            "opening": 10077,
+            "newbiz": 2221,
+            "interest": 410,
+            "adjustment": -1332,
+            "amortization": -888,
+            "closing": 10488
+          },
+          {
+            "period": "2030-ye",
+            "opening": 10763,
+            "newbiz": 2089,
+            "interest": 432,
+            "adjustment": -1423,
+            "amortization": -934,
+            "closing": 10927
+          }
+        ],
+        "worst": [
+          {
+            "period": "2026-ye",
+            "opening": 8714,
+            "newbiz": 2011,
+            "interest": 360,
+            "adjustment": -1322,
+            "amortization": -779,
+            "closing": 8984
+          },
+          {
+            "period": "2027-ye",
+            "opening": 8984,
+            "newbiz": 1832,
+            "interest": 358,
+            "adjustment": -1507,
+            "amortization": -775,
+            "closing": 8892
+          },
+          {
+            "period": "2028-ye",
+            "opening": 8892,
+            "newbiz": 1777,
+            "interest": 352,
+            "adjustment": -1598,
+            "amortization": -762,
+            "closing": 8661
+          },
+          {
+            "period": "2030-ye",
+            "opening": 8324,
+            "newbiz": 1671,
+            "interest": 326,
+            "adjustment": -1708,
+            "amortization": -708,
+            "closing": 7905
+          }
+        ],
+        "terminal": {
+          "base": {
+            "period": "2035-ye",
+            "opening": 11174,
+            "newbiz": 1987,
+            "interest": 444,
+            "adjustment": -1477,
+            "amortization": -960,
+            "closing": 11168
+          },
+          "worst": {
+            "period": "2035-ye",
+            "opening": 6083,
+            "newbiz": 1590,
+            "interest": 241,
+            "adjustment": -1772,
+            "amortization": -519,
+            "closing": 5623
+          }
+        },
+        "assumptions": {
+          "newbizGrowth": -0.03,
+          "longTermNewbizGrowth": -0.01,
+          "baseAdjustmentRate": -0.132201,
+          "worstNewbizStress": 0.2,
+          "worstAdjustmentStress": 0.2,
+          "longTermMethod": "2031~2035년은 2026~2030년 추세를 절반 수준으로 수렴시켜 내부 연도별 계산 후 2035년말만 표시"
+        },
+        "executiveRationale": {
+          "years1to3": "최근 분기 실적·계절성과 증권사 애널리스트 방향성을 반영해 2026~2028년 Base를 산출하고, Worst는 신계약·조정을 각각 20% 악화",
+          "year5": "과거 신계약 추세를 연 -3.0% 범위로 적용하고 2026년 CSM 조정률을 유지해 2030년까지 Movement를 연결",
+          "year10": "2031~2035년 신계약 증가율을 연 -1.0%로 수렴시키고 중간 연도를 누적 계산해 2035년 종착점 산출"
+        }
+      },
+      "qualitativeJudgment": {
+        "baseNewbiz": "1분기 신계약 CSM 0.61조원과 종신보험 배수 개선을 반영해 잔여 신계약 1.75조원으로 설정.",
+        "baseAdjustment": "회사가 밝힌 조정 감소와 연간 CSM 순증 가능성을 반영하되 2분기 가정 점검 불확실성을 남겨 -0.85조원 적용.",
+        "worst": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -0.85조원에서 Worst -1.02조원으로 적용."
+      },
+      "confidence": "중상",
+      "sources": [
+        {
+          "title": "한화생명 1Q26 증권사 리포트",
+          "url": "https://file.alphasquare.co.kr/media/pdfs/company-report/_260513%20%ED%95%9C%ED%99%94%EC%83%9D%EB%AA%85_%EC%A0%84%EB%B0%B0%EC%8A%B9_908_Online%20report%20_%206_10p_%ED%95%9C%ED%99%94%EC%83%9D%EB%AA%85.pdf",
+          "type": "sell_side",
+          "use": "CSM 배수 상승과 신계약 CSM 0.61조원을 Base에 반영"
+        },
+        {
+          "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
+          "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
+          "type": "sell_side",
+          "use": "보험업 신계약·손해율 방향을 Base 정성 보정에만 참고"
+        }
+      ]
+    },
+    "kyobo-life": {
+      "companyName": "교보생명",
+      "asOfPeriod": "2026-q1",
+      "asOfCsm": 6687,
+      "targetPeriod": "2026-ye",
+      "anchor": {
+        "type": "model_generated",
+        "value": 7058,
+        "note": "담당자 입력값 없음 · 모델 Base를 사용"
+      },
+      "ratios": {
+        "interestRate": 0.007,
+        "amortizationRate": 0.022211,
+        "denominator": "기시 CSM + 신계약 CSM",
+        "lookbackPeriods": [
+          "2025-q2",
+          "2025-q3",
+          "2025-q4",
+          "2026-q1"
+        ],
+        "lookbackWeights": [
+          0.1,
+          0.2,
+          0.3,
+          0.4
+        ],
+        "interestOverride": true
+      },
+      "base": {
+        "opening": 6511,
+        "newbiz": 1566,
+        "interest": 201,
+        "adjustment": -585,
+        "amortization": -635,
+        "closing": 7058,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 6511,
+            "newbiz": 416,
+            "interest": 49,
+            "amortization": -154,
+            "adjustment": -135,
+            "closing": 6687
+          },
+          {
+            "period": "2026-q2",
+            "opening": 6687,
+            "newbiz": 310,
+            "interest": 49,
+            "adjustment": -90,
+            "amortization": -155,
+            "closing": 6801
+          },
+          {
+            "period": "2026-q3",
+            "opening": 6801,
+            "newbiz": 448,
+            "interest": 51,
+            "adjustment": -90,
+            "amortization": -161,
+            "closing": 7049
+          },
+          {
+            "period": "2026-q4",
+            "opening": 7049,
+            "newbiz": 392,
+            "interest": 52,
+            "adjustment": -270,
+            "amortization": -165,
+            "closing": 7058
+          }
+        ],
+        "remainingForecast": {
+          "opening": 6687,
+          "newbiz": 1150,
+          "interest": 152,
+          "adjustment": -450,
+          "amortization": -481,
+          "closing": 7058,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 6687,
+              "newbiz": 310,
+              "interest": 49,
+              "adjustment": -90,
+              "amortization": -155,
+              "closing": 6801
+            },
+            {
+              "period": "2026-q3",
+              "opening": 6801,
+              "newbiz": 448,
+              "interest": 51,
+              "adjustment": -90,
+              "amortization": -161,
+              "closing": 7049
+            },
+            {
+              "period": "2026-q4",
+              "opening": 7049,
+              "newbiz": 392,
+              "interest": 52,
+              "adjustment": -270,
+              "amortization": -165,
+              "closing": 7058
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "1분기 고효율 보장성 중심 신계약 증가와 하반기 모멘텀 유지 방침을 반영해 잔여 신계약 1.15조원 설정. 과거 이자/조정 항목 간 재분류 변동을 제거한 정상화 기준으로 잔여 조정 -0.45조원 적용."
+      },
+      "worst": {
+        "opening": 6511,
+        "newbiz": 1336,
+        "interest": 198,
+        "adjustment": -675,
+        "amortization": -624,
+        "closing": 6746,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 6511,
+            "newbiz": 416,
+            "interest": 49,
+            "amortization": -154,
+            "adjustment": -135,
+            "closing": 6687
+          },
+          {
+            "period": "2026-q2",
+            "opening": 6687,
+            "newbiz": 248,
+            "interest": 49,
+            "adjustment": -108,
+            "amortization": -154,
+            "closing": 6722
+          },
+          {
+            "period": "2026-q3",
+            "opening": 6722,
+            "newbiz": 359,
+            "interest": 50,
+            "adjustment": -108,
+            "amortization": -157,
+            "closing": 6866
+          },
+          {
+            "period": "2026-q4",
+            "opening": 6866,
+            "newbiz": 313,
+            "interest": 50,
+            "adjustment": -324,
+            "amortization": -159,
+            "closing": 6746
+          }
+        ],
+        "remainingForecast": {
+          "opening": 6687,
+          "newbiz": 920,
+          "interest": 149,
+          "adjustment": -540,
+          "amortization": -470,
+          "closing": 6746,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 6687,
+              "newbiz": 248,
+              "interest": 49,
+              "adjustment": -108,
+              "amortization": -154,
+              "closing": 6722
+            },
+            {
+              "period": "2026-q3",
+              "opening": 6722,
+              "newbiz": 359,
+              "interest": 50,
+              "adjustment": -108,
+              "amortization": -157,
+              "closing": 6866
+            },
+            {
+              "period": "2026-q4",
+              "opening": 6866,
+              "newbiz": 313,
+              "interest": 50,
+              "adjustment": -324,
+              "amortization": -159,
+              "closing": 6746
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -0.45조원에서 Worst -0.54조원으로 적용."
+      },
+      "horizon": {
+        "nearTermPeriods": [
+          "2026-ye",
+          "2027-ye",
+          "2028-ye",
+          "2030-ye"
+        ],
+        "terminalPeriod": "2035-ye",
+        "base": [
+          {
+            "period": "2026-ye",
+            "opening": 6511,
+            "newbiz": 1566,
+            "interest": 201,
+            "adjustment": -585,
+            "amortization": -635,
+            "closing": 7058
+          },
+          {
+            "period": "2027-ye",
+            "opening": 7058,
+            "newbiz": 1519,
+            "interest": 213,
+            "adjustment": -634,
+            "amortization": -675,
+            "closing": 7481
+          },
+          {
+            "period": "2028-ye",
+            "opening": 7481,
+            "newbiz": 1473,
+            "interest": 224,
+            "adjustment": -672,
+            "amortization": -708,
+            "closing": 7798
+          },
+          {
+            "period": "2030-ye",
+            "opening": 8024,
+            "newbiz": 1386,
+            "interest": 236,
+            "adjustment": -721,
+            "amortization": -749,
+            "closing": 8176
+          }
+        ],
+        "worst": [
+          {
+            "period": "2026-ye",
+            "opening": 6511,
+            "newbiz": 1336,
+            "interest": 198,
+            "adjustment": -675,
+            "amortization": -624,
+            "closing": 6746
+          },
+          {
+            "period": "2027-ye",
+            "opening": 6746,
+            "newbiz": 1215,
+            "interest": 196,
+            "adjustment": -761,
+            "amortization": -628,
+            "closing": 6768
+          },
+          {
+            "period": "2028-ye",
+            "opening": 6768,
+            "newbiz": 1178,
+            "interest": 196,
+            "adjustment": -806,
+            "amortization": -625,
+            "closing": 6711
+          },
+          {
+            "period": "2030-ye",
+            "opening": 6591,
+            "newbiz": 1109,
+            "interest": 190,
+            "adjustment": -865,
+            "amortization": -606,
+            "closing": 6419
+          }
+        ],
+        "terminal": {
+          "base": {
+            "period": "2035-ye",
+            "opening": 8475,
+            "newbiz": 1318,
+            "interest": 248,
+            "adjustment": -761,
+            "amortization": -784,
+            "closing": 8496
+          },
+          "worst": {
+            "period": "2035-ye",
+            "opening": 5615,
+            "newbiz": 1054,
+            "interest": 162,
+            "adjustment": -913,
+            "amortization": -515,
+            "closing": 5403
+          }
+        },
+        "assumptions": {
+          "newbizGrowth": -0.03,
+          "longTermNewbizGrowth": -0.01,
+          "baseAdjustmentRate": -0.089848,
+          "worstNewbizStress": 0.2,
+          "worstAdjustmentStress": 0.2,
+          "longTermMethod": "2031~2035년은 2026~2030년 추세를 절반 수준으로 수렴시켜 내부 연도별 계산 후 2035년말만 표시"
+        },
+        "executiveRationale": {
+          "years1to3": "최근 분기 실적·계절성과 증권사 애널리스트 방향성을 반영해 2026~2028년 Base를 산출하고, Worst는 신계약·조정을 각각 20% 악화",
+          "year5": "과거 신계약 추세를 연 -3.0% 범위로 적용하고 2026년 CSM 조정률을 유지해 2030년까지 Movement를 연결",
+          "year10": "2031~2035년 신계약 증가율을 연 -1.0%로 수렴시키고 중간 연도를 누적 계산해 2035년 종착점 산출"
+        }
+      },
+      "qualitativeJudgment": {
+        "baseNewbiz": "1분기 고효율 보장성 중심 신계약 증가와 하반기 모멘텀 유지 방침을 반영해 잔여 신계약 1.15조원 설정.",
+        "baseAdjustment": "과거 이자/조정 항목 간 재분류 변동을 제거한 정상화 기준으로 잔여 조정 -0.45조원 적용.",
+        "worst": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -0.45조원에서 Worst -0.54조원으로 적용."
+      },
+      "confidence": "중",
+      "sources": [
+        {
+          "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
+          "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
+          "type": "sell_side",
+          "use": "보험업 신계약·손해율 방향을 Base 정성 보정에만 참고"
+        }
+      ]
+    },
+    "shinhan-life": {
+      "companyName": "신한라이프",
+      "asOfPeriod": "2026-q1",
+      "asOfCsm": 7610,
+      "targetPeriod": "2026-ye",
+      "anchor": {
+        "type": "model_generated",
+        "value": 7921,
+        "note": "담당자 입력값 없음 · 모델 Base를 사용"
+      },
+      "ratios": {
+        "interestRate": 0.008669,
+        "amortizationRate": 0.023366,
+        "denominator": "기시 CSM + 신계약 CSM",
+        "lookbackPeriods": [
+          "2025-q2",
+          "2025-q3",
+          "2025-q4",
+          "2026-q1"
+        ],
+        "lookbackWeights": [
+          0.1,
+          0.2,
+          0.3,
+          0.4
+        ],
+        "interestOverride": false
+      },
+      "base": {
+        "opening": 7450,
+        "newbiz": 1581,
+        "interest": 282,
+        "adjustment": -637,
+        "amortization": -755,
+        "closing": 7921,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 7450,
+            "newbiz": 361,
+            "interest": 69,
+            "amortization": -183,
+            "adjustment": -87,
+            "closing": 7610
+          },
+          {
+            "period": "2026-q2",
+            "opening": 7610,
+            "newbiz": 321,
+            "interest": 69,
+            "adjustment": -110,
+            "amortization": -185,
+            "closing": 7705
+          },
+          {
+            "period": "2026-q3",
+            "opening": 7705,
+            "newbiz": 474,
+            "interest": 71,
+            "adjustment": -110,
+            "amortization": -191,
+            "closing": 7949
+          },
+          {
+            "period": "2026-q4",
+            "opening": 7949,
+            "newbiz": 425,
+            "interest": 73,
+            "adjustment": -330,
+            "amortization": -196,
+            "closing": 7921
+          }
+        ],
+        "remainingForecast": {
+          "opening": 7610,
+          "newbiz": 1220,
+          "interest": 213,
+          "adjustment": -550,
+          "amortization": -572,
+          "closing": 7921,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 7610,
+              "newbiz": 321,
+              "interest": 69,
+              "adjustment": -110,
+              "amortization": -185,
+              "closing": 7705
+            },
+            {
+              "period": "2026-q3",
+              "opening": 7705,
+              "newbiz": 474,
+              "interest": 71,
+              "adjustment": -110,
+              "amortization": -191,
+              "closing": 7949
+            },
+            {
+              "period": "2026-q4",
+              "opening": 7949,
+              "newbiz": 425,
+              "interest": 73,
+              "adjustment": -330,
+              "amortization": -196,
+              "closing": 7921
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "2025년 신계약 CSM 1.6조원과 내실 중심 전략을 반영해 잔여 신계약 1.22조원 설정. 보유 CSM 성장세는 유지하되 수익성 회복 불확실성을 반영해 잔여 조정 -0.55조원 적용."
+      },
+      "worst": {
+        "opening": 7450,
+        "newbiz": 1337,
+        "interest": 276,
+        "adjustment": -747,
+        "amortization": -743,
+        "closing": 7573,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 7450,
+            "newbiz": 361,
+            "interest": 69,
+            "amortization": -183,
+            "adjustment": -87,
+            "closing": 7610
+          },
+          {
+            "period": "2026-q2",
+            "opening": 7610,
+            "newbiz": 257,
+            "interest": 68,
+            "adjustment": -132,
+            "amortization": -184,
+            "closing": 7619
+          },
+          {
+            "period": "2026-q3",
+            "opening": 7619,
+            "newbiz": 379,
+            "interest": 69,
+            "adjustment": -132,
+            "amortization": -187,
+            "closing": 7748
+          },
+          {
+            "period": "2026-q4",
+            "opening": 7748,
+            "newbiz": 340,
+            "interest": 70,
+            "adjustment": -396,
+            "amortization": -189,
+            "closing": 7573
+          }
+        ],
+        "remainingForecast": {
+          "opening": 7610,
+          "newbiz": 976,
+          "interest": 207,
+          "adjustment": -660,
+          "amortization": -560,
+          "closing": 7573,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 7610,
+              "newbiz": 257,
+              "interest": 68,
+              "adjustment": -132,
+              "amortization": -184,
+              "closing": 7619
+            },
+            {
+              "period": "2026-q3",
+              "opening": 7619,
+              "newbiz": 379,
+              "interest": 69,
+              "adjustment": -132,
+              "amortization": -187,
+              "closing": 7748
+            },
+            {
+              "period": "2026-q4",
+              "opening": 7748,
+              "newbiz": 340,
+              "interest": 70,
+              "adjustment": -396,
+              "amortization": -189,
+              "closing": 7573
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -0.55조원에서 Worst -0.66조원으로 적용."
+      },
+      "horizon": {
+        "nearTermPeriods": [
+          "2026-ye",
+          "2027-ye",
+          "2028-ye",
+          "2030-ye"
+        ],
+        "terminalPeriod": "2035-ye",
+        "base": [
+          {
+            "period": "2026-ye",
+            "opening": 7450,
+            "newbiz": 1581,
+            "interest": 282,
+            "adjustment": -637,
+            "amortization": -755,
+            "closing": 7921
+          },
+          {
+            "period": "2027-ye",
+            "opening": 7921,
+            "newbiz": 1660,
+            "interest": 294,
+            "adjustment": -677,
+            "amortization": -796,
+            "closing": 8402
+          },
+          {
+            "period": "2028-ye",
+            "opening": 8402,
+            "newbiz": 1743,
+            "interest": 314,
+            "adjustment": -718,
+            "amortization": -843,
+            "closing": 8898
+          },
+          {
+            "period": "2030-ye",
+            "opening": 9403,
+            "newbiz": 1922,
+            "interest": 350,
+            "adjustment": -804,
+            "amortization": -942,
+            "closing": 9929
+          }
+        ],
+        "worst": [
+          {
+            "period": "2026-ye",
+            "opening": 7450,
+            "newbiz": 1337,
+            "interest": 276,
+            "adjustment": -747,
+            "amortization": -743,
+            "closing": 7573
+          },
+          {
+            "period": "2027-ye",
+            "opening": 7573,
+            "newbiz": 1328,
+            "interest": 276,
+            "adjustment": -812,
+            "amortization": -741,
+            "closing": 7624
+          },
+          {
+            "period": "2028-ye",
+            "opening": 7624,
+            "newbiz": 1394,
+            "interest": 277,
+            "adjustment": -862,
+            "amortization": -747,
+            "closing": 7686
+          },
+          {
+            "period": "2030-ye",
+            "opening": 7762,
+            "newbiz": 1538,
+            "interest": 284,
+            "adjustment": -965,
+            "amortization": -764,
+            "closing": 7855
+          }
+        ],
+        "terminal": {
+          "base": {
+            "period": "2035-ye",
+            "opening": 11714,
+            "newbiz": 2122,
+            "interest": 430,
+            "adjustment": -1002,
+            "amortization": -1158,
+            "closing": 12106
+          },
+          "worst": {
+            "period": "2035-ye",
+            "opening": 7993,
+            "newbiz": 1698,
+            "interest": 292,
+            "adjustment": -1202,
+            "amortization": -788,
+            "closing": 7993
+          }
+        },
+        "assumptions": {
+          "newbizGrowth": 0.05,
+          "longTermNewbizGrowth": 0.02,
+          "baseAdjustmentRate": -0.085503,
+          "worstNewbizStress": 0.2,
+          "worstAdjustmentStress": 0.2,
+          "longTermMethod": "2031~2035년은 2026~2030년 추세를 절반 수준으로 수렴시켜 내부 연도별 계산 후 2035년말만 표시"
+        },
+        "executiveRationale": {
+          "years1to3": "최근 분기 실적·계절성과 증권사 애널리스트 방향성을 반영해 2026~2028년 Base를 산출하고, Worst는 신계약·조정을 각각 20% 악화",
+          "year5": "과거 신계약 추세를 연 +5.0% 범위로 적용하고 2026년 CSM 조정률을 유지해 2030년까지 Movement를 연결",
+          "year10": "2031~2035년 신계약 증가율을 연 +2.0%로 수렴시키고 중간 연도를 누적 계산해 2035년 종착점 산출"
+        }
+      },
+      "qualitativeJudgment": {
+        "baseNewbiz": "2025년 신계약 CSM 1.6조원과 내실 중심 전략을 반영해 잔여 신계약 1.22조원 설정.",
+        "baseAdjustment": "보유 CSM 성장세는 유지하되 수익성 회복 불확실성을 반영해 잔여 조정 -0.55조원 적용.",
+        "worst": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -0.55조원에서 Worst -0.66조원으로 적용."
+      },
+      "confidence": "중",
+      "sources": [
+        {
+          "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
+          "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
+          "type": "sell_side",
+          "use": "보험업 신계약·손해율 방향을 Base 정성 보정에만 참고"
+        }
+      ]
+    },
+    "samsung-fire": {
+      "companyName": "삼성화재",
+      "asOfPeriod": "2026-q1",
+      "asOfCsm": 14469,
+      "targetPeriod": "2026-ye",
+      "anchor": {
+        "type": "model_generated",
+        "value": 14922,
+        "note": "담당자 입력값 없음 · 모델 Base를 사용"
+      },
+      "ratios": {
+        "interestRate": 0.00814,
+        "amortizationRate": 0.026429,
+        "denominator": "기시 CSM + 신계약 CSM",
+        "lookbackPeriods": [
+          "2025-q2",
+          "2025-q3",
+          "2025-q4",
+          "2026-q1"
+        ],
+        "lookbackWeights": [
+          0.1,
+          0.2,
+          0.3,
+          0.4
+        ],
+        "interestOverride": false
+      },
+      "base": {
+        "opening": 14168,
+        "newbiz": 2777,
+        "interest": 497,
+        "adjustment": -895,
+        "amortization": -1625,
+        "closing": 14922,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 14168,
+            "newbiz": 627,
+            "interest": 119,
+            "amortization": -400,
+            "adjustment": -45,
+            "closing": 14469
+          },
+          {
+            "period": "2026-q2",
+            "opening": 14469,
+            "newbiz": 704,
+            "interest": 124,
+            "adjustment": -170,
+            "amortization": -401,
+            "closing": 14726
+          },
+          {
+            "period": "2026-q3",
+            "opening": 14726,
+            "newbiz": 751,
+            "interest": 126,
+            "adjustment": -170,
+            "amortization": -409,
+            "closing": 15024
+          },
+          {
+            "period": "2026-q4",
+            "opening": 15024,
+            "newbiz": 695,
+            "interest": 128,
+            "adjustment": -510,
+            "amortization": -415,
+            "closing": 14922
+          }
+        ],
+        "remainingForecast": {
+          "opening": 14469,
+          "newbiz": 2150,
+          "interest": 378,
+          "adjustment": -850,
+          "amortization": -1225,
+          "closing": 14922,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 14469,
+              "newbiz": 704,
+              "interest": 124,
+              "adjustment": -170,
+              "amortization": -401,
+              "closing": 14726
+            },
+            {
+              "period": "2026-q3",
+              "opening": 14726,
+              "newbiz": 751,
+              "interest": 126,
+              "adjustment": -170,
+              "amortization": -409,
+              "closing": 15024
+            },
+            {
+              "period": "2026-q4",
+              "opening": 15024,
+              "newbiz": 695,
+              "interest": 128,
+              "adjustment": -510,
+              "amortization": -415,
+              "closing": 14922
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "1분기 신계약 CSM과 최근 분기 계절성을 반영해 잔여 신계약을 전년 수준보다 보수적인 2.15조원으로 설정. 우량계약 전략과 업권 공통 손해율 가정 부담을 상쇄해 잔여 조정 -0.85조원 적용."
+      },
+      "worst": {
+        "opening": 14168,
+        "newbiz": 2347,
+        "interest": 488,
+        "adjustment": -1065,
+        "amortization": -1599,
+        "closing": 14339,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 14168,
+            "newbiz": 627,
+            "interest": 119,
+            "amortization": -400,
+            "adjustment": -45,
+            "closing": 14469
+          },
+          {
+            "period": "2026-q2",
+            "opening": 14469,
+            "newbiz": 563,
+            "interest": 122,
+            "adjustment": -204,
+            "amortization": -397,
+            "closing": 14553
+          },
+          {
+            "period": "2026-q3",
+            "opening": 14553,
+            "newbiz": 601,
+            "interest": 123,
+            "adjustment": -204,
+            "amortization": -400,
+            "closing": 14673
+          },
+          {
+            "period": "2026-q4",
+            "opening": 14673,
+            "newbiz": 556,
+            "interest": 124,
+            "adjustment": -612,
+            "amortization": -402,
+            "closing": 14339
+          }
+        ],
+        "remainingForecast": {
+          "opening": 14469,
+          "newbiz": 1720,
+          "interest": 369,
+          "adjustment": -1020,
+          "amortization": -1199,
+          "closing": 14339,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 14469,
+              "newbiz": 563,
+              "interest": 122,
+              "adjustment": -204,
+              "amortization": -397,
+              "closing": 14553
+            },
+            {
+              "period": "2026-q3",
+              "opening": 14553,
+              "newbiz": 601,
+              "interest": 123,
+              "adjustment": -204,
+              "amortization": -400,
+              "closing": 14673
+            },
+            {
+              "period": "2026-q4",
+              "opening": 14673,
+              "newbiz": 556,
+              "interest": 124,
+              "adjustment": -612,
+              "amortization": -402,
+              "closing": 14339
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -0.85조원에서 Worst -1.02조원으로 적용."
+      },
+      "horizon": {
+        "nearTermPeriods": [
+          "2026-ye",
+          "2027-ye",
+          "2028-ye",
+          "2030-ye"
+        ],
+        "terminalPeriod": "2035-ye",
+        "base": [
+          {
+            "period": "2026-ye",
+            "opening": 14168,
+            "newbiz": 2777,
+            "interest": 497,
+            "adjustment": -895,
+            "amortization": -1625,
+            "closing": 14922
+          },
+          {
+            "period": "2027-ye",
+            "opening": 14922,
+            "newbiz": 2694,
+            "interest": 515,
+            "adjustment": -943,
+            "amortization": -1672,
+            "closing": 15516
+          },
+          {
+            "period": "2028-ye",
+            "opening": 15516,
+            "newbiz": 2613,
+            "interest": 532,
+            "adjustment": -980,
+            "amortization": -1726,
+            "closing": 15955
+          },
+          {
+            "period": "2030-ye",
+            "opening": 16259,
+            "newbiz": 2459,
+            "interest": 552,
+            "adjustment": -1027,
+            "amortization": -1792,
+            "closing": 16451
+          }
+        ],
+        "worst": [
+          {
+            "period": "2026-ye",
+            "opening": 14168,
+            "newbiz": 2347,
+            "interest": 488,
+            "adjustment": -1065,
+            "amortization": -1599,
+            "closing": 14339
+          },
+          {
+            "period": "2027-ye",
+            "opening": 14339,
+            "newbiz": 2155,
+            "interest": 484,
+            "adjustment": -1132,
+            "amortization": -1570,
+            "closing": 14276
+          },
+          {
+            "period": "2028-ye",
+            "opening": 14276,
+            "newbiz": 2090,
+            "interest": 479,
+            "adjustment": -1176,
+            "amortization": -1558,
+            "closing": 14111
+          },
+          {
+            "period": "2030-ye",
+            "opening": 13866,
+            "newbiz": 1967,
+            "interest": 464,
+            "adjustment": -1232,
+            "amortization": -1504,
+            "closing": 13561
+          }
+        ],
+        "terminal": {
+          "base": {
+            "period": "2035-ye",
+            "opening": 16791,
+            "newbiz": 2338,
+            "interest": 564,
+            "adjustment": -1061,
+            "amortization": -1836,
+            "closing": 16796
+          },
+          "worst": {
+            "period": "2035-ye",
+            "opening": 12261,
+            "newbiz": 1870,
+            "interest": 411,
+            "adjustment": -1273,
+            "amortization": -1332,
+            "closing": 11937
+          }
+        },
+        "assumptions": {
+          "newbizGrowth": -0.03,
+          "longTermNewbizGrowth": -0.01,
+          "baseAdjustmentRate": -0.063171,
+          "worstNewbizStress": 0.2,
+          "worstAdjustmentStress": 0.2,
+          "longTermMethod": "2031~2035년은 2026~2030년 추세를 절반 수준으로 수렴시켜 내부 연도별 계산 후 2035년말만 표시"
+        },
+        "executiveRationale": {
+          "years1to3": "최근 분기 실적·계절성과 증권사 애널리스트 방향성을 반영해 2026~2028년 Base를 산출하고, Worst는 신계약·조정을 각각 20% 악화",
+          "year5": "과거 신계약 추세를 연 -3.0% 범위로 적용하고 2026년 CSM 조정률을 유지해 2030년까지 Movement를 연결",
+          "year10": "2031~2035년 신계약 증가율을 연 -1.0%로 수렴시키고 중간 연도를 누적 계산해 2035년 종착점 산출"
+        }
+      },
+      "qualitativeJudgment": {
+        "baseNewbiz": "1분기 신계약 CSM과 최근 분기 계절성을 반영해 잔여 신계약을 전년 수준보다 보수적인 2.15조원으로 설정.",
+        "baseAdjustment": "우량계약 전략과 업권 공통 손해율 가정 부담을 상쇄해 잔여 조정 -0.85조원 적용.",
+        "worst": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -0.85조원에서 Worst -1.02조원으로 적용."
+      },
+      "confidence": "중",
+      "sources": [
+        {
+          "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
+          "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
+          "type": "sell_side",
+          "use": "보험업 신계약·손해율 방향을 Base 정성 보정에만 참고"
+        }
+      ]
+    },
+    "meritz-fire": {
+      "companyName": "메리츠화재",
+      "asOfPeriod": "2026-q1",
+      "asOfCsm": 11291,
+      "targetPeriod": "2026-ye",
+      "anchor": {
+        "type": "model_generated",
+        "value": 11556,
+        "note": "담당자 입력값 없음 · 모델 Base를 사용"
+      },
+      "ratios": {
+        "interestRate": 0.007725,
+        "amortizationRate": 0.025578,
+        "denominator": "기시 CSM + 신계약 CSM",
+        "lookbackPeriods": [
+          "2025-q2",
+          "2025-q3",
+          "2025-q4",
+          "2026-q1"
+        ],
+        "lookbackWeights": [
+          0.1,
+          0.2,
+          0.3,
+          0.4
+        ],
+        "interestOverride": false
+      },
+      "base": {
+        "opening": 11102,
+        "newbiz": 1790,
+        "interest": 364,
+        "adjustment": -486,
+        "amortization": -1214,
+        "closing": 11556,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 11102,
+            "newbiz": 440,
+            "interest": 89,
+            "amortization": -304,
+            "adjustment": -36,
+            "closing": 11291
+          },
+          {
+            "period": "2026-q2",
+            "opening": 11291,
+            "newbiz": 409,
+            "interest": 90,
+            "adjustment": -90,
+            "amortization": -299,
+            "closing": 11401
+          },
+          {
+            "period": "2026-q3",
+            "opening": 11401,
+            "newbiz": 464,
+            "interest": 92,
+            "adjustment": -90,
+            "amortization": -303,
+            "closing": 11564
+          },
+          {
+            "period": "2026-q4",
+            "opening": 11564,
+            "newbiz": 477,
+            "interest": 93,
+            "adjustment": -270,
+            "amortization": -308,
+            "closing": 11556
+          }
+        ],
+        "remainingForecast": {
+          "opening": 11291,
+          "newbiz": 1350,
+          "interest": 275,
+          "adjustment": -450,
+          "amortization": -910,
+          "closing": 11556,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 11291,
+              "newbiz": 409,
+              "interest": 90,
+              "adjustment": -90,
+              "amortization": -299,
+              "closing": 11401
+            },
+            {
+              "period": "2026-q3",
+              "opening": 11401,
+              "newbiz": 464,
+              "interest": 92,
+              "adjustment": -90,
+              "amortization": -303,
+              "closing": 11564
+            },
+            {
+              "period": "2026-q4",
+              "opening": 11564,
+              "newbiz": 477,
+              "interest": 93,
+              "adjustment": -270,
+              "amortization": -308,
+              "closing": 11556
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "1분기 신계약 CSM 0.44조원과 전년 대비 23.4% 성장을 반영하되 업권 수익성 정상화를 고려해 잔여 1.35조원 설정. 최근 조정 안정성과 손해율 가정 정상화 위험을 함께 반영해 잔여 조정 -0.45조원 적용."
+      },
+      "worst": {
+        "opening": 11102,
+        "newbiz": 1520,
+        "interest": 360,
+        "adjustment": -576,
+        "amortization": -1200,
+        "closing": 11206,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 11102,
+            "newbiz": 440,
+            "interest": 89,
+            "amortization": -304,
+            "adjustment": -36,
+            "closing": 11291
+          },
+          {
+            "period": "2026-q2",
+            "opening": 11291,
+            "newbiz": 327,
+            "interest": 90,
+            "adjustment": -108,
+            "amortization": -297,
+            "closing": 11303
+          },
+          {
+            "period": "2026-q3",
+            "opening": 11303,
+            "newbiz": 371,
+            "interest": 90,
+            "adjustment": -108,
+            "amortization": -299,
+            "closing": 11357
+          },
+          {
+            "period": "2026-q4",
+            "opening": 11357,
+            "newbiz": 382,
+            "interest": 91,
+            "adjustment": -324,
+            "amortization": -300,
+            "closing": 11206
+          }
+        ],
+        "remainingForecast": {
+          "opening": 11291,
+          "newbiz": 1080,
+          "interest": 271,
+          "adjustment": -540,
+          "amortization": -896,
+          "closing": 11206,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 11291,
+              "newbiz": 327,
+              "interest": 90,
+              "adjustment": -108,
+              "amortization": -297,
+              "closing": 11303
+            },
+            {
+              "period": "2026-q3",
+              "opening": 11303,
+              "newbiz": 371,
+              "interest": 90,
+              "adjustment": -108,
+              "amortization": -299,
+              "closing": 11357
+            },
+            {
+              "period": "2026-q4",
+              "opening": 11357,
+              "newbiz": 382,
+              "interest": 91,
+              "adjustment": -324,
+              "amortization": -300,
+              "closing": 11206
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -0.45조원에서 Worst -0.54조원으로 적용."
+      },
+      "horizon": {
+        "nearTermPeriods": [
+          "2026-ye",
+          "2027-ye",
+          "2028-ye",
+          "2030-ye"
+        ],
+        "terminalPeriod": "2035-ye",
+        "base": [
+          {
+            "period": "2026-ye",
+            "opening": 11102,
+            "newbiz": 1790,
+            "interest": 364,
+            "adjustment": -486,
+            "amortization": -1214,
+            "closing": 11556
+          },
+          {
+            "period": "2027-ye",
+            "opening": 11556,
+            "newbiz": 1879,
+            "interest": 378,
+            "adjustment": -506,
+            "amortization": -1250,
+            "closing": 12057
+          },
+          {
+            "period": "2028-ye",
+            "opening": 12057,
+            "newbiz": 1972,
+            "interest": 394,
+            "adjustment": -528,
+            "amortization": -1305,
+            "closing": 12590
+          },
+          {
+            "period": "2030-ye",
+            "opening": 13157,
+            "newbiz": 2173,
+            "interest": 430,
+            "adjustment": -576,
+            "amortization": -1424,
+            "closing": 13760
+          }
+        ],
+        "worst": [
+          {
+            "period": "2026-ye",
+            "opening": 11102,
+            "newbiz": 1520,
+            "interest": 360,
+            "adjustment": -576,
+            "amortization": -1200,
+            "closing": 11206
+          },
+          {
+            "period": "2027-ye",
+            "opening": 11206,
+            "newbiz": 1503,
+            "interest": 359,
+            "adjustment": -607,
+            "amortization": -1188,
+            "closing": 11273
+          },
+          {
+            "period": "2028-ye",
+            "opening": 11273,
+            "newbiz": 1578,
+            "interest": 362,
+            "adjustment": -634,
+            "amortization": -1198,
+            "closing": 11381
+          },
+          {
+            "period": "2030-ye",
+            "opening": 11528,
+            "newbiz": 1738,
+            "interest": 372,
+            "adjustment": -691,
+            "amortization": -1231,
+            "closing": 11716
+          }
+        ],
+        "terminal": {
+          "base": {
+            "period": "2035-ye",
+            "opening": 15943,
+            "newbiz": 2398,
+            "interest": 518,
+            "adjustment": -698,
+            "amortization": -1712,
+            "closing": 16449
+          },
+          "worst": {
+            "period": "2035-ye",
+            "opening": 12385,
+            "newbiz": 1918,
+            "interest": 399,
+            "adjustment": -838,
+            "amortization": -1322,
+            "closing": 12542
+          }
+        },
+        "assumptions": {
+          "newbizGrowth": 0.049657,
+          "longTermNewbizGrowth": 0.02,
+          "baseAdjustmentRate": -0.043776,
+          "worstNewbizStress": 0.2,
+          "worstAdjustmentStress": 0.2,
+          "longTermMethod": "2031~2035년은 2026~2030년 추세를 절반 수준으로 수렴시켜 내부 연도별 계산 후 2035년말만 표시"
+        },
+        "executiveRationale": {
+          "years1to3": "최근 분기 실적·계절성과 증권사 애널리스트 방향성을 반영해 2026~2028년 Base를 산출하고, Worst는 신계약·조정을 각각 20% 악화",
+          "year5": "과거 신계약 추세를 연 +5.0% 범위로 적용하고 2026년 CSM 조정률을 유지해 2030년까지 Movement를 연결",
+          "year10": "2031~2035년 신계약 증가율을 연 +2.0%로 수렴시키고 중간 연도를 누적 계산해 2035년 종착점 산출"
+        }
+      },
+      "qualitativeJudgment": {
+        "baseNewbiz": "1분기 신계약 CSM 0.44조원과 전년 대비 23.4% 성장을 반영하되 업권 수익성 정상화를 고려해 잔여 1.35조원 설정.",
+        "baseAdjustment": "최근 조정 안정성과 손해율 가정 정상화 위험을 함께 반영해 잔여 조정 -0.45조원 적용.",
+        "worst": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -0.45조원에서 Worst -0.54조원으로 적용."
+      },
+      "confidence": "중상",
+      "sources": [
+        {
+          "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
+          "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
+          "type": "sell_side",
+          "use": "보험업 신계약·손해율 방향을 Base 정성 보정에만 참고"
+        }
+      ]
+    },
+    "db-insurance": {
+      "companyName": "DB손해보험",
+      "asOfPeriod": "2026-q1",
+      "asOfCsm": 12822,
+      "targetPeriod": "2026-ye",
+      "anchor": {
+        "type": "model_generated",
+        "value": 13173,
+        "note": "담당자 입력값 없음 · 모델 Base를 사용"
+      },
+      "ratios": {
+        "interestRate": 0.007973,
+        "amortizationRate": 0.023611,
+        "denominator": "기시 CSM + 신계약 CSM",
+        "lookbackPeriods": [
+          "2025-q2",
+          "2025-q3",
+          "2025-q4",
+          "2026-q1"
+        ],
+        "lookbackWeights": [
+          0.1,
+          0.2,
+          0.3,
+          0.4
+        ],
+        "interestOverride": false
+      },
+      "base": {
+        "opening": 12205,
+        "newbiz": 2825,
+        "interest": 433,
+        "adjustment": -987,
+        "amortization": -1303,
+        "closing": 13173,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 12205,
+            "newbiz": 625,
+            "interest": 101,
+            "amortization": -322,
+            "adjustment": 213,
+            "closing": 12822
+          },
+          {
+            "period": "2026-q2",
+            "opening": 12822,
+            "newbiz": 784,
+            "interest": 108,
+            "adjustment": -240,
+            "amortization": -321,
+            "closing": 13153
+          },
+          {
+            "period": "2026-q3",
+            "opening": 13153,
+            "newbiz": 716,
+            "interest": 111,
+            "adjustment": -240,
+            "amortization": -327,
+            "closing": 13413
+          },
+          {
+            "period": "2026-q4",
+            "opening": 13413,
+            "newbiz": 700,
+            "interest": 113,
+            "adjustment": -720,
+            "amortization": -333,
+            "closing": 13173
+          }
+        ],
+        "remainingForecast": {
+          "opening": 12822,
+          "newbiz": 2200,
+          "interest": 332,
+          "adjustment": -1200,
+          "amortization": -981,
+          "closing": 13173,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 12822,
+              "newbiz": 784,
+              "interest": 108,
+              "adjustment": -240,
+              "amortization": -321,
+              "closing": 13153
+            },
+            {
+              "period": "2026-q3",
+              "opening": 13153,
+              "newbiz": 716,
+              "interest": 111,
+              "adjustment": -240,
+              "amortization": -327,
+              "closing": 13413
+            },
+            {
+              "period": "2026-q4",
+              "opening": 13413,
+              "newbiz": 700,
+              "interest": 113,
+              "adjustment": -720,
+              "amortization": -333,
+              "closing": 13173
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "1분기 보장성 신계약 매출과 신계약 CSM 감소세를 반영해 잔여 신계약 2.20조원으로 보수적으로 설정. 최근 연말 대규모 조정 이력과 1분기 정상화를 함께 반영해 잔여 조정 -1.20조원 적용."
+      },
+      "worst": {
+        "opening": 12205,
+        "newbiz": 2385,
+        "interest": 424,
+        "adjustment": -1227,
+        "amortization": -1280,
+        "closing": 12507,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 12205,
+            "newbiz": 625,
+            "interest": 101,
+            "amortization": -322,
+            "adjustment": 213,
+            "closing": 12822
+          },
+          {
+            "period": "2026-q2",
+            "opening": 12822,
+            "newbiz": 627,
+            "interest": 107,
+            "adjustment": -288,
+            "amortization": -318,
+            "closing": 12950
+          },
+          {
+            "period": "2026-q3",
+            "opening": 12950,
+            "newbiz": 573,
+            "interest": 108,
+            "adjustment": -288,
+            "amortization": -319,
+            "closing": 13024
+          },
+          {
+            "period": "2026-q4",
+            "opening": 13024,
+            "newbiz": 560,
+            "interest": 108,
+            "adjustment": -864,
+            "amortization": -321,
+            "closing": 12507
+          }
+        ],
+        "remainingForecast": {
+          "opening": 12822,
+          "newbiz": 1760,
+          "interest": 323,
+          "adjustment": -1440,
+          "amortization": -958,
+          "closing": 12507,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 12822,
+              "newbiz": 627,
+              "interest": 107,
+              "adjustment": -288,
+              "amortization": -318,
+              "closing": 12950
+            },
+            {
+              "period": "2026-q3",
+              "opening": 12950,
+              "newbiz": 573,
+              "interest": 108,
+              "adjustment": -288,
+              "amortization": -319,
+              "closing": 13024
+            },
+            {
+              "period": "2026-q4",
+              "opening": 13024,
+              "newbiz": 560,
+              "interest": 108,
+              "adjustment": -864,
+              "amortization": -321,
+              "closing": 12507
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -1.20조원에서 Worst -1.44조원으로 적용."
+      },
+      "horizon": {
+        "nearTermPeriods": [
+          "2026-ye",
+          "2027-ye",
+          "2028-ye",
+          "2030-ye"
+        ],
+        "terminalPeriod": "2035-ye",
+        "base": [
+          {
+            "period": "2026-ye",
+            "opening": 12205,
+            "newbiz": 2825,
+            "interest": 433,
+            "adjustment": -987,
+            "amortization": -1303,
+            "closing": 13173
+          },
+          {
+            "period": "2027-ye",
+            "opening": 13173,
+            "newbiz": 2826,
+            "interest": 453,
+            "adjustment": -1065,
+            "amortization": -1342,
+            "closing": 14045
+          },
+          {
+            "period": "2028-ye",
+            "opening": 14045,
+            "newbiz": 2827,
+            "interest": 480,
+            "adjustment": -1136,
+            "amortization": -1420,
+            "closing": 14796
+          },
+          {
+            "period": "2030-ye",
+            "opening": 15442,
+            "newbiz": 2829,
+            "interest": 522,
+            "adjustment": -1249,
+            "amortization": -1545,
+            "closing": 15999
+          }
+        ],
+        "worst": [
+          {
+            "period": "2026-ye",
+            "opening": 12205,
+            "newbiz": 2385,
+            "interest": 424,
+            "adjustment": -1227,
+            "amortization": -1280,
+            "closing": 12507
+          },
+          {
+            "period": "2027-ye",
+            "opening": 12507,
+            "newbiz": 2261,
+            "interest": 419,
+            "adjustment": -1278,
+            "amortization": -1241,
+            "closing": 12668
+          },
+          {
+            "period": "2028-ye",
+            "opening": 12668,
+            "newbiz": 2262,
+            "interest": 424,
+            "adjustment": -1363,
+            "amortization": -1252,
+            "closing": 12739
+          },
+          {
+            "period": "2030-ye",
+            "opening": 12733,
+            "newbiz": 2263,
+            "interest": 424,
+            "adjustment": -1499,
+            "amortization": -1254,
+            "closing": 12667
+          }
+        ],
+        "terminal": {
+          "base": {
+            "period": "2035-ye",
+            "opening": 17555,
+            "newbiz": 2834,
+            "interest": 586,
+            "adjustment": -1420,
+            "amortization": -1734,
+            "closing": 17821
+          },
+          "worst": {
+            "period": "2035-ye",
+            "opening": 12019,
+            "newbiz": 2267,
+            "interest": 398,
+            "adjustment": -1704,
+            "amortization": -1181,
+            "closing": 11799
+          }
+        },
+        "assumptions": {
+          "newbizGrowth": 0.000378,
+          "longTermNewbizGrowth": 0.000189,
+          "baseAdjustmentRate": -0.080868,
+          "worstNewbizStress": 0.2,
+          "worstAdjustmentStress": 0.2,
+          "longTermMethod": "2031~2035년은 2026~2030년 추세를 절반 수준으로 수렴시켜 내부 연도별 계산 후 2035년말만 표시"
+        },
+        "executiveRationale": {
+          "years1to3": "최근 분기 실적·계절성과 증권사 애널리스트 방향성을 반영해 2026~2028년 Base를 산출하고, Worst는 신계약·조정을 각각 20% 악화",
+          "year5": "과거 신계약 추세를 연 +0.0% 범위로 적용하고 2026년 CSM 조정률을 유지해 2030년까지 Movement를 연결",
+          "year10": "2031~2035년 신계약 증가율을 연 +0.0%로 수렴시키고 중간 연도를 누적 계산해 2035년 종착점 산출"
+        }
+      },
+      "qualitativeJudgment": {
+        "baseNewbiz": "1분기 보장성 신계약 매출과 신계약 CSM 감소세를 반영해 잔여 신계약 2.20조원으로 보수적으로 설정.",
+        "baseAdjustment": "최근 연말 대규모 조정 이력과 1분기 정상화를 함께 반영해 잔여 조정 -1.20조원 적용.",
+        "worst": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -1.20조원에서 Worst -1.44조원으로 적용."
+      },
+      "confidence": "중",
+      "sources": [
+        {
+          "title": "DB손해보험 1Q26 증권사 리포트",
+          "url": "https://file.alphasquare.co.kr/media/pdfs/company-report/_260518%20DB%EC%86%90%ED%95%B4%EB%B3%B4%ED%97%98_%EC%A0%84%EB%B0%B0%EC%8A%B9_912_Online%20report%20_%206_10p_DB%EC%86%90%ED%95%B4%EB%B3%B4%ED%97%98.pdf",
+          "type": "sell_side",
+          "use": "보장성 매출 20%·신계약 CSM 12% 감소 전망을 Base/Worst에 반영"
+        },
+        {
+          "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
+          "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
+          "type": "sell_side",
+          "use": "보험업 신계약·손해율 방향을 Base 정성 보정에만 참고"
+        }
+      ]
+    },
+    "hyundai-marine": {
+      "companyName": "현대해상",
+      "asOfPeriod": "2026-q1",
+      "asOfCsm": 9248,
+      "targetPeriod": "2026-ye",
+      "anchor": {
+        "type": "model_generated",
+        "value": 9507,
+        "note": "담당자 입력값 없음 · 모델 Base를 사용"
+      },
+      "ratios": {
+        "interestRate": 0.008169,
+        "amortizationRate": 0.024592,
+        "denominator": "기시 CSM + 신계약 CSM",
+        "lookbackPeriods": [
+          "2025-q2",
+          "2025-q3",
+          "2025-q4",
+          "2026-q1"
+        ],
+        "lookbackWeights": [
+          0.1,
+          0.2,
+          0.3,
+          0.4
+        ],
+        "interestOverride": false
+      },
+      "base": {
+        "opening": 8978,
+        "newbiz": 2021,
+        "interest": 321,
+        "adjustment": -837,
+        "amortization": -976,
+        "closing": 9507,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 8978,
+            "newbiz": 471,
+            "interest": 77,
+            "amortization": -241,
+            "adjustment": -37,
+            "closing": 9248
+          },
+          {
+            "period": "2026-q2",
+            "opening": 9248,
+            "newbiz": 523,
+            "interest": 80,
+            "adjustment": -160,
+            "amortization": -240,
+            "closing": 9451
+          },
+          {
+            "period": "2026-q3",
+            "opening": 9451,
+            "newbiz": 509,
+            "interest": 81,
+            "adjustment": -160,
+            "amortization": -245,
+            "closing": 9636
+          },
+          {
+            "period": "2026-q4",
+            "opening": 9636,
+            "newbiz": 518,
+            "interest": 83,
+            "adjustment": -480,
+            "amortization": -250,
+            "closing": 9507
+          }
+        ],
+        "remainingForecast": {
+          "opening": 9248,
+          "newbiz": 1550,
+          "interest": 244,
+          "adjustment": -800,
+          "amortization": -735,
+          "closing": 9507,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 9248,
+              "newbiz": 523,
+              "interest": 80,
+              "adjustment": -160,
+              "amortization": -240,
+              "closing": 9451
+            },
+            {
+              "period": "2026-q3",
+              "opening": 9451,
+              "newbiz": 509,
+              "interest": 81,
+              "adjustment": -160,
+              "amortization": -245,
+              "closing": 9636
+            },
+            {
+              "period": "2026-q4",
+              "opening": 9636,
+              "newbiz": 518,
+              "interest": 83,
+              "adjustment": -480,
+              "amortization": -250,
+              "closing": 9507
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "분기 0.5조원 안팎의 견조한 신계약 흐름을 반영해 잔여 신계약 1.55조원 설정. 예실차 개선과 장기보험 손익 회복을 반영하되 연말 가정변경을 고려해 -0.80조원 적용."
+      },
+      "worst": {
+        "opening": 8978,
+        "newbiz": 1711,
+        "interest": 315,
+        "adjustment": -997,
+        "amortization": -959,
+        "closing": 9048,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 8978,
+            "newbiz": 471,
+            "interest": 77,
+            "amortization": -241,
+            "adjustment": -37,
+            "closing": 9248
+          },
+          {
+            "period": "2026-q2",
+            "opening": 9248,
+            "newbiz": 418,
+            "interest": 79,
+            "adjustment": -192,
+            "amortization": -238,
+            "closing": 9315
+          },
+          {
+            "period": "2026-q3",
+            "opening": 9315,
+            "newbiz": 407,
+            "interest": 79,
+            "adjustment": -192,
+            "amortization": -239,
+            "closing": 9370
+          },
+          {
+            "period": "2026-q4",
+            "opening": 9370,
+            "newbiz": 415,
+            "interest": 80,
+            "adjustment": -576,
+            "amortization": -241,
+            "closing": 9048
+          }
+        ],
+        "remainingForecast": {
+          "opening": 9248,
+          "newbiz": 1240,
+          "interest": 238,
+          "adjustment": -960,
+          "amortization": -718,
+          "closing": 9048,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 9248,
+              "newbiz": 418,
+              "interest": 79,
+              "adjustment": -192,
+              "amortization": -238,
+              "closing": 9315
+            },
+            {
+              "period": "2026-q3",
+              "opening": 9315,
+              "newbiz": 407,
+              "interest": 79,
+              "adjustment": -192,
+              "amortization": -239,
+              "closing": 9370
+            },
+            {
+              "period": "2026-q4",
+              "opening": 9370,
+              "newbiz": 415,
+              "interest": 80,
+              "adjustment": -576,
+              "amortization": -241,
+              "closing": 9048
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -0.80조원에서 Worst -0.96조원으로 적용."
+      },
+      "horizon": {
+        "nearTermPeriods": [
+          "2026-ye",
+          "2027-ye",
+          "2028-ye",
+          "2030-ye"
+        ],
+        "terminalPeriod": "2035-ye",
+        "base": [
+          {
+            "period": "2026-ye",
+            "opening": 8978,
+            "newbiz": 2021,
+            "interest": 321,
+            "adjustment": -837,
+            "amortization": -976,
+            "closing": 9507
+          },
+          {
+            "period": "2027-ye",
+            "opening": 9507,
+            "newbiz": 2122,
+            "interest": 334,
+            "adjustment": -886,
+            "amortization": -1008,
+            "closing": 10069
+          },
+          {
+            "period": "2028-ye",
+            "opening": 10069,
+            "newbiz": 2228,
+            "interest": 354,
+            "adjustment": -939,
+            "amortization": -1067,
+            "closing": 10645
+          },
+          {
+            "period": "2030-ye",
+            "opening": 11239,
+            "newbiz": 2456,
+            "interest": 395,
+            "adjustment": -1048,
+            "amortization": -1188,
+            "closing": 11854
+          }
+        ],
+        "worst": [
+          {
+            "period": "2026-ye",
+            "opening": 8978,
+            "newbiz": 1711,
+            "interest": 315,
+            "adjustment": -997,
+            "amortization": -959,
+            "closing": 9048
+          },
+          {
+            "period": "2027-ye",
+            "opening": 9048,
+            "newbiz": 1698,
+            "interest": 308,
+            "adjustment": -1063,
+            "amortization": -932,
+            "closing": 9059
+          },
+          {
+            "period": "2028-ye",
+            "opening": 9059,
+            "newbiz": 1782,
+            "interest": 312,
+            "adjustment": -1127,
+            "amortization": -936,
+            "closing": 9090
+          },
+          {
+            "period": "2030-ye",
+            "opening": 9141,
+            "newbiz": 1965,
+            "interest": 316,
+            "adjustment": -1258,
+            "amortization": -950,
+            "closing": 9214
+          }
+        ],
+        "terminal": {
+          "base": {
+            "period": "2035-ye",
+            "opening": 13905,
+            "newbiz": 2711,
+            "interest": 482,
+            "adjustment": -1296,
+            "amortization": -1451,
+            "closing": 14351
+          },
+          "worst": {
+            "period": "2035-ye",
+            "opening": 9239,
+            "newbiz": 2169,
+            "interest": 320,
+            "adjustment": -1555,
+            "amortization": -961,
+            "closing": 9212
+          }
+        },
+        "assumptions": {
+          "newbizGrowth": 0.05,
+          "longTermNewbizGrowth": 0.02,
+          "baseAdjustmentRate": -0.093228,
+          "worstNewbizStress": 0.2,
+          "worstAdjustmentStress": 0.2,
+          "longTermMethod": "2031~2035년은 2026~2030년 추세를 절반 수준으로 수렴시켜 내부 연도별 계산 후 2035년말만 표시"
+        },
+        "executiveRationale": {
+          "years1to3": "최근 분기 실적·계절성과 증권사 애널리스트 방향성을 반영해 2026~2028년 Base를 산출하고, Worst는 신계약·조정을 각각 20% 악화",
+          "year5": "과거 신계약 추세를 연 +5.0% 범위로 적용하고 2026년 CSM 조정률을 유지해 2030년까지 Movement를 연결",
+          "year10": "2031~2035년 신계약 증가율을 연 +2.0%로 수렴시키고 중간 연도를 누적 계산해 2035년 종착점 산출"
+        }
+      },
+      "qualitativeJudgment": {
+        "baseNewbiz": "분기 0.5조원 안팎의 견조한 신계약 흐름을 반영해 잔여 신계약 1.55조원 설정.",
+        "baseAdjustment": "예실차 개선과 장기보험 손익 회복을 반영하되 연말 가정변경을 고려해 -0.80조원 적용.",
+        "worst": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -0.80조원에서 Worst -0.96조원으로 적용."
+      },
+      "confidence": "중",
+      "sources": [
+        {
+          "title": "KB증권 현대해상 1Q26 리포트",
+          "url": "https://rdata.kbsec.com/pdf_data/20260515082529577K.pdf",
+          "type": "sell_side",
+          "use": "예실차 개선과 연간 장기 위험손해율 전망을 Base 조정에 반영"
+        },
+        {
+          "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
+          "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
+          "type": "sell_side",
+          "use": "보험업 신계약·손해율 방향을 Base 정성 보정에만 참고"
+        }
+      ]
+    },
+    "kb-insurance": {
+      "companyName": "KB손해보험",
+      "asOfPeriod": "2026-q1",
+      "asOfCsm": 9478,
+      "targetPeriod": "2026-ye",
+      "anchor": {
+        "type": "model_generated",
+        "value": 9920,
+        "note": "담당자 입력값 없음 · 모델 Base를 사용"
+      },
+      "ratios": {
+        "interestRate": 0.008629,
+        "amortizationRate": 0.022009,
+        "denominator": "기시 CSM + 신계약 CSM",
+        "lookbackPeriods": [
+          "2025-q2",
+          "2025-q3",
+          "2025-q4",
+          "2026-q1"
+        ],
+        "lookbackWeights": [
+          0.1,
+          0.2,
+          0.3,
+          0.4
+        ],
+        "interestOverride": false
+      },
+      "base": {
+        "opening": 9285,
+        "newbiz": 1772,
+        "interest": 344,
+        "adjustment": -598,
+        "amortization": -883,
+        "closing": 9920,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 9285,
+            "newbiz": 422,
+            "interest": 83,
+            "amortization": -214,
+            "adjustment": -98,
+            "closing": 9478
+          },
+          {
+            "period": "2026-q2",
+            "opening": 9478,
+            "newbiz": 425,
+            "interest": 85,
+            "adjustment": -100,
+            "amortization": -218,
+            "closing": 9670
+          },
+          {
+            "period": "2026-q3",
+            "opening": 9670,
+            "newbiz": 466,
+            "interest": 87,
+            "adjustment": -100,
+            "amortization": -223,
+            "closing": 9900
+          },
+          {
+            "period": "2026-q4",
+            "opening": 9900,
+            "newbiz": 459,
+            "interest": 89,
+            "adjustment": -300,
+            "amortization": -228,
+            "closing": 9920
+          }
+        ],
+        "remainingForecast": {
+          "opening": 9478,
+          "newbiz": 1350,
+          "interest": 261,
+          "adjustment": -500,
+          "amortization": -669,
+          "closing": 9920,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 9478,
+              "newbiz": 425,
+              "interest": 85,
+              "adjustment": -100,
+              "amortization": -218,
+              "closing": 9670
+            },
+            {
+              "period": "2026-q3",
+              "opening": 9670,
+              "newbiz": 466,
+              "interest": 87,
+              "adjustment": -100,
+              "amortization": -223,
+              "closing": 9900
+            },
+            {
+              "period": "2026-q4",
+              "opening": 9900,
+              "newbiz": 459,
+              "interest": 89,
+              "adjustment": -300,
+              "amortization": -228,
+              "closing": 9920
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "최근 분기 신계약 CSM과 2025년 분기 계절성을 적용해 잔여 신계약 1.35조원 설정. 동일 CSM 기준의 증권사 목표값은 미확인. 최근 회사별 조정 추이를 기준으로 잔여 조정 -0.50조원 적용하며 별도 외부 보정은 하지 않음."
+      },
+      "worst": {
+        "opening": 9285,
+        "newbiz": 1502,
+        "interest": 341,
+        "adjustment": -698,
+        "amortization": -870,
+        "closing": 9560,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 9285,
+            "newbiz": 422,
+            "interest": 83,
+            "amortization": -214,
+            "adjustment": -98,
+            "closing": 9478
+          },
+          {
+            "period": "2026-q2",
+            "opening": 9478,
+            "newbiz": 340,
+            "interest": 85,
+            "adjustment": -120,
+            "amortization": -216,
+            "closing": 9567
+          },
+          {
+            "period": "2026-q3",
+            "opening": 9567,
+            "newbiz": 372,
+            "interest": 86,
+            "adjustment": -120,
+            "amortization": -219,
+            "closing": 9686
+          },
+          {
+            "period": "2026-q4",
+            "opening": 9686,
+            "newbiz": 368,
+            "interest": 87,
+            "adjustment": -360,
+            "amortization": -221,
+            "closing": 9560
+          }
+        ],
+        "remainingForecast": {
+          "opening": 9478,
+          "newbiz": 1080,
+          "interest": 258,
+          "adjustment": -600,
+          "amortization": -656,
+          "closing": 9560,
+          "quarters": [
+            {
+              "period": "2026-q2",
+              "opening": 9478,
+              "newbiz": 340,
+              "interest": 85,
+              "adjustment": -120,
+              "amortization": -216,
+              "closing": 9567
+            },
+            {
+              "period": "2026-q3",
+              "opening": 9567,
+              "newbiz": 372,
+              "interest": 86,
+              "adjustment": -120,
+              "amortization": -219,
+              "closing": 9686
+            },
+            {
+              "period": "2026-q4",
+              "opening": 9686,
+              "newbiz": 368,
+              "interest": 87,
+              "adjustment": -360,
+              "amortization": -221,
+              "closing": 9560
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+        "rationale": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -0.50조원에서 Worst -0.60조원으로 적용."
+      },
+      "horizon": {
+        "nearTermPeriods": [
+          "2026-ye",
+          "2027-ye",
+          "2028-ye",
+          "2030-ye"
+        ],
+        "terminalPeriod": "2035-ye",
+        "base": [
+          {
+            "period": "2026-ye",
+            "opening": 9285,
+            "newbiz": 1772,
+            "interest": 344,
+            "adjustment": -598,
+            "amortization": -883,
+            "closing": 9920
+          },
+          {
+            "period": "2027-ye",
+            "opening": 9920,
+            "newbiz": 1719,
+            "interest": 364,
+            "adjustment": -639,
+            "amortization": -929,
+            "closing": 10435
+          },
+          {
+            "period": "2028-ye",
+            "opening": 10435,
+            "newbiz": 1667,
+            "interest": 380,
+            "adjustment": -672,
+            "amortization": -969,
+            "closing": 10841
+          },
+          {
+            "period": "2030-ye",
+            "opening": 11152,
+            "newbiz": 1568,
+            "interest": 402,
+            "adjustment": -718,
+            "amortization": -1024,
+            "closing": 11380
+          }
+        ],
+        "worst": [
+          {
+            "period": "2026-ye",
+            "opening": 9285,
+            "newbiz": 1502,
+            "interest": 341,
+            "adjustment": -698,
+            "amortization": -870,
+            "closing": 9560
+          },
+          {
+            "period": "2027-ye",
+            "opening": 9560,
+            "newbiz": 1375,
+            "interest": 343,
+            "adjustment": -767,
+            "amortization": -874,
+            "closing": 9637
+          },
+          {
+            "period": "2028-ye",
+            "opening": 9637,
+            "newbiz": 1334,
+            "interest": 344,
+            "adjustment": -806,
+            "amortization": -876,
+            "closing": 9633
+          },
+          {
+            "period": "2030-ye",
+            "opening": 9558,
+            "newbiz": 1254,
+            "interest": 339,
+            "adjustment": -862,
+            "amortization": -865,
+            "closing": 9424
+          }
+        ],
+        "terminal": {
+          "base": {
+            "period": "2035-ye",
+            "opening": 11920,
+            "newbiz": 1491,
+            "interest": 424,
+            "adjustment": -768,
+            "amortization": -1085,
+            "closing": 11982
+          },
+          "worst": {
+            "period": "2035-ye",
+            "opening": 8708,
+            "newbiz": 1193,
+            "interest": 308,
+            "adjustment": -922,
+            "amortization": -786,
+            "closing": 8501
+          }
+        },
+        "assumptions": {
+          "newbizGrowth": -0.03,
+          "longTermNewbizGrowth": -0.01,
+          "baseAdjustmentRate": -0.064405,
+          "worstNewbizStress": 0.2,
+          "worstAdjustmentStress": 0.2,
+          "longTermMethod": "2031~2035년은 2026~2030년 추세를 절반 수준으로 수렴시켜 내부 연도별 계산 후 2035년말만 표시"
+        },
+        "executiveRationale": {
+          "years1to3": "최근 분기 실적·계절성과 증권사 애널리스트 방향성을 반영해 2026~2028년 Base를 산출하고, Worst는 신계약·조정을 각각 20% 악화",
+          "year5": "과거 신계약 추세를 연 -3.0% 범위로 적용하고 2026년 CSM 조정률을 유지해 2030년까지 Movement를 연결",
+          "year10": "2031~2035년 신계약 증가율을 연 -1.0%로 수렴시키고 중간 연도를 누적 계산해 2035년 종착점 산출"
+        }
+      },
+      "qualitativeJudgment": {
+        "baseNewbiz": "최근 분기 신계약 CSM과 2025년 분기 계절성을 적용해 잔여 신계약 1.35조원 설정. 동일 CSM 기준의 증권사 목표값은 미확인.",
+        "baseAdjustment": "최근 회사별 조정 추이를 기준으로 잔여 조정 -0.50조원 적용하며 별도 외부 보정은 하지 않음.",
+        "worst": "전망 구간의 신계약 CSM과 CSM 조정을 Base 대비 각각 20% 악화. 조정은 Base -0.50조원에서 Worst -0.60조원으로 적용."
+      },
+      "confidence": "중하",
+      "sources": [
+        {
+          "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
+          "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
+          "type": "sell_side",
+          "use": "보험업 신계약·손해율 방향을 Base 정성 보정에만 참고"
+        }
+      ]
+    }
+  }
+};

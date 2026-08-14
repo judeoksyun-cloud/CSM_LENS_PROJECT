@@ -1,0 +1,13 @@
+.git
+.agents
+.codex
+node-v20.15.1-darwin-arm64
+docs
+external-data
+outputs
+tests
+tools
+*.png
+*.log
+*.out
+*.err
