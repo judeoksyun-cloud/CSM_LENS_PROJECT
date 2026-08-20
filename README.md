@@ -113,18 +113,18 @@ CSM Lens의 목적은 다음 두 가지다.
 
 ### Base
 
-- 최신 분기 Movement와 전년 계절성, 최근 연도별 신계약 CSM 추이를 사용한다.
-- 외부 정성 보정은 **증권사 소속 애널리스트 보고서만** 허용한다.
+- 전년 Q2~Q4 계절성, 당해 Q1 성장 신호, 최근 최대 3개년 조정률 중앙값을 데이터 모델의 기준값으로 사용한다.
+- 회사별 직접 근거가 있는 경우에만 **증권사 소속 애널리스트 보고서** 판단을 25% 오버레이한다.
 - 뉴스 기사, 포털 기사, 회사 보도자료와 일반 연구기관 전망은 전망 입력으로 사용하지 않는다.
 - 이자부리와 상각은 최근 실적의 `(기시 CSM + 신계약 CSM)` 대비율을 적용한다.
+- 2024·2025년 Q1 시점 연말 예측을 9개사에 롤링 백테스트하고 회사별 MAPE로 신뢰도를 산정한다.
 
 ### Worst
 
-9개사와 모든 전망연도에 동일한 스트레스를 적용한다.
+9개사 18건의 롤링 백테스트 오차 80백분위를 모든 회사와 전망연도에 동일하게 적용한다.
 
-- 신계약 CSM: Base 대비 20% 감소
-- 음수 CSM 조정: Base 부담을 20% 확대
-- 양수 CSM 조정: Base 이익을 20% 축소
+- 신계약 CSM: 잔여 신계약 예측 오차 80백분위만큼 감소
+- CSM 조정: 조정 오차의 Q1 기말 CSM 대비 80백분위만큼 추가 부담
 - 이자부리·상각: 스트레스 이후 CSM 규모에 기존 기계 비율을 다시 적용
 
 상세 팝업은 1~3년, 5년, 10년 전망 근거를 임원보고용 짧은 문장으로 표시하고, 하단에 회사별 판단 근거와 사용한 애널리스트 보고서를 연결한다.
@@ -137,9 +137,12 @@ flowchart LR
   F["FISIS Open API"] --> V["재무·지급여력 검증"]
   A --> N["정규화 빌더"]
   V --> N
-  N --> J["external-data 정규화 JSON"]
+  N --> J["9개사 분기 정규화 JSON · 단일 진실 원천"]
   J --> G["csm-prototype/*.generated.js"]
   J --> P["CSM 전망 빌더"]
+  J --> R["공통 런타임 계약 어댑터"]
+  R --> AI["AI Gateway"]
+  R --> AR["Agent Run Gateway"]
   P --> G
   G --> UI["정적 대시보드"]
   UI --> VC["Vercel"]
@@ -164,6 +167,8 @@ flowchart LR
 │   └── liability-assumption-data.generated.js
 ├── external-data/                    # 정규화 JSON과 검증 메타데이터
 ├── tools/                            # DART/FISIS 추출기와 결정론적 빌더
+│   └── dashboard-contract.mjs        # 9개사 JSON의 AI/Agent 공통 런타임 계약
+│   └── forecast-contract.mjs         # UI·AI·Agent Run 공통 전망 계약/검산
 ├── tests/                            # Node/Python 회귀검증
 ├── docs/                             # 초기 설계·에이전트 문서(일부는 역사 문서)
 ├── vercel.json                       # 루트를 대시보드로 리다이렉트
@@ -180,6 +185,8 @@ flowchart LR
 | `liability-assumption-dashboard-data.json` | `liability-assumption-data.generated.js` | `build_liability_assumption_data.py` |
 
 생성 JavaScript는 JSON을 `window.CSM_*` 전역에 넣는 정적 데이터 번들이다. 프론트에서 값을 직접 고치지 말고 가능하면 원본 JSON/빌더를 수정한 뒤 다시 생성한다.
+
+`external-data/csm-quarterly-dashboard-data.json`은 분기 실적의 단일 진실 원천이고, `external-data/csm-forecast-2026.json`은 전망의 단일 진실 원천이다. 화면, AI Gateway, Agent Run Gateway는 각각 `tools/dashboard-contract.mjs`와 `tools/forecast-contract.mjs`를 통해 같은 값을 읽고 검산한다. `external-data/csm-dashboard-agent-output.json`은 이전 2개사 파일럿 보존물이며 현재 런타임 입력으로 사용하지 않는다.
 
 ## 8. 환경 설정
 
@@ -283,6 +290,7 @@ python tools/build_liability_assumption_data.py
 python -m py_compile tools/*.py
 node --check csm-prototype/script.js
 node --test tests/*.test.mjs
+node --test tests/test_ai_gateway_contract.mjs tests/test_agent_run_gateway.mjs
 python tools/test_quarterly_dashboard_data.py
 ```
 
@@ -295,6 +303,7 @@ python tools/test_quarterly_dashboard_data.py
 - 예실차·손해율·유지비율 계산과 연말 표시
 - 보험부채 변동내역의 DART 출처 추적
 - 데이터 기준 화면의 원본·검증 방법 노출
+- 화면·AI·Agent Run이 같은 9개사 분기 계약과 스냅샷 해시를 사용하는지 여부
 
 데이터 또는 산식을 바꾸면 관련 JSON과 생성 JavaScript를 모두 다시 만들고 테스트를 통과시킨다.
 
@@ -312,13 +321,13 @@ python -m http.server 8765
 http://127.0.0.1:8765/csm-prototype/index.html
 ```
 
-초기 Agent Run/AI Gateway 실험까지 확인할 때는 다음 서버를 사용한다.
+Agent Run/AI Gateway 런타임까지 확인할 때는 다음 서버를 사용한다.
 
 ```bash
 node tools/preview-server.mjs
 ```
 
-현재 운영 대시보드는 정적 기능이 중심이며, `preview-server.mjs`의 에이전트 런타임은 초기 실험 코드다.
+현재 운영 대시보드는 정적 기능이 중심이다. `preview-server.mjs`의 AI와 Agent Run은 같은 9개사 분기 계약을 읽지만, Agent Run의 단계 진행은 아직 실제 DART 재수집이 아니라 검증 스냅샷 기반 실행 시뮬레이션이다.
 
 ## 12. 배포
 
@@ -347,8 +356,8 @@ vercel --prod --yes
 4. 원본값, FISIS 검증값, 계산값, 전망값을 데이터 계약에서 구분한다.
 5. 연결/별도, 발행/재보험, 누적/분기, 단위를 항상 함께 기록한다.
 6. Movement 차이를 조정에 조용히 흡수하지 말고 감사 메타데이터에 남긴다.
-7. 전망 외부 근거는 증권사 애널리스트 보고서만 사용한다.
-8. Worst 신계약과 조정의 20% 악화 규칙을 회사별 임의 숫자로 바꾸지 않는다.
+7. 사용자·담당자 확정 전망은 출처 상태와 모델 대비 보정액을 기록한 Base 앵커로 우선 적용하고, 전망 외부 근거는 증권사 애널리스트 보고서만 사용한다.
+8. Worst 신계약과 조정은 18건 롤링 백테스트의 80백분위 보정값을 사용하고 회사별 임의 숫자로 바꾸지 않는다.
 9. UI 변경 시 생보/손보 그룹, 표 정렬, 팝업 전체보기, 독립 탭 구조를 유지한다.
 10. 변경 후 생성물 재생성, 자동 테스트, 운영 화면 검증을 수행한다.
 
@@ -356,9 +365,9 @@ vercel --prod --yes
 
 - 일부 회사·시점은 공식 IR 검증값이 없어 DART 내부 항등식과 기간 연속성이 주 검증 수단이다.
 - 연차·분기 표 선택 규칙에는 회사·연도별 예외가 남아 있어 새 공시 때 후보표 검토가 필요하다.
-- 전망은 담당자 확정 Base 앵커 입력 UI가 아직 없으며 현재 모델 Base를 사용한다.
-- 애널리스트 보고서가 없는 회사는 업종 보고서의 방향성만 참고한다.
-- `docs/agent-architecture.md`와 `docs/csm-agent-runbook.md`는 초기 2개사 파일럿 설명이 일부 남아 있어 후속 정리가 필요하다.
+- 담당자 확정 Base 앵커의 셀프서비스 입력 UI는 아직 없다. 현재 삼성생명 2026년말 목표 13.5조원은 생성기 설정값으로 관리하며 모델값과의 차이를 감사 메타데이터에 남긴다.
+- 회사별 직접 애널리스트 보고서가 없는 회사는 정성 오버레이를 적용하지 않는다.
+- 현재 정적 운영 화면에는 AI 패널과 Agent Run 패널이 연결되어 있지 않으며 로컬 preview API로만 검증한다.
 - 완전한 에이전트화 시에는 수집 → 후보표 탐지 → 검산 → Human Review → 승인 스냅샷 배포의 실행 이력을 영속 저장해야 한다.
 
 ## 15. 변경 작업 체크리스트

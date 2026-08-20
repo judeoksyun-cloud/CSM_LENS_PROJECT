@@ -113,9 +113,9 @@ assert.match(
 );
 assert.match(styles, /\.basis-toggle\b/, "the basis selector should have a visible selected state");
 assert.match(html, /CSM 추이/, "dashboard should combine historical CSM and year-end forecasts");
-assert.match(html, /Base/, "forecast should display a Base scenario");
-assert.match(html, /Worst/, "forecast should display a Worst scenario");
-assert.match(script, /Actual/, "trend detail should distinguish historical actuals");
+assert.match(html, /2026 Base/, "forecast should display the Base path");
+assert.match(html, /2026 Worst/, "forecast should display the Worst path");
+assert.match(script, /legend-dot actual[^\n]*실적/, "trend detail should distinguish historical actuals in business terms");
 assert.match(
   script,
   /function latestActualPeriodKey\(/,
@@ -136,22 +136,27 @@ assert.match(
   /key === latestKey \|\| kind === "ye" \|\| quarter === 4/,
   "trend history should exclude non-year-end quarters except for the latest actual",
 );
-assert.match(script, /mini-actual-value/, "trend cards should label each actual CSM value");
-assert.match(script, /mini-forecast-value base/, "trend cards should label the Base forecast value");
-assert.match(script, /mini-forecast-value worst/, "trend cards should label the Worst forecast value");
+assert.doesNotMatch(script, /mini-actual-value/, "trend mini charts should not repeat point values");
+assert.match(script, /trend-card-values/, "trend cards should preserve the bottom numeric summary");
+assert.match(script, /return \[\.\.\.nearTerm, terminal\]/, "2035 should be appended to the common forecast horizon series");
+assert.doesNotMatch(script, /mini-long-term-base-line/, "trend cards should not special-case the 2035 segment");
+assert.doesNotMatch(script, /terminal-scenario-label/, "trend modal should use the common Base and Worst label design for 2035");
+assert.match(script, /baseSeries\.map\(\(item, index\) => `<circle class="base-point"/, "every Base horizon should use the same point renderer");
+assert.match(script, /worstSeries\.map\(\(item, index\) => `<circle class="worst-point"/, "every Worst horizon should use the same point renderer");
+assert.doesNotMatch(script, /baseSeriesLabel|worstSeriesLabel/, "forecast point labels should rely on the legend and color instead of repeating scenario names");
 assert.match(script, /chart-value-label actual-value/, "trend modal should label each actual CSM value");
 assert.match(script, /function trendPeriodLabel\(/, "fourth-quarter trend points should be labeled as year-end");
 assert.match(script, /function formatTrendWon\(/, "trend values should use the compact 조 unit");
 assert.match(script, /function formatSignedTrendWon\(/, "signed trend values should use the compact 조 unit");
 assert.match(
   html,
-  /과거 연도말과 최신 분기 실적에 이어 향후 1~3년, 5년, 10년 CSM/,
-  "trend copy should explain the year-end history and latest-quarter display rule",
+  /1년·2년·3년·5년·10년을 모두 Base와 Worst로 전망/,
+  "trend copy should explain that every forecast horizon has Base and Worst values",
 );
 assert.doesNotMatch(
   html,
   /Optimistic/,
-  "forecast should stay focused on the requested Base and Worst scenarios",
+  "forecast should avoid an unrelated optimistic label",
 );
 for (const company of [
   "삼성생명",

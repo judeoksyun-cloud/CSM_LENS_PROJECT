@@ -1,15 +1,20 @@
-import { randomUUID, createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
-
-const MODULE_DIR = dirname(fileURLToPath(import.meta.url));
-const DEFAULT_SNAPSHOT_PATH = resolve(
-  MODULE_DIR,
-  "..",
-  "external-data",
-  "csm-dashboard-agent-output.json",
-);
+import { randomUUID } from "node:crypto";
+import {
+  compareQuarterPeriodKeys,
+  DEFAULT_DASHBOARD_SNAPSHOT_PATH,
+  getQuarterPeriodLabel,
+  getReviewSummary,
+  getSupportedCompanyKeys,
+  isQuarterPeriodKey,
+  readDashboardSnapshot,
+} from "./dashboard-contract.mjs";
+import {
+  DEFAULT_FORECAST_SNAPSHOT_PATH,
+  getCompanyForecast,
+  readForecastSnapshot,
+  summarizeForecastEntry,
+  validateForecastEntry,
+} from "./forecast-contract.mjs";
 
 const STAGE_DEFINITIONS = [
   { key: "dart_ingestion", label: "DART 수집" },
@@ -20,7 +25,8 @@ const STAGE_DEFINITIONS = [
 ];
 
 export function createAgentRunGateway({
-  snapshotPath = DEFAULT_SNAPSHOT_PATH,
+  snapshotPath = DEFAULT_DASHBOARD_SNAPSHOT_PATH,
+  forecastPath = DEFAULT_FORECAST_SNAPSHOT_PATH,
   stageDelayMs = 700,
   now = () => Date.now(),
 } = {}) {
@@ -28,12 +34,15 @@ export function createAgentRunGateway({
 
   return {
     listTargets: async ({ includeCompleted = false } = {}) => {
-      const snapshot = await readSnapshot(snapshotPath);
+      const snapshot = await readDashboardSnapshot(snapshotPath);
       return buildRunTargetCatalog(snapshot.data, { includeCompleted });
     },
     startRun: async ({ companyKey, periodKey, allowRerun = false } = {}) => {
-      const snapshot = await readSnapshot(snapshotPath);
-      const supportedCompanies = getSupportedCompanyKeys(snapshot);
+      const [snapshot, forecastSnapshot] = await Promise.all([
+        readDashboardSnapshot(snapshotPath),
+        readForecastSnapshot(forecastPath),
+      ]);
+      const supportedCompanies = getSupportedCompanyKeys(snapshot.data);
       const catalog = buildRunTargetCatalog(snapshot.data, { includeCompleted: true });
       const target = catalog.targets.find(
         (item) => item.companyKey === companyKey && item.periodKey === periodKey,
@@ -44,7 +53,7 @@ export function createAgentRunGateway({
       }
 
       const company = snapshot.data.sampleData?.[companyKey];
-      if (!company?.periods?.[periodKey]) {
+      if (!company?.periods?.[periodKey] || !isQuarterPeriodKey(periodKey)) {
         throw new Error(`unsupported period: ${companyKey}.${periodKey}`);
       }
 
@@ -52,12 +61,16 @@ export function createAgentRunGateway({
         throw new Error(`completed target already validated: ${companyKey}.${periodKey}`);
       }
 
-      const reviewSummary = summarizeReviewState(
-        snapshot.data.reviewItems ?? [],
+      const reviewSummary = getReviewSummary(snapshot.data, companyKey, periodKey);
+      const forecastEntry = getCompanyForecast(forecastSnapshot.data, companyKey);
+      const forecastValidation = validateForecastEntry(forecastEntry);
+      const stageMessages = buildStageMessages(
+        snapshot.data,
         companyKey,
         periodKey,
+        reviewSummary,
+        forecastValidation,
       );
-      const stageMessages = buildStageMessages(snapshot.data, companyKey, periodKey, reviewSummary);
       const createdAtMs = now();
       const runId = randomUUID();
 
@@ -68,8 +81,13 @@ export function createAgentRunGateway({
         periodKey,
         snapshotData: snapshot.data,
         snapshotHash: snapshot.hash,
+        forecastHash: forecastSnapshot.hash,
+        forecastContractVersion: forecastSnapshot.data.version,
+        forecastRuntimeContractVersion: forecastSnapshot.data.runtimeContractVersion,
+        forecastSummary: summarizeForecastEntry(forecastEntry),
+        forecastValidation,
         reviewSummary,
-        validationFails: reviewSummary.failed > 0,
+        validationFails: reviewSummary.failed > 0 || forecastValidation.status === "failed",
         stageMessages,
       };
 
@@ -87,23 +105,6 @@ export function createAgentRunGateway({
   };
 }
 
-async function readSnapshot(snapshotPath) {
-  const raw = await readFile(snapshotPath, "utf8");
-  const data = JSON.parse(raw);
-  const hash = createHash("sha256").update(raw).digest("hex");
-  return { data, hash };
-}
-
-function getSupportedCompanyKeys(snapshot) {
-  const snapshotData = snapshot.data ?? snapshot;
-  const policyCompanies = snapshotData.analysisPolicy?.supportedCompanies;
-  if (Array.isArray(policyCompanies) && policyCompanies.length) {
-    return policyCompanies;
-  }
-
-  return Object.keys(snapshotData.sampleData ?? {});
-}
-
 function buildRunTargetCatalog(snapshotData, { includeCompleted = false } = {}) {
   const targets = [];
   const summary = {
@@ -117,15 +118,13 @@ function buildRunTargetCatalog(snapshotData, { includeCompleted = false } = {}) 
     const company = snapshotData.sampleData?.[companyKey];
     if (!company) continue;
 
-    const periodKeys = Object.keys(company.periods ?? {}).sort(comparePeriodKeysDesc);
+    const periodKeys = Object.keys(company.periods ?? {})
+      .filter(isQuarterPeriodKey)
+      .sort(comparePeriodKeysDesc);
 
     for (const periodKey of periodKeys) {
       const period = company.periods?.[periodKey];
-      const reviewSummary = summarizeReviewState(
-        snapshotData.reviewItems ?? [],
-        companyKey,
-        periodKey,
-      );
+      const reviewSummary = getReviewSummary(snapshotData, companyKey, periodKey);
       const status = getRunTargetStatus(reviewSummary);
 
       if (status === "completed") {
@@ -186,50 +185,20 @@ function compareRunTargets(targetA, targetB) {
 }
 
 function comparePeriodKeysDesc(periodAKey, periodBKey) {
-  const periodA = parsePeriodKey(periodAKey);
-  const periodB = parsePeriodKey(periodBKey);
-
-  if (periodA.year !== periodB.year) {
-    return periodB.year - periodA.year;
-  }
-
-  return periodB.quarter - periodA.quarter;
-}
-
-function parsePeriodKey(periodKey) {
-  const match = String(periodKey).match(/^(\d{4})-q([1-4])$/);
-  return {
-    year: match ? Number(match[1]) : 0,
-    quarter: match ? Number(match[2]) : 0,
-  };
+  return compareQuarterPeriodKeys(periodBKey, periodAKey);
 }
 
 function getPeriodLabel(periodKey) {
-  const { year, quarter } = parsePeriodKey(periodKey);
-  return `${year} Q${quarter}`;
+  return getQuarterPeriodLabel(periodKey);
 }
 
-function summarizeReviewState(reviewItems, companyKey, periodKey) {
-  const items = reviewItems.filter(
-    (item) => item.company === companyKey && item.period === periodKey,
-  );
-  const counts = {
-    total: items.length,
-    passed: 0,
-    needsReview: 0,
-    failed: 0,
-  };
-
-  for (const item of items) {
-    if (item.status === "passed") counts.passed += 1;
-    if (item.status === "needs_review") counts.needsReview += 1;
-    if (item.status === "failed") counts.failed += 1;
-  }
-
-  return { items, ...counts };
-}
-
-function buildStageMessages(snapshotData, companyKey, periodKey, reviewSummary) {
+function buildStageMessages(
+  snapshotData,
+  companyKey,
+  periodKey,
+  reviewSummary,
+  forecastValidation,
+) {
   const period = snapshotData.sampleData?.[companyKey]?.periods?.[periodKey];
   const sourceReference = period?.sourceReference ?? {};
   const movementItem =
@@ -255,9 +224,9 @@ function buildStageMessages(snapshotData, companyKey, periodKey, reviewSummary) 
       ? `조정 항목 1건 검토 필요`
       : "표준 Movement 항목으로 매핑 완료",
     validation:
-      reviewSummary.failed > 0
-        ? `검산 실패 ${reviewSummary.failed}건`
-        : "기시·기말·합계 검산 통과",
+      reviewSummary.failed > 0 || forecastValidation.status === "failed"
+        ? `검산 실패 ${reviewSummary.failed + forecastValidation.reasons.length}건`
+        : "분기 Movement와 전망 계약 합계 검산 통과",
     human_review:
       reviewSummary.needsReview > 0
         ? `검토 큐 ${reviewSummary.needsReview}건`
@@ -299,6 +268,12 @@ function serializeRun(run, currentMs, stageDelayMs) {
       validationComplete && !run.validationFails ? run.snapshotData : null,
     snapshotHash:
       validationComplete && !run.validationFails ? run.snapshotHash : null,
+    forecast:
+      validationComplete && !run.validationFails ? run.forecastSummary : null,
+    forecastHash:
+      validationComplete && !run.validationFails ? run.forecastHash : null,
+    forecastContractVersion: run.forecastContractVersion,
+    forecastRuntimeContractVersion: run.forecastRuntimeContractVersion,
     updatedAt: new Date(currentMs).toISOString(),
     failureReason: runFailed
       ? `검산 단계에서 실패 ${run.reviewSummary.failed}건이 확인되어 마지막 검증 완료 스냅샷을 유지합니다.`

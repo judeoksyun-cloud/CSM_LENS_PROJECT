@@ -1,6 +1,6 @@
 ﻿# CSM Lens System Architecture
 
-작성일: 2026-06-10
+최종 갱신: 2026-08-15
 
 ## 문서 역할
 
@@ -29,11 +29,11 @@ CSM Lens는 보험업계 CSM 벤치마킹과 리서치 보조를 위한 분석 �
 | 경영진 | 검산된 비교 결과와 핵심 메시지를 짧게 확인 |
 | 보고 담당자 | 실무 근거가 연결된 요약 문장과 표 초안을 확보 |
 
-## 3. 파일럿 범위
+## 3. 현재 범위
 
-파일럿 대상 보험사는 삼성생명과 삼성화재로 제한한다. 생명보험과 손해보험을 각각 1개씩 먼저 다루어 업권별 공시 구조와 Movement 표현 차이를 확인한다.
+현재 대상은 생명보험 4개사와 손해보험 5개사다. `external-data/csm-quarterly-dashboard-data.json`의 9개사 2023 Q1~2026 Q1 분기 데이터가 화면, AI Gateway, Agent Run Gateway의 단일 진실 원천이다. 초기 삼성생명·삼성화재 2개사 산출물은 회귀 참고용으로만 보존한다.
 
-파일럿에서 정확도가 검증되기 전에는 보험사를 늘리지 않는다. 확장 기준은 다음과 같다.
+회사와 기간을 확장할 때는 다음 기준을 적용한다.
 
 - CSM 관련 표 자동 탐지 성공률이 안정적으로 확인될 것
 - 핵심 Movement 항목 매핑이 반복 가능할 것
@@ -49,14 +49,14 @@ CSM Lens는 보험업계 CSM 벤치마킹과 리서치 보조를 위한 분석 �
 | --- | --- |
 | 보유 CSM | 별도재무제표 기준, 재보험 제외 기준 |
 | 보험손익 | 별도재무제표 기준 보험서비스손익 |
-| 투자손익 | 별도 투자손익 + 영업외손익 + 연결효과 |
+| 투자손익 | 최신 9개사 분기 계약에서는 미제공. 없는 값을 0으로 대체하지 않음 |
 | 당기순이익 | 지배주주 연결손익 기준 |
 | 법인세비용 | 연결 손익 구성의 차감항목, 음수 기여값으로 저장 |
 | 비지배지분 | 투자손익 역산 시 지배주주 연결손익을 연결 당기순이익으로 되돌리는 조정항목 |
 | K-ICS 비율 | 지급여력 공시 기준 |
-| 기시 CSM | 모든 분기에서 전년도말 데이터 기준 |
+| 기시 CSM | 누적 기준은 전년도말, 분기 단독 기준은 직전 분기말 |
 
-투자손익의 표시 기준명은 실적발표 자료의 관리손익 구성을 따라 `별도 투자손익 + 영업외손익 + 연결효과`로 둔다. 다만 구성요소별 원천 파싱이 불안정하거나 항목명이 회사별로 흔들릴 수 있으므로, 계산은 다음 방식으로 역산하여 적용하고 화면에는 작은 주석으로 표시한다.
+초기 2개사 파일럿은 투자손익을 다음 방식으로 역산했다. 이 값은 현재 9개사 분기 계약으로 승격되지 않았으며 AI도 표시하지 않는다.
 
 ```text
 투자손익
@@ -68,7 +68,7 @@ CSM Lens는 보험업계 CSM 벤치마킹과 리서치 보조를 위한 분석 �
 
 법인세비용은 손익 구성의 차감항목이므로 정규화 데이터에는 음수 기여값으로 저장한다. 지배주주 연결손익과 비지배지분을 합산한 값은 연결 당기순이익(비지배 차감 전)에 해당한다.
 
-현재 1차 프로토타입은 외부 DART 추출 산출물을 읽어 화면을 채우는 생성형 정적 웹앱이다. `csm-prototype/dashboard-data.generated.js`가 있으면 이를 우선 덮어쓰고, 없을 때만 내장 샘플을 fallback으로 사용한다. 실시간 Open DART 자동 수집과 원문 파싱은 별도 파이프라인 단계로 관리한다.
+현재 제품은 외부 DART/FISIS 추출 산출물을 읽어 화면을 채우는 생성형 정적 웹앱이다. 브라우저는 `csm-prototype/dashboard-data.generated.js`를 읽고, AI와 Agent Run은 같은 원본 JSON을 `tools/dashboard-contract.mjs`를 통해 읽는다. 실시간 Open DART 자동 수집과 원문 파싱은 별도 Python 파이프라인 단계로 관리한다.
 
 샘플 숫자와 실제 파싱 숫자는 반드시 구분한다. 샘플 숫자는 화면 구조와 분석 흐름 검증에만 사용하며, 실제 대시보드 집계에는 원문 출처가 있는 값만 사용한다.
 
@@ -82,7 +82,7 @@ CSM Lens는 보험업계 CSM 벤치마킹과 리서치 보조를 위한 분석 �
 + 신계약 CSM
 + 이자부리
 + CSM 조정 등
-- CSM 상각
++ CSM 상각 (음수 저장)
 ```
 
 Movement 표시 순서는 다음을 기본으로 한다.
@@ -104,26 +104,25 @@ Movement 표시 순서는 다음을 기본으로 한다.
 
 ## 6. 현재 프로토타입 상태
 
-현재 프로토타입은 `csm-prototype` 폴더의 정적 웹앱으로 구현되어 있다.
+현재 프로토타입은 `csm-prototype` 폴더의 정적 웹앱과 로컬 preview runtime으로 구현되어 있다.
 
 주요 화면 기능은 다음과 같다.
 
-- 회사 선택: 삼성생명, 삼성화재
-- 기간 선택: 2025 Q1, Q2, Q3, Q4
-- 핵심 KPI 카드: 보유 CSM, 전기 대비, 신계약 CSM, CSM 상각, 보험손익, 투자손익, 당기순이익, K-ICS 비율
+- 회사 범위: 생명보험 4개사, 손해보험 5개사
+- 기간 범위: 2022~2025년말, 2023 Q1~2026 Q1
+- 핵심 KPI: 보유 CSM, 신계약 CSM, CSM 상각, 보험손익, 당기순이익, K-ICS 비율
 - CSM 변동 워터폴: 기시 CSM, 신계약, 이자부리, CSM 조정 등, CSM 상각, 기말 CSM
-- 상품군 믹스: 생보는 금융, 사망, 건강 / 손보는 일반, 자동차, 장기
-- 보험사 비교표: CSM 기준, 손익 기준, 보유 CSM, 증감률, 보험손익, 투자손익, 당기순이익, K-ICS, 주요 유형
-- 전망 초안: Base, Conservative, Optimistic 시나리오 기반 수치 전망과 산식
+- 보험사 비교표: 생보/손보 그룹별 CSM, 신계약, 보험손익, 당기순이익, K-ICS
+- 전망: 2026·2027·2028·2030·2035년 Base/Worst 시나리오
 - 데이터 품질 패널: 원문 공시 링크, CSM 표 탐지, Movement 합계 검증, 수작업 보정 상태
 - Human Review Workbench: 검토 큐, 검토 사유, 원문 표, 수작업 보정 상태
 
 프로토타입의 제한은 다음과 같다.
 
-- Open DART API 자동 수집은 아직 연결되지 않았다.
-- 공시 원문 XML/XBRL 파싱은 아직 연결되지 않았다.
-- LLM API 연동은 같은 origin의 preview server gateway를 통해 연결한다.
-- 일부 값은 화면 검증용 샘플이며, 실제 리포팅용 수치로 사용하면 안 된다.
+- Open DART/FISIS 수집과 원문 파싱은 Python 배치로 연결되어 있으나 실시간 요청형은 아니다.
+- LLM API 연동은 같은 origin의 preview server gateway를 통해서만 연결한다.
+- 정적 운영 화면에는 AI/Agent Run 패널이 아직 연결되어 있지 않다.
+- Agent Run 단계 진행은 현재 스냅샷 기반 시뮬레이션이며 실제 배치 실행기가 아니다.
 
 ## 6-1. 화면 정보구조와 UX 원칙
 
@@ -146,7 +145,7 @@ CSM Lens의 UI는 긴 보고서형 스크롤 페이지가 아니라 분석 워�
 
 ## 6-2. 에이전트 실행 가시화
 
-현재 워크벤치 상단에는 공통 실행 패널과 Agent Timeline을 둔다. 조회용 회사/기간 필터는 유지하되, 실행은 별도의 `미완료 대상 백로그 선택기`를 통해서만 시작한다. 기본 실행 목록에는 `failed`, `needs_review`, 이후 확장 시 `not_started` 같은 미완료 상태만 노출하고, `completed` 상태는 기본적으로 숨긴다.
+preview runtime은 공통 Agent Timeline 계약을 제공한다. 기본 실행 목록에는 `failed`, `needs_review`, 이후 확장 시 `not_started` 같은 미완료 상태만 노출하고, `completed` 상태는 기본적으로 숨긴다.
 
 ```text
 DART 수집 -> CSM 파싱 -> Movement 매핑 -> 검산 -> 휴먼리뷰
@@ -274,7 +273,7 @@ Open DART API에서 회사 마스터, 정기보고서 목록, 공시 원문, XBR
 
 ### 9.3 `benchmark-analysis-agent`
 
-삼성생명과 삼성화재의 Peer 비교 분석을 생성한다. AI 기능의 1차 MVP는 이 에이전트다.
+같은 업권 보험사 간 Peer 비교 분석을 생성한다. AI 기능의 1차 MVP는 이 에이전트다.
 
 주요 질문은 `누가 더 좋은가`가 아니라 `왜 차이가 나는가`다. 이 시스템은 투자판단 도구가 아니라 벤치마킹 도구이므로, 순위 판단보다 원인분해와 기준 차이 설명을 우선한다.
 
@@ -327,7 +326,7 @@ Open DART 자료만으로는 향후 전망의 근거가 제한적이다. IR 자�
 
 1차 역할은 자유 질의응답이지만, 답변은 현재 시스템에 적재된 데이터와 검산 가능한 계산에 묶여 있어야 한다. 예시는 다음과 같다.
 
-- `삼성생명과 삼성화재의 CSM 차이는 왜 발생했어?`
+- `한화생명과 삼성생명의 CSM 차이는 왜 발생했어?`
 - `2025 Q4 기준 신계약 CSM 기여도를 비교해줘.`
 - `CSM 조정 등이 큰 회사는 어디야?`
 - `임원 보고용으로 핵심 메시지를 5줄로 줄여줘.`
@@ -369,7 +368,7 @@ LLM이 계산을 수행할 수는 있지만, 최종 수치는 가능하면 코�
 
 ```text
 1. dart-ingestion-worker
-   삼성생명과 삼성화재의 정기보고서, 원문, XBRL, 재무제표 데이터를 수집한다.
+   9개 보험사의 정기보고서, 원문, XBRL, 재무제표 데이터를 수집한다.
 
 2. csm-parser-agent
    CSM 관련 후보 섹션과 표를 탐지한다.
@@ -533,20 +532,18 @@ created_at
 
 ### 12.8 `dashboard_payload`
 
-`external-data/csm-dashboard-agent-output.json`과 `csm-prototype/dashboard-data.generated.js`는 같은 payload를 공유한다. 최상위 키는 다음과 같다.
+`external-data/csm-quarterly-dashboard-data.json`이 canonical payload다. `csm-prototype/dashboard-data.generated.js`는 이 JSON의 브라우저 번들이고, `tools/dashboard-contract.mjs`는 같은 JSON에서 AI/Agent용 런타임 필드를 파생한다. 최상위 원본 키는 다음과 같다.
 
 ```text
 dataContractVersion
-generatedAt
-sourcePolicy
-generatedFrom
-agents
+periodBasis
+years
 sampleData
-financialMetrics
-qualityChecks
-reviewSummary
-reviewItems
+methodologyRegistry
+quarterlyBuild
 ```
+
+런타임 어댑터는 원본 숫자를 복제하지 않고 `runtimeContractVersion`, `analysisPolicy`, `reviewItems`, `reviewSummary`를 추가한다. 초기 `csm-dashboard-agent-output.json`은 2개사 파일럿 보존물이며 현재 입력이 아니다.
 
 ### 12.9 `dashboard_period`
 
@@ -556,11 +553,14 @@ reviewItems
 csm
 growth
 movement
-mix
+insuranceProfit
+parentNetIncome
+kics
+solvencyBasis
 quality
 sourceReference
-summary
-forecast
+metricBasis
+quarterlyAudit
 ```
 
 `movement`는 다음 구조를 따른다.
@@ -576,26 +576,17 @@ closing
 
 ### 12.10 `dashboard_financial_period`
 
-`financialMetrics[company_id][period_id]`는 다음 필드를 가진다.
+분기 손익은 `sampleData[company_id].periods[period_id]` 안에 저장한다. 런타임 어댑터는 이를 다음 공통 구조로 읽는다.
 
 ```text
 insuranceProfit
-investmentProfit
+investmentProfit (현재 분기 계약에서는 null)
 netIncome
 kics
-csmScope
-profitScope
-insuranceScope
-investmentScope
-investmentCalcNote
-netIncomeScope
-kicsScope
-note
-investmentFormula
 sourceReferences
 ```
 
-`sourceReferences`는 지표별 출처 묶음이다. 현재 구현은 `insuranceProfit`, `investmentProfit`, `netIncome`, `kics` 키를 사용하고, 각 값은 `rceptNo`, `reportName`, `dartUrl`, `valueKind`, `basis`, `unit`, `sourceLayer`, `manualAdjustment`, 필요 시 `account` 또는 `sourceAccounts`, `formula`, `sourceTables`를 포함한다.
+계약에 없는 투자손익은 `0`으로 바꾸지 않는다. AI evidence와 브리핑에서도 제외한다.
 
 ### 12.11 `review_item`
 
@@ -616,20 +607,10 @@ basis
 sourceReference
 reviewReason
 recommendedAction
-manualAdjustment
+validation
 ```
 
-`manualAdjustment`는 원본값을 덮어쓰지 않는 보정 객체다.
-
-```text
-applied
-decision
-originalValue
-adjustedValue
-reviewerNote
-reviewedBy
-reviewedAt
-```
+현재 리뷰 항목은 분기마다 Movement와 손익/K-ICS 두 건을 파생한다. Movement 항등식, 원문 추적정보, 필수 재무지표를 검증하고, 공시 기초 CSM과 직전 연말 잔액 차이가 20십억원을 초과하면 `needs_review`로 분류한다. 원본값은 변경하지 않는다.
 
 ### 12.12 `review_summary`
 
@@ -648,7 +629,7 @@ failed
 
 - dataKind: actual 또는 sample
 - audience: practitioner 또는 executive
-- analysisType: anomaly, movement, peer, briefing, chat
+- analysisType: anomaly, movement, forecast, peer, briefing, chat
 - company, companyName, period, periodLabel
 - periodScope
 - validationStatus
@@ -668,10 +649,10 @@ insightCards에는 title, status, summary, evidence, calculation, followUps를 �
 LLM은 설명 보조와 요약 보조에만 사용하고, 진실의 원천은 아니다.
 
 - LLM 입력에는 최신 검증 스냅샷과 현재 요청 정보만 넣는다. 원문 PDF, 업로드 파일, 미검증 초안은 넣지 않는다.
-- LLM은 숫자를 새로 발명하지 않는다. 필요한 수치는 `tools/csm_agent_pipeline.py`가 만든 검증 산출물에서만 가져온다.
+- LLM은 숫자를 새로 발명하지 않는다. 실적은 `csm-quarterly-dashboard-data.json`, 전망은 `csm-forecast-2026.json`을 공통 런타임 계약으로 해석한 값만 사용한다.
 - 프롬프트에는 현재 회사, 현재 기간, audience, analysisType, reviewState만 명시한다.
 - 응답은 JSON-first로 만들고 answer, evidence, calculation, followUps를 먼저 채운다.
-- dataKind, validationStatus, reviewState, periodScope, snapshotHash를 항상 노출한다.
+- dataKind, validationStatus, reviewState, periodScope, snapshotHash와 전망 응답의 forecastHash를 항상 노출한다.
 - 지원 범위를 벗어난 질문은 숫자를 생성하지 말고 grounded refusal로 응답한다.
 - 실무자 톤은 세부 근거를, 임원 톤은 핵심만 보여 주되 사실은 바꾸지 않는다.
 
@@ -708,11 +689,14 @@ AI는 다음을 하지 않는다.
 
 전망은 가장 최근에 검증된 공시 기간을 기준으로만 보여 준다.
 
-- 2025년 12월말까지 데이터가 있으면 전망 기준은 2025년 12월말이다.
+- 현재 최신 실적이 2026년 1분기까지 있으므로 전망 기준은 2026년 1분기말이다.
 - 2025년 1분기, 2분기처럼 이미 실적값이 있는 과거 분기의 전망은 노출하지 않는다.
 - 최신 검증 기간이 바뀌면 전망 기준도 자동으로 바뀐다.
 - 전망 CSM을 보여 줄 때는 Movement 전망도 함께 보여 준다.
 - 대시보드에는 전망 시점을 명시한다.
+- Base는 전년 계절성, Q1 성장 신호, 최근 최대 3개년 조정률을 사용하는 결정론적 모델을 우선한다.
+- 회사별 직접 증권사 근거가 있는 경우에만 정성 입력을 25% 오버레이한다.
+- Worst와 신뢰도는 2024·2025년 Q1 시점 연말 예측 18건의 롤링 백테스트로 보정한다.
 - 사용자가 기간을 바꾸더라도 AI는 latest-validated-only 규칙을 따른다.
 
 ## 16. 금지사항과 안전장치
@@ -733,7 +717,7 @@ AI는 다음을 하지 않는다.
 - 모든 AI 응답은 evidence와 calculation을 포함한다.
 - 모든 응답에 validationStatus와 periodScope를 포함한다.
 - reviewState가 needs_review 또는 failed면 화면에 경고를 표시한다.
-- AI는 현재 회사가 삼성생명 또는 삼성화재가 아닐 때 unsupported로 응답한다.
+- AI는 canonical 계약에 없는 회사 또는 기간을 요청할 때 unsupported로 응답한다.
 
 ## 17. 구현 우선순위
 
@@ -753,19 +737,18 @@ AI는 다음을 하지 않는다.
 1. 파이프라인 재생성
 
 ```bash
-python tools/csm_agent_pipeline.py --write-dashboard
-```
-
-수작업 검토 결과를 반영하려면 선택적으로 아래 파일을 함께 사용한다.
-
-```text
-external-data/manual-review-overrides.json
+python tools/build_annual_dashboard_data.py
+python tools/build_quarterly_dashboard_data.py
+python tools/build_csm_forecast.py
 ```
 
 2. 파이썬 검증
 
 ```bash
-python -m unittest tests.test_csm_agent_pipeline_metadata -v
+python tools/test_quarterly_dashboard_data.py
+node --test tests/dashboard-contract.test.mjs
+node --test tests/test_ai_gateway_contract.mjs
+node --test tests/test_agent_run_gateway.mjs
 ```
 
 3. 대시보드 JavaScript 문법 확인
@@ -777,14 +760,13 @@ node --check csm-prototype/script.js
 4. 로컬 화면 확인
 
 ```text
-http://127.0.0.1:8765/csm-prototype/index.html?v=review-workbench#dashboard
+http://127.0.0.1:8766/csm-prototype/index.html
 ```
 
 5. 실패 시 우선 확인할 항목
 
-- `qualityChecks`에서 `ok=false`인 항목
 - `reviewItems`에서 `needs_review` 또는 `failed` 항목
 - `sampleData`의 `sourceReference`
-- `financialMetrics`의 `sourceReferences`
+- `quarterlyAudit.openingReconciliationDifference`
 - `dashboard-data.generated.js`가 최신 산출물인지 여부
 

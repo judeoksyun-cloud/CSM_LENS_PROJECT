@@ -1,17 +1,22 @@
-import { createHash } from 'node:crypto';
-import { readFile } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import {
+  buildQuarterPeriodScope,
+  DEFAULT_DASHBOARD_SNAPSHOT_PATH,
+  getFinancialMetric,
+  getLatestQuarterPeriodKey,
+  getPreviousQuarterPeriodKey,
+  getReviewSummary,
+  getSupportedCompanyKeys,
+  readDashboardSnapshot,
+} from './dashboard-contract.mjs';
+import {
+  DEFAULT_FORECAST_SNAPSHOT_PATH,
+  getCompanyForecast,
+  readForecastSnapshot,
+  summarizeForecastEntry,
+  validateForecastEntry,
+} from './forecast-contract.mjs';
 
-const MODULE_DIR = dirname(fileURLToPath(import.meta.url));
-const DEFAULT_SNAPSHOT_PATH = resolve(
-  MODULE_DIR,
-  '..',
-  'external-data',
-  'csm-dashboard-agent-output.json',
-);
-
-const ANALYSIS_TYPES = new Set(['anomaly', 'movement', 'peer', 'briefing', 'chat']);
+const ANALYSIS_TYPES = new Set(['anomaly', 'movement', 'forecast', 'peer', 'briefing', 'chat']);
 const AUDIENCES = new Set(['practitioner', 'executive']);
 const REFUSAL_PATTERNS = [
   /매수|매도|추천|목표주가|투자\s*추천|투자\s*판단/i,
@@ -20,25 +25,40 @@ const REFUSAL_PATTERNS = [
 ];
 
 export function createAiGateway({
-  snapshotPath = DEFAULT_SNAPSHOT_PATH,
+  snapshotPath = DEFAULT_DASHBOARD_SNAPSHOT_PATH,
+  forecastPath = DEFAULT_FORECAST_SNAPSHOT_PATH,
   env = process.env,
   fetchImpl = globalThis.fetch,
 } = {}) {
   return {
-    analyze: (request = {}) => analyzeRequest({ snapshotPath, env, fetchImpl, request }),
-    chat: (request = {}) => chatRequest({ snapshotPath, env, fetchImpl, request }),
-    status: () => readSnapshot(snapshotPath),
+    analyze: (request = {}) => analyzeRequest({ snapshotPath, forecastPath, env, fetchImpl, request }),
+    chat: (request = {}) => chatRequest({ snapshotPath, forecastPath, env, fetchImpl, request }),
+    status: async () => {
+      const [dashboard, forecast] = await Promise.all([
+        readDashboardSnapshot(snapshotPath),
+        readForecastSnapshot(forecastPath),
+      ]);
+      return {
+        dashboardHash: dashboard.hash,
+        forecastHash: forecast.hash,
+        dashboardContractVersion: dashboard.data.dataContractVersion,
+        forecastContractVersion: forecast.data.version,
+      };
+    },
   };
 }
 
-async function analyzeRequest({ snapshotPath, env, fetchImpl, request }) {
-  const snapshot = await readSnapshot(snapshotPath);
+async function analyzeRequest({ snapshotPath, forecastPath, env, fetchImpl, request }) {
+  const [snapshot, forecastSnapshot] = await Promise.all([
+    readDashboardSnapshot(snapshotPath),
+    readForecastSnapshot(forecastPath),
+  ]);
   const companyKey = pickCompanyKey(snapshot, request.company);
   const company = snapshot.data.sampleData[companyKey];
   const periodKey = pickLatestPeriodKey(snapshot, companyKey);
   const audience = normalizeAudience(request.audience);
   const analysisType = normalizeAnalysisType(request.analysisType, 'briefing');
-  const facts = buildFacts(snapshot, companyKey, periodKey);
+  const facts = buildFacts(snapshot, forecastSnapshot, companyKey, periodKey);
 
   const base = buildAnalysisBundle({
     facts,
@@ -60,12 +80,15 @@ async function analyzeRequest({ snapshotPath, env, fetchImpl, request }) {
   return polished ?? base;
 }
 
-async function chatRequest({ snapshotPath, env, fetchImpl, request }) {
-  const snapshot = await readSnapshot(snapshotPath);
+async function chatRequest({ snapshotPath, forecastPath, env, fetchImpl, request }) {
+  const [snapshot, forecastSnapshot] = await Promise.all([
+    readDashboardSnapshot(snapshotPath),
+    readForecastSnapshot(forecastPath),
+  ]);
   const companyKey = pickCompanyKey(snapshot, request.company);
   const periodKey = pickLatestPeriodKey(snapshot, companyKey);
   const audience = normalizeAudience(request.audience);
-  const facts = buildFacts(snapshot, companyKey, periodKey);
+  const facts = buildFacts(snapshot, forecastSnapshot, companyKey, periodKey);
 
   const query = typeof request.question === 'string' ? request.question.trim() : '';
   if (!query) {
@@ -110,15 +133,8 @@ async function chatRequest({ snapshotPath, env, fetchImpl, request }) {
   return polished ?? base;
 }
 
-async function readSnapshot(snapshotPath) {
-  const raw = await readFile(snapshotPath, 'utf8');
-  const data = JSON.parse(raw);
-  const hash = createHash('sha256').update(raw).digest('hex');
-  return { data, raw, hash, snapshotPath };
-}
-
 function pickCompanyKey(snapshot, requestedCompany) {
-  const supportedCompanies = supportedCompanyKeys(snapshot);
+  const supportedCompanies = getSupportedCompanyKeys(snapshot.data);
   if (!supportedCompanies.length) {
     throw new Error('snapshot has no supported companies');
   }
@@ -134,34 +150,8 @@ function pickCompanyKey(snapshot, requestedCompany) {
   return supportedCompanies[0];
 }
 
-function supportedCompanyKeys(snapshot) {
-  const analysisPolicy = snapshot.data.analysisPolicy ?? {};
-  const supportedCompanies = analysisPolicy.supportedCompanies;
-  if (Array.isArray(supportedCompanies) && supportedCompanies.length) {
-    return supportedCompanies;
-  }
-
-  return Object.keys(snapshot.data.sampleData ?? {});
-}
-
 function pickLatestPeriodKey(snapshot, companyKey) {
-  const analysisPolicy = snapshot.data.analysisPolicy ?? {};
-  const policyPeriod = analysisPolicy.latestValidatedPeriodByCompany?.[companyKey];
-  if (policyPeriod) {
-    return policyPeriod;
-  }
-
-  const periods = snapshot.data.sampleData?.[companyKey]?.periods ?? {};
-  return Object.keys(periods).sort(comparePeriodKeys).at(-1);
-}
-
-function comparePeriodKeys(left, right) {
-  const [leftYear, leftQuarter] = left.split('-q').map(Number);
-  const [rightYear, rightQuarter] = right.split('-q').map(Number);
-  if (leftYear !== rightYear) {
-    return leftYear - rightYear;
-  }
-  return leftQuarter - rightQuarter;
+  return getLatestQuarterPeriodKey(snapshot.data, companyKey);
 }
 
 function normalizeAudience(value) {
@@ -173,26 +163,45 @@ function normalizeAnalysisType(value, fallback = 'briefing') {
   return ANALYSIS_TYPES.has(value) ? value : fallback;
 }
 
-function buildFacts(snapshot, companyKey, periodKey) {
+function buildFacts(snapshot, forecastSnapshot, companyKey, periodKey) {
   const company = snapshot.data.sampleData[companyKey];
-  const financial = snapshot.data.financialMetrics[companyKey]?.[periodKey];
   const period = company?.periods?.[periodKey];
-  if (!company || !financial || !period) {
+  const financial = getFinancialMetric(snapshot.data, companyKey, periodKey);
+  if (!company || !period) {
     throw new Error(`missing company-period data: ${companyKey}.${periodKey}`);
   }
 
-  const reviewState = summarizeReviewState(snapshot.data.reviewItems ?? [], companyKey, periodKey);
-  const periodScope = buildPeriodScope(periodKey);
-  const previousPeriodKey = getPreviousPeriodKey(company.periods, periodKey);
+  const reviewSummary = getReviewSummary(snapshot.data, companyKey, periodKey);
+  const reviewState = {
+    status: reviewSummary.status,
+    total: reviewSummary.total,
+    passed: reviewSummary.passed,
+    needsReview: reviewSummary.needsReview,
+    failed: reviewSummary.failed,
+    reasons: reviewSummary.items
+      .filter((item) => item.status !== 'passed')
+      .map((item) => item.reviewReason),
+  };
+  const periodScope = buildQuarterPeriodScope(periodKey);
+  const previousPeriodKey = getPreviousQuarterPeriodKey(company.periods, periodKey);
   const previousPeriod = previousPeriodKey ? company.periods[previousPeriodKey] : null;
-  const peerCompanyKey = supportedCompanyKeys(snapshot).find((key) => key !== companyKey) ?? null;
+  const peerCompanyKey = getSupportedCompanyKeys(snapshot.data).find(
+    (key) => key !== companyKey && snapshot.data.sampleData[key]?.sector === company.sector,
+  ) ?? getSupportedCompanyKeys(snapshot.data).find((key) => key !== companyKey) ?? null;
   const peerCompany = peerCompanyKey ? snapshot.data.sampleData[peerCompanyKey] : null;
-  const peerFinancial = peerCompany ? snapshot.data.financialMetrics[peerCompanyKey]?.[periodKey] : null;
-  const latestForecast = period.forecast ?? null;
+  const peerFinancial = peerCompany
+    ? getFinancialMetric(snapshot.data, peerCompanyKey, periodKey)
+    : null;
+  const forecast = getCompanyForecast(forecastSnapshot.data, companyKey);
 
   return {
     snapshotHash: snapshot.hash,
     generatedAt: snapshot.data.generatedAt,
+    dataContractVersion: snapshot.data.dataContractVersion,
+    runtimeContractVersion: snapshot.data.runtimeContractVersion,
+    forecastHash: forecastSnapshot.hash,
+    forecastContractVersion: forecastSnapshot.data.version,
+    forecastRuntimeContractVersion: forecastSnapshot.data.runtimeContractVersion,
     companyKey,
     company,
     periodKey,
@@ -205,58 +214,24 @@ function buildFacts(snapshot, companyKey, periodKey) {
     peerCompanyKey,
     peerCompany,
     peerFinancial,
-    latestForecast,
+    forecast,
     basis: {
-      csm: '별도 재무제표 기준 · 재보험 제외',
-      insuranceProfit: '별도 보험서비스손익',
-      investmentProfit: '별도 투자손익 + 영업외손익 + 연결효과',
-      netIncome: '지배주주 연결손익',
-      kics: '지급여력 공시 기준',
+      csm: period.metricBasis?.csm ?? '별도 재무제표 기준 · 재보험 제외',
+      insuranceProfit: period.metricBasis?.insuranceProfit ?? '별도 보험서비스손익',
+      investmentProfit: financial.investmentProfit == null
+        ? '현재 분기 계약에서 미제공'
+        : '별도 투자손익 + 영업외손익 + 연결효과',
+      netIncome: period.metricBasis?.parentNetIncome ?? '당기순이익 공시 기준',
+      kics: period.metricBasis?.solvency ?? '지급여력 공시 기준',
     },
   };
-}
-
-function buildPeriodScope(periodKey) {
-  const [year, quarterPart] = periodKey.split('-q');
-  const quarter = Number(quarterPart);
-  return {
-    mode: 'latest-validated',
-    label: `${year}-${String(quarter * 3).padStart(2, '0')}`,
-    periodKey,
-    periodLabel: `${year} Q${quarter}`,
-  };
-}
-
-function getPreviousPeriodKey(periods, currentPeriodKey) {
-  const ordered = Object.keys(periods).sort(comparePeriodKeys);
-  const currentIndex = ordered.indexOf(currentPeriodKey);
-  if (currentIndex <= 0) return null;
-  return ordered[currentIndex - 1];
-}
-
-function summarizeReviewState(reviewItems, companyKey, periodKey) {
-  const items = reviewItems.filter((item) => item.company === companyKey && item.period === periodKey);
-  const counts = {
-    total: items.length,
-    passed: 0,
-    needsReview: 0,
-    failed: 0,
-  };
-
-  for (const item of items) {
-    if (item.status === 'passed') counts.passed += 1;
-    if (item.status === 'needs_review') counts.needsReview += 1;
-    if (item.status === 'failed') counts.failed += 1;
-  }
-
-  const status = counts.failed > 0 ? 'failed' : counts.needsReview > 0 ? 'needs_review' : 'passed';
-  return { status, ...counts };
 }
 
 function buildAnalysisBundle({ facts, audience, analysisType, question = null, mode = 'analysis' }) {
   const cards = [
     buildAnomalyCard(facts),
     buildMovementCard(facts),
+    buildForecastCard(facts),
     buildPeerCard(facts),
     buildBriefingCard(facts, audience),
   ];
@@ -284,6 +259,13 @@ function buildAnalysisBundle({ facts, audience, analysisType, question = null, m
     reviewState: facts.reviewState,
     snapshotHash: facts.snapshotHash,
     generatedAt: facts.generatedAt,
+    dataContractVersion: facts.dataContractVersion,
+    runtimeContractVersion: facts.runtimeContractVersion,
+    forecastHash: facts.forecastHash,
+    forecastContractVersion: facts.forecastContractVersion,
+    forecastRuntimeContractVersion: facts.forecastRuntimeContractVersion,
+    forecastDataKind: 'scenario',
+    forecast: summarizeForecastEntry(facts.forecast),
     basis: facts.basis,
     answer,
     insightCards: cards,
@@ -379,10 +361,71 @@ function buildMovementCard(facts) {
   };
 }
 
+function buildForecastCard(facts) {
+  const forecast = facts.forecast;
+  if (!forecast) {
+    return {
+      key: 'forecast',
+      title: 'CSM 전망',
+      status: 'warning',
+      summary: '해당 회사의 전망 계약을 찾지 못했습니다.',
+      evidence: [],
+      calculation: [],
+      followUps: ['전망 생성 작업과 회사 키 매핑을 확인하세요.'],
+    };
+  }
+
+  const contractValidation = validateForecastEntry(forecast);
+  const modelMovement = forecast.independentModel?.base ?? forecast.base;
+  const modelClosing = modelMovement?.closing ?? forecast.base?.modelClosing;
+  const baseClosing = forecast.base?.closing;
+  const worstClosing = forecast.worst?.closing;
+  const targetAdjustmentOverlay = forecast.base?.targetAdjustmentOverlay ?? 0;
+  const anchor = forecast.anchor;
+  const anchorText = anchor?.type === 'management_target'
+    ? `경영계획 Base ${formatTrillion(baseClosing)}(${anchor.verificationLabel ?? '출처 확인 필요'})`
+    : `Base ${formatTrillion(baseClosing)}`;
+  const sourceEvidence = (forecast.sources ?? []).slice(0, 5).map((source) => ({
+    label: source.type ?? 'source',
+    value: `${source.title} · ${source.use}`,
+  }));
+
+  return {
+    key: 'forecast',
+    title: 'CSM 전망',
+    status: contractValidation.status === 'passed' ? 'passed' : 'warning',
+    summary: `${facts.company.name}의 독립 모델 전망은 ${formatTrillion(modelClosing)}, ${anchorText}, Worst는 ${formatTrillion(worstClosing)}다. 목표 정합화 조정 ${formatSignedTrillion(targetAdjustmentOverlay)}은 CSM 조정 등에 포함했다.`,
+    evidence: [
+      { label: '독립 모델', value: formatTrillion(modelClosing) },
+      { label: '경영계획 Base', value: `${formatTrillion(baseClosing)} · ${anchor?.verificationLabel ?? '별도 목표 없음'}` },
+      { label: 'Worst', value: formatTrillion(worstClosing) },
+      { label: '검증 상태', value: `${forecast.validation?.label ?? forecast.confidence} · ${forecast.validation?.sampleCount ?? 0}개 시점` },
+      ...sourceEvidence,
+    ],
+    calculation: [
+      {
+        label: '독립 모델 Movement',
+        formula: `${formatTrillion(modelMovement.opening)} + ${formatTrillion(modelMovement.newbiz)} + ${formatTrillion(modelMovement.interest)} + ${formatTrillion(modelMovement.adjustment)} + ${formatTrillion(modelMovement.amortization)}`,
+        value: formatTrillion(modelClosing),
+      },
+      {
+        label: 'CSM 조정 목표 정합화',
+        formula: `${formatTrillion(modelClosing)} ${targetAdjustmentOverlay >= 0 ? '+' : '-'} ${formatTrillion(Math.abs(targetAdjustmentOverlay))}`,
+        value: formatTrillion(baseClosing),
+      },
+    ],
+    followUps: [
+      `경영목표 입력 방식은 ${anchor?.verificationLabel ?? '해당 없음'}입니다.`,
+      `장기 값은 정밀 예측이 아니라 ${forecast.horizon?.terminal?.period ?? '장기'} 시나리오로 해석하세요.`,
+    ],
+  };
+}
+
 function buildPeerCard(facts) {
   const peer = facts.peerCompany;
   const peerFinancial = facts.peerFinancial;
-  if (!peer || !peerFinancial) {
+  const peerPeriod = peer?.periods?.[facts.periodKey];
+  if (!peer || !peerFinancial || !Number.isFinite(peerPeriod?.csm)) {
     return {
       key: 'peer',
       title: 'Peer 비교',
@@ -390,19 +433,21 @@ function buildPeerCard(facts) {
       summary: 'Peer 데이터를 찾지 못했습니다.',
       evidence: [],
       calculation: [],
-      followUps: ['삼성생명과 삼성화재가 모두 포함된 스냅샷인지 확인하세요.'],
+      followUps: ['같은 업권의 비교 대상과 동일 기간 데이터가 있는지 확인하세요.'],
     };
   }
 
   const comparisons = [
-    ['보유 CSM', facts.period.csm, peer.periods[facts.periodKey]?.csm ?? null, '조원'],
+    ['보유 CSM', facts.period.csm, peerPeriod.csm, '조원'],
     ['보험손익', facts.financial.insuranceProfit, peerFinancial.insuranceProfit, '조원'],
     ['투자손익', facts.financial.investmentProfit, peerFinancial.investmentProfit, '조원'],
     ['당기순이익', facts.financial.netIncome, peerFinancial.netIncome, '조원'],
     ['K-ICS', facts.financial.kics, peerFinancial.kics, '%'],
-  ];
+  ].filter(([, current, peerValue]) => Number.isFinite(current) && Number.isFinite(peerValue));
 
-  const summary = `${facts.company.name}은 ${formatTrillion(facts.period.csm)}의 보유 CSM으로 ${peer.name}보다 ${formatTrillion(Math.abs(facts.period.csm - (peer.periods[facts.periodKey]?.csm ?? 0)))} ${facts.period.csm >= (peer.periods[facts.periodKey]?.csm ?? 0) ? '크고' : '작다'}. 반면 K-ICS는 ${formatPercent(facts.financial.kics)}로 ${peer.name} 대비 ${facts.financial.kics >= peerFinancial.kics ? '높다' : '낮다'}.`;
+  const peerCsm = peerPeriod.csm;
+  const csmDifference = facts.period.csm - peerCsm;
+  const summary = `${facts.company.name}은 ${formatTrillion(facts.period.csm)}의 보유 CSM으로 ${peer.name}보다 ${formatTrillion(Math.abs(csmDifference))} ${csmDifference >= 0 ? '크고' : '작다'}. K-ICS는 ${formatPercent(facts.financial.kics)}로 ${peer.name} 대비 ${facts.financial.kics >= peerFinancial.kics ? '높다' : '낮다'}.`;
 
   return {
     key: 'peer',
@@ -431,10 +476,19 @@ function buildBriefingCard(facts, audience) {
   const peerFinancial = facts.peerFinancial;
   const peerCsm = peer?.periods?.[facts.periodKey]?.csm ?? null;
   const peerKics = peerFinancial?.kics ?? null;
+  const executiveMetrics = [
+    `보유 CSM ${formatTrillion(facts.period.csm)}`,
+    `보험손익 ${formatTrillion(facts.financial.insuranceProfit)}`,
+    Number.isFinite(facts.financial.investmentProfit)
+      ? `투자손익 ${formatTrillion(facts.financial.investmentProfit)}`
+      : null,
+    `당기순이익 ${formatTrillion(facts.financial.netIncome)}`,
+    `K-ICS ${formatPercent(facts.financial.kics)}`,
+  ].filter(Boolean);
 
   const summary =
     audience === 'executive'
-      ? `${facts.company.name}은 ${facts.periodScope.periodLabel} 기준으로 보유 CSM ${formatTrillion(facts.period.csm)}, 보험손익 ${formatTrillion(facts.financial.insuranceProfit)}, 투자손익 ${formatTrillion(facts.financial.investmentProfit)}, 연결 당기순이익 ${formatTrillion(facts.financial.netIncome)}를 기록했다. 검증 상태는 ${facts.reviewState.status}다.`
+      ? `${facts.company.name}은 ${facts.periodScope.periodLabel} 기준으로 ${executiveMetrics.join(', ')}를 기록했다. 검증 상태는 ${facts.reviewState.status}다.`
       : `${facts.company.name}의 최신 검증 스냅샷은 보유 CSM ${formatTrillion(facts.period.csm)}, 신계약 ${formatTrillion(movement.newbiz)}, 이자부리 ${formatTrillion(movement.interest)}, CSM 조정 등 ${formatTrillion(movement.adjustment)}, 상각 ${formatTrillion(movement.amortization)}으로 구성된다. Peer 대비 CSM과 K-ICS 차이도 함께 봐야 한다.`;
 
   return {
@@ -446,10 +500,12 @@ function buildBriefingCard(facts, audience) {
       { label: '검증 상태', value: facts.reviewState.status },
       { label: '보유 CSM', value: formatTrillion(facts.period.csm) },
       { label: '보험손익', value: formatTrillion(facts.financial.insuranceProfit) },
-      { label: '투자손익', value: formatTrillion(facts.financial.investmentProfit) },
+      Number.isFinite(facts.financial.investmentProfit)
+        ? { label: '투자손익', value: formatTrillion(facts.financial.investmentProfit) }
+        : null,
       { label: '당기순이익', value: formatTrillion(facts.financial.netIncome) },
       { label: 'K-ICS', value: formatPercent(facts.financial.kics) },
-    ],
+    ].filter(Boolean),
     calculation: [
       {
         label: '관리손익 스냅샷',
@@ -476,8 +532,9 @@ function buildBriefingCard(facts, audience) {
 
 function buildAnswer({ cards, focusCard, audience, analysisType, question = null }) {
   const executiveStyle = audience === 'executive';
+  const cardByKey = new Map(cards.map((card) => [card.key, card]));
   const bullets = executiveStyle
-    ? [cards[3].summary, cards[1].summary, cards[2].summary]
+    ? ['briefing', 'forecast', 'movement'].map((key) => cardByKey.get(key)?.summary).filter(Boolean)
     : [focusCard.summary, ...focusCard.followUps.slice(0, 2)];
 
   return {
@@ -506,6 +563,13 @@ function buildRefusalResponse({ facts, audience, reason, message }) {
     reviewState: facts.reviewState,
     snapshotHash: facts.snapshotHash,
     generatedAt: facts.generatedAt,
+    dataContractVersion: facts.dataContractVersion,
+    runtimeContractVersion: facts.runtimeContractVersion,
+    forecastHash: facts.forecastHash,
+    forecastContractVersion: facts.forecastContractVersion,
+    forecastRuntimeContractVersion: facts.forecastRuntimeContractVersion,
+    forecastDataKind: 'scenario',
+    forecast: summarizeForecastEntry(facts.forecast),
     basis: facts.basis,
     answer: {
       title: '지원 범위 밖 질문',
@@ -528,6 +592,9 @@ function classifyQuestion(question) {
   if (/(이상|검증|오류|품질|검산)/i.test(question)) {
     return 'anomaly';
   }
+  if (/(전망|예상|forecast|base|worst|향후|미래)/i.test(question)) {
+    return 'forecast';
+  }
   if (/(변동|원인|무브먼트|movement|왜|상세)/i.test(question)) {
     return 'movement';
   }
@@ -538,20 +605,24 @@ function classifyQuestion(question) {
 }
 
 function formatTrillion(value) {
+  if (!Number.isFinite(value)) return '미제공';
   return `${(Number(value) / 1000).toFixed(1)}조원`;
 }
 
 function formatSignedTrillion(value) {
+  if (!Number.isFinite(value)) return '미제공';
   const numeric = Number(value);
   return `${numeric >= 0 ? '+' : '-'}${Math.abs(numeric / 1000).toFixed(1)}조원`;
 }
 
 function formatPercent(value) {
+  if (!Number.isFinite(value)) return '미제공';
   const numeric = Number(value);
   return `${numeric >= 0 ? '+' : ''}${numeric.toFixed(1)}%`;
 }
 
 function formatSignedPercent(value) {
+  if (!Number.isFinite(value)) return '미제공';
   const numeric = Number(value);
   return `${numeric >= 0 ? '+' : ''}${numeric.toFixed(1)}`;
 }

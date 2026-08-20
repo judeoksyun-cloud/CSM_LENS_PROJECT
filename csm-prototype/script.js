@@ -106,7 +106,7 @@ const forecastScenarios = {
   },
   worst: {
     label: "Worst",
-    description: "신계약과 CSM 조정을 Base 대비 각각 20% 악화한 일관된 하방 시나리오",
+    description: "과거 롤링 백테스트 오차 80백분위로 보정한 Worst 시나리오",
     newbizFactor: 0.8,
     interestRate: 0.01,
     adjustmentRate: -0.012,
@@ -210,7 +210,9 @@ function formatTrendWon(value, digits = 1) {
 
 function formatSignedTrendWon(value, digits = 1) {
   const numeric = Number(value);
-  return `${numeric >= 0 ? "+" : "−"}${Math.abs(numeric / 1000).toFixed(digits)}조`;
+  const rounded = Number((numeric / 1000).toFixed(digits));
+  if (rounded === 0) return `${(0).toFixed(digits)}조`;
+  return `${rounded > 0 ? "+" : "−"}${Math.abs(rounded).toFixed(digits)}조`;
 }
 
 function formatPercent(value, digits = null) {
@@ -467,7 +469,7 @@ function forecastTargetLabel(periodKey) {
 
 function forecastPeriodLabel(periodKey) {
   const { year } = parsePeriodKey(periodKey);
-  const term = { 2026: "1년 전망", 2027: "2년 전망", 2028: "3년 전망", 2030: "5년 전망", 2035: "10년 전망" }[year] ?? "전망";
+  const term = { 2026: "1년 예상", 2027: "2년 예상", 2028: "3년 예상", 2030: "5년 예상", 2035: "10년 예상" }[year] ?? "전망";
   return { term, year: `${String(year).slice(2)} YE` };
 }
 
@@ -477,12 +479,26 @@ function forecastHorizonSeries(projection, scenarioKey) {
     { period: projection.forecastMeta?.targetPeriod ?? "2026-ye", closing: projection.closing },
   ];
   const terminal = horizon?.terminal?.[scenarioKey];
-  return terminal ? [...nearTerm, terminal] : nearTerm;
+  if (!terminal || nearTerm.some((item) => item.period === terminal.period)) return nearTerm;
+  return [...nearTerm, terminal];
+}
+
+function mergeForecastSources(...groups) {
+  const sources = new Map();
+  groups.flat().filter(Boolean).forEach((source) => {
+    const key = source.id ?? source.url ?? source.title;
+    if (!sources.has(key)) sources.set(key, source);
+  });
+  return [...sources.values()];
+}
+
+function forecastTenYear(projection) {
+  return projection.forecastMeta?.horizon?.terminal ?? null;
 }
 
 function renderForecast() {
   const grid = document.querySelector("#trend-grid");
-  document.querySelector("#forecast-basis-label").textContent = "1~3Y · 5Y · 10Y";
+  document.querySelector("#forecast-basis-label").textContent = "1Y · 2Y · 3Y · 5Y · 10Y";
 
   grid.innerHTML = renderSectorCardGroups((catalog) => {
       const context = getTrendContext(catalog.key);
@@ -506,6 +522,8 @@ function renderForecast() {
       const worst = calculateForecast(context, "worst");
       const baseSeries = forecastHorizonSeries(base, "base");
       const worstSeries = forecastHorizonSeries(worst, "worst");
+      const tenYearBase = baseSeries.at(-1);
+      const tenYearWorst = worstSeries.at(-1);
       const chartValues = [...history, ...baseSeries.map((item) => item.closing), ...worstSeries.map((item) => item.closing)];
       const min = Math.min(...chartValues) * 0.97;
       const max = Math.max(...chartValues) * 1.03;
@@ -515,7 +533,7 @@ function renderForecast() {
         history.length === 1 ? 6 : 6 + (index * 34) / (history.length - 1),
       );
       const forecastX = baseSeries.map((_, index) =>
-        baseSeries.length === 1 ? 94 : 50 + (index * 46) / (baseSeries.length - 1),
+        baseSeries.length === 1 ? 94 : 50 + (index * 44) / (baseSeries.length - 1),
       );
       const actualPoints = history
         .map((value, index) => `${actualX[index]},${toMiniY(value)}`)
@@ -524,9 +542,6 @@ function renderForecast() {
       const lastValue = history.at(-1);
       const basePoints = `${lastX},${toMiniY(lastValue)} ${baseSeries.map((item, index) => `${forecastX[index]},${toMiniY(item.closing)}`).join(" ")}`;
       const worstPoints = `${lastX},${toMiniY(lastValue)} ${worstSeries.map((item, index) => `${forecastX[index]},${toMiniY(item.closing)}`).join(" ")}`;
-      const terminalBase = baseSeries.at(-1);
-      const terminalWorst = worstSeries.at(-1);
-      const terminalX = forecastX.at(-1);
 
       return `
         <button type="button" class="trend-card" data-trend-company="${catalog.key}">
@@ -544,19 +559,11 @@ function renderForecast() {
               ${baseSeries.map((item, index) => `<circle class="mini-base-point" cx="${forecastX[index]}" cy="${toMiniY(item.closing)}" r="1.5"></circle>`).join("")}
               ${worstSeries.map((item, index) => `<circle class="mini-worst-point" cx="${forecastX[index]}" cy="${toMiniY(item.closing)}" r="1.5"></circle>`).join("")}
             </svg>
-            ${history
-              .map(
-                (value, index) =>
-                  `<span class="mini-actual-value" style="left:${actualX[index]}%; top:${Math.max(1, toMiniY(value) - 8)}%">${formatTrendWon(value)}</span>`,
-              )
-              .join("")}
-            <span class="mini-forecast-value base" style="left:${terminalX}%; top:${Math.max(0, toMiniY(terminalBase.closing) - 10)}%">B ${formatTrendWon(terminalBase.closing)}</span>
-            <span class="mini-forecast-value worst" style="left:${terminalX}%; top:${Math.min(76, toMiniY(terminalWorst.closing) + 3)}%">W ${formatTrendWon(terminalWorst.closing)}</span>
-            <span class="mini-chart-labels"><small>Actual</small><small>1~3년</small><small>5년</small><small>10년</small></span>
+            <span class="mini-chart-labels"><small>실적</small><small>1~3년</small><small>5년</small><small>10년</small></span>
           </div>
           <div class="trend-card-values">
             <span><small>${periodLabel(context.periodKey)} 실적</small><strong>${formatTrendWon(context.period.csm)}</strong></span>
-            <span><small>2035년말 Base</small><strong>${formatTrendWon(terminalBase.closing)}</strong></span>
+            <span><small>10년 예상 · Base / Worst</small><strong>${tenYearBase && tenYearWorst ? `${formatTrendWon(tenYearBase.closing)} / ${formatTrendWon(tenYearWorst.closing)}` : "—"}</strong></span>
           </div>
           <span class="trend-card-action">상세 보기 ↗</span>
         </button>
@@ -579,23 +586,23 @@ function renderForecastMethodology() {
       const sectorCell = companiesInSector(catalog.sector)[0].key === catalog.key
         ? `<th class="sector-group-cell sector-${sectorMetaForCompany(catalog).key}" scope="rowgroup" rowspan="${companiesInSector(catalog.sector).length}"><span>${catalog.shortSector}</span><small>${escapeHtml(catalog.sector)}</small></th>`
         : "";
-      if (!entry) return `<tr class="${sectorCell ? "sector-start" : ""}">${sectorCell}<th class="table-company-cell forecast-company-cell" scope="row">${escapeHtml(catalog.name)}</th>${"<td>—</td>".repeat(8)}</tr>`;
+      if (!entry) return `<tr class="${sectorCell ? "sector-start" : ""}">${sectorCell}<th class="table-company-cell forecast-company-cell" scope="row">${escapeHtml(catalog.name)}</th>${"<td>—</td>".repeat(9)}</tr>`;
       const nearBase = entry.horizon.base.at(-1);
       const nearWorst = entry.horizon.worst.at(-1);
-      const terminalBase = entry.horizon.terminal.base;
-      const terminalWorst = entry.horizon.terminal.worst;
+      const tenYear = entry.horizon.terminal;
       return `
         <tr class="${sectorCell ? "sector-start" : ""}">
           ${sectorCell}
           <th class="table-company-cell forecast-company-cell" scope="row">${escapeHtml(catalog.name)}</th>
           <td>${formatTrendWon(entry.asOfCsm ?? entry.base.opening)}</td>
+          <td class="forecast-model-cell">${formatTrendWon(entry.independentModel?.base?.closing ?? entry.base.closing)}</td>
           <td class="forecast-base-cell">${formatTrendWon(entry.base.closing)}</td>
           <td class="forecast-worst-cell">${formatTrendWon(entry.worst.closing)}</td>
           <td class="forecast-base-cell">${formatTrendWon(nearBase.closing)}</td>
           <td class="forecast-worst-cell">${formatTrendWon(nearWorst.closing)}</td>
-          <td class="forecast-base-cell">${formatTrendWon(terminalBase.closing)}</td>
-          <td class="forecast-worst-cell">${formatTrendWon(terminalWorst.closing)}</td>
-          <td><span class="forecast-confidence">${escapeHtml(entry.confidence)}</span></td>
+          <td class="forecast-base-cell">${tenYear?.base ? formatTrendWon(tenYear.base.closing) : "—"}</td>
+          <td class="forecast-worst-cell">${tenYear?.worst ? formatTrendWon(tenYear.worst.closing) : "—"}</td>
+          <td><span class="forecast-confidence">${escapeHtml(entry.validation?.label ?? entry.confidence)}</span></td>
         </tr>`;
     })
     .join("");
@@ -604,42 +611,85 @@ function renderForecastMethodology() {
 function openTrendModal(companyKey) {
   const context = getTrendContext(companyKey);
   if (!context.period) return;
+  const driverPilot = forecastData.forecasts?.[companyKey]?.driverForecast;
   document.querySelector("#trend-modal-title").textContent = `${context.company.name} CSM 추이`;
   document.querySelector("#trend-modal-subtitle").textContent =
-    `${periodLabel(context.periodKey)} 최신 실적 → 1~3년 · 5년 · 10년 Base / Worst 전망`;
+    driverPilot
+      ? `${periodLabel(context.periodKey)} 실제 → Base · Worst 전망`
+      : `${periodLabel(context.periodKey)} 최신 실적 → Base · Worst 전망`;
   document.querySelector("#trend-modal-content").innerHTML = `
-    <div class="forecast-layout modal-forecast-layout">
-      <article class="forecast-chart-card">
-        <div class="forecast-chart-header">
-          <div>
-            <span>과거 실적 → 1~3년 전망 → 5년 전망 → 10년 전망</span>
-            <strong id="forecast-company-name">${context.company.name}</strong>
-          </div>
-          <div class="chart-legend">
-            <span><i class="legend-dot actual"></i>Actual</span>
-            <span><i class="legend-dot base"></i>Base</span>
-            <span><i class="legend-dot worst"></i>Worst</span>
-          </div>
-        </div>
-        <div class="forecast-chart" id="forecast-chart"></div>
-        <div class="forecast-axis-labels" id="forecast-axis-labels"></div>
-      </article>
-      <div class="scenario-stack">
-        <article class="scenario-card scenario-base" id="base-scenario-card"></article>
-        <article class="scenario-card scenario-worst" id="worst-scenario-card"></article>
-      </div>
+    <article class="forecast-executive-summary" id="forecast-executive-summary"></article>
+    <div class="forecast-detail-tabs" role="tablist" aria-label="전망 상세 구분">
+      <button type="button" role="tab" aria-selected="true" data-forecast-tab="outlook">전망 경로</button>
+      <button type="button" role="tab" aria-selected="false" data-forecast-tab="movement">Movement</button>
+      <button type="button" role="tab" aria-selected="false" data-forecast-tab="evidence">근거·검증</button>
     </div>
-    <article class="forecast-executive-brief" id="forecast-executive-brief"></article>
-    <article class="forecast-evidence" id="forecast-evidence"></article>
+    <section class="forecast-detail-panel" data-forecast-panel="movement" hidden>
+      <article class="forecast-decision-brief" id="forecast-decision-brief"></article>
+      <article class="driver-stress-panel" id="driver-stress-panel" hidden></article>
+    </section>
+    <section class="forecast-detail-panel" data-forecast-panel="outlook">
+      <div class="forecast-layout modal-forecast-layout">
+        <article class="forecast-chart-card">
+          <div class="forecast-chart-header">
+            <div>
+              <span>과거 실적 → 1년 예상 → 2년 예상 → 3년 예상 → 5년 예상 → 10년 예상</span>
+              <strong id="forecast-company-name">${context.company.name}</strong>
+            </div>
+            <div class="chart-legend">
+              <span><i class="legend-dot actual"></i>실적</span>
+              <span><i class="legend-dot base"></i>Base</span>
+              <span><i class="legend-dot worst"></i>Worst</span>
+            </div>
+          </div>
+          <div class="forecast-chart" id="forecast-chart"></div>
+          <div class="forecast-axis-labels" id="forecast-axis-labels"></div>
+        </article>
+        <aside class="forecast-insight-rail" id="forecast-insight-rail"></aside>
+      </div>
+      <article class="driver-forecast-panel" id="driver-forecast-panel" hidden></article>
+    </section>
+    <section class="forecast-detail-panel" data-forecast-panel="evidence" hidden>
+      <article class="forecast-evidence" id="forecast-evidence"></article>
+    </section>
   `;
   renderTrendModalDetail(context);
+  bindForecastDetailTabs();
   trendModal.showModal();
+}
+
+function bindForecastDetailTabs() {
+  const tabs = [...document.querySelectorAll("[data-forecast-tab]")];
+  const panels = [...document.querySelectorAll("[data-forecast-panel]")];
+  const activateTab = (tabName) => {
+    tabs.forEach((item) => item.setAttribute("aria-selected", String(item.dataset.forecastTab === tabName)));
+    panels.forEach((panel) => {
+      panel.hidden = panel.dataset.forecastPanel !== tabName;
+    });
+  };
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      activateTab(tab.dataset.forecastTab);
+    });
+  });
+  document.querySelectorAll("[data-forecast-open-tab]").forEach((button) => {
+    button.addEventListener("click", () => {
+      activateTab(button.dataset.forecastOpenTab);
+      const focusTarget = button.dataset.forecastFocus
+        ? document.querySelector(button.dataset.forecastFocus)
+        : null;
+      if (focusTarget) requestAnimationFrame(() => focusTarget.scrollIntoView({ behavior: "smooth", block: "start" }));
+    });
+  });
 }
 
 function renderTrendModalDetail(context) {
   const base = calculateForecast(context, "base");
   const worst = calculateForecast(context, "worst");
+  const driverForecast = base.forecastMeta?.driverForecast;
   const target = forecastTargetLabel(context.periodKey);
+  renderForecastExecutiveSummary(context, base, worst, target, driverForecast);
+  renderForecastDecisionBrief(context, base, worst, target, driverForecast);
   const historyKeys = trendHistoryPeriodKeys(context.company);
   const history = historyKeys.map((key) => ({
     key,
@@ -663,7 +713,7 @@ function renderTrendModalDetail(context) {
   const latestActual = history.at(-1);
   const latestActualX = historyX.at(-1);
   const forecastX = baseSeries.map((_, index) =>
-    baseSeries.length === 1 ? 96 : 46 + (index * 50) / (baseSeries.length - 1),
+    baseSeries.length === 1 ? 92 : 46 + (index * 46) / (baseSeries.length - 1),
   );
   const basePoints = `${latestActualX},${toY(latestActual.value)} ${baseSeries.map((item, index) => `${forecastX[index]},${toY(item.closing)}`).join(" ")}`;
   const worstPoints = `${latestActualX},${toY(latestActual.value)} ${worstSeries.map((item, index) => `${forecastX[index]},${toY(item.closing)}`).join(" ")}`;
@@ -686,79 +736,372 @@ function renderTrendModalDetail(context) {
     ${history
       .map(
         (item, index) =>
-          `<span class="chart-value-label actual-value" style="left:${historyX[index]}%; top:${Math.max(0, toY(item.value) - 9)}%">${formatTrendWon(item.value)}</span>`,
+          `<span class="chart-value-label actual-value actual-value-${index}" style="left:${historyX[index]}%; top:${Math.max(0, toY(item.value) - 9)}%">${formatTrendWon(item.value)}</span>`,
       )
       .join("")}
-    ${baseSeries.map((item, index) => `<span class="chart-value-label forecast-series-value base-value" style="left:${forecastX[index]}%; top:${Math.max(0, toY(item.closing) - 8)}%">B ${formatTrendWon(item.closing)}</span>`).join("")}
-    ${worstSeries.map((item, index) => `<span class="chart-value-label forecast-series-value worst-value" style="left:${forecastX[index]}%; top:${Math.min(91, toY(item.closing) + 3)}%">W ${formatTrendWon(item.closing)}</span>`).join("")}
+    ${baseSeries.map((item, index) => `<span class="chart-value-label forecast-series-value forecast-series-value-${index} base-value" style="left:${forecastX[index]}%; top:${Math.max(0, toY(item.closing) - 8)}%">${formatTrendWon(item.closing)}</span>`).join("")}
+    ${worstSeries.map((item, index) => `<span class="chart-value-label forecast-series-value forecast-series-value-${index} worst-value" style="left:${forecastX[index]}%; top:${Math.min(91, toY(item.closing) + 3)}%">${formatTrendWon(item.closing)}</span>`).join("")}
   `;
 
   document.querySelector("#forecast-axis-labels").innerHTML =
     [
-      ...history.map((item, index) => ({ label: item.label, x: historyX[index], end: false })),
-      ...baseSeries.map((item, index) => ({ label: forecastPeriodLabel(item.period), x: forecastX[index], end: index === baseSeries.length - 1 })),
+      ...history.map((item, index) => ({ label: item.label, x: historyX[index], end: false, kind: "actual", index, latest: index === history.length - 1 })),
+      ...baseSeries.map((item, index) => ({ label: forecastPeriodLabel(item.period), x: forecastX[index], end: index === baseSeries.length - 1, kind: "forecast", index })),
     ]
       .map(
-        ({ label, x, end }) =>
+        ({ label, x, end, kind, index, latest }) =>
           typeof label === "string"
-            ? `<span style="left:${x}%">${label}</span>`
-            : `<span class="forecast-term-label ${end ? "forecast-end-label" : ""}" style="left:${x}%"><strong>${label.term}</strong><small>${label.year}</small></span>`,
+            ? `<span class="axis-${kind} axis-${kind}-${index} ${latest ? `axis-${kind}-latest` : ""}" style="left:${x}%">${label}</span>`
+            : `<span class="forecast-term-label forecast-term-label-${index} ${end ? "forecast-end-label" : ""}" style="left:${x}%"><strong>${label.term}</strong><small>${label.year}</small></span>`,
       )
       .join("");
 
-  renderScenarioCard("base-scenario-card", base, target, "기준 시나리오");
-  renderScenarioCard("worst-scenario-card", worst, target, "하방 시나리오");
+  renderForecastInsightRail(base, worst, driverForecast);
 
   const meta = base.forecastMeta;
   const evidence = document.querySelector("#forecast-evidence");
   if (meta) {
-    const executiveRationale = meta.horizon?.executiveRationale ?? {};
-    document.querySelector("#forecast-executive-brief").innerHTML = `
-      <div class="executive-brief-heading"><span>EXECUTIVE BRIEF</span><strong>전망 구간별 핵심 근거</strong></div>
-      <div class="executive-brief-grid">
-        <div><span>1~3년 전망</span><p>${escapeHtml(executiveRationale.years1to3 ?? "최근 실적과 계절성으로 단기 CSM을 전망")}</p></div>
-        <div><span>5년 전망</span><p>${escapeHtml(executiveRationale.year5 ?? "단기 추세와 Movement 비율을 2030년까지 연결")}</p></div>
-        <div><span>10년 전망</span><p>${escapeHtml(executiveRationale.year10 ?? "성장률 수렴과 연도별 Movement 누적으로 2035년 종착점을 산출")}</p></div>
-      </div>`;
+    const backtestMape = meta.validation?.meanAbsolutePercentageError ?? meta.model?.backtest?.meanAbsolutePercentageError;
+    const validationSamples = meta.validation?.sampleCount ?? meta.model?.backtest?.sampleCount;
+    const confidenceDetail = Number.isFinite(backtestMape)
+      ? `${meta.validation?.label ?? meta.confidence} · ${validationSamples ?? "—"}개 검증 시점 · MAPE ${(backtestMape * 100).toFixed(1)}%`
+      : `${meta.validation?.label ?? meta.confidence}`;
+    renderDriverForecastPanel(driverForecast, base, worst);
+    renderDriverStressPanel(driverForecast, base, worst);
+    const evidenceSources = mergeForecastSources(
+      driverForecast?.sources ?? [],
+      meta.evidenceSources ?? [],
+      meta.sources ?? [],
+    );
     evidence.innerHTML = `
-      <div class="forecast-evidence-heading">
-        <div><span>회사별 판단 근거 · 외부자료는 증권사 애널리스트 리포트만 사용</span><strong>${escapeHtml(context.company.name)} · ${escapeHtml(meta.confidence)} 신뢰도</strong></div>
-        <a href="../CSM_FORECAST_METHODOLOGY.md" target="_blank" rel="noreferrer">전체 방법론 ↗</a>
-      </div>
-      <div class="forecast-rationale-grid">
-        <div><span>Base 신계약</span><p>${escapeHtml(meta.qualitativeJudgment.baseNewbiz)}</p></div>
-        <div><span>Base 조정</span><p>${escapeHtml(meta.qualitativeJudgment.baseAdjustment)}</p></div>
-        <div><span>Worst</span><p>${escapeHtml(meta.qualitativeJudgment.worst)}</p></div>
-      </div>
-      <ul class="forecast-source-list">
-        ${meta.sources.map((source) => `<li><a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(source.title)} ↗</a><span>${escapeHtml(source.use)}</span></li>`).join("")}
-      </ul>`;
+      <details class="forecast-audit-details" open>
+        <summary><span>산출 근거와 출처</span><strong>${escapeHtml(context.company.name)} · ${escapeHtml(confidenceDetail)}</strong></summary>
+        <div class="forecast-audit-toolbar">
+          <span>확정 사실 · 외부 전망 · 모델 추정 · 경영 입력 · 가정</span>
+          <a href="../CSM_FORECAST_METHODOLOGY.md" target="_blank" rel="noreferrer">전체 방법론 ↗</a>
+        </div>
+        <div class="forecast-rationale-grid">
+          <div><span>Base · 신계약</span><p>${escapeHtml(meta.qualitativeJudgment.baseNewbiz)}</p></div>
+          <div><span>Base · CSM 조정</span><p>${escapeHtml(meta.qualitativeJudgment.baseAdjustment)}</p></div>
+          <div><span>Worst</span><p>${escapeHtml(meta.qualitativeJudgment.worst)}</p></div>
+        </div>
+        ${driverForecast ? `
+          <div class="forecast-audit-driver-grid">
+            <div><span>신계약 산출</span><p>과거 분기 패턴 ${formatTrendWon(driverForecast.newBusinessBridge.statisticalRemaining)}와 1분기 판매 흐름 ${formatTrendWon(driverForecast.newBusinessBridge.q1RunRateRemaining)}를 결합</p></div>
+            <div><span>서비스 제공률</span><p>최근 4개 분기 기준 분기 ${(driverForecast.serviceRelease.rate * 100).toFixed(2)}%</p></div>
+            <div><span>입력 통제</span><p>${escapeHtml(driverForecast.inputPolicy.reason)}</p></div>
+            ${driverForecast.knownBaseAnchor ? `<div><span>경영 입력 · ${escapeHtml(driverForecast.knownBaseAnchor.verificationLabel)}</span><p>Base ${formatTrendWon(driverForecast.knownBaseAnchor.value, 2)} · 독립 모델 ${formatTrendWon(driverForecast.knownBaseAnchor.modelClosing, 2)} · 연결 차이 ${formatSignedTrendWon(driverForecast.knownBaseAnchor.reconciliation, 2)}</p></div>` : ""}
+          </div>` : ""}
+        <ul class="forecast-source-list">
+          ${evidenceSources.map((source) => `<li>${source.url ? `<a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(source.title)} ↗</a>` : `<strong>${escapeHtml(source.title)}</strong>`}<span>${escapeHtml(source.use)}${source.url || source.type === "user_provided" ? "" : " · 원문 미첨부"}</span></li>`).join("")}
+        </ul>
+      </details>`;
   } else {
     evidence.hidden = true;
   }
 }
 
-function renderScenarioCard(id, projection, target, subtitle) {
-  const direction = projection.change >= 0 ? "증가" : "감소";
-  document.querySelector(`#${id}`).innerHTML = `
-    <div class="scenario-heading">
-      <span>${subtitle}</span>
-      <strong>${projection.scenario.label}</strong>
+function renderForecastExecutiveSummary(context, base, worst, target, driverForecast) {
+  const hero = document.querySelector("#forecast-executive-summary");
+  if (!hero) return;
+  const yearEndChange = base.closing - base.opening;
+  const yearEndChangeRate = base.opening ? (yearEndChange / base.opening) * 100 : 0;
+  hero.innerHTML = `
+    <div class="executive-summary-lead">
+      <strong>${target} 예상 CSM ${formatTrendWon(base.closing)}</strong>
+      <p>전년말 ${formatTrendWon(base.opening)} 대비 ${formatSignedTrendWon(yearEndChange)} · ${formatSignedPercent(yearEndChangeRate)}</p>
+    </div>`;
+}
+
+function renderMovementEvidenceDrawer(evidence, sources = [], movementLabel = "Movement") {
+  if (!evidence?.items?.length) return "";
+  const sourceById = new Map(sources.map((source) => [source.id, source]));
+  return `
+    <div class="movement-evidence-drawer-heading">
+      <div><span>EVIDENCE TRAIL</span><h4>${escapeHtml(movementLabel)} 전망 근거·출처</h4></div>
+      <button type="button" class="movement-evidence-close" aria-label="근거·출처 닫기">×</button>
     </div>
-    <div class="scenario-value">
-      <strong>${formatTrendWon(projection.closing)}</strong>
-      <span class="${projection.change >= 0 ? "positive" : "negative"}">
-        ${formatSignedTrendWon(projection.change)} · ${direction}
-      </span>
+    <div class="movement-evidence-list">
+      ${evidence.items.map((item) => {
+        const source = sourceById.get(item.sourceId);
+        return `
+          <section class="movement-evidence-item evidence-${escapeHtml(item.kind)}">
+            <div class="movement-evidence-item-heading"><span>${escapeHtml(item.label)}</span><strong>${escapeHtml(item.headline)}</strong></div>
+            <p>${escapeHtml(item.detail)}</p>
+            ${source ? `<div class="movement-evidence-source"><span>출처</span>${source.url ? `<a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(source.title)} ↗</a>` : `<strong>${escapeHtml(source.title)} · 원문 미첨부</strong>`}</div>` : ""}
+          </section>`;
+      }).join("")}
+    </div>`;
+}
+
+function renderForecastDecisionBrief(context, base, worst, target, driverForecast) {
+  const container = document.querySelector("#forecast-decision-brief");
+  if (!container) return;
+  const priorMovement = context.company.periods?.["2025-ye"]?.movement;
+  const annualChange = base.closing - base.opening;
+  const annualChangeRate = base.opening ? (annualChange / base.opening) * 100 : 0;
+  const priorNetMovement = priorMovement
+    ? priorMovement.newbiz + priorMovement.interest + priorMovement.adjustment + priorMovement.amortization
+    : null;
+  const economicNetMovement = base.newbiz + base.interest + base.adjustment + base.amortization;
+  const movementImprovement = priorNetMovement == null ? null : economicNetMovement - priorNetMovement;
+  const movementImprovementDirection = movementImprovement == null
+    ? null
+    : Math.abs(movementImprovement) < 50
+      ? "보합"
+      : movementImprovement > 0
+        ? "개선"
+        : "악화";
+  const movementEvidence = driverForecast?.movementEvidence ?? base.forecastMeta?.movementEvidence;
+  const movementEvidenceSources = mergeForecastSources(
+    driverForecast?.sources ?? [],
+    base.forecastMeta?.evidenceSources ?? [],
+    base.forecastMeta?.sources ?? [],
+  );
+  const upper = base.closing;
+  const lower = driverForecast?.distribution?.p10?.closing ?? worst.closing;
+  const reasons = driverForecast
+    ? {
+        newbiz: "1분기 건강보험 중심 판매 호조와 FC 채널 확대를 반영하되, 연중 과도한 연율화는 제한했습니다.",
+        interest: "보유 CSM과 신계약 CSM이 늘면서 계약서비스마진에 부리되는 이자도 소폭 증가합니다.",
+        adjustment: "초기 해지율이 안정화돼 전년의 큰 조정 부담은 줄지만, 연말 계리 가정 재점검 부담은 남겼습니다.",
+        amortization: "보유 CSM 증가와 보험서비스 제공 확대에 따라 손익으로 인식되는 CSM 규모가 소폭 커집니다.",
+      }
+    : {
+        newbiz: "최근 신계약 판매 흐름과 과거 분기별 계절성을 반영했습니다.",
+        interest: "보유 CSM과 신계약 CSM 규모에 연동해 이자부리를 산출했습니다.",
+        adjustment: "최근 경험조정과 연말 계리 가정 재점검 부담을 반영했습니다.",
+        amortization: "보험서비스 제공에 따라 손익으로 인식되는 최근 CSM 속도를 반영했습니다.",
+      };
+  const movementItems = [
+    { key: "newbiz", label: "신계약 CSM", current: base.newbiz, prior: priorMovement?.newbiz, reason: movementEvidence?.newbiz?.statement ?? reasons.newbiz, evidence: movementEvidence?.newbiz },
+    { key: "interest", label: "이자부리", current: base.interest, prior: priorMovement?.interest, reason: movementEvidence?.interest?.statement ?? reasons.interest, evidence: movementEvidence?.interest },
+    { key: "adjustment", label: "CSM 조정", current: base.adjustment, prior: priorMovement?.adjustment, reason: movementEvidence?.adjustment?.statement ?? reasons.adjustment, evidence: movementEvidence?.adjustment },
+    { key: "amortization", label: "CSM 상각", current: base.amortization, prior: priorMovement?.amortization, reason: movementEvidence?.amortization?.statement ?? reasons.amortization, evidence: movementEvidence?.amortization },
+  ].map((item) => ({ ...item, effect: item.prior == null ? null : item.current - item.prior }));
+  const primaryMovementItems = movementItems.filter((item) => item.key === "newbiz" || item.key === "adjustment");
+  const supportingMovementItems = movementItems.filter((item) => item.key === "interest" || item.key === "amortization");
+  const dominantMovement = movementItems
+    .filter((item) => item.effect != null)
+    .sort((left, right) => Math.abs(right.effect) - Math.abs(left.effect))[0];
+  const waterfall = movementGeometry(base);
+  container.innerHTML = `
+    <div class="forecast-movement-waterfall">
+      <div class="forecast-waterfall-heading">
+        <div><span>2026 CSM MOVEMENT</span><h3>2025년말 CSM에서 2026년말 전망까지</h3></div>
+        <strong>Base 순증 ${formatSignedTrendWon(economicNetMovement)} · 기말 ${formatTrendWon(base.closing)}</strong>
+      </div>
+      <div class="forecast-waterfall-stage">
+        <div class="forecast-waterfall-grid" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="forecast-waterfall-columns" style="--waterfall-columns:${waterfall.length}">
+          ${waterfall.map((item, index) => `
+            <div class="forecast-waterfall-column ${index === 0 ? "waterfall-opening" : index === waterfall.length - 1 ? "waterfall-closing" : ""}">
+              <strong>${index === 0 || index === waterfall.length - 1 ? formatTrendWon(item.value) : formatSignedTrendWon(item.value)}</strong>
+              <div class="forecast-waterfall-plot"><i class="${item.kind}" style="--waterfall-bottom:${item.bottom}%; --waterfall-height:${Math.max(item.height, 2.5)}%"></i></div>
+              <span>${escapeHtml(item.label)}</span>
+              <small>${index === 0 ? "2025년말" : index === waterfall.length - 1 ? "2026년말 전망" : "2026년 Movement"}</small>
+            </div>`).join("")}
+        </div>
+      </div>
     </div>
-    <p>${escapeHtml(projection.rationale ?? projection.scenario.description)}</p>
-    <dl>
-      <div><dt>신계약</dt><dd>${formatSignedTrendWon(projection.newbiz)}</dd></div>
-      <div><dt>이자부리</dt><dd>${formatSignedTrendWon(projection.interest)}</dd></div>
-      <div><dt>조정 등</dt><dd>${formatSignedTrendWon(projection.adjustment)}</dd></div>
-      <div><dt>상각</dt><dd>${formatSignedTrendWon(projection.amortization)}</dd></div>
-    </dl>
-    <small>2025년말 기시 기준 연간 Movement · ${target} 전망 · 단위 조원</small>
+    <div class="executive-outlook-heading">
+      <div><span>MOVEMENT COMMENTARY</span><h3>Movement별 전망 금액과 산출 근거</h3></div>
+      <strong>2026 전망 · 2025 비교</strong>
+    </div>
+    <div class="movement-bridge-grid movement-primary-grid">
+      ${primaryMovementItems.map((item, index) => `
+        <section class="movement-bridge-item ${item.current >= 0 ? "movement-inflow" : "movement-outflow"}">
+          <div class="movement-bridge-title"><span>0${index + 1}</span><strong>${item.label}</strong></div>
+          <div class="movement-forecast-value ${item.current >= 0 ? "forecast-positive" : "forecast-negative"}"><span>2026년 CSM 효과</span><strong>${formatSignedTrendWon(item.current)}</strong></div>
+          <div class="movement-year-comparison"><span>2025년 실제 ${item.prior == null ? "—" : formatSignedTrendWon(item.prior)}</span><b class="${item.effect != null && item.effect >= 0 ? "positive" : "negative"}">전년 대비 ${item.effect == null ? "—" : formatSignedTrendWon(item.effect)}</b></div>
+          <p><b>변동 이유</b>${escapeHtml(item.reason)}</p>
+          ${item.evidence ? `<button type="button" class="movement-evidence-tab" data-movement-evidence="${item.key}" aria-expanded="false"><span>근거·출처</span><b>${item.evidence.items.length}건</b></button>` : ""}
+        </section>`).join("")}
+      <section class="movement-supporting-summary">
+        <div class="movement-supporting-heading"><span>03</span><strong>이자부리·CSM 상각</strong><small>보유 CSM에 연동되는 보조 Movement</small></div>
+        <div class="movement-supporting-values">
+          ${supportingMovementItems.map((item) => `
+            <div>
+              <span>${item.label}</span>
+              <strong class="${item.current >= 0 ? "positive" : "negative"}">${formatSignedTrendWon(item.current)}</strong>
+              <small>전년 대비 ${item.effect == null ? "—" : formatSignedTrendWon(item.effect)}</small>
+            </div>`).join("")}
+        </div>
+        <p>보유 CSM 규모와 최근 서비스 제공 패턴에 연동해 산출했습니다. 두 항목은 기말 CSM을 연결하는 보조 Movement로 간략히 반영합니다.</p>
+      </section>
+    </div>
+    <section class="movement-evidence-drawer" id="movement-evidence-drawer" hidden></section>
+    <div class="movement-bridge-conclusion">
+      <section class="movement-conclusion-number">
+        <span>결론 · ${target} Base</span>
+        <strong>${formatTrendWon(base.closing)}</strong>
+        <b class="${annualChange >= 0 ? "positive" : "negative"}">2025년말 ${formatTrendWon(base.opening)} 대비 ${formatSignedTrendWon(annualChange)} · ${formatSignedPercent(annualChangeRate)}</b>
+      </section>
+      <section class="movement-conclusion-explanation">
+        <div><span>전망 Movement 순증</span><strong>2025 ${priorNetMovement == null ? "—" : formatSignedTrendWon(priorNetMovement)} → 2026 ${formatSignedTrendWon(economicNetMovement)}</strong><b>${movementImprovement == null ? "—" : `전년 대비 ${formatSignedTrendWon(movementImprovement)} ${movementImprovementDirection}`}</b></div>
+        <div><span>주된 사업 변동요인</span><strong>${dominantMovement ? `${dominantMovement.label} ${formatSignedTrendWon(dominantMovement.effect)} 효과` : "—"}</strong><p>${dominantMovement ? escapeHtml(dominantMovement.reason) : "비교 가능한 전년 데이터가 없습니다."}</p></div>
+        <div><span>Base / Worst</span><strong>${formatTrendWon(upper)} / ${formatTrendWon(lower)}</strong><p>2026년말 Base와 Worst 전망</p></div>
+      </section>
+    </div>
+  `;
+
+  const evidenceDrawer = container.querySelector("#movement-evidence-drawer");
+  container.querySelectorAll("[data-movement-evidence]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const item = movementItems.find((movementItem) => movementItem.key === button.dataset.movementEvidence);
+      if (!item?.evidence || !evidenceDrawer) return;
+      container.querySelectorAll("[data-movement-evidence]").forEach((tab) => {
+        const active = tab === button;
+        tab.classList.toggle("is-active", active);
+        tab.setAttribute("aria-expanded", String(active));
+      });
+      evidenceDrawer.hidden = false;
+      evidenceDrawer.innerHTML = renderMovementEvidenceDrawer(item.evidence, movementEvidenceSources, item.label);
+      evidenceDrawer.querySelector(".movement-evidence-close")?.addEventListener("click", () => {
+        evidenceDrawer.hidden = true;
+        evidenceDrawer.innerHTML = "";
+        container.querySelectorAll("[data-movement-evidence]").forEach((tab) => {
+          tab.classList.remove("is-active");
+          tab.setAttribute("aria-expanded", "false");
+        });
+      });
+    });
+  });
+}
+
+function renderForecastInsightRail(base, worst, driverForecast) {
+  const rail = document.querySelector("#forecast-insight-rail");
+  if (!rail) return;
+  const base2030 = base.forecastMeta?.horizon?.base?.find((point) => point.period === "2030-ye");
+  const tenYear = forecastTenYear(base);
+  const yearEndChange = base.closing - base.opening;
+  const longTermChange = base2030 && tenYear ? tenYear.base.closing - base2030.closing : null;
+  const longTermCagr = base2030 && tenYear ? (tenYear.base.closing / base2030.closing) ** (1 / 5) - 1 : null;
+  rail.innerHTML = `
+    <div class="insight-rail-heading"><span>CEO READOUT</span><strong>그래프에서 볼 세 가지</strong></div>
+    <ol>
+      <li><span>01 · 단기</span><strong>2026년 CSM ${formatTrendWon(base.closing)}</strong><p>신계약 창출력이 CSM 감소요인을 상쇄해 전년말 대비 ${formatSignedTrendWon(yearEndChange)} ${yearEndChange >= 0 ? "증가" : "감소"}</p></li>
+      <li><span>02 · 5년 예상</span><strong>2030년 Base ${base2030 ? formatTrendWon(base2030.closing, 2) : "—"}</strong><p>현재 사업 흐름과 Movement 가정을 2030년까지 연결한 Base 전망</p></li>
+      <li class="insight-long-term"><span>03 · 10년 예상</span><strong>2035년 Base ${tenYear ? formatTrendWon(tenYear.base.closing, 2) : "—"}</strong><p>${longTermChange == null ? "장기 데이터 없음" : `2030년 Base 대비 ${formatSignedTrendWon(longTermChange, 2)} · CAGR ${formatSignedPercent((longTermCagr ?? 0) * 100)}로 ${Math.abs((longTermCagr ?? 0) * 100) < 0.5 ? "사실상 정체" : longTermChange > 0 ? "완만한 성장" : "완만한 감소"}`}. Worst ${tenYear ? formatTrendWon(tenYear.worst.closing, 2) : "—"}</p></li>
+    </ol>
+  `;
+}
+
+function renderDriverForecastPanel(driver, base, worst) {
+  const panel = document.querySelector("#driver-forecast-panel");
+  if (!panel) return;
+  if (!base || !worst) {
+    panel.hidden = true;
+    panel.innerHTML = "";
+    return;
+  }
+
+  const p50 = driver?.distribution?.p50 ?? base;
+  const p10 = driver?.distribution?.p10 ?? worst;
+  const worstGap = p10.closing - p50.closing;
+  const baseSummary = driver?.knownBaseAnchor
+    ? `경영목표 ${formatTrendWon(driver.knownBaseAnchor.value)}를 우선 적용하고 독립 모델과의 ${formatSignedTrendWon(driver.knownBaseAnchor.reconciliation)} 차이를 CSM 조정 등에 반영했습니다.`
+    : "1분기 확정 실적과 과거 계절성, 최근 CSM 조정률을 반영한 Base 전망입니다.";
+  const worstSummary = driver
+    ? "신계약 CSM 둔화와 장래손해율·해지·비용 가정 악화에 따른 CSM 조정 부담을 함께 반영했습니다."
+    : "과거 예측오차의 하방폭을 적용해 신계약 CSM 감소와 CSM 조정 부담 확대를 함께 반영했습니다.";
+  panel.hidden = false;
+  panel.innerHTML = `
+    <div class="driver-panel-heading compact-driver-heading">
+      <div><span>2026 SCENARIO</span><strong>Base와 Worst 요약</strong></div>
+      <button type="button" class="driver-evidence-link" data-forecast-open-tab="movement" data-forecast-focus="#driver-stress-panel">Worst 상세 분석 →</button>
+    </div>
+    <div class="driver-scenario-summary">
+      <section class="driver-scenario-base">
+        <div><span>Base</span><strong>${formatTrendWon(p50.closing)}</strong></div>
+        <p>${baseSummary}</p>
+      </section>
+      <section class="driver-scenario-worst">
+        <div><span>Worst</span><strong>${formatTrendWon(p10.closing)}</strong><small>Base 대비 ${formatSignedTrendWon(worstGap)}</small></div>
+        <p>${worstSummary}</p>
+      </section>
+    </div>
+  `;
+}
+
+function renderDriverStressPanel(driver, base, worst) {
+  const panel = document.querySelector("#driver-stress-panel");
+  if (!panel) return;
+  if (!base || !worst) {
+    panel.hidden = true;
+    panel.innerHTML = "";
+    return;
+  }
+
+  if (!driver) {
+    const newbizDelta = worst.newbiz - base.newbiz;
+    const adjustmentDelta = worst.adjustment - base.adjustment;
+    const newbizDownsideRate = base.newbiz ? Math.max(0, (1 - worst.newbiz / base.newbiz) * 100) : 0;
+    panel.hidden = false;
+    panel.innerHTML = `
+      <div class="driver-panel-heading">
+        <div><span>WORST DETAIL</span><strong>Worst 하방요인 상세</strong></div>
+        <small>Base보다 CSM이 낮아지는 원인을 신계약 CSM과 CSM 조정으로 구분</small>
+      </div>
+      <div class="driver-stress-table">
+        <section class="driver-stress-group">
+          <div class="driver-stress-group-heading"><span>01</span><strong>신계약 CSM</strong><small>판매량과 계약당 수익성 하방</small></div>
+          <div class="driver-stress-row">
+            <strong>Worst 신계약 CSM</strong>
+            <span>과거 예측오차를 반영해 Base보다 ${newbizDownsideRate.toFixed(1)}% 낮게 적용</span>
+            <b>${formatSignedTrendWon(worst.newbiz)}<small>Base 대비 ${formatSignedTrendWon(newbizDelta)}</small></b>
+          </div>
+        </section>
+        <section class="driver-stress-group">
+          <div class="driver-stress-group-heading"><span>02</span><strong>CSM 조정</strong><small>경험조정·계리 가정 부담 확대</small></div>
+          <div class="driver-stress-row">
+            <strong>Worst CSM 조정</strong>
+            <span>과거 조정 오차를 반영해 경험조정과 연말 계리 가정 재점검 부담을 확대</span>
+            <b>${formatSignedTrendWon(worst.adjustment)}<small>Base 대비 ${formatSignedTrendWon(adjustmentDelta)}</small></b>
+          </div>
+        </section>
+        <div class="driver-stress-combined">
+          <div><span>최종 하방 전망</span><strong>복합 Worst</strong><small>신계약 CSM과 CSM 조정 하방 및 이자부리·상각 연동효과 반영</small></div>
+          <b>${formatTrendWon(worst.closing)}<small>${formatSignedTrendWon(worst.closing - base.closing)}</small></b>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  const { p50 } = driver.distribution;
+  const newBusinessStressRows = [driver.stressScenarios.salesSlowdown, driver.stressScenarios.marginCompression].filter(Boolean);
+  const adjustmentStressRows = [driver.stressScenarios.lapseAndExpense].filter(Boolean);
+  const combinedStress = driver.stressScenarios.combined;
+  const renderStressRows = (rows) => rows.map((stress) => `
+    <div class="driver-stress-row">
+      <strong>${escapeHtml(stress.label)}</strong>
+      <span>${escapeHtml(stress.description)}</span>
+      <b>${formatTrendWon(stress.closing)}<small>${formatSignedTrendWon(stress.closing - p50.closing)}</small></b>
+    </div>
+  `).join("");
+  panel.hidden = false;
+  panel.innerHTML = `
+    <div class="driver-panel-heading">
+      <div><span>WORST DETAIL</span><strong>Worst 하방요인 상세</strong></div>
+      <small>Base보다 CSM이 낮아지는 원인을 신계약 CSM과 CSM 조정으로 구분</small>
+    </div>
+    <div class="driver-stress-table">
+      <section class="driver-stress-group">
+        <div class="driver-stress-group-heading"><span>01</span><strong>신계약 CSM</strong><small>판매량과 계약당 수익성 하방</small></div>
+        ${renderStressRows(newBusinessStressRows)}
+      </section>
+      <section class="driver-stress-group">
+        <div class="driver-stress-group-heading"><span>02</span><strong>CSM 조정</strong><small>장래손해율·해지·사업비 가정 악화</small></div>
+        ${renderStressRows(adjustmentStressRows)}
+      </section>
+      ${combinedStress ? `
+        <div class="driver-stress-combined">
+          <div><span>최종 하방 전망</span><strong>복합 Worst</strong><small>신계약 CSM과 CSM 조정의 하방 요인을 동시 반영</small></div>
+          <b>${formatTrendWon(combinedStress.closing)}<small>${formatSignedTrendWon(combinedStress.closing - p50.closing)}</small></b>
+        </div>
+      ` : ""}
+    </div>
   `;
 }
 
@@ -776,12 +1119,12 @@ function movementItems(movement) {
 function movementGeometry(movement) {
   const items = movementItems(movement);
   const cumulative = [movement.opening];
-  for (const key of ["newbiz", "interest", "adjustment", "amortization"]) {
-    cumulative.push(cumulative.at(-1) + movement[key]);
+  for (const item of items.slice(1, -1)) {
+    cumulative.push(cumulative.at(-1) + item.value);
   }
   const max = Math.max(movement.opening, movement.closing, ...cumulative) * 1.1;
   return items.map((item, index) => {
-    if (index === 0 || index === 5) {
+    if (index === 0 || index === items.length - 1) {
       return { ...item, bottom: 0, height: (item.value / max) * 100 };
     }
     const before = cumulative[index - 1];
@@ -1021,7 +1364,7 @@ const qualityMethodology = [
       "파싱·검증이 끝난 분기별 CSM Movement를 원천으로 사용하고, 외부 보정 근거는 증권사 애널리스트 리포트만 연결. 기사·보도자료는 전망 입력에서 제외.",
     validation:
       "최근 4개 분기 비율·전년 계절성과 대조하고, 내부 계산한 2026~2035년 모든 연도에서 기시 + 신계약 + 이자 + 조정 + 상각 = 기말을 재검산.",
-    rule: "Base 신계약·조정은 실적 추이와 증권사 애널리스트 근거로 판단. Worst는 두 항목을 Base 대비 각각 20% 악화하고 이자·상각을 다시 계산. 화면에는 1~3년·5년·10년 전망만 표시.",
+    rule: "Base 신계약·조정은 전년 계절성과 최근 실적을 우선 적용하고 회사별 직접 근거가 있을 때만 애널리스트 오버레이를 제한적으로 반영. Worst는 롤링 백테스트 오차 80백분위로 보정하고 이자·상각을 다시 계산.",
   },
   {
     metric: "보험손익",
