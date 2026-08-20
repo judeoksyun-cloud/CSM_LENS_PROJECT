@@ -17,10 +17,10 @@ import {
 } from "./forecast-contract.mjs";
 
 const STAGE_DEFINITIONS = [
-  { key: "dart_ingestion", label: "DART 수집" },
-  { key: "csm_parsing", label: "CSM 파싱" },
-  { key: "movement_mapping", label: "Movement 매핑" },
-  { key: "validation", label: "검산" },
+  { key: "dart_ingestion", label: "적재 원문 확인" },
+  { key: "csm_parsing", label: "파싱 스냅샷 확인" },
+  { key: "movement_mapping", label: "Movement 계약 매핑" },
+  { key: "validation", label: "스냅샷 재검산" },
   { key: "human_review", label: "휴먼리뷰" },
 ];
 
@@ -87,6 +87,7 @@ export function createAgentRunGateway({
         forecastSummary: summarizeForecastEntry(forecastEntry),
         forecastValidation,
         reviewSummary,
+        executionMode: "snapshot_revalidation",
         validationFails: reviewSummary.failed > 0 || forecastValidation.status === "failed",
         stageMessages,
       };
@@ -214,19 +215,19 @@ function buildStageMessages(
   return {
     dart_ingestion:
       sourceReference.rceptNo != null
-        ? `공시 원문 1건 확인 · 접수번호 ${sourceReference.rceptNo}`
-        : "공시 원문 메타 확인",
+        ? `적재된 공시 원문 메타 1건 확인 · 접수번호 ${sourceReference.rceptNo}`
+        : "적재된 공시 원문 메타 확인",
     csm_parsing:
       sourceTableCount > 0
-        ? `후보 표 ${sourceTableCount}개 탐지`
-        : "CSM 후보 표 탐지",
+        ? `저장된 파싱 후보 표 ${sourceTableCount}개 확인`
+        : "저장된 CSM 후보 표 확인",
     movement_mapping: mappingNeedsReview
       ? `조정 항목 1건 검토 필요`
-      : "표준 Movement 항목으로 매핑 완료",
+      : "표준 Movement 계약 매핑 확인",
     validation:
       reviewSummary.failed > 0 || forecastValidation.status === "failed"
         ? `검산 실패 ${reviewSummary.failed + forecastValidation.reasons.length}건`
-        : "분기 Movement와 전망 계약 합계 검산 통과",
+        : "분기 Movement와 전망 계약 재검산 통과",
     human_review:
       reviewSummary.needsReview > 0
         ? `검토 큐 ${reviewSummary.needsReview}건`
@@ -274,6 +275,8 @@ function serializeRun(run, currentMs, stageDelayMs) {
       validationComplete && !run.validationFails ? run.forecastHash : null,
     forecastContractVersion: run.forecastContractVersion,
     forecastRuntimeContractVersion: run.forecastRuntimeContractVersion,
+    executionMode: run.executionMode,
+    executionNote: "현재 Agent Run은 이미 적재된 Open DART/FISIS 기반 스냅샷을 재검산하며, 실시간 수집 배치를 실행하지 않습니다.",
     updatedAt: new Date(currentMs).toISOString(),
     failureReason: runFailed
       ? `검산 단계에서 실패 ${run.reviewSummary.failed}건이 확인되어 마지막 검증 완료 스냅샷을 유지합니다.`

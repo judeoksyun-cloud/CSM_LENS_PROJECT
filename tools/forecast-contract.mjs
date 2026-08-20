@@ -106,13 +106,13 @@ function validateAnnualMovement(movement, label, reasons) {
       || movement.adjustmentBeforeTargetOverlay + movement.targetAdjustmentOverlay
         !== movement.adjustment
     ) {
-      reasons.push(`${label} CSM 조정의 목표 정합화 내역이 일치하지 않습니다.`);
+      reasons.push(`${label} CSM 조정의 경영목표 연결 내역이 일치하지 않습니다.`);
     }
     if (
       Number.isFinite(movement.modelClosing)
       && movement.modelClosing + movement.targetAdjustmentOverlay !== movement.closing
     ) {
-      reasons.push(`${label} 독립 모델과 목표 정합화 조정의 합계가 기말 CSM과 일치하지 않습니다.`);
+      reasons.push(`${label} 독립 모델과 경영목표 연결 조정의 합계가 기말 CSM과 일치하지 않습니다.`);
     }
   }
 }

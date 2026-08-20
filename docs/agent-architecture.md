@@ -122,7 +122,7 @@ Movement 표시 순서는 다음을 기본으로 한다.
 - Open DART/FISIS 수집과 원문 파싱은 Python 배치로 연결되어 있으나 실시간 요청형은 아니다.
 - LLM API 연동은 같은 origin의 preview server gateway를 통해서만 연결한다.
 - 정적 운영 화면에는 AI/Agent Run 패널이 아직 연결되어 있지 않다.
-- Agent Run 단계 진행은 현재 스냅샷 기반 시뮬레이션이며 실제 배치 실행기가 아니다.
+- Agent Run 단계 진행은 현재 스냅샷 재검산(`snapshot_revalidation`)이며 실제 DART/FISIS 배치 실행기가 아니다.
 
 ## 6-1. 화면 정보구조와 UX 원칙
 
@@ -148,7 +148,7 @@ CSM Lens의 UI는 긴 보고서형 스크롤 페이지가 아니라 분석 워�
 preview runtime은 공통 Agent Timeline 계약을 제공한다. 기본 실행 목록에는 `failed`, `needs_review`, 이후 확장 시 `not_started` 같은 미완료 상태만 노출하고, `completed` 상태는 기본적으로 숨긴다.
 
 ```text
-DART 수집 -> CSM 파싱 -> Movement 매핑 -> 검산 -> 휴먼리뷰
+적재 원문 확인 -> 파싱 스냅샷 확인 -> Movement 계약 매핑 -> 스냅샷 재검산 -> 휴먼리뷰
 ```
 
 상태 모델은 다음과 같이 고정한다.
@@ -303,7 +303,7 @@ Open DART API에서 회사 마스터, 정기보고서 목록, 공시 원문, XBR
 
 시나리오 기반 전망 초안을 생성한다. 이 에이전트는 확정적 예측을 하지 않는다.
 
-입력은 가장 최근에 공시되어 대시보드에 적재된 기간의 CSM Movement, 신계약 CSM, CSM 상각, CSM 조정 등, 보험손익, 투자손익, 시나리오 가정이다. 현재 프로토타입은 Base, Conservative, Optimistic 시나리오를 사용한다.
+입력은 가장 최근에 공시되어 대시보드에 적재된 기간의 CSM Movement, 신계약 CSM, CSM 상각, CSM 조정 등, 보험손익, 투자손익, 시나리오 가정이다. 현재 프로토타입은 Base와 Worst 시나리오를 사용한다.
 
 기간 선택값이 과거 분기여도 전망 기준은 바꾸지 않는다. 예를 들어 2025년 연말 공시 데이터가 이미 입력되어 있으면, 2025년 1분기나 2분기 기준 전망은 실적값이 존재하므로 별도 전망으로 제공하지 않고 2025년 연말 기준 다음 연말 전망만 보여준다.
 
@@ -650,7 +650,7 @@ LLM은 설명 보조와 요약 보조에만 사용하고, 진실의 원천은 �
 
 - LLM 입력에는 최신 검증 스냅샷과 현재 요청 정보만 넣는다. 원문 PDF, 업로드 파일, 미검증 초안은 넣지 않는다.
 - LLM은 숫자를 새로 발명하지 않는다. 실적은 `csm-quarterly-dashboard-data.json`, 전망은 `csm-forecast-2026.json`을 공통 런타임 계약으로 해석한 값만 사용한다.
-- 프롬프트에는 현재 회사, 현재 기간, audience, analysisType, reviewState만 명시한다.
+- 프롬프트에는 요청 회사, 요청 기간 또는 최신 기간, audience, analysisType, reviewState만 명시한다.
 - 응답은 JSON-first로 만들고 answer, evidence, calculation, followUps를 먼저 채운다.
 - dataKind, validationStatus, reviewState, periodScope, snapshotHash와 전망 응답의 forecastHash를 항상 노출한다.
 - 지원 범위를 벗어난 질문은 숫자를 생성하지 말고 grounded refusal로 응답한다.
@@ -696,8 +696,9 @@ AI는 다음을 하지 않는다.
 - 대시보드에는 전망 시점을 명시한다.
 - Base는 전년 계절성, Q1 성장 신호, 최근 최대 3개년 조정률을 사용하는 결정론적 모델을 우선한다.
 - 회사별 직접 증권사 근거가 있는 경우에만 정성 입력을 25% 오버레이한다.
-- Worst와 신뢰도는 2024·2025년 Q1 시점 연말 예측 18건의 롤링 백테스트로 보정한다.
-- 사용자가 기간을 바꾸더라도 AI는 latest-validated-only 규칙을 따른다.
+- Worst는 전 보험사 공통 단순 하방률(잔여 신계약 CSM -10%, CSM 조정 10% 악화)을 사용한다.
+- 롤링 백테스트는 Worst 산식이 아니라 신뢰도·검증 제한 라벨의 참고 표본으로 보존한다.
+- 사용자가 실적 분석 기간을 명시하면 AI는 해당 기간을 사용한다. 전망 경로는 latest-validated-only 규칙을 따른다.
 
 ## 16. 금지사항과 안전장치
 

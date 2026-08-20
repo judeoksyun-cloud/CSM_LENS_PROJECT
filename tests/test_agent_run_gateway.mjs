@@ -59,12 +59,12 @@ test("agent run returns a validation-gated snapshot and finishes with no review 
   assert.equal(validationPassed.stages[3].status, "completed");
   assert.ok(validationPassed.snapshot, "snapshot should be attached after validation");
   assert.equal(validationPassed.snapshot.sampleData["samsung-life"].name, "삼성생명");
-  assert.equal(validationPassed.forecastContractVersion, "2026.08.16-v7.3");
+  assert.equal(validationPassed.forecastContractVersion, "2026.08.16-v7.4");
   assert.equal(validationPassed.forecastRuntimeContractVersion, "csm-forecast-runtime/v1");
   assert.ok(validationPassed.forecastHash);
   assert.equal(validationPassed.forecast.independentModel, 14135);
   assert.equal(validationPassed.forecast.base, 13500);
-  assert.equal(validationPassed.forecast.worst, 12346);
+  assert.equal(validationPassed.forecast.worst, 13040);
   assert.equal(validationPassed.forecast.targetAdjustmentOverlay, -635);
   assert.equal(validationPassed.forecast.adjustmentBeforeTargetOverlay, -1640);
 
@@ -73,9 +73,12 @@ test("agent run returns a validation-gated snapshot and finishes with no review 
 
   assert.equal(finished.status, "completed");
   assert.equal(finished.stages.at(-1).status, "not_required");
-  assert.match(finished.stages[0].message, /공시 원문/);
-  assert.match(finished.stages[1].message, /후보 표/);
-  assert.match(finished.stages[3].message, /합계|검산/);
+  assert.equal(finished.executionMode, "snapshot_revalidation");
+  assert.match(finished.executionNote, /실시간 수집 배치를 실행하지 않습니다/);
+  assert.match(finished.stages[0].label, /적재 원문 확인/);
+  assert.match(finished.stages[0].message, /적재된 공시 원문 메타/);
+  assert.match(finished.stages[1].message, /저장된 파싱 후보 표/);
+  assert.match(finished.stages[3].message, /재검산/);
 });
 
 test("agent run surfaces a human review queue instead of auto-completing the final stage", async () => {

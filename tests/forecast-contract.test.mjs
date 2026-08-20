@@ -13,7 +13,7 @@ test("all nine forecasts satisfy the shared Movement and reconciliation contract
   const companyKeys = Object.keys(snapshot.data.forecasts);
 
   assert.equal(companyKeys.length, 9);
-  assert.equal(snapshot.data.version, "2026.08.16-v7.3");
+  assert.equal(snapshot.data.version, "2026.08.16-v7.5");
   assert.equal(snapshot.data.runtimeContractVersion, "csm-forecast-runtime/v1");
 
   for (const companyKey of companyKeys) {

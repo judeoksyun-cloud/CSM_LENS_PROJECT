@@ -55,7 +55,7 @@ async function analyzeRequest({ snapshotPath, forecastPath, env, fetchImpl, requ
   ]);
   const companyKey = pickCompanyKey(snapshot, request.company);
   const company = snapshot.data.sampleData[companyKey];
-  const periodKey = pickLatestPeriodKey(snapshot, companyKey);
+  const periodKey = pickPeriodKey(snapshot, companyKey, request.periodKey ?? request.period);
   const audience = normalizeAudience(request.audience);
   const analysisType = normalizeAnalysisType(request.analysisType, 'briefing');
   const facts = buildFacts(snapshot, forecastSnapshot, companyKey, periodKey);
@@ -86,7 +86,7 @@ async function chatRequest({ snapshotPath, forecastPath, env, fetchImpl, request
     readForecastSnapshot(forecastPath),
   ]);
   const companyKey = pickCompanyKey(snapshot, request.company);
-  const periodKey = pickLatestPeriodKey(snapshot, companyKey);
+  const periodKey = pickPeriodKey(snapshot, companyKey, request.periodKey ?? request.period);
   const audience = normalizeAudience(request.audience);
   const facts = buildFacts(snapshot, forecastSnapshot, companyKey, periodKey);
 
@@ -152,6 +152,19 @@ function pickCompanyKey(snapshot, requestedCompany) {
 
 function pickLatestPeriodKey(snapshot, companyKey) {
   return getLatestQuarterPeriodKey(snapshot.data, companyKey);
+}
+
+function pickPeriodKey(snapshot, companyKey, requestedPeriodKey) {
+  if (!requestedPeriodKey) {
+    return pickLatestPeriodKey(snapshot, companyKey);
+  }
+
+  const periods = snapshot.data.sampleData?.[companyKey]?.periods ?? {};
+  if (periods[requestedPeriodKey]) {
+    return requestedPeriodKey;
+  }
+
+  throw new Error(`unsupported period: ${companyKey}.${requestedPeriodKey}`);
 }
 
 function normalizeAudience(value) {
@@ -284,7 +297,7 @@ function buildAnomalyCard(facts) {
   const status = facts.reviewState.status === 'passed' ? 'passed' : 'warning';
 
   const summary = previous
-    ? `${facts.company.name}은 직전 분기 대비 보유 CSM이 ${formatSignedTrillion(qoqCsmChange)} 변했고, 성장률은 ${formatSignedPercent(qoqGrowthChange)}p 변동했다. 검증 상태는 ${facts.reviewState.status}다.`
+    ? `${facts.company.name}은 직전 분기 대비 보유 CSM이 ${formatSignedTrillion(qoqCsmChange)} 변했고, 성장률은 ${formatSignedPercentagePoint(qoqGrowthChange)} 변동했다. 검증 상태는 ${facts.reviewState.status}다.`
     : `${facts.company.name}의 최신 검증 기간은 ${facts.periodScope.periodLabel}이며 검증 상태는 ${facts.reviewState.status}다.`;
 
   return {
@@ -301,7 +314,7 @@ function buildAnomalyCard(facts) {
     calculation: previous
       ? [
           { label: '보유 CSM QoQ 변화', formula: `${formatTrillion(current.csm)} - ${formatTrillion(previous.csm)}`, value: formatSignedTrillion(qoqCsmChange) },
-          { label: '성장률 변화', formula: `${current.growth.toFixed(1)}% - ${previous.growth.toFixed(1)}%`, value: `${formatSignedPercent(qoqGrowthChange)}p` },
+          { label: '성장률 변화', formula: `${current.growth.toFixed(1)}% - ${previous.growth.toFixed(1)}%`, value: formatSignedPercentagePoint(qoqGrowthChange) },
         ]
       : [
           { label: '보유 CSM 변화', formula: '직전 기간 없음', value: formatTrillion(current.csm) },
@@ -385,6 +398,9 @@ function buildForecastCard(facts) {
   const anchorText = anchor?.type === 'management_target'
     ? `경영계획 Base ${formatTrillion(baseClosing)}(${anchor.verificationLabel ?? '출처 확인 필요'})`
     : `Base ${formatTrillion(baseClosing)}`;
+  const targetAdjustmentText = targetAdjustmentOverlay
+    ? ` 경영목표 연결 조정 ${formatSignedTrillion(targetAdjustmentOverlay)}은 경상 CSM 조정과 분리해 반영했다.`
+    : ' 별도 경영목표 입력이 없어 Base는 모델 전망값을 사용했다.';
   const sourceEvidence = (forecast.sources ?? []).slice(0, 5).map((source) => ({
     label: source.type ?? 'source',
     value: `${source.title} · ${source.use}`,
@@ -394,7 +410,7 @@ function buildForecastCard(facts) {
     key: 'forecast',
     title: 'CSM 전망',
     status: contractValidation.status === 'passed' ? 'passed' : 'warning',
-    summary: `${facts.company.name}의 독립 모델 전망은 ${formatTrillion(modelClosing)}, ${anchorText}, Worst는 ${formatTrillion(worstClosing)}다. 목표 정합화 조정 ${formatSignedTrillion(targetAdjustmentOverlay)}은 CSM 조정 등에 포함했다.`,
+    summary: `${facts.company.name}의 독립 모델 전망은 ${formatTrillion(modelClosing)}, ${anchorText}, Worst는 ${formatTrillion(worstClosing)}다.${targetAdjustmentText}`,
     evidence: [
       { label: '독립 모델', value: formatTrillion(modelClosing) },
       { label: '경영계획 Base', value: `${formatTrillion(baseClosing)} · ${anchor?.verificationLabel ?? '별도 목표 없음'}` },
@@ -409,14 +425,14 @@ function buildForecastCard(facts) {
         value: formatTrillion(modelClosing),
       },
       {
-        label: 'CSM 조정 목표 정합화',
+        label: '경영목표 연결 조정',
         formula: `${formatTrillion(modelClosing)} ${targetAdjustmentOverlay >= 0 ? '+' : '-'} ${formatTrillion(Math.abs(targetAdjustmentOverlay))}`,
         value: formatTrillion(baseClosing),
       },
     ],
     followUps: [
       `경영목표 입력 방식은 ${anchor?.verificationLabel ?? '해당 없음'}입니다.`,
-      `장기 값은 정밀 예측이 아니라 ${forecast.horizon?.terminal?.period ?? '장기'} 시나리오로 해석하세요.`,
+      `장기 값은 정밀 예측이 아니라 ${forecast.horizon?.terminal?.period ?? '장기'}까지의 Base/Worst 시나리오로 해석하세요.`,
     ],
   };
 }
@@ -447,7 +463,7 @@ function buildPeerCard(facts) {
 
   const peerCsm = peerPeriod.csm;
   const csmDifference = facts.period.csm - peerCsm;
-  const summary = `${facts.company.name}은 ${formatTrillion(facts.period.csm)}의 보유 CSM으로 ${peer.name}보다 ${formatTrillion(Math.abs(csmDifference))} ${csmDifference >= 0 ? '크고' : '작다'}. K-ICS는 ${formatPercent(facts.financial.kics)}로 ${peer.name} 대비 ${facts.financial.kics >= peerFinancial.kics ? '높다' : '낮다'}.`;
+  const summary = `${facts.company.name}은 ${formatTrillion(facts.period.csm)}의 보유 CSM으로 ${peer.name}보다 ${formatTrillion(Math.abs(csmDifference))} ${csmDifference >= 0 ? '크고' : '작다'}. K-ICS는 ${formatPercent(facts.financial.kics)}로 ${peer.name} 대비 ${formatSignedPercentagePoint(facts.financial.kics - peerFinancial.kics)} ${facts.financial.kics >= peerFinancial.kics ? '높다' : '낮다'}.`;
 
   return {
     key: 'peer',
@@ -461,7 +477,7 @@ function buildPeerCard(facts) {
     calculation: comparisons.map(([label, current, peerValue, unit]) => ({
       label,
       formula: `${formatMetricValue(label, current, unit)} - ${formatMetricValue(label, peerValue, unit)}`,
-      value: unit === '%' ? formatSignedPercent(current - peerValue) : formatSignedTrillion(current - peerValue),
+      value: unit === '%' ? formatSignedPercentagePoint(current - peerValue) : formatSignedTrillion(current - peerValue),
     })),
     followUps: [
       `${facts.company.name}와 ${peer.name}의 CSM, 손익, K-ICS 차이를 같은 기준으로 비교하세요.`,
@@ -520,7 +536,7 @@ function buildBriefingCard(facts, audience) {
       {
         label: 'Peer K-ICS 차이',
         formula: peerKics == null ? 'peer 없음' : `${formatPercent(facts.financial.kics)} - ${formatPercent(peerKics)}`,
-        value: peerKics == null ? 'n/a' : formatSignedPercent(facts.financial.kics - peerKics),
+        value: peerKics == null ? 'n/a' : formatSignedPercentagePoint(facts.financial.kics - peerKics),
       },
     ],
     followUps: [
@@ -618,13 +634,13 @@ function formatSignedTrillion(value) {
 function formatPercent(value) {
   if (!Number.isFinite(value)) return '미제공';
   const numeric = Number(value);
-  return `${numeric >= 0 ? '+' : ''}${numeric.toFixed(1)}%`;
+  return `${numeric.toFixed(1)}%`;
 }
 
-function formatSignedPercent(value) {
+function formatSignedPercentagePoint(value) {
   if (!Number.isFinite(value)) return '미제공';
   const numeric = Number(value);
-  return `${numeric >= 0 ? '+' : ''}${numeric.toFixed(1)}`;
+  return `${numeric >= 0 ? '+' : ''}${numeric.toFixed(1)}%p`;
 }
 
 function formatMetricValue(label, value, unit) {

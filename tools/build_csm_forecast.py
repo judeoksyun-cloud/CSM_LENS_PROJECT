@@ -22,9 +22,12 @@ ANALYST_OVERLAY_WEIGHT = 0.25
 DOWNSIDE_QUANTILE = 0.80
 NEWBIZ_STRESS_BOUNDS = (0.10, 0.35)
 ADJUSTMENT_DOWNSIDE_RATE_BOUNDS = (0.01, 0.08)
+WORST_NEWBIZ_DISCOUNT = 0.10
+WORST_ADJUSTMENT_STRESS = 0.10
 CALCULATION_YEARS = range(2026, 2031)
 DISPLAY_YEARS = (2026, 2027, 2028, 2030)
 TERMINAL_YEAR = 2035
+TARGET_OVERLAY_NORMALIZATION_YEARS = 3
 
 GENERAL_SOURCES = [
     {
@@ -337,7 +340,7 @@ def reconcile_annual_to_anchor(annual: dict, target_closing: int) -> int:
     annual["targetAdjustmentOverlay"] = delta
     annual["adjustment"] += delta
     annual["closing"] = target_closing
-    annual["adjustmentOverlayBasis"] = "경영목표와 독립 모델 차이를 CSM 조정 등에 포함"
+    annual["adjustmentOverlayBasis"] = "경영목표와 독립 모델 차이를 경영목표 연결 조정으로 분리"
 
     quarters = annual.get("quarters") or []
     if quarters:
@@ -370,6 +373,20 @@ def clamp(value: float, lower: float, upper: float) -> float:
 def deteriorate_adjustment(base_adjustment: int, opening: int, downside_rate: float) -> int:
     """Apply a backtest-calibrated absolute downside relative to opening CSM."""
     return base_adjustment - round(opening * downside_rate)
+
+
+def stress_adjustment_against_base(base_adjustment: int, stress_rate: float = WORST_ADJUSTMENT_STRESS) -> int:
+    """Apply the same simple Worst rule to CSM adjustment for every company."""
+    if base_adjustment < 0:
+        return round(base_adjustment * (1 + stress_rate))
+    return round(base_adjustment * (1 - stress_rate))
+
+
+def simple_worst_inputs(base_newbiz: int, base_adjustment: int) -> tuple[int, int]:
+    return (
+        round(base_newbiz * (1 - WORST_NEWBIZ_DISCOUNT)),
+        stress_adjustment_against_base(base_adjustment),
+    )
 
 
 def conservative_percentile(values: list[float], quantile: float) -> float:
@@ -560,7 +577,7 @@ def blend_calibration(company: dict, sector: dict) -> dict:
         "quantile": DOWNSIDE_QUANTILE,
         "sampleCount": company["sampleCount"],
         "sectorSampleCount": sector["sampleCount"],
-        "method": "회사별 50% + 업권별 50% 계층 보정",
+        "method": "백테스트 검증 참고값(현재 Worst 산식에는 미사용)",
         "newbizStress": round((company["newbizStress"] + sector["newbizStress"]) / 2, 6),
         "adjustmentDownsideRateToOpening": round((
             company["adjustmentDownsideRateToOpening"]
@@ -667,6 +684,8 @@ def build_horizon(
         if recurring_adjustment_rate is not None
         else base["adjustment"] / base["opening"]
     )
+    target_adjustment_overlay = base.get("targetAdjustmentOverlay", 0)
+    target_overlay_schedule = {2026: target_adjustment_overlay}
     calculated_base = {2026: annual_point(2026, base)}
     calculated_worst = {2026: annual_point(2026, worst)}
     base_opening = base["closing"]
@@ -675,16 +694,26 @@ def build_horizon(
 
     for year in tuple(CALCULATION_YEARS)[1:]:
         base_newbiz = round(base_newbiz * (1 + growth))
-        base_adjustment = round(base_opening * base_adjustment_rate)
+        recurring_base_adjustment = round(base_opening * base_adjustment_rate)
+        normalization_step = max(0, TARGET_OVERLAY_NORMALIZATION_YEARS - (year - 2026))
+        annual_target_overlay = round(
+            target_adjustment_overlay * normalization_step / TARGET_OVERLAY_NORMALIZATION_YEARS
+        )
+        target_overlay_schedule[year] = annual_target_overlay
+        base_adjustment = recurring_base_adjustment + annual_target_overlay
         base_projection = project_full_year(base_opening, base_newbiz, base_adjustment, interest_rate, amortization_rate)
+        if target_adjustment_overlay:
+            base_projection.update(
+                {
+                    "targetAdjustmentOverlay": annual_target_overlay,
+                    "adjustmentBeforeTargetOverlay": recurring_base_adjustment,
+                    "modelClosing": base_projection["closing"] - annual_target_overlay,
+                }
+            )
         worst_projection = project_full_year(
             worst_opening,
-            round(base_newbiz * (1 - calibration["newbizStress"])),
-            deteriorate_adjustment(
-                base_adjustment,
-                worst_opening,
-                calibration["adjustmentDownsideRateToOpening"],
-            ),
+            round(base_newbiz * (1 - WORST_NEWBIZ_DISCOUNT)),
+            stress_adjustment_against_base(base_adjustment),
             interest_rate,
             amortization_rate,
         )
@@ -720,12 +749,8 @@ def build_horizon(
         terminal_base = project_full_year(base_opening, base_newbiz, base_adjustment, interest_rate, amortization_rate)
         terminal_worst = project_full_year(
             worst_opening,
-            round(base_newbiz * (1 - calibration["newbizStress"])),
-            deteriorate_adjustment(
-                base_adjustment,
-                worst_opening,
-                calibration["adjustmentDownsideRateToOpening"],
-            ),
+            round(base_newbiz * (1 - WORST_NEWBIZ_DISCOUNT)),
+            stress_adjustment_against_base(base_adjustment),
             interest_rate,
             amortization_rate,
         )
@@ -745,22 +770,45 @@ def build_horizon(
             "newbizGrowth": round(growth, 6),
             "longTermNewbizGrowth": round(long_growth, 6),
             "baseAdjustmentRate": round(base_adjustment_rate, 6),
-            "worstNewbizStress": calibration["newbizStress"],
-            "worstAdjustmentDownsideRateToOpening": calibration[
-                "adjustmentDownsideRateToOpening"
-            ],
+            "worstNewbizStress": WORST_NEWBIZ_DISCOUNT,
+            "worstAdjustmentStress": WORST_ADJUSTMENT_STRESS,
             "stressCalibrationQuantile": calibration["quantile"],
             "stressCalibrationSampleCount": calibration["sampleCount"],
-            "longTermMethod": "2030년 Base와 Worst를 각각 앵커로 유지해 2035년 Base와 Worst를 산출",
+            "worstPolicy": {
+                "basis": "전 보험사 공통 단순 하방 가정",
+                "newbizDiscount": WORST_NEWBIZ_DISCOUNT,
+                "adjustmentStress": WORST_ADJUSTMENT_STRESS,
+                "q1ActualLocked": True,
+            },
+            "targetAdjustmentNormalization": (
+                {
+                    "method": "2027~2029년 3년 정액 정상화",
+                    "years": TARGET_OVERLAY_NORMALIZATION_YEARS,
+                    "schedule": {
+                        f"{year}-ye": target_overlay_schedule[year]
+                        for year in range(2026, 2030)
+                    },
+                }
+                if target_adjustment_overlay
+                else None
+            ),
+            "longTermMethod": "2030년 Base와 Worst를 각각 앵커로 유지하되 Worst는 공통 단순 하방 가정으로 산출",
         },
         "executiveRationale": {
             "years1to3": (
                 "최근 분기 실적과 전년 계절성으로 Base를 산출하고, 증권사 근거가 있는 회사만 제한적으로 반영. "
-                f"Worst는 회사별 {calibration['sampleCount']}개·업권별 {calibration.get('sectorSampleCount', 0)}개 "
-                "롤링 검증 시점의 오차를 계층 보정"
+                f"Worst는 1분기 확정 실적은 유지하고 잔여 신계약 CSM을 Base 대비 {WORST_NEWBIZ_DISCOUNT * 100:.0f}% 낮추며 "
+                f"CSM 조정은 Base 대비 {WORST_ADJUSTMENT_STRESS * 100:.0f}% 더 불리하게 적용"
             ),
-            "year5": f"과거 신계약 추세를 연 {growth * 100:+.1f}% 범위로 적용하고 2026년 CSM 조정률을 유지해 2030년까지 Movement를 연결",
-            "year10": f"2035년 Base는 신계약 증가율 연 {long_growth * 100:+.1f}%와 현재 CSM 조정률을 적용하고, Worst는 동일한 백테스트 스트레스 원칙을 장기 경로에 적용",
+            "year5": (
+                f"과거 신계약 추세를 연 {growth * 100:+.1f}% 범위로 적용하고 경상 CSM 조정률을 유지하며, "
+                + (
+                    "2026년 경영목표 연결분은 2027~2029년에 3년 정액으로 정상화해 2030년까지 Movement를 연결"
+                    if target_adjustment_overlay
+                    else "2030년까지 Movement를 연결"
+                )
+            ),
+            "year10": f"2035년 Base는 신계약 증가율 연 {long_growth * 100:+.1f}%와 현재 CSM 조정률을 적용하고, Worst는 같은 공통 하방률을 장기 경로에 적용",
         },
         "horizonConfidence": {
             "oneYear": "제한적 검증",
@@ -779,12 +827,12 @@ def worst_reason(
     base_adjustment: int,
     worst_adjustment: int,
     newbiz_stress: float,
-    adjustment_downside_rate: float,
+    adjustment_stress: float,
 ) -> str:
     return (
-        f"과거 Q1 시점 연말 예측 오차의 80백분위로 신계약 CSM을 Base 대비 "
-        f"{newbiz_stress * 100:.1f}% 낮추고, 기시 CSM의 {adjustment_downside_rate * 100:.1f}%를 "
-        f"추가 조정 부담으로 반영. 조정은 Base {signed_trillion(base_adjustment)}에서 "
+        "전 보험사에 같은 단순 하방 가정을 적용. 1분기 확정 실적은 유지하고 남은 기간 "
+        f"신계약 CSM을 Base 대비 {newbiz_stress * 100:.1f}% 낮추며, CSM 조정은 Base 대비 "
+        f"{adjustment_stress * 100:.1f}% 더 불리하게 반영. 조정은 Base {signed_trillion(base_adjustment)}에서 "
         f"Worst {signed_trillion(worst_adjustment)}으로 적용."
     )
 
@@ -816,7 +864,7 @@ def build_generic_movement_evidence(
             "title": "CSM 전망 산출 방법론",
             "url": "../CSM_FORECAST_METHODOLOGY.md",
             "type": "methodology",
-            "use": "계절성·이자·조정·상각 산식과 백테스트 기준",
+            "use": "계절성·이자·조정·상각 산식과 공통 Worst 하방률 기준",
         },
     ]
 
@@ -993,9 +1041,9 @@ def build_samsung_driver_forecast(
 ) -> dict:
     p50_newbiz = inputs["newBusiness"]["p50Remaining"]
     p50_adjustment = inputs["adjustment"]["p50Remaining"]
-    newbiz_error = calibration["newbizStress"]
-    adjustment_error = calibration["adjustmentDownsideRateToOpening"]
-    adjustment_span = round(opening * adjustment_error)
+    newbiz_error = WORST_NEWBIZ_DISCOUNT
+    adjustment_error = WORST_ADJUSTMENT_STRESS
+    stressed_adjustment = stress_adjustment_against_base(p50_adjustment, adjustment_error)
 
     def scenario(newbiz: int, adjustment: int, label: str, description: str) -> dict:
         remaining = project(
@@ -1013,9 +1061,9 @@ def build_samsung_driver_forecast(
 
     model_p10 = scenario(
         round(p50_newbiz * (1 - newbiz_error)),
-        p50_adjustment - adjustment_span,
+        stressed_adjustment,
         "Worst",
-        "신계약 판매가 예상보다 둔화되고 장래손해율·해지·비용 가정 악화로 CSM 조정 부담까지 함께 커지는 경우",
+        "1분기 확정 실적은 유지하고 남은 기간 신계약 CSM과 CSM 조정에 공통 하방률을 적용한 경우",
     )
     model_p50 = scenario(
         p50_newbiz,
@@ -1023,42 +1071,50 @@ def build_samsung_driver_forecast(
         "Base",
         "1분기 판매 호조를 일부 이어가되 과도하게 연장하지 않은 Base 경로",
     )
-    stresses = {
-        "salesSlowdown": scenario(
-            round(p50_newbiz * (1 - newbiz_error)),
-            p50_adjustment,
-            "판매 둔화",
-            "판매량 또는 상품 수익성이 예상보다 낮아 신계약 CSM 창출력이 약해지는 경우",
-        ),
-        "marginCompression": scenario(
-            round(p50_newbiz * (1 - newbiz_error / 2)),
-            p50_adjustment,
-            "수익성 압박",
-            "판매 규모는 유지되지만 상품 믹스와 마진이 나빠져 계약당 CSM이 낮아지는 경우",
-        ),
-        "lapseAndExpense": scenario(
-            p50_newbiz,
-            p50_adjustment - adjustment_span,
-            "장래손해율·해지·비용 부담",
-            "판매는 계획대로 진행되지만 장래손해율 상승, 해지 증가 또는 사업비 가정 악화로 CSM 조정 부담이 커지는 경우",
-        ),
-        "combined": scenario(
-            round(p50_newbiz * (1 - newbiz_error)),
-            p50_adjustment - adjustment_span,
-            "복합 스트레스",
-            "신계약 CSM 창출력 약화와 장래손해율·해지·비용 가정 악화가 동시에 발생하는 Worst 복합 경로",
-        ),
-    }
-
-    p10 = deepcopy(model_p10)
     p50 = deepcopy(model_p50)
     anchor_reconciliation = 0
     if known_base_anchor:
         anchor_reconciliation = known_base_anchor["value"] - model_p50["closing"]
         reconcile_annual_to_anchor(p50, known_base_anchor["value"])
-        reconcile_annual_to_anchor(p10, model_p10["closing"] + anchor_reconciliation)
-        for stress in stresses.values():
-            reconcile_annual_to_anchor(stress, stress["closing"] + anchor_reconciliation)
+
+    scenario_base_newbiz = p50["remainingForecast"]["newbiz"]
+    scenario_base_adjustment = p50["remainingForecast"]["adjustment"]
+    scenario_worst_newbiz, scenario_worst_adjustment = simple_worst_inputs(
+        scenario_base_newbiz,
+        scenario_base_adjustment,
+    )
+    p10 = scenario(
+        scenario_worst_newbiz,
+        scenario_worst_adjustment,
+        "Worst",
+        "1분기 확정 실적은 유지하고 최종 Base의 남은 기간 신계약 CSM과 CSM 조정에 공통 하방률을 적용한 경우",
+    )
+    stresses = {
+        "salesSlowdown": scenario(
+            scenario_worst_newbiz,
+            scenario_base_adjustment,
+            "신계약 CSM 하방",
+            f"판매량 감소 또는 상품 믹스·계약당 수익성 저하를 단순화해 잔여 신계약 CSM을 Base 대비 {newbiz_error * 100:.0f}% 낮추는 경우",
+        ),
+        "marginCompression": scenario(
+            scenario_worst_newbiz,
+            scenario_base_adjustment,
+            "수익성 압박",
+            f"상품 믹스와 계약당 수익성이 낮아져 잔여 신계약 CSM을 Base 대비 {newbiz_error * 100:.0f}% 낮추는 경우",
+        ),
+        "lapseAndExpense": scenario(
+            scenario_base_newbiz,
+            scenario_worst_adjustment,
+            "장래손해율·해지·비용 부담",
+            f"판매는 계획대로 진행되지만 장래손해율 상승, 해지 증가 또는 사업비 가정 악화로 CSM 조정을 Base 대비 {adjustment_error * 100:.0f}% 더 불리하게 보는 경우",
+        ),
+        "combined": scenario(
+            scenario_worst_newbiz,
+            scenario_worst_adjustment,
+            "복합 스트레스",
+            "전 보험사 공통 Worst 룰에 따라 신계약 CSM 하방과 CSM 조정 악화를 동시에 반영한 경로",
+        ),
+    }
 
     movement_evidence = {
         "newbiz": {
@@ -1117,8 +1173,8 @@ def build_samsung_driver_forecast(
             "statement": (
                 "해지 흐름 안정화와 연말 계리 가정 재점검 부담을 반영"
                 + (
-                    f". 참고: {known_base_anchor['value'] / 1000:.1f}조원 목표 정합화를 위한 "
-                    f"{anchor_reconciliation / 1000:+.2f}조원을 CSM 조정 등에 포함"
+                    f". 경상 조정과 별도로 {known_base_anchor['value'] / 1000:.1f}조원 경영목표 연결분 "
+                    f"{anchor_reconciliation / 1000:+.2f}조원을 CSM 조정에 포함"
                     if known_base_anchor
                     else ""
                 )
@@ -1147,8 +1203,8 @@ def build_samsung_driver_forecast(
                         f"{inputs['adjustment']['components']['recurringExperience'] / 1000:+.3f}조원과 "
                         f"연말 가정 재점검 예비분 {inputs['adjustment']['components']['annualAssumptionReviewReserve'] / 1000:+.3f}조원"
                         + (
-                            f"으로 구분. 여기에 {known_base_anchor['value'] / 1000:.1f}조원 목표 정합화를 위한 "
-                            f"{anchor_reconciliation / 1000:+.3f}조원을 추가해 연간 CSM 조정 등에 포함"
+                            f"으로 구분. 여기에 {known_base_anchor['value'] / 1000:.1f}조원 경영목표 연결분 "
+                            f"{anchor_reconciliation / 1000:+.3f}조원을 별도 추가해 연간 CSM 조정에 포함"
                             if known_base_anchor
                             else "으로 구분"
                         )
@@ -1187,12 +1243,14 @@ def build_samsung_driver_forecast(
         "asOfPeriod": "2026-q1",
         "targetPeriod": "2026-ye",
         "interval": {
-            "type": "company-sector hierarchical rolling error scenario",
-            "coverage": 0.80,
+            "type": "common deterministic downside scenario",
+            "coverage": None,
             "sampleCount": calibration["sampleCount"],
             "sectorSampleCount": calibration.get("sectorSampleCount"),
             "companyBacktestSamples": calibration["sampleCount"],
-            "interpretation": "Base는 경영입력 또는 모델 경로이며 Worst는 회사·업권 오차를 반영한 하방 시나리오로 확률적 최악값이 아님",
+            "newbizDiscount": WORST_NEWBIZ_DISCOUNT,
+            "adjustmentStress": WORST_ADJUSTMENT_STRESS,
+            "interpretation": "Base는 경영입력 또는 모델 경로이며 Worst는 모든 보험사에 동일한 단순 하방률을 적용한 경영진 검토용 시나리오",
         },
         "distribution": {"p10": p10, "p50": p50},
         "independentModel": {"base": model_p50, "worst": model_p10},
@@ -1214,7 +1272,7 @@ def build_samsung_driver_forecast(
                 **known_base_anchor,
                 "modelClosing": known_base_anchor["value"] - anchor_reconciliation,
                 "reconciliation": anchor_reconciliation,
-                "application": "2026년 Base의 CSM 조정 등에 목표 정합화 차이를 포함; 2027년 이후 정상화 Movement 재개",
+                "application": "2026년 Base의 CSM 조정에 목표 연결분을 별도 반영하고 2027~2029년 3년 정액으로 정상화",
             }
             if known_base_anchor
             else None
@@ -1264,12 +1322,7 @@ def build() -> dict:
             interest_rate,
             amortization_rate,
         )
-        worst_newbiz = round(base_newbiz * (1 - calibration["newbizStress"]))
-        worst_adjustment = deteriorate_adjustment(
-            base_adjustment,
-            opening,
-            calibration["adjustmentDownsideRateToOpening"],
-        )
+        worst_newbiz, worst_adjustment = simple_worst_inputs(base_newbiz, base_adjustment)
         worst_remaining = project(
             opening,
             worst_newbiz,
@@ -1292,10 +1345,20 @@ def build() -> dict:
                 base,
                 known_base_anchor["value"],
             )
-            reconcile_annual_to_anchor(
-                worst,
-                worst["closing"] + anchor_reconciliation,
+            worst_newbiz, worst_adjustment = simple_worst_inputs(
+                base["remainingForecast"]["newbiz"],
+                base["remainingForecast"]["adjustment"],
             )
+            worst_remaining = project(
+                opening,
+                worst_newbiz,
+                worst_adjustment,
+                model_inputs["newbizShares"],
+                model_inputs["adjustmentShares"],
+                interest_rate,
+                amortization_rate,
+            )
+            worst = annualize(q1_movement, worst_remaining)
         overlay_note = (
             f" 증권사 근거가 있는 정성 입력을 {analyst_weight * 100:.0f}% 오버레이."
             if analyst_weight
@@ -1309,14 +1372,14 @@ def build() -> dict:
             base_rationale = (
                 f"사용자 제공 2026년말 CSM 목표 {known_base_anchor['value'] / 1000:.1f}조원을 경영계획 Base로 적용. "
                 f"독립 모델 {model_generated_base_closing / 1000:.3f}조원과의 차이 "
-                f"{anchor_reconciliation / 1000:+.3f}조원을 CSM 조정 등에 포함."
+                f"{anchor_reconciliation / 1000:+.3f}조원을 경영목표 연결 조정으로 분리."
             )
         base.update({"rationale": base_rationale})
         worst_rationale = worst_reason(
-            base_adjustment,
-            worst_adjustment,
-            calibration["newbizStress"],
-            calibration["adjustmentDownsideRateToOpening"],
+            base["remainingForecast"]["adjustment"],
+            worst["remainingForecast"]["adjustment"],
+            WORST_NEWBIZ_DISCOUNT,
+            WORST_ADJUSTMENT_STRESS,
         )
         worst.update({"rationale": worst_rationale})
         horizon = build_horizon(
@@ -1368,7 +1431,7 @@ def build() -> dict:
                 "originalAttached": known_base_anchor["originalAttached"],
                 "modelClosing": model_generated_base_closing,
                 "reconciliation": anchor_reconciliation,
-                "note": "사용자 제공 목표를 경영계획 Base로 사용 · 모델 차이는 CSM 조정 등에 포함",
+                "note": "사용자 제공 목표를 경영계획 Base로 사용 · 모델 차이는 경영목표 연결 조정으로 분리",
             }
         direct_analyst_count = len(direct_sources) + (1 if company_key == "samsung-life" else 0)
         evidence_rating = (
@@ -1445,11 +1508,18 @@ def build() -> dict:
                 "targetAdjustmentOverlay": (
                     f"경영계획 Base {known_base_anchor['value'] / 1000:.2f}조원과 독립 모델 "
                     f"{model_generated_base_closing / 1000:.2f}조원의 차이 {anchor_reconciliation / 1000:+.2f}조원. "
-                    "CSM 조정 등에 포함."
+                    "경영목표 연결 조정으로 분리."
                     if known_base_anchor
-                    else "목표 정합화 조정 없음"
+                    else "경영목표 연결 조정 없음"
                 ),
                 "worst": worst_rationale,
+            },
+            "worstAssumption": {
+                "basis": "전 보험사 공통 단순 하방 가정",
+                "scope": "2026년 1분기 확정 실적은 유지하고 Q2~Q4 전망 입력에만 적용",
+                "newbizDiscount": WORST_NEWBIZ_DISCOUNT,
+                "adjustmentStress": WORST_ADJUSTMENT_STRESS,
+                "adjustmentDirection": "CSM 조정이 음수이면 절대 부담을 확대하고, 양수이면 기여 효과를 축소",
             },
             "confidence": company_backtest["validationLabel"],
             "validation": {
@@ -1503,15 +1573,15 @@ def build() -> dict:
                 f"통상적인 경험조정과 연말 계리 가정 재점검 부담을 구분해 반영. "
                 f"현재 해지 흐름이 안정화된 점을 감안하되 연말 변동 가능성을 남겨 잔여 모델 조정 {base_adjustment / 1000:+.2f}조원 적용. "
                 + (
-                    f"참고: {known_base_anchor['value'] / 1000:.1f}조원 목표 정합화를 위한 "
-                    f"{anchor_reconciliation / 1000:+.2f}조원을 CSM 조정 등에 포함."
+                    f"경상 조정과 별도로 {known_base_anchor['value'] / 1000:.1f}조원 경영목표 연결분 "
+                    f"{anchor_reconciliation / 1000:+.2f}조원을 CSM 조정에 포함."
                     if known_base_anchor
                     else ""
                 )
             )
             forecast_entry["base"]["rationale"] = (
                 f"사용자 제공 2026년말 CSM 목표 {known_base_anchor['value'] / 1000:.1f}조원을 경영계획 Base로 적용했습니다. "
-                f"독립 Driver 모델 대비 {anchor_reconciliation / 1000:+.3f}조원 차이를 CSM 조정 등에 포함했습니다."
+                f"독립 Driver 모델 대비 {anchor_reconciliation / 1000:+.3f}조원 차이를 경영목표 연결 조정으로 분리했습니다."
                 if known_base_anchor
                 else (
                     "1분기 신계약 호조가 연중 일부 이어지는 것으로 보되 과도한 연율화는 피했습니다. "
@@ -1519,24 +1589,26 @@ def build() -> dict:
                 )
             )
             samsung_downside_rationale = (
-                "신계약 판매 둔화와 계약당 수익성 저하가 나타나고, 해지·비용 관련 CSM 조정 부담도 "
-                "함께 커지는 경우를 반영한 Worst입니다. CSM 조정 부담에는 장래손해율 상승, 해지 증가 및 사업비 가정 악화를 포함하며, "
-                "1분기 확정 실적은 낮추지 않았습니다."
+                f"전 보험사 공통 Worst 룰입니다. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM은 Base 대비 "
+                f"{WORST_NEWBIZ_DISCOUNT * 100:.0f}% 낮추며, CSM 조정은 Base 대비 {WORST_ADJUSTMENT_STRESS * 100:.0f}% "
+                "더 불리하게 봅니다. CSM 조정 부담에는 장래손해율 상승, 해지 증가 및 사업비 가정 악화를 포함합니다."
             )
             forecast_entry["worst"]["rationale"] = samsung_downside_rationale
             forecast_entry["qualitativeJudgment"]["worst"] = samsung_downside_rationale
             forecast_entry["horizon"]["executiveRationale"]["years1to3"] = (
                 "2026년은 사용자 제공 CSM 목표 13.5조원을 경영계획 Base로 적용하고 독립 모델 전망을 병렬 공개. "
-                "Worst는 같은 목표를 출발점으로 신계약 판매 둔화와 장래손해율·해지·비용 가정 악화에 따른 CSM 조정 부담을 반영하고, 2027~2028년은 정상화 Movement로 계산"
+                f"Worst는 같은 목표를 출발점으로 잔여 신계약 CSM -{WORST_NEWBIZ_DISCOUNT * 100:.0f}%, "
+                f"CSM 조정 {WORST_ADJUSTMENT_STRESS * 100:.0f}% 악화의 공통 하방률을 적용. "
+                "2026년 목표 연결분은 2027~2029년에 3년 정액으로 정상화해 연도 간 일시적 급증을 제한"
                 if known_base_anchor
                 else (
                     "2026년은 현재 판매 흐름과 CSM 인식·조정 부담을 반영한 Base로 산출. "
-                    "Worst는 신계약 판매 둔화와 장래손해율·해지·비용 가정 악화에 따른 CSM 조정 부담을 함께 반영하고, 2027~2028년은 같은 사업 흐름을 이어 계산"
+                    f"Worst는 잔여 신계약 CSM -{WORST_NEWBIZ_DISCOUNT * 100:.0f}%, CSM 조정 {WORST_ADJUSTMENT_STRESS * 100:.0f}% 악화의 공통 하방률을 적용하고, 2027~2028년은 같은 사업 흐름을 이어 계산"
                 )
             )
         forecasts[company_key] = forecast_entry
     return {
-        "version": "2026.08.16-v7.3",
+        "version": "2026.08.16-v7.5",
         "generatedAt": "2026-08-15",
         "asOfPeriod": "2026-q1",
         "targetPeriod": "2026-ye",
@@ -1548,9 +1620,15 @@ def build() -> dict:
         "methodology": {
             "model": "rolling-origin-seasonal/v2 + samsung-driver-ensemble/v2",
             "base": "independent model view with separately disclosed management-case reconciliation",
-            "stress": "company-sector hierarchical rolling-backtest error percentile",
+            "stress": "common simple downside: Q2-Q4 newbiz -10%, CSM adjustment 10% worse than Base",
             "analystOverlayWeight": ANALYST_OVERLAY_WEIGHT,
             "driverPilot": "Samsung Life driver scenario ensemble",
+            "worst": {
+                "basis": "same rule for all nine insurers",
+                "q1ActualLocked": True,
+                "newbizDiscount": WORST_NEWBIZ_DISCOUNT,
+                "adjustmentStress": WORST_ADJUSTMENT_STRESS,
+            },
         },
         "backtest": {
             "method": backtest["method"],

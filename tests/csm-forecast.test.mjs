@@ -9,7 +9,7 @@ const dashboard = JSON.parse(readFileSync("external-data/csm-quarterly-dashboard
 
 assert.equal(forecast.asOfPeriod, "2026-q1");
 assert.equal(forecast.targetPeriod, "2026-ye");
-assert.equal(forecast.version, "2026.08.16-v7.3");
+assert.equal(forecast.version, "2026.08.16-v7.5");
 assert.equal(forecast.methodology.model, "rolling-origin-seasonal/v2 + samsung-driver-ensemble/v2");
 assert.equal(forecast.backtest.method, "rolling-origin Q1/Q2/Q3-to-year-end hindcast");
 assert.deepEqual(forecast.backtest.originQuarters, [1, 2, 3]);
@@ -96,10 +96,12 @@ for (const [companyKey, entry] of Object.entries(forecast.forecasts)) {
   }
   assert.deepEqual(entry.horizon.nearTermPeriods, forecast.nearTermPeriods);
   assert.equal(entry.horizon.terminalPeriod, forecast.terminalPeriod);
-  assert.ok(entry.horizon.assumptions.worstNewbizStress >= 0.1);
-  assert.ok(entry.horizon.assumptions.worstNewbizStress <= 0.35);
-  assert.ok(entry.horizon.assumptions.worstAdjustmentDownsideRateToOpening >= 0.01);
-  assert.ok(entry.horizon.assumptions.worstAdjustmentDownsideRateToOpening <= 0.08);
+  assert.equal(entry.worstAssumption.newbizDiscount, 0.1);
+  assert.equal(entry.worstAssumption.adjustmentStress, 0.1);
+  assert.equal(entry.horizon.assumptions.worstNewbizStress, 0.1);
+  assert.equal(entry.horizon.assumptions.worstAdjustmentStress, 0.1);
+  assert.equal(entry.horizon.assumptions.worstPolicy.newbizDiscount, 0.1);
+  assert.equal(entry.horizon.assumptions.worstPolicy.adjustmentStress, 0.1);
   assert.equal(entry.horizon.assumptions.stressCalibrationSampleCount, 6);
   assert.deepEqual(entry.horizon.horizonConfidence, {
     oneYear: "제한적 검증",
@@ -127,16 +129,19 @@ for (const [companyKey, entry] of Object.entries(forecast.forecasts)) {
   assert.equal(entry.horizon.terminal.worst.period, "2035-ye");
   assert.ok(entry.horizon.terminal.worst.closing < entry.horizon.terminal.base.closing, `${companyKey} 10-year Worst should be below Base`);
   assert.equal(entry.horizon.longTermScenarios, undefined, `${companyKey} should expose only Base and Worst at ten years`);
-  assert.equal(
-    entry.worst.remainingForecast.newbiz,
-    Math.round(
-      entry.base.remainingForecast.newbiz * (1 - entry.horizon.assumptions.worstNewbizStress),
-    ),
+  assert.ok(
+    Math.abs(
+      entry.worst.remainingForecast.newbiz
+        - entry.base.remainingForecast.newbiz * (1 - entry.horizon.assumptions.worstNewbizStress),
+    ) <= 0.5,
+    `${companyKey} Worst remaining new business should be 10% below Base within rounding tolerance`,
   );
-  assert.equal(
-    entry.worst.remainingForecast.adjustment,
-    entry.base.remainingForecast.adjustment
-      - Math.round(entry.asOfCsm * entry.horizon.assumptions.worstAdjustmentDownsideRateToOpening),
+  const expectedWorstAdjustment = entry.base.remainingForecast.adjustment < 0
+    ? entry.base.remainingForecast.adjustment * 1.1
+    : entry.base.remainingForecast.adjustment * 0.9;
+  assert.ok(
+    Math.abs(entry.worst.remainingForecast.adjustment - expectedWorstAdjustment) <= 0.5,
+    `${companyKey} Worst remaining adjustment should be 10% worse than Base within rounding tolerance`,
   );
   assert.ok(entry.worst.closing < entry.base.closing, `${companyKey} worst should be below base`);
   assert.ok(entry.horizon.executiveRationale.years1to3);
@@ -161,10 +166,18 @@ assert.equal(samsung.base.adjustment, -2275, "management target gap should be in
 assert.equal(samsung.base.quarters.at(-1).targetAdjustmentOverlay, -635);
 assert.equal(samsung.base.quarters.at(-1).closing, 13500);
 assert.equal(samsung.independentModel.base.closing, 14135);
-assert.equal(samsung.worst.closing, 12346);
-assert.equal(samsung.horizon.base.at(-1).closing, 15350);
-assert.equal(samsung.horizon.terminal.base.closing, 15525);
-assert.equal(samsung.horizon.terminal.worst.closing, 7885);
+assert.equal(samsung.worst.closing, 13040);
+assert.equal(samsung.horizon.base[1].closing, 13869);
+assert.ok(samsung.horizon.base[1].closing - samsung.base.closing < 500, "2027 should not rebound through a one-year target-overlay cliff");
+assert.deepEqual(samsung.horizon.assumptions.targetAdjustmentNormalization.schedule, {
+  "2026-ye": -635,
+  "2027-ye": -423,
+  "2028-ye": -212,
+  "2029-ye": 0,
+});
+assert.equal(samsung.horizon.base.at(-1).closing, 14988);
+assert.equal(samsung.horizon.terminal.base.closing, 15391);
+assert.equal(samsung.horizon.terminal.worst.closing, 11758);
 assert.equal(samsung.horizon.longTermScenarios, undefined);
 assert.deepEqual(Object.keys(driver.movementEvidence), ["newbiz", "interest", "adjustment", "amortization"]);
 const driverSourceIds = new Set(driver.sources.map((source) => source.id));
@@ -178,7 +191,7 @@ for (const [movementKey, evidence] of Object.entries(driver.movementEvidence)) {
 }
 assert.match(driver.movementEvidence.newbiz.items[2].detail, /60%.*40%/);
 assert.match(driver.movementEvidence.adjustment.items.find((item) => item.label === "경영진 설명").detail, /1~2%/);
-assert.match(driver.movementEvidence.adjustment.statement, /13\.5조원.*-0\.64조원.*CSM 조정 등에 포함/);
+assert.match(driver.movementEvidence.adjustment.statement, /13\.5조원.*경영목표 연결분.*-0\.64조원.*CSM 조정에 포함/);
 assert.ok(driver, "Samsung Life should expose the driver forecast pilot");
 assert.equal(
   samsung.base.newbiz + samsung.base.interest
@@ -192,10 +205,13 @@ assert.equal(samsung.base.adjustment - samsungPriorMovement.adjustment, -517);
 assert.equal(samsung.base.amortization - samsungPriorMovement.amortization, -29);
 assert.equal(driver.modelVersion, "samsung-driver-ensemble/v2");
 assert.equal(driver.status, "pilot");
-assert.equal(driver.interval.coverage, 0.8);
+assert.equal(driver.interval.coverage, null);
 assert.equal(driver.interval.sampleCount, 6);
 assert.equal(driver.interval.sectorSampleCount, 24);
 assert.equal(driver.interval.companyBacktestSamples, 6);
+assert.equal(driver.interval.newbizDiscount, 0.1);
+assert.equal(driver.interval.adjustmentStress, 0.1);
+assert.equal(driver.distribution.p10.closing, samsung.worst.closing);
 assert.ok(driver.distribution.p10.closing < driver.distribution.p50.closing);
 assert.deepEqual(Object.keys(driver.distribution), ["p10", "p50"]);
 assert.equal(driver.distribution.p50.closing, samsung.base.closing);
@@ -235,6 +251,7 @@ assert.ok(driver.stressScenarios.salesSlowdown.closing < driver.distribution.p50
 assert.ok(driver.stressScenarios.lapseAndExpense.closing < driver.distribution.p50.closing);
 assert.match(driver.stressScenarios.lapseAndExpense.label, /장래손해율/);
 assert.match(driver.stressScenarios.lapseAndExpense.description, /장래손해율.*CSM 조정/);
+assert.match(driver.stressScenarios.combined.description, /공통 Worst 룰/);
 assert.equal(
   Object.values(forecast.forecasts).filter((entry) => entry.driverForecast).length,
   1,
@@ -242,7 +259,7 @@ assert.equal(
 );
 
 assert.match(html, /forecast-data\.generated\.js/);
-assert.match(html, /2026~2035 CSM 전망 산출 기준/);
+assert.match(html, /CSM 전망은 이렇게 계산합니다/);
 assert.match(html, /id="forecast-summary-body"/);
 assert.match(html, /CSM_FORECAST_METHODOLOGY\.md/);
 assert.match(script, /window\.CSM_FORECAST_DATA/);
@@ -250,7 +267,7 @@ assert.match(script, /function renderForecastMethodology\(/);
 assert.match(script, /source\.type === "user_provided"/);
 assert.match(script, /storedEntry\.asOfPeriod === context\.periodKey/);
 assert.match(script, /확정 사실 · 외부 전망 · 모델 추정 · 경영 입력 · 가정/);
-assert.match(script, /그래프에서 볼 세 가지/);
+assert.match(script, /전망 판단/);
 assert.match(script, /1년 예상/);
 assert.match(script, /10년 예상/);
 assert.doesNotMatch(script, /assumption-strip/);
@@ -279,7 +296,7 @@ assert.match(script, /신계약 CSM과 CSM 조정으로 구분/);
 assert.match(script, /장래손해율·해지·사업비 가정 악화/);
 assert.match(script, /function renderForecastDecisionBrief\(/);
 assert.match(script, /if \(rounded === 0\) return/);
-assert.match(script, /movementImprovementDirection/);
+assert.doesNotMatch(script, /movementImprovementDirection/);
 assert.match(script, /2026 CSM MOVEMENT/);
 assert.match(script, /MOVEMENT COMMENTARY/);
 assert.match(script, /forecast-movement-waterfall/);
@@ -297,8 +314,8 @@ assert.match(script, /function renderForecastInsightRail\(/);
 assert.doesNotMatch(script, /function renderLongTermOutlook\(/);
 assert.match(script, /function forecastTenYear\(/);
 assert.match(script, /return \[\.\.\.nearTerm, terminal\]/);
-assert.match(script, /priorNetMovement/);
-assert.match(script, /movementImprovement/);
+assert.doesNotMatch(script, /priorNetMovement/);
+assert.doesNotMatch(script, /movementImprovement/);
 assert.match(script, /2026년 CSM 효과/);
 assert.match(script, /2025년 실제/);
 assert.match(script, /변동 이유/);

@@ -11,7 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260816-executive-v54" />
+    <link rel="stylesheet" href="./styles.css?v=20260820-executive-v81" />
   </head>
   <body>
     <div class="app-shell">
@@ -24,7 +24,9 @@
           </span>
         </a>
 
-        <nav class="primary-nav" aria-label="주요 화면">
+        <div class="primary-nav-shell">
+          <button class="nav-scroll-button nav-scroll-previous" type="button" data-nav-scroll="-1" aria-label="이전 대시보드 메뉴">‹</button>
+          <nav class="primary-nav" aria-label="주요 화면">
           <a class="nav-link is-active" href="#market" data-section-link="market">
             <span class="nav-number">01</span>
             <span>업권 현황</span>
@@ -57,7 +59,9 @@
             <span class="nav-number">08</span>
             <span>데이터 기준</span>
           </a>
-        </nav>
+          </nav>
+          <button class="nav-scroll-button nav-scroll-next" type="button" data-nav-scroll="1" aria-label="다음 대시보드 메뉴">›</button>
+        </div>
 
         <div class="sidebar-status">
           <span class="status-dot" aria-hidden="true"></span>
@@ -133,6 +137,7 @@
             </div>
             <div class="industry-board" id="industry-board"></div>
             <div class="comparison-table-wrap">
+              <div class="horizontal-scroll-hint" aria-hidden="true">좌우로 이동해 전체 지표 보기</div>
               <table class="comparison-table">
                 <thead>
                   <tr>
@@ -173,6 +178,7 @@
                 <span id="movement-basis-note">누적 기준 · 기시는 전년도말 · 공란은 데이터 미수집 상태입니다.</span>
               </div>
               <div class="movement-table-wrap">
+                <div class="horizontal-scroll-hint" aria-hidden="true">좌우로 이동해 기말 CSM까지 보기</div>
                 <table class="movement-table">
                   <thead>
                     <tr>
@@ -214,31 +220,34 @@
               <div class="forecast-method-heading">
                 <div>
                   <p class="section-kicker">EXPLAINABLE FORECAST</p>
-                  <h3 id="forecast-method-title">2026~2035 CSM 전망 산출 기준</h3>
-                <p>독립 모델 전망과 경영계획 Base를 분리하고, 1년·2년·3년·5년·10년의 Base와 Worst를 동일한 계약으로 표시합니다.</p>
+                  <h3 id="forecast-method-title">CSM 전망은 이렇게 계산합니다</h3>
+                  <p>최근 실적에서 출발해 신계약 성장과 CSM 감소요인을 매년 더하고 빼는 방식입니다.</p>
                 </div>
                 <a href="../CSM_FORECAST_METHODOLOGY.md" target="_blank" rel="noreferrer">상세 방법론 문서 ↗</a>
               </div>
-              <div class="forecast-method-steps">
-                <div><span>01</span><strong>독립 모델</strong><small>최근 Movement·계절성과 직접 증권사 근거로 산출</small></div>
-                <div><span>02</span><strong>경영계획 반영</strong><small>모델과 목표의 차이는 CSM 조정 등에 포함하고 별도 표시</small></div>
-                <div><span>03</span><strong>Worst 검증</strong><small>54개 과거 예측 오차로 하방폭 검증</small></div>
-                <div><span>04</span><strong>장기 시나리오</strong><small>기간이 길어질수록 검증 경로와 시나리오를 구분</small></div>
+              <div class="forecast-method-formula">
+                <span>매년 기말 CSM</span>
+                <strong>기시 CSM + 신계약 CSM + 이자부리 + CSM 조정 - CSM 상각</strong>
+              </div>
+              <div class="forecast-method-steps forecast-base-method-steps">
+                <div><span>01 · 출발점</span><strong>최신 실제 CSM</strong><small>공시된 최근 실적과 확정된 분기 Movement에서 시작</small></div>
+                <div><span>02 · 단기 전망</span><strong>2026년 사업 흐름 반영</strong><small>확정 분기, 과거 계절성, 최근 판매 흐름을 결합하고 확인된 경영목표는 Base에 우선 적용</small></div>
+                <div><span>03 · 장기 전망</span><strong>성장률을 점진적으로 안정화</strong><small>최근 3년 신계약 추세를 2030년까지 적용하고 2031년 이후 변동 폭을 절반 수준으로 축소</small></div>
               </div>
               <div class="forecast-method-note">
-                <strong>우선순위·산식</strong>
-                <span>독립 모델 전망 → CSM 조정 등에 목표 정합화 반영 → 판매·해지·비용 하방 전망</span>
-                <span>이자부리율 = 이자부리 ÷ (기시 CSM + 신계약 CSM)</span>
-                <span>상각률 = |CSM 상각| ÷ (기시 CSM + 신계약 CSM)</span>
-                <span>표시 구간 = 1년 예상 + 2년 예상 + 3년 예상 + 5년 예상 + 10년 예상</span>
+                <strong>시나리오 구분</strong>
+                <span><b>Base</b> 최근 사업 흐름을 이어간 전망</span>
+                <span><b>Worst</b> 전 보험사 공통으로 신계약 CSM 10% 감소, CSM 조정 10% 악화</span>
+                <span>장기 수치는 회사 목표가 아닌 동일 산식의 시나리오 결과</span>
               </div>
               <div class="forecast-summary-wrap">
+                <div class="horizontal-scroll-hint" aria-hidden="true">좌우로 이동해 10년 Worst까지 보기</div>
                 <table class="forecast-summary-table">
                   <thead><tr><th class="table-sector-heading">업권</th><th class="table-company-heading">회사</th><th>최근 실적</th><th>2026 모델</th><th>2026 Base</th><th>2026 Worst</th><th>2030 Base</th><th>2030 Worst</th><th>2035 Base</th><th>2035 Worst</th><th>검증 상태</th></tr></thead>
                   <tbody id="forecast-summary-body"></tbody>
                 </table>
               </div>
-              <p class="forecast-disclaimer">본 전망은 의사결정 지원용 시나리오이며 회사 공식 가이던스가 아닙니다. 경영목표와 독립 모델의 차이는 CSM 조정 등에 포함하고 그 내역과 출처 상태를 별도 보존합니다.</p>
+              <p class="forecast-disclaimer">본 전망은 의사결정 지원용 시나리오이며 회사 공식 가이던스가 아닙니다. 경영목표와 독립 모델의 차이는 경영목표 연결 조정으로 분리하고 그 내역과 출처 상태를 별도 보존합니다.</p>
             </article>
           </section>
 
@@ -252,12 +261,12 @@
               <div class="disclosure-basis">
                 <span>최근 공시 기준</span>
                 <strong id="liability-period-label">2025년말</strong>
-                <small>단위: 억원</small>
+                <small>표시 단위: 조원</small>
               </div>
             </div>
             <article class="panel disclosure-panel liability-assumption-panel">
               <div class="disclosure-note">
-                <span><i class="liability-legend positive"></i>CSM 증가 <i class="liability-legend negative"></i>CSM 감소 · 중앙 세로선은 증감 기준점</span>
+                <span><i class="liability-legend positive"></i>CSM 증가 <i class="liability-legend negative"></i>CSM 감소 · 중앙 세로선은 증감 기준점 · 모든 금액은 조원</span>
                 <button class="disclosure-full-button" type="button" data-full-metric="liability">전체보기 ↗</button>
               </div>
               <div class="liability-summary-grid" id="liability-summary-grid"></div>
@@ -302,6 +311,7 @@
             <article class="panel disclosure-panel">
               <div class="disclosure-note"><span>비율 = 예상보험금 ÷ 위험보험료</span><button class="disclosure-full-button" type="button" data-full-metric="loss">전체보기 ↗</button></div>
               <div class="compact-ratio-wrap">
+                <div class="horizontal-scroll-hint" aria-hidden="true">좌우로 이동해 장기 경과구간 보기</div>
                 <table class="compact-ratio-table" id="loss-ratio-summary-table">
                   <thead id="loss-ratio-summary-head"></thead>
                   <tbody id="loss-ratio-summary-body"></tbody>
@@ -322,6 +332,7 @@
             <article class="panel disclosure-panel">
               <div class="disclosure-note"><span>비율 = 예상유지비 ÷ 예정유지비</span><button class="disclosure-full-button" type="button" data-full-metric="expense">전체보기 ↗</button></div>
               <div class="compact-ratio-wrap">
+                <div class="horizontal-scroll-hint" aria-hidden="true">좌우로 이동해 장기 경과구간 보기</div>
                 <table class="compact-ratio-table" id="expense-ratio-summary-table">
                   <thead id="expense-ratio-summary-head"></thead>
                   <tbody id="expense-ratio-summary-body"></tbody>
@@ -384,6 +395,7 @@
                 <h3 id="quality-methodology-title">지표별 원본값과 검증 방식</h3>
               </div>
               <div class="quality-table-wrap">
+                <div class="horizontal-scroll-hint" aria-hidden="true">좌우로 이동해 검증 방식까지 보기</div>
                 <table class="quality-method-table">
                   <thead>
                     <tr>
@@ -459,7 +471,10 @@
       <div class="trend-modal-shell">
         <div class="trend-modal-header">
           <div><p class="section-kicker">FULL DISCLOSURE TABLE</p><h2 id="assumption-table-modal-title">전체보기</h2><p id="assumption-table-modal-subtitle"></p></div>
-          <button type="button" class="modal-close" id="assumption-table-modal-close" aria-label="전체보기 닫기">×</button>
+          <div class="modal-header-actions">
+            <button type="button" class="modal-download" id="assumption-table-download" aria-label="전체보기 데이터를 Excel 파일로 다운로드" aria-live="polite" disabled><span aria-hidden="true">↓</span> Excel 다운로드</button>
+            <button type="button" class="modal-close" id="assumption-table-modal-close" aria-label="전체보기 닫기">×</button>
+          </div>
         </div>
         <div id="assumption-table-modal-content"></div>
       </div>
@@ -477,8 +492,9 @@
 
     <script src="./dashboard-data.generated.js?v=20260804-official-source-v4"></script>
     <script src="./assumption-data.generated.js?v=20260804-official-source-v4"></script>
-    <script src="./forecast-data.generated.js?v=20260816-executive-v7-3"></script>
+    <script src="./forecast-data.generated.js?v=20260820-executive-v7-5-1"></script>
     <script src="./liability-assumption-data.generated.js?v=20260804-official-source-v4"></script>
-    <script src="./script.js?v=20260816-executive-v55"></script>
+    <script src="./xlsx-export.js?v=20260820-v1"></script>
+    <script src="./script.js?v=20260820-executive-v81"></script>
   </body>
 </html>

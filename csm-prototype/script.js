@@ -62,8 +62,10 @@ const movementModal = document.querySelector("#movement-modal");
 const movementModalClose = document.querySelector("#movement-modal-close");
 const assumptionTableModal = document.querySelector("#assumption-table-modal");
 const assumptionTableModalClose = document.querySelector("#assumption-table-modal-close");
+const assumptionTableDownload = document.querySelector("#assumption-table-download");
 const assumptionChartModal = document.querySelector("#assumption-chart-modal");
 const assumptionChartModalClose = document.querySelector("#assumption-chart-modal-close");
+let activeAssumptionTableType = null;
 
 const state = {
   companyKey: Object.keys(companies)[0],
@@ -106,10 +108,10 @@ const forecastScenarios = {
   },
   worst: {
     label: "Worst",
-    description: "과거 롤링 백테스트 오차 80백분위로 보정한 Worst 시나리오",
-    newbizFactor: 0.8,
-    interestRate: 0.01,
-    adjustmentRate: -0.012,
+    description: "전 보험사 공통 하방률을 적용한 Worst 시나리오",
+    newbizFactor: 0.855,
+    interestRate: 0.014,
+    adjustmentRate: -0.011,
     amortizationRate: 0.105,
   },
 };
@@ -629,6 +631,7 @@ function openTrendModal(companyKey) {
       <article class="driver-stress-panel" id="driver-stress-panel" hidden></article>
     </section>
     <section class="forecast-detail-panel" data-forecast-panel="outlook">
+      <article class="forecast-method-summary" id="forecast-method-summary"></article>
       <div class="forecast-layout modal-forecast-layout">
         <article class="forecast-chart-card">
           <div class="forecast-chart-header">
@@ -644,10 +647,10 @@ function openTrendModal(companyKey) {
           </div>
           <div class="forecast-chart" id="forecast-chart"></div>
           <div class="forecast-axis-labels" id="forecast-axis-labels"></div>
+          <div class="forecast-chart-scenario-detail" id="driver-forecast-panel" hidden></div>
         </article>
         <aside class="forecast-insight-rail" id="forecast-insight-rail"></aside>
       </div>
-      <article class="driver-forecast-panel" id="driver-forecast-panel" hidden></article>
     </section>
     <section class="forecast-detail-panel" data-forecast-panel="evidence" hidden>
       <article class="forecast-evidence" id="forecast-evidence"></article>
@@ -678,7 +681,11 @@ function bindForecastDetailTabs() {
       const focusTarget = button.dataset.forecastFocus
         ? document.querySelector(button.dataset.forecastFocus)
         : null;
-      if (focusTarget) requestAnimationFrame(() => focusTarget.scrollIntoView({ behavior: "smooth", block: "start" }));
+      if (focusTarget) {
+        const disclosure = focusTarget.matches("details") ? focusTarget : focusTarget.querySelector("details");
+        if (disclosure) disclosure.open = true;
+        requestAnimationFrame(() => focusTarget.scrollIntoView({ behavior: "smooth", block: "start" }));
+      }
     });
   });
 }
@@ -690,6 +697,7 @@ function renderTrendModalDetail(context) {
   const target = forecastTargetLabel(context.periodKey);
   renderForecastExecutiveSummary(context, base, worst, target, driverForecast);
   renderForecastDecisionBrief(context, base, worst, target, driverForecast);
+  renderForecastMethodSummary(context, base);
   const historyKeys = trendHistoryPeriodKeys(context.company);
   const history = historyKeys.map((key) => ({
     key,
@@ -752,11 +760,11 @@ function renderTrendModalDetail(context) {
         ({ label, x, end, kind, index, latest }) =>
           typeof label === "string"
             ? `<span class="axis-${kind} axis-${kind}-${index} ${latest ? `axis-${kind}-latest` : ""}" style="left:${x}%">${label}</span>`
-            : `<span class="forecast-term-label forecast-term-label-${index} ${end ? "forecast-end-label" : ""}" style="left:${x}%"><strong>${label.term}</strong><small>${label.year}</small></span>`,
+            : `<span class="forecast-term-label forecast-term-label-${index} ${end ? "forecast-end-label" : ""}" style="left:${x}%"><strong data-mobile-label="${escapeHtml(label.term.replace(" 예상", ""))}">${label.term}</strong><small>${label.year}</small></span>`,
       )
       .join("");
 
-  renderForecastInsightRail(base, worst, driverForecast);
+  renderForecastInsightRail(context, base, worst, driverForecast);
 
   const meta = base.forecastMeta;
   const evidence = document.querySelector("#forecast-evidence");
@@ -840,18 +848,7 @@ function renderForecastDecisionBrief(context, base, worst, target, driverForecas
   const priorMovement = context.company.periods?.["2025-ye"]?.movement;
   const annualChange = base.closing - base.opening;
   const annualChangeRate = base.opening ? (annualChange / base.opening) * 100 : 0;
-  const priorNetMovement = priorMovement
-    ? priorMovement.newbiz + priorMovement.interest + priorMovement.adjustment + priorMovement.amortization
-    : null;
   const economicNetMovement = base.newbiz + base.interest + base.adjustment + base.amortization;
-  const movementImprovement = priorNetMovement == null ? null : economicNetMovement - priorNetMovement;
-  const movementImprovementDirection = movementImprovement == null
-    ? null
-    : Math.abs(movementImprovement) < 50
-      ? "보합"
-      : movementImprovement > 0
-        ? "개선"
-        : "악화";
   const movementEvidence = driverForecast?.movementEvidence ?? base.forecastMeta?.movementEvidence;
   const movementEvidenceSources = mergeForecastSources(
     driverForecast?.sources ?? [],
@@ -881,9 +878,17 @@ function renderForecastDecisionBrief(context, base, worst, target, driverForecas
   ].map((item) => ({ ...item, effect: item.prior == null ? null : item.current - item.prior }));
   const primaryMovementItems = movementItems.filter((item) => item.key === "newbiz" || item.key === "adjustment");
   const supportingMovementItems = movementItems.filter((item) => item.key === "interest" || item.key === "amortization");
-  const dominantMovement = movementItems
+  const dominantContribution = [...movementItems]
+    .sort((left, right) => Math.abs(right.current) - Math.abs(left.current))[0];
+  const dominantYearChange = movementItems
     .filter((item) => item.effect != null)
     .sort((left, right) => Math.abs(right.effect) - Math.abs(left.effect))[0];
+  const targetAdjustmentOverlay = Number(
+    base.targetAdjustmentOverlay ?? driverForecast?.knownBaseAnchor?.reconciliation ?? 0,
+  );
+  const recurringAdjustment = Number.isFinite(base.adjustmentBeforeTargetOverlay)
+    ? Number(base.adjustmentBeforeTargetOverlay)
+    : base.adjustment - targetAdjustmentOverlay;
   const waterfall = movementGeometry(base);
   container.innerHTML = `
     <div class="forecast-movement-waterfall">
@@ -913,22 +918,33 @@ function renderForecastDecisionBrief(context, base, worst, target, driverForecas
         <section class="movement-bridge-item ${item.current >= 0 ? "movement-inflow" : "movement-outflow"}">
           <div class="movement-bridge-title"><span>0${index + 1}</span><strong>${item.label}</strong></div>
           <div class="movement-forecast-value ${item.current >= 0 ? "forecast-positive" : "forecast-negative"}"><span>2026년 CSM 효과</span><strong>${formatSignedTrendWon(item.current)}</strong></div>
+          ${item.key === "adjustment" && targetAdjustmentOverlay ? `
+            <div class="movement-adjustment-breakdown" aria-label="CSM 조정 구성">
+              <div><span>경상 CSM 조정</span><strong>${formatSignedTrendWon(recurringAdjustment)}</strong></div>
+              <div><span>경영목표 연결</span><strong>${formatSignedTrendWon(targetAdjustmentOverlay)}</strong></div>
+              <div><span>합계</span><strong>${formatSignedTrendWon(item.current)}</strong></div>
+            </div>` : ""}
           <div class="movement-year-comparison"><span>2025년 실제 ${item.prior == null ? "—" : formatSignedTrendWon(item.prior)}</span><b class="${item.effect != null && item.effect >= 0 ? "positive" : "negative"}">전년 대비 ${item.effect == null ? "—" : formatSignedTrendWon(item.effect)}</b></div>
           <p><b>변동 이유</b>${escapeHtml(item.reason)}</p>
           ${item.evidence ? `<button type="button" class="movement-evidence-tab" data-movement-evidence="${item.key}" aria-expanded="false"><span>근거·출처</span><b>${item.evidence.items.length}건</b></button>` : ""}
         </section>`).join("")}
-      <section class="movement-supporting-summary">
-        <div class="movement-supporting-heading"><span>03</span><strong>이자부리·CSM 상각</strong><small>보유 CSM에 연동되는 보조 Movement</small></div>
-        <div class="movement-supporting-values">
-          ${supportingMovementItems.map((item) => `
-            <div>
-              <span>${item.label}</span>
-              <strong class="${item.current >= 0 ? "positive" : "negative"}">${formatSignedTrendWon(item.current)}</strong>
-              <small>전년 대비 ${item.effect == null ? "—" : formatSignedTrendWon(item.effect)}</small>
-            </div>`).join("")}
+      <details class="movement-supporting-summary movement-secondary-details">
+        <summary>
+          <span class="movement-supporting-heading"><i>03</i><strong>이자부리·CSM 상각</strong><small>보유 CSM에 연동되는 보조 Movement</small></span>
+          <b>${supportingMovementItems.map((item) => `${item.label} ${formatSignedTrendWon(item.current)}`).join(" · ")}</b>
+        </summary>
+        <div class="movement-supporting-content">
+          <div class="movement-supporting-values">
+            ${supportingMovementItems.map((item) => `
+              <div>
+                <span>${item.label}</span>
+                <strong class="${item.current >= 0 ? "positive" : "negative"}">${formatSignedTrendWon(item.current)}</strong>
+                <small>전년 대비 ${item.effect == null ? "—" : formatSignedTrendWon(item.effect)}</small>
+              </div>`).join("")}
+          </div>
+          <p>보유 CSM 규모와 최근 서비스 제공 패턴에 연동해 산출했습니다. 두 항목은 기말 CSM을 연결하는 보조 Movement로 간략히 반영합니다.</p>
         </div>
-        <p>보유 CSM 규모와 최근 서비스 제공 패턴에 연동해 산출했습니다. 두 항목은 기말 CSM을 연결하는 보조 Movement로 간략히 반영합니다.</p>
-      </section>
+      </details>
     </div>
     <section class="movement-evidence-drawer" id="movement-evidence-drawer" hidden></section>
     <div class="movement-bridge-conclusion">
@@ -938,8 +954,8 @@ function renderForecastDecisionBrief(context, base, worst, target, driverForecas
         <b class="${annualChange >= 0 ? "positive" : "negative"}">2025년말 ${formatTrendWon(base.opening)} 대비 ${formatSignedTrendWon(annualChange)} · ${formatSignedPercent(annualChangeRate)}</b>
       </section>
       <section class="movement-conclusion-explanation">
-        <div><span>전망 Movement 순증</span><strong>2025 ${priorNetMovement == null ? "—" : formatSignedTrendWon(priorNetMovement)} → 2026 ${formatSignedTrendWon(economicNetMovement)}</strong><b>${movementImprovement == null ? "—" : `전년 대비 ${formatSignedTrendWon(movementImprovement)} ${movementImprovementDirection}`}</b></div>
-        <div><span>주된 사업 변동요인</span><strong>${dominantMovement ? `${dominantMovement.label} ${formatSignedTrendWon(dominantMovement.effect)} 효과` : "—"}</strong><p>${dominantMovement ? escapeHtml(dominantMovement.reason) : "비교 가능한 전년 데이터가 없습니다."}</p></div>
+        <div><span>2026 최대 기여항목</span><strong>${dominantContribution ? `${dominantContribution.label} ${formatSignedTrendWon(dominantContribution.current)}` : "—"}</strong><p>2026년 기말 CSM을 구성하는 Movement 중 절대 금액 기준</p></div>
+        <div><span>전년 대비 최대 변화</span><strong>${dominantYearChange ? `${dominantYearChange.label} ${formatSignedTrendWon(dominantYearChange.effect)}` : "—"}</strong><p>${dominantYearChange ? `2025년 ${formatSignedTrendWon(dominantYearChange.prior)} → 2026년 ${formatSignedTrendWon(dominantYearChange.current)}` : "비교 가능한 전년 데이터가 없습니다."}</p></div>
         <div><span>Base / Worst</span><strong>${formatTrendWon(upper)} / ${formatTrendWon(lower)}</strong><p>2026년말 Base와 Worst 전망</p></div>
       </section>
     </div>
@@ -969,20 +985,135 @@ function renderForecastDecisionBrief(context, base, worst, target, driverForecas
   });
 }
 
-function renderForecastInsightRail(base, worst, driverForecast) {
+function annualNewBusinessHistory(context, limit = 3) {
+  const periods = context.company?.periods ?? {};
+  const years = [...new Set(Object.keys(periods).map((key) => parsePeriodKey(key).year))]
+    .filter(Boolean)
+    .sort((left, right) => left - right);
+  return years
+    .map((year) => {
+      const yearEnd = periods[`${year}-ye`];
+      const fourthQuarter = periods[`${year}-q4`];
+      const annualMovement = yearEnd?.movement ?? fourthQuarter?.quarterlyAudit?.disclosedCumulativeMovement;
+      return { year, value: annualMovement?.newbiz };
+    })
+    .filter((item) => Number.isFinite(item.value))
+    .slice(-limit);
+}
+
+function formatForecastGrowth(rate) {
+  const percentage = Number(rate) * 100;
+  if (!Number.isFinite(percentage)) return "—";
+  if (Math.abs(percentage) < 0.05) return "0.0%";
+  return formatSignedPercent(percentage);
+}
+
+function forecastTrajectoryLabel(start, midpoint, end) {
+  const phase = (left, right) => {
+    if (!Number.isFinite(left) || !Number.isFinite(right) || left === 0) return "unknown";
+    const rate = (right - left) / Math.abs(left);
+    if (rate > 0.01) return "up";
+    if (rate < -0.01) return "down";
+    return "flat";
+  };
+  const middlePhase = phase(start, midpoint);
+  const longPhase = phase(midpoint, end);
+  const trajectoryLabels = {
+    "up-up": "지속 우상향",
+    "down-down": "지속 우하향",
+    "up-down": "중기 상승 후 하향",
+    "down-up": "중기 하락 후 회복",
+    "up-flat": "중기 상승 후 보합",
+    "down-flat": "중기 하락 후 보합",
+    "flat-up": "완만한 우상향",
+    "flat-down": "완만한 우하향",
+    "flat-flat": "보합권",
+  };
+  return trajectoryLabels[`${middlePhase}-${longPhase}`] ?? "방향 확인 필요";
+}
+
+function renderForecastMethodSummary(context, base) {
+  const panel = document.querySelector("#forecast-method-summary");
+  if (!panel) return;
+  const knownBaseAnchor = base.forecastMeta?.driverForecast?.knownBaseAnchor;
+  const baseSource = knownBaseAnchor
+    ? `확인된 경영목표 ${formatTrendWon(knownBaseAnchor.value)}를 2026 Base에 우선 적용`
+    : "확정 분기와 과거 계절성·최근 판매 흐름으로 2026 Base 산출";
+  panel.innerHTML = `
+    <div class="forecast-method-summary-heading">
+      <span>BASE METHOD</span>
+      <strong>최근 실적에서 시작해, 신계약과 감소요인을 매년 연결합니다</strong>
+    </div>
+    <div class="forecast-method-summary-flow">
+      <div><span>01</span><small>출발점</small><strong>${escapeHtml(periodLabel(context.periodKey))} 실제 ${formatTrendWon(context.period.csm)}</strong></div>
+      <i aria-hidden="true">→</i>
+      <div><span>02</span><small>단기</small><strong>${escapeHtml(baseSource)}</strong></div>
+      <i aria-hidden="true">→</i>
+      <div><span>03</span><small>장기</small><strong>최근 3년 신계약 추세를 적용하고 2031년 이후 변동 폭을 축소</strong></div>
+    </div>
+    <p><b>계산식</b> 기말 CSM = 기시 CSM + 신계약 CSM + 이자부리 + CSM 조정 - CSM 상각</p>
+  `;
+}
+
+function renderForecastInsightRail(context, base, worst, driverForecast) {
   const rail = document.querySelector("#forecast-insight-rail");
   if (!rail) return;
   const base2030 = base.forecastMeta?.horizon?.base?.find((point) => point.period === "2030-ye");
   const tenYear = forecastTenYear(base);
+  const terminal = tenYear?.base;
+  const assumptions = base.forecastMeta?.horizon?.assumptions ?? {};
+  const history = annualNewBusinessHistory(context);
+  const historyText = history.length
+    ? history.map((item) => `${item.year}년 ${formatTrendWon(item.value)}`).join(" → ")
+    : "과거 연간 신계약 CSM 데이터 없음";
+  const nearTermGrowth = formatForecastGrowth(assumptions.newbizGrowth);
+  const longTermGrowth = formatForecastGrowth(assumptions.longTermNewbizGrowth);
   const yearEndChange = base.closing - base.opening;
-  const longTermChange = base2030 && tenYear ? tenYear.base.closing - base2030.closing : null;
-  const longTermCagr = base2030 && tenYear ? (tenYear.base.closing / base2030.closing) ** (1 / 5) - 1 : null;
+  const adjustmentAndAmortization = base.adjustment + base.amortization;
+  const baseInflow = Math.round(base.newbiz / 100) * 100 + Math.round(base.interest / 100) * 100;
+  const baseOutflow = Math.abs(adjustmentAndAmortization);
+  const terminalInflow = terminal ? terminal.newbiz + terminal.interest : null;
+  const terminalOutflow = terminal ? Math.abs(terminal.adjustment + terminal.amortization) : null;
+  const terminalBalance = terminalInflow == null || terminalOutflow == null
+    ? "장기 Movement 데이터 없음"
+    : Math.abs(terminalInflow - terminalOutflow) < 100
+      ? `유입 ${formatTrendWon(terminalInflow)} · 감소 ${formatTrendWon(terminalOutflow)}로 거의 균형`
+      : terminalInflow > terminalOutflow
+        ? `유입 ${formatTrendWon(terminalInflow)} · 감소 ${formatTrendWon(terminalOutflow)}로 유입 우위`
+        : `유입 ${formatTrendWon(terminalInflow)} · 감소 ${formatTrendWon(terminalOutflow)}로 감소 우위`;
+  const direction = base2030 && terminal
+    ? forecastTrajectoryLabel(base.closing, base2030.closing, terminal.closing)
+    : "방향 확인 필요";
   rail.innerHTML = `
-    <div class="insight-rail-heading"><span>CEO READOUT</span><strong>그래프에서 볼 세 가지</strong></div>
+    <div class="insight-rail-heading"><span>CEO READOUT</span><strong>${escapeHtml(context.company.name)} 전망 판단</strong></div>
     <ol>
-      <li><span>01 · 단기</span><strong>2026년 CSM ${formatTrendWon(base.closing)}</strong><p>신계약 창출력이 CSM 감소요인을 상쇄해 전년말 대비 ${formatSignedTrendWon(yearEndChange)} ${yearEndChange >= 0 ? "증가" : "감소"}</p></li>
-      <li><span>02 · 5년 예상</span><strong>2030년 Base ${base2030 ? formatTrendWon(base2030.closing, 2) : "—"}</strong><p>현재 사업 흐름과 Movement 가정을 2030년까지 연결한 Base 전망</p></li>
-      <li class="insight-long-term"><span>03 · 10년 예상</span><strong>2035년 Base ${tenYear ? formatTrendWon(tenYear.base.closing, 2) : "—"}</strong><p>${longTermChange == null ? "장기 데이터 없음" : `2030년 Base 대비 ${formatSignedTrendWon(longTermChange, 2)} · CAGR ${formatSignedPercent((longTermCagr ?? 0) * 100)}로 ${Math.abs((longTermCagr ?? 0) * 100) < 0.5 ? "사실상 정체" : longTermChange > 0 ? "완만한 성장" : "완만한 감소"}`}. Worst ${tenYear ? formatTrendWon(tenYear.worst.closing, 2) : "—"}</p></li>
+      <li class="insight-conclusion">
+        <span>01 · 전망 결론</span>
+        <strong class="insight-conclusion-title"><span>${direction}</span><small>2026년 ${formatTrendWon(base.closing)} → 2035년 ${terminal ? formatTrendWon(terminal.closing) : "—"}</small></strong>
+        <div class="insight-fact-list">
+          <div><b>2026 Base</b><p>${formatTrendWon(base.closing)} · 전년말 대비 ${formatSignedTrendWon(yearEndChange)}</p></div>
+          <div><b>2030 전망</b><p>${base2030 ? formatTrendWon(base2030.closing) : "—"}</p></div>
+          <div><b>2035 전망</b><p>${terminal ? formatTrendWon(terminal.closing) : "—"} · ${direction}</p></div>
+        </div>
+      </li>
+      <li>
+        <span>02 · 핵심 성장동력</span>
+        <strong>2026년 신계약 CSM ${formatSignedTrendWon(base.newbiz)}</strong>
+        <div class="insight-fact-list">
+          <div><b>단기 산출</b><p>확정 분기 실적과 과거 계절성을 반영</p></div>
+          <div><b>과거 패턴</b><p>${historyText}</p></div>
+          <div><b>성장 가정</b><p>2030년까지 연 ${nearTermGrowth} · 이후 연 ${longTermGrowth}</p></div>
+        </div>
+      </li>
+      <li>
+        <span>03 · CSM 유지 구조</span>
+        <strong>2026년 유입 ${formatTrendWon(baseInflow)} · 감소 ${formatTrendWon(baseOutflow)}</strong>
+        <div class="insight-fact-list">
+          <div><b>유입요인</b><p>신계약 ${formatSignedTrendWon(base.newbiz)} · 이자부리 ${formatSignedTrendWon(base.interest)}</p></div>
+          <div><b>감소요인</b><p class="insight-movement-components"><span>CSM 조정 <em>${formatSignedTrendWon(base.adjustment)}</em></span><span>CSM 상각 <em>${formatSignedTrendWon(base.amortization)}</em></span></p></div>
+          <div><b>2035 구조</b><p>${terminalBalance}</p></div>
+        </div>
+      </li>
     </ol>
   `;
 }
@@ -999,16 +1130,14 @@ function renderDriverForecastPanel(driver, base, worst) {
   const p50 = driver?.distribution?.p50 ?? base;
   const p10 = driver?.distribution?.p10 ?? worst;
   const worstGap = p10.closing - p50.closing;
+  const confidence = base.forecastMeta?.horizon?.horizonConfidence;
   const baseSummary = driver?.knownBaseAnchor
-    ? `경영목표 ${formatTrendWon(driver.knownBaseAnchor.value)}를 우선 적용하고 독립 모델과의 ${formatSignedTrendWon(driver.knownBaseAnchor.reconciliation)} 차이를 CSM 조정 등에 반영했습니다.`
+    ? `경영목표 ${formatTrendWon(driver.knownBaseAnchor.value)}를 우선 적용했습니다. 독립 모델과의 ${formatSignedTrendWon(driver.knownBaseAnchor.reconciliation)} 차이는 CSM 조정에서 분리하고 2027~2029년에 단계적으로 정상화합니다.`
     : "1분기 확정 실적과 과거 계절성, 최근 CSM 조정률을 반영한 Base 전망입니다.";
-  const worstSummary = driver
-    ? "신계약 CSM 둔화와 장래손해율·해지·비용 가정 악화에 따른 CSM 조정 부담을 함께 반영했습니다."
-    : "과거 예측오차의 하방폭을 적용해 신계약 CSM 감소와 CSM 조정 부담 확대를 함께 반영했습니다.";
   panel.hidden = false;
   panel.innerHTML = `
     <div class="driver-panel-heading compact-driver-heading">
-      <div><span>2026 SCENARIO</span><strong>Base와 Worst 요약</strong></div>
+      <div><span>2026 SCENARIO</span><strong>Base 전망과 Worst 산정 기준</strong></div>
       <button type="button" class="driver-evidence-link" data-forecast-open-tab="movement" data-forecast-focus="#driver-stress-panel">Worst 상세 분석 →</button>
     </div>
     <div class="driver-scenario-summary">
@@ -1018,8 +1147,20 @@ function renderDriverForecastPanel(driver, base, worst) {
       </section>
       <section class="driver-scenario-worst">
         <div><span>Worst</span><strong>${formatTrendWon(p10.closing)}</strong><small>Base 대비 ${formatSignedTrendWon(worstGap)}</small></div>
-        <p>${worstSummary}</p>
+        <div class="driver-worst-rules">
+          <p>확정된 1분기는 유지하고, 남은 전망에 전 보험사 동일 기준을 적용합니다.</p>
+          <ul>
+            <li><span>신계약 CSM</span><b>2~4분기 Base 대비 10% 감소</b></li>
+            <li><span>CSM 조정</span><b>2~4분기 Base 대비 10% 악화</b></li>
+          </ul>
+        </div>
       </section>
+    </div>
+    <div class="scenario-confidence-note">
+      <b>전망 해석</b>
+      <span>2026 ${escapeHtml(confidence?.oneYear ?? "제한적 검증")}</span>
+      <span>2027~2028 ${escapeHtml(confidence?.twoToThreeYears ?? "모델 경로")}</span>
+      <span>2030~2035 ${escapeHtml(confidence?.tenYear ?? "장기 시나리오")}</span>
     </div>
   `;
 }
@@ -1037,40 +1178,42 @@ function renderDriverStressPanel(driver, base, worst) {
     const newbizDelta = worst.newbiz - base.newbiz;
     const adjustmentDelta = worst.adjustment - base.adjustment;
     const newbizDownsideRate = base.newbiz ? Math.max(0, (1 - worst.newbiz / base.newbiz) * 100) : 0;
+    const adjustmentStressRate = Math.abs(base.adjustment)
+      ? Math.max(0, (Math.abs(worst.adjustment) / Math.abs(base.adjustment) - 1) * 100)
+      : 0;
     panel.hidden = false;
     panel.innerHTML = `
-      <div class="driver-panel-heading">
-        <div><span>WORST DETAIL</span><strong>Worst 하방요인 상세</strong></div>
-        <small>Base보다 CSM이 낮아지는 원인을 신계약 CSM과 CSM 조정으로 구분</small>
-      </div>
-      <div class="driver-stress-table">
-        <section class="driver-stress-group">
-          <div class="driver-stress-group-heading"><span>01</span><strong>신계약 CSM</strong><small>판매량과 계약당 수익성 하방</small></div>
-          <div class="driver-stress-row">
-            <strong>Worst 신계약 CSM</strong>
-            <span>과거 예측오차를 반영해 Base보다 ${newbizDownsideRate.toFixed(1)}% 낮게 적용</span>
-            <b>${formatSignedTrendWon(worst.newbiz)}<small>Base 대비 ${formatSignedTrendWon(newbizDelta)}</small></b>
+      <details class="driver-stress-disclosure">
+        <summary><span><i>WORST DETAIL</i><strong>Worst 하방요인 상세</strong></span><small>신계약 CSM과 CSM 조정으로 구분해 보기</small></summary>
+        <div class="driver-stress-table">
+          <section class="driver-stress-group">
+            <div class="driver-stress-group-heading"><span>01</span><strong>신계약 CSM</strong><small>판매량과 계약당 수익성 하방</small></div>
+            <div class="driver-stress-row">
+              <strong>Worst 신계약 CSM</strong>
+              <span>Q2~Q4 잔여 전망에 공통 -10% 적용 · 1분기 확정치를 포함한 연간 합계는 Base 대비 ${newbizDownsideRate.toFixed(1)}% 하락</span>
+              <b>${formatSignedTrendWon(worst.newbiz)}<small>연간 Base 대비 ${formatSignedTrendWon(newbizDelta)}</small></b>
+            </div>
+          </section>
+          <section class="driver-stress-group">
+            <div class="driver-stress-group-heading"><span>02</span><strong>CSM 조정</strong><small>경험조정·계리 가정 부담 확대</small></div>
+            <div class="driver-stress-row">
+              <strong>Worst CSM 조정</strong>
+              <span>Q2~Q4 잔여 전망에 공통 10% 악화 적용 · 장래손해율·해지·사업비 가정 부담을 단순 반영</span>
+              <b>${formatSignedTrendWon(worst.adjustment)}<small>연간 Base 대비 ${formatSignedTrendWon(adjustmentDelta)} · ${adjustmentStressRate.toFixed(1)}% 악화</small></b>
+            </div>
+          </section>
+          <div class="driver-stress-combined">
+            <div><span>최종 하방 전망</span><strong>복합 Worst</strong><small>신계약 CSM과 CSM 조정 하방 및 이자부리·상각 연동효과 반영</small></div>
+            <b>${formatTrendWon(worst.closing)}<small>${formatSignedTrendWon(worst.closing - base.closing)}</small></b>
           </div>
-        </section>
-        <section class="driver-stress-group">
-          <div class="driver-stress-group-heading"><span>02</span><strong>CSM 조정</strong><small>경험조정·계리 가정 부담 확대</small></div>
-          <div class="driver-stress-row">
-            <strong>Worst CSM 조정</strong>
-            <span>과거 조정 오차를 반영해 경험조정과 연말 계리 가정 재점검 부담을 확대</span>
-            <b>${formatSignedTrendWon(worst.adjustment)}<small>Base 대비 ${formatSignedTrendWon(adjustmentDelta)}</small></b>
-          </div>
-        </section>
-        <div class="driver-stress-combined">
-          <div><span>최종 하방 전망</span><strong>복합 Worst</strong><small>신계약 CSM과 CSM 조정 하방 및 이자부리·상각 연동효과 반영</small></div>
-          <b>${formatTrendWon(worst.closing)}<small>${formatSignedTrendWon(worst.closing - base.closing)}</small></b>
         </div>
-      </div>
+      </details>
     `;
     return;
   }
 
   const { p50 } = driver.distribution;
-  const newBusinessStressRows = [driver.stressScenarios.salesSlowdown, driver.stressScenarios.marginCompression].filter(Boolean);
+  const newBusinessStressRows = [driver.stressScenarios.salesSlowdown].filter(Boolean);
   const adjustmentStressRows = [driver.stressScenarios.lapseAndExpense].filter(Boolean);
   const combinedStress = driver.stressScenarios.combined;
   const renderStressRows = (rows) => rows.map((stress) => `
@@ -1082,26 +1225,25 @@ function renderDriverStressPanel(driver, base, worst) {
   `).join("");
   panel.hidden = false;
   panel.innerHTML = `
-    <div class="driver-panel-heading">
-      <div><span>WORST DETAIL</span><strong>Worst 하방요인 상세</strong></div>
-      <small>Base보다 CSM이 낮아지는 원인을 신계약 CSM과 CSM 조정으로 구분</small>
-    </div>
-    <div class="driver-stress-table">
-      <section class="driver-stress-group">
-        <div class="driver-stress-group-heading"><span>01</span><strong>신계약 CSM</strong><small>판매량과 계약당 수익성 하방</small></div>
-        ${renderStressRows(newBusinessStressRows)}
-      </section>
-      <section class="driver-stress-group">
-        <div class="driver-stress-group-heading"><span>02</span><strong>CSM 조정</strong><small>장래손해율·해지·사업비 가정 악화</small></div>
-        ${renderStressRows(adjustmentStressRows)}
-      </section>
-      ${combinedStress ? `
-        <div class="driver-stress-combined">
-          <div><span>최종 하방 전망</span><strong>복합 Worst</strong><small>신계약 CSM과 CSM 조정의 하방 요인을 동시 반영</small></div>
-          <b>${formatTrendWon(combinedStress.closing)}<small>${formatSignedTrendWon(combinedStress.closing - p50.closing)}</small></b>
-        </div>
-      ` : ""}
-    </div>
+    <details class="driver-stress-disclosure">
+      <summary><span><i>WORST DETAIL</i><strong>Worst 하방요인 상세</strong></span><small>신계약 CSM과 CSM 조정으로 구분해 보기</small></summary>
+      <div class="driver-stress-table">
+        <section class="driver-stress-group">
+          <div class="driver-stress-group-heading"><span>01</span><strong>신계약 CSM</strong><small>판매량과 계약당 수익성 하방</small></div>
+          ${renderStressRows(newBusinessStressRows)}
+        </section>
+        <section class="driver-stress-group">
+          <div class="driver-stress-group-heading"><span>02</span><strong>CSM 조정</strong><small>장래손해율·해지·사업비 가정 악화</small></div>
+          ${renderStressRows(adjustmentStressRows)}
+        </section>
+        ${combinedStress ? `
+          <div class="driver-stress-combined">
+            <div><span>최종 하방 전망</span><strong>복합 Worst</strong><small>신계약 CSM과 CSM 조정의 하방 요인을 동시 반영</small></div>
+            <b>${formatTrendWon(combinedStress.closing)}<small>${formatSignedTrendWon(combinedStress.closing - p50.closing)}</small></b>
+          </div>
+        ` : ""}
+      </div>
+    </details>
   `;
 }
 
@@ -1174,6 +1316,12 @@ function renderMovement() {
         movement.interest +
         movement.adjustment +
         movement.amortization;
+      const review = reviewSummary(context.companyKey, context.periodKey);
+      const movementStatusLabel = check !== movement.closing || review.failed
+        ? "검토 필요"
+        : review.needsReview
+          ? "휴먼리뷰 필요"
+          : "검증 통과";
       return `
         <tr class="movement-row ${isSectorStart ? "sector-start" : ""}">
           ${sectorCell}
@@ -1181,7 +1329,7 @@ function renderMovement() {
             <span class="movement-company">
               <span>
                 <strong>${context.company.name}</strong>
-                <small>${check === movement.closing ? "검산 일치" : "검토 필요"}</small>
+                <small>${movementStatusLabel}</small>
               </span>
             </span>
           </td>
@@ -1232,6 +1380,12 @@ function openMovementModal(companyKey) {
     movement.interest +
     movement.adjustment +
     movement.amortization;
+  const review = reviewSummary(context.companyKey, state.periodKey);
+  const validationState = check !== movement.closing || review.failed
+    ? { label: "검토 필요", className: "check-warning", detail: "Movement 산식 또는 필수 검증 항목 확인 필요" }
+    : review.needsReview
+      ? { label: "휴먼리뷰 필요", className: "check-warning", detail: review.items.find((item) => item.status !== "passed")?.reviewReason ?? "원문 대사 항목 확인 필요" }
+      : { label: "검증 통과", className: "check-pass", detail: "Movement 산식과 원문 추적 검증 통과" };
 
   document.querySelector("#movement-modal-title").textContent =
     `${context.company.name} CSM Movement`;
@@ -1260,7 +1414,7 @@ function openMovementModal(companyKey) {
           .join("")}
       </div>
       <div class="movement-summary">
-        <div><span>Movement 합계 검산</span><strong class="${check === movement.closing ? "check-pass" : "check-warning"}">${check === movement.closing ? "일치" : "검토 필요"}</strong></div>
+        <div><span>Movement 검증 상태</span><strong class="${validationState.className}">${validationState.label}</strong><small>${escapeHtml(validationState.detail)}</small></div>
         <div><span>기시 CSM</span><strong>${formatWon(movement.opening)}</strong></div>
         <div><span>기말 CSM</span><strong>${formatWon(movement.closing)}</strong></div>
         <div><span>총 변동</span><strong>${formatSignedWon(movement.closing - movement.opening)}</strong></div>
@@ -1277,7 +1431,7 @@ function reviewSummary(companyKey, periodKey) {
   if (!items.length) {
     const movement = companies[companyKey]?.periods?.[periodKey]?.movement;
     if (!movement) {
-      return { total: 0, passed: 0, needsReview: 0, failed: 0 };
+      return { total: 0, passed: 0, needsReview: 0, failed: 0, items: [] };
     }
     const reconciled =
       movement.opening +
@@ -1291,6 +1445,7 @@ function reviewSummary(companyKey, periodKey) {
       passed: reconciled ? 1 : 0,
       needsReview: reconciled ? 0 : 1,
       failed: 0,
+      items: [],
     };
   }
   return {
@@ -1298,6 +1453,7 @@ function reviewSummary(companyKey, periodKey) {
     passed: items.filter((item) => item.status === "passed").length,
     needsReview: items.filter((item) => item.status === "needs_review").length,
     failed: items.filter((item) => item.status === "failed").length,
+    items,
   };
 }
 
@@ -1364,7 +1520,7 @@ const qualityMethodology = [
       "파싱·검증이 끝난 분기별 CSM Movement를 원천으로 사용하고, 외부 보정 근거는 증권사 애널리스트 리포트만 연결. 기사·보도자료는 전망 입력에서 제외.",
     validation:
       "최근 4개 분기 비율·전년 계절성과 대조하고, 내부 계산한 2026~2035년 모든 연도에서 기시 + 신계약 + 이자 + 조정 + 상각 = 기말을 재검산.",
-    rule: "Base 신계약·조정은 전년 계절성과 최근 실적을 우선 적용하고 회사별 직접 근거가 있을 때만 애널리스트 오버레이를 제한적으로 반영. Worst는 롤링 백테스트 오차 80백분위로 보정하고 이자·상각을 다시 계산.",
+    rule: "Base 신계약·조정은 전년 계절성과 최근 실적을 우선 적용하고 회사별 직접 근거가 있을 때만 애널리스트 오버레이를 제한적으로 반영. Worst는 전 보험사 공통 하방률(신계약 CSM -10%, CSM 조정 10% 악화)을 적용하고 이자·상각을 다시 계산.",
   },
   {
     metric: "보험손익",
@@ -1424,24 +1580,45 @@ function formatLiabilityAmount(value, signed = true) {
   if (value == null || !Number.isFinite(Number(value))) return "—";
   const number = Number(value);
   const sign = signed ? (number > 0 ? "+" : number < 0 ? "−" : "") : "";
-  const absolute = Math.abs(number);
-  if (absolute >= 10000) {
-    return `${sign}${(absolute / 10000).toLocaleString("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}조`;
-  }
-  return `${sign}${Math.round(absolute).toLocaleString("ko-KR")}억`;
+  const trillion = Math.abs(number) / 10000;
+  const digits = trillion < 0.1 ? 2 : 1;
+  return `${sign}${trillion.toLocaleString("ko-KR", {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  })}조원`;
 }
 
 function formatLiabilityRaw(value, ratio = false) {
   if (value == null || !Number.isFinite(Number(value))) return "—";
   if (ratio) return formatDashboardPercent(Number(value) * 100, 2);
-  return Number(value).toLocaleString("ko-KR", { maximumFractionDigits: 1 });
+  const trillion = Number(value) / 10000;
+  const digits = Math.abs(trillion) < 0.1 ? 2 : 1;
+  return trillion.toLocaleString("ko-KR", {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  });
+}
+
+function latestAnnualPeriodAtOrBefore(availablePeriods = [], maxYear) {
+  return [...availablePeriods]
+    .filter((key) => {
+      const parsed = parsePeriodKey(key);
+      return parsed.kind === "ye" && parsed.year <= maxYear;
+    })
+    .sort(comparePeriods)
+    .at(-1) ?? null;
+}
+
+function annualDisclosureTargetYear() {
+  const { year, quarter, kind } = parsePeriodKey(state.periodKey);
+  return kind === "ye" || quarter === 4 ? year : year - 1;
 }
 
 function liabilityAvailablePeriodKey() {
-  const { year, quarter, kind } = parsePeriodKey(state.periodKey);
-  if (kind !== "ye" && quarter !== 4) return null;
-  const targetPeriodKey = `${year}-ye`;
-  return liabilityAssumptionData.availablePeriods?.includes(targetPeriodKey) ? targetPeriodKey : null;
+  return latestAnnualPeriodAtOrBefore(
+    liabilityAssumptionData.availablePeriods,
+    annualDisclosureTargetYear(),
+  );
 }
 
 function liabilityPeriodItem(companyKey, periodKey = liabilityAvailablePeriodKey()) {
@@ -1470,12 +1647,16 @@ function renderLiabilityAssumption() {
     const effect = summary.assumptionEffect.csm;
     const prior = liabilityPeriodItem(catalog.key, `${year - 1}-ye`)?.summary?.assumptionEffect?.csm;
     const direction = effect >= 0 ? "positive" : "negative";
+    const keyDrivers = [...summary.drivers]
+      .sort((left, right) => Math.abs(right.csm ?? 0) - Math.abs(left.csm ?? 0))
+      .slice(0, 2);
     return `<article class="liability-card ${state.companyKey === catalog.key ? "is-selected" : ""}">
       <div class="liability-card-head"><strong>${escapeHtml(catalog.name)}</strong><small>${item.checks.status === "passed" ? "검산 완료" : "검토 필요"}</small></div>
-      <div class="liability-impact"><span>가정변경 CSM 영향</span><strong class="${direction}">${formatLiabilityAmount(effect)}</strong><small>Open DART · ${escapeHtml(item.sourceReference.originalUnit)} → 억원 ${assumptionSourceLink(item.sourceReference)}</small></div>
+      <div class="liability-impact"><span>가정변경 CSM 영향</span><strong class="${direction}">${formatLiabilityAmount(effect)}</strong><small>원문 ${escapeHtml(item.sourceReference.originalUnit)} · 화면 조원 ${assumptionSourceLink(item.sourceReference)}</small></div>
       <div class="liability-prior"><span>전년</span><strong>${formatLiabilityAmount(prior)}</strong><i>→</i><span>당기</span><strong class="${direction}">${formatLiabilityAmount(effect)}</strong></div>
+      <div class="liability-driver-heading"><span>주요 변동요인</span><small>영향액 상위 2개</small></div>
       <div class="liability-driver-list">
-        ${summary.drivers.map((driver) => {
+        ${keyDrivers.map((driver) => {
           const driverDirection = (driver.csm ?? 0) >= 0 ? "positive" : "negative";
           const extent = Math.min(Math.abs(driver.csm ?? 0) / maxDriver * 48, 48);
           return `<div class="liability-driver"><span>${escapeHtml(driver.label.replace("가정", ""))}</span><div class="liability-driver-track"><i class="${driverDirection}" style="--driver-extent:${extent}%"></i></div><strong class="${driverDirection}">${formatLiabilityAmount(driver.csm)}</strong></div>`;
@@ -1515,7 +1696,7 @@ function fullLiabilityAssumptionTable() {
   }).join("");
   const yearHeadings = periodKeys.map((key) => `<th colspan="3">${periodLabel(key)}</th>`).join("");
   const metricHeadings = periodKeys.map(() => "<th>BEL</th><th>RA</th><th>CSM</th>").join("");
-  return `<div class="liability-full-table-wrap"><table class="liability-full-table"><thead><tr><th rowspan="2">업권</th><th rowspan="2">회사</th><th rowspan="2">구분</th>${yearHeadings}</tr><tr>${metricHeadings}</tr></thead><tbody>${rows}</tbody></table></div>`;
+  return `<div class="liability-full-table-wrap" tabindex="0" aria-label="보험부채 변동내역 전체표"><table class="liability-full-table"><caption class="table-unit-caption">표시 단위 · 금액: 조원 · 비율 행: % · 좌우로 이동해 전체 항목 확인</caption><thead><tr><th rowspan="2">업권</th><th rowspan="2">회사</th><th rowspan="2">구분</th>${yearHeadings}</tr><tr>${metricHeadings}</tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
 function assumptionSourceLink(sourceReference) {
@@ -1532,12 +1713,15 @@ function claimSourceForYear(item, year) {
 }
 
 function assumptionYear() {
-  return parsePeriodKey(state.periodKey).year;
+  const periodKey = assumptionPeriodKey();
+  return periodKey ? parsePeriodKey(periodKey).year : annualDisclosureTargetYear();
 }
 
 function assumptionPeriodKey() {
-  const { year, quarter, kind } = parsePeriodKey(state.periodKey);
-  return kind === "ye" || quarter === 4 ? `${year}-ye` : null;
+  return latestAnnualPeriodAtOrBefore(
+    assumptionData.availablePeriods,
+    annualDisclosureTargetYear(),
+  );
 }
 
 function assumptionPeriodAvailable() {
@@ -1553,9 +1737,10 @@ function disclosureEmptyState(label) {
 
 function renderClaimExperience() {
   const grid = document.querySelector("#claim-summary-grid");
+  const periodKey = assumptionPeriodKey();
   const year = assumptionYear();
   const priorYear = year - 1;
-  document.querySelector("#claim-period-label").textContent = periodLabel(state.periodKey);
+  document.querySelector("#claim-period-label").textContent = periodKey ? periodLabel(periodKey) : periodLabel(state.periodKey);
   const fullButton = document.querySelector('[data-full-metric="claim"]');
   fullButton.disabled = !assumptionPeriodAvailable();
   if (!assumptionPeriodAvailable()) {
@@ -1620,10 +1805,11 @@ function renderDurationSummary(type) {
   const isLoss = type === "loss";
   const head = document.querySelector(isLoss ? "#loss-ratio-summary-head" : "#expense-ratio-summary-head");
   const body = document.querySelector(isLoss ? "#loss-ratio-summary-body" : "#expense-ratio-summary-body");
-  document.querySelector(isLoss ? "#loss-period-label" : "#expense-period-label").textContent = periodLabel(state.periodKey);
+  const periodKey = assumptionPeriodKey();
+  document.querySelector(isLoss ? "#loss-period-label" : "#expense-period-label").textContent = periodKey ? periodLabel(periodKey) : periodLabel(state.periodKey);
   document.querySelector(`[data-full-metric="${type}"]`).disabled = !assumptionPeriodAvailable();
   const labels = compactDurationLabels();
-  head.innerHTML = `<tr><th class="table-sector-heading">업권</th><th class="table-company-heading">회사</th>${labels.map((label) => `<th>${escapeHtml(label)}</th>`).join("")}<th>기간별 흐름</th></tr>`;
+  head.innerHTML = `<tr><th class="table-sector-heading">업권</th><th class="table-company-heading">회사</th>${labels.map((label, index) => `<th class="duration-bucket duration-bucket-${index}">${escapeHtml(label)}</th>`).join("")}<th>기간별 흐름</th></tr>`;
   if (!assumptionPeriodAvailable()) {
     body.innerHTML = `<tr><td colspan="${labels.length + 3}">${disclosureEmptyState(isLoss ? "경과기간별 손해율" : "경과기간별 유지비율")}</td></tr>`;
     return;
@@ -1636,7 +1822,7 @@ function renderDurationSummary(type) {
       return `<tr class="${state.companyKey === catalog.key ? "is-selected" : ""} ${isSectorStart ? "sector-start" : ""}">
         ${isSectorStart ? `<th class="sector-group-cell sector-${sectorMetaForCompany(catalog).key}" scope="rowgroup" rowspan="${companiesInSector(catalog.sector).length}"><span>${catalog.shortSector}</span><small>${escapeHtml(catalog.sector)}</small></th>` : ""}
         <th class="table-company-cell duration-company-cell"><strong>${escapeHtml(catalog.name)}</strong></th>
-        ${values.map((value) => `<td>${formatDashboardPercent(value, 0)}</td>`).join("")}
+        ${values.map((value, index) => `<td class="duration-bucket duration-bucket-${index}">${formatDashboardPercent(value, 0)}</td>`).join("")}
         <td><button type="button" class="duration-spark-button" data-duration-chart="${type}" data-company-key="${catalog.key}" aria-label="${escapeHtml(catalog.name)} 기간별 상세 그래프">${durationSparkline(values)}<span>상세 ↗</span></button></td>
       </tr>`;
     })
@@ -1657,10 +1843,58 @@ function fullDurationTable(type) {
     return definitions.map(([label, key], index) => {
       const metric = item?.[key];
       const isRatio = key === "ratio";
-      return `<tr class="${index === 0 && isSectorStart ? "sector-start" : ""}">${index === 0 && isSectorStart ? `<th class="modal-sector-cell sector-${sectorMetaForCompany(catalog).key}" rowspan="${companiesInSector(catalog.sector).length * definitions.length}"><span>${catalog.shortSector}</span><small>${escapeHtml(catalog.sector)}</small></th>` : ""}${index ? "" : `<th class="modal-company-cell" rowspan="3"><strong>${escapeHtml(catalog.name)}</strong>${assumptionSourceLink(item?.sourceReference)}</th>`}<th class="modal-metric-cell">${label}</th>${(metric?.duration ?? []).map((value) => `<td>${formatDisclosureNumber(value, isRatio)}</td>`).join("")}<td class="modal-current-value">${formatDisclosureNumber(metric?.presentValue, isRatio)}</td></tr>`;
+      return `<tr class="${index === 0 && isSectorStart ? "sector-start" : ""}">${index === 0 && isSectorStart ? `<th class="modal-sector-cell sector-${sectorMetaForCompany(catalog).key}" rowspan="${companiesInSector(catalog.sector).length * definitions.length}"><span>${catalog.shortSector}</span><small>${escapeHtml(catalog.sector)}</small></th>` : ""}${index ? "" : `<th class="modal-company-cell" rowspan="3"><strong>${escapeHtml(catalog.name)}</strong>${assumptionSourceLink(item?.sourceReference)}</th>`}<th class="modal-metric-cell">${label}</th>${(metric?.duration ?? []).map((value, bucketIndex) => `<td class="duration-bucket duration-bucket-${bucketIndex}">${formatDisclosureNumber(value, isRatio)}</td>`).join("")}<td class="modal-current-value">${formatDisclosureNumber(metric?.presentValue, isRatio)}</td></tr>`;
     });
   }).join("");
-  return `<div class="disclosure-table-wrap modal-disclosure-table-wrap"><table class="disclosure-table duration-table"><thead><tr><th class="modal-sector-cell">업권</th><th class="modal-company-cell">회사</th><th class="modal-metric-cell">구분</th>${(assumptionData.durationBuckets ?? []).map((bucket) => `<th>${escapeHtml(bucket)}</th>`).join("")}<th class="modal-current-value">현재가치</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  return `<div class="disclosure-table-wrap modal-disclosure-table-wrap"><table class="disclosure-table duration-table"><caption class="table-unit-caption">표시 단위 · 금액: 억원 · 비율: % · 좌우로 이동해 전체 경과구간 확인</caption><thead><tr><th class="modal-sector-cell">업권</th><th class="modal-company-cell">회사</th><th class="modal-metric-cell">구분</th>${(assumptionData.durationBuckets ?? []).map((bucket, index) => `<th class="duration-bucket duration-bucket-${index}">${escapeHtml(bucket)}</th>`).join("")}<th class="modal-current-value">현재가치</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+const assumptionExportMeta = {
+  liability: { filename: "보험부채_변동내역", sheetName: "보험부채 변동내역" },
+  claim: { filename: "보험금_예실차", sheetName: "보험금 예실차" },
+  loss: { filename: "경과기간_손해율", sheetName: "경과기간 손해율" },
+  expense: { filename: "경과기간_유지비율", sheetName: "경과기간 유지비율" },
+};
+
+function assumptionExportPeriodToken(type) {
+  const periodKey = type === "liability" ? liabilityAvailablePeriodKey() : assumptionPeriodKey();
+  if (!periodKey) return "latest";
+  const year = parsePeriodKey(periodKey).year;
+  if (type === "liability" && liabilityAssumptionData.availablePeriods?.includes(`${year - 1}-ye`)) {
+    return `${year - 1}-${year}`;
+  }
+  return String(year);
+}
+
+function prepareAssumptionDownload(type) {
+  activeAssumptionTableType = type;
+  assumptionTableDownload.disabled = false;
+  assumptionTableDownload.innerHTML = '<span aria-hidden="true">↓</span> Excel 다운로드';
+}
+
+function downloadAssumptionTable() {
+  const type = activeAssumptionTableType;
+  const meta = assumptionExportMeta[type];
+  const table = document.querySelector("#assumption-table-modal-content table");
+  if (!type || !meta || !table || !window.CSM_XLSX_EXPORT) return;
+  const originalMarkup = assumptionTableDownload.innerHTML;
+  assumptionTableDownload.disabled = true;
+  try {
+    const result = window.CSM_XLSX_EXPORT.downloadTable({
+      table,
+      filename: `CSM_Lens_${meta.filename}_${assumptionExportPeriodToken(type)}.xlsx`,
+      sheetName: meta.sheetName,
+    });
+    window.CSM_LAST_EXPORT = { ...result, type };
+    assumptionTableDownload.innerHTML = '<span aria-hidden="true">✓</span> 생성 완료';
+  } catch (error) {
+    console.error("Excel export failed", error);
+    assumptionTableDownload.innerHTML = '<span aria-hidden="true">!</span> 생성 실패';
+  }
+  setTimeout(() => {
+    assumptionTableDownload.innerHTML = originalMarkup;
+    assumptionTableDownload.disabled = false;
+  }, 1600);
 }
 
 function openAssumptionTable(type) {
@@ -1670,16 +1904,19 @@ function openAssumptionTable(type) {
     const year = parsePeriodKey(periodKey).year;
     const hasPrior = liabilityAssumptionData.availablePeriods?.includes(`${year - 1}-ye`);
     document.querySelector("#assumption-table-modal-title").textContent = "보험부채 변동내역 전체보기";
-    document.querySelector("#assumption-table-modal-subtitle").textContent = `Open DART ${hasPrior ? `${year - 1}·` : ""}${year} 사업보고서 재무제표 주석 · 회사계/발행한 보험계약 · 단위 억원`;
+    document.querySelector("#assumption-table-modal-subtitle").textContent = `Open DART ${hasPrior ? `${year - 1}·` : ""}${year} 사업보고서 재무제표 주석 · 회사계/발행한 보험계약 · 금액 조원`;
     document.querySelector("#assumption-table-modal-content").innerHTML = fullLiabilityAssumptionTable();
+    prepareAssumptionDownload(type);
     assumptionTableModal.showModal();
     return;
   }
   if (!assumptionPeriodAvailable()) return;
+  const periodKey = assumptionPeriodKey();
   const year = assumptionYear();
   const titles = { claim: "보험금 예실차 전체보기", loss: "경과기간별 손해율 전체보기", expense: "경과기간별 유지비율 전체보기" };
   document.querySelector("#assumption-table-modal-title").textContent = titles[type];
-  document.querySelector("#assumption-table-modal-subtitle").textContent = `${periodLabel(state.periodKey)} · Open DART 연결재무제표 주석`;
+  const unitLabel = type === "claim" ? "비율: %" : "금액: 억원 · 비율: %";
+  document.querySelector("#assumption-table-modal-subtitle").textContent = `${periodLabel(periodKey)} · Open DART 연결재무제표 주석 · ${unitLabel}`;
   if (type === "claim") {
     const priorYear = year - 1;
     const definitions = [["예상손해율", "expectedLossRatio"], ["실제손해율", "actualLossRatio"], ["예실차비율", "variance"]];
@@ -1692,22 +1929,33 @@ function openAssumptionTable(type) {
   } else {
     document.querySelector("#assumption-table-modal-content").innerHTML = fullDurationTable(type);
   }
+  prepareAssumptionDownload(type);
   assumptionTableModal.showModal();
 }
 
 function detailedDurationChart(values) {
-  const width = 940;
-  const height = 330;
-  const points = sparklineGeometry(values, width, height, 32);
-  return `<div class="duration-detail-chart"><svg viewBox="0 0 ${width} ${height}" role="img" aria-label="경과기간별 비율 상세 그래프"><g class="duration-detail-grid"><line x1="32" y1="82" x2="908" y2="82"/><line x1="32" y1="165" x2="908" y2="165"/><line x1="32" y1="248" x2="908" y2="248"/></g><polyline points="${points.map(({ x, y }) => `${x},${y}`).join(" ")}"/>${points.map(({ x, y, value }, index) => `<circle cx="${x}" cy="${y}" r="4"/><text x="${x}" y="${Math.max(y - 12, 14)}">${formatDisclosureNumber(value, true)}</text><text class="axis-label" x="${x}" y="322">${escapeHtml(assumptionData.durationBuckets[index])}</text>`).join("")}</svg></div>`;
+  const compact = window.innerWidth <= 580;
+  const medium = !compact && window.innerWidth <= 820;
+  const width = compact ? 360 : medium ? 720 : 940;
+  const height = compact ? 240 : medium ? 300 : 330;
+  const pad = compact ? 24 : medium ? 30 : 32;
+  const points = sparklineGeometry(values, width, height, pad);
+  const gridLines = [0.25, 0.5, 0.75]
+    .map((ratio) => {
+      const y = Math.round(height * ratio);
+      return `<line x1="${pad}" y1="${y}" x2="${width - pad}" y2="${y}"/>`;
+    })
+    .join("");
+  return `<div class="duration-detail-chart"><svg viewBox="0 0 ${width} ${height}" role="img" aria-label="경과기간별 비율 상세 그래프"><g class="duration-detail-grid">${gridLines}</g><polyline points="${points.map(({ x, y }) => `${x},${y}`).join(" ")}"/>${points.map(({ x, y, value }, index) => `<circle cx="${x}" cy="${y}" r="4"/><text class="duration-point-value duration-point-value-${index}" x="${x}" y="${Math.max(y - 12, 16)}">${formatDisclosureNumber(value, true)}</text><text class="axis-label duration-axis-label duration-axis-label-${index}" x="${x}" y="${height - 6}">${escapeHtml(assumptionData.durationBuckets[index])}</text>`).join("")}</svg></div>`;
 }
 
 function openDurationChart(type, companyKey) {
   const catalog = companyCatalog.find((company) => company.key === companyKey);
   const item = durationPeriodItem(companyKey, type);
   if (!catalog || !item) return;
+  const periodKey = assumptionPeriodKey();
   document.querySelector("#assumption-chart-modal-title").textContent = `${catalog.name} ${type === "loss" ? "손해율" : "유지비율"} 흐름`;
-  document.querySelector("#assumption-chart-modal-subtitle").textContent = `${periodLabel(state.periodKey)} · 경과기간별 비율`;
+  document.querySelector("#assumption-chart-modal-subtitle").textContent = `${periodLabel(periodKey)} · 경과기간별 비율`;
   document.querySelector("#assumption-chart-modal-content").innerHTML = `${detailedDurationChart(item.ratio.duration)}<div class="duration-chart-meta"><span>현재가치 비율</span><strong>${formatDisclosureNumber(item.ratio.presentValue, true)}</strong>${assumptionSourceLink(item.sourceReference)}</div>`;
   assumptionChartModal.showModal();
 }
@@ -2113,6 +2361,7 @@ function renderDashboard() {
 function bindNavigation() {
   const links = [...document.querySelectorAll("[data-section-link]")];
   const sections = [...document.querySelectorAll("[data-page-section]")];
+  const primaryNav = document.querySelector(".primary-nav");
   const validSectionIds = new Set(sections.map((section) => section.id));
   const sectionFromHash = () => {
     const sectionId = window.location.hash.slice(1);
@@ -2125,6 +2374,9 @@ function bindNavigation() {
       link.classList.toggle("is-active", isActive);
       if (isActive) {
         link.setAttribute("aria-current", "page");
+        if (window.matchMedia("(max-width: 820px)").matches) {
+          requestAnimationFrame(() => link.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" }));
+        }
       } else {
         link.removeAttribute("aria-current");
       }
@@ -2148,6 +2400,15 @@ function bindNavigation() {
     });
   });
 
+  document.querySelectorAll("[data-nav-scroll]").forEach((button) => {
+    button.addEventListener("click", () => {
+      primaryNav?.scrollBy({
+        left: Number(button.dataset.navScroll) * Math.max(primaryNav.clientWidth * 0.72, 180),
+        behavior: "smooth",
+      });
+    });
+  });
+
   window.addEventListener("popstate", () => setActiveSection(sectionFromHash(), { resetScroll: true }));
   window.addEventListener("hashchange", () => setActiveSection(sectionFromHash(), { resetScroll: true }));
   setActiveSection(sectionFromHash());
@@ -2167,6 +2428,7 @@ movementModal.addEventListener("click", (event) => {
   if (event.target === movementModal) movementModal.close();
 });
 assumptionTableModalClose.addEventListener("click", () => assumptionTableModal.close());
+assumptionTableDownload.addEventListener("click", downloadAssumptionTable);
 assumptionTableModal.addEventListener("click", (event) => {
   if (event.target === assumptionTableModal) assumptionTableModal.close();
 });

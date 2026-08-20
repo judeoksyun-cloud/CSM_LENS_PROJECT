@@ -30,11 +30,11 @@ test('analyze returns a grounded dashboard bundle for the latest validated perio
   assert.ok(result.calculation.length > 0);
   assert.ok(result.followUps.length > 0);
   assert.ok(result.answer.summary.length > 0);
-  assert.equal(result.forecastContractVersion, '2026.08.16-v7.3');
+  assert.equal(result.forecastContractVersion, '2026.08.16-v7.4');
   assert.equal(result.forecastRuntimeContractVersion, 'csm-forecast-runtime/v1');
   assert.equal(result.forecast.independentModel, 14135);
   assert.equal(result.forecast.base, 13500);
-  assert.equal(result.forecast.worst, 12346);
+  assert.equal(result.forecast.worst, 13040);
   assert.equal(result.forecast.targetAdjustmentOverlay, -635);
   assert.equal(result.forecast.adjustmentBeforeTargetOverlay, -1640);
   assert.ok(
@@ -66,6 +66,19 @@ test('all nine dashboard companies use the same latest quarterly contract', asyn
   assert.ok(results.every((result) => result.period === '2026-q1'));
   assert.ok(results.every((result) => result.dataContractVersion === 'csm-dashboard-quarterly/v1'));
   assert.ok(results.every((result) => result.snapshotHash === results[0].snapshotHash));
+});
+
+test('analyze honors an explicit supported actual period', async () => {
+  const gateway = createAiGateway();
+  const result = await gateway.analyze({
+    company: 'samsung-life',
+    periodKey: '2025-q4',
+    analysisType: 'movement',
+    audience: 'executive',
+  });
+  assert.equal(result.period, '2025-q4');
+  assert.equal(result.periodLabel, '2025 Q4');
+  assert.equal(result.forecast.base, 13500, 'forecast remains latest validated outlook while actual analysis period changes');
 });
 
 test('opening reconciliation differences surface as human review state', async () => {
@@ -118,7 +131,7 @@ test('forecast questions use the same generated contract as the dashboard', asyn
   assert.equal(result.forecast.validation.contractStatus, 'passed');
   assert.match(result.answer.summary, /독립 모델|13\.5조원|Worst|경영목표/);
   assert.ok(result.evidence.some((item) => item.label === '독립 모델'));
-  assert.ok(result.calculation.some((item) => item.label === 'CSM 조정 목표 정합화'));
+  assert.ok(result.calculation.some((item) => item.label === '경영목표 연결 조정'));
 });
 
 test('status reports both quarterly and forecast contract hashes', async () => {
@@ -127,5 +140,5 @@ test('status reports both quarterly and forecast contract hashes', async () => {
   assert.ok(status.dashboardHash);
   assert.ok(status.forecastHash);
   assert.equal(status.dashboardContractVersion, 'csm-dashboard-quarterly/v1');
-  assert.equal(status.forecastContractVersion, '2026.08.16-v7.3');
+  assert.equal(status.forecastContractVersion, '2026.08.16-v7.4');
 });
