@@ -11,6 +11,7 @@ const methodologyRegistry = cloneData(agentData.methodologyRegistry ?? { records
 const assumptionData = cloneData(window.CSM_ASSUMPTION_DATA ?? {});
 const forecastData = cloneData(window.CSM_FORECAST_DATA ?? { forecasts: {} });
 const liabilityAssumptionData = cloneData(window.CSM_LIABILITY_ASSUMPTION_DATA ?? { companies: {} });
+const managementExperienceData = cloneData(window.CSM_MANAGEMENT_EXPERIENCE_DATA ?? { companies: {} });
 
 const companyCatalog = [
   { key: "samsung-life", name: "삼성생명", sector: "생명보험", shortSector: "생보" },
@@ -56,6 +57,7 @@ if (!Object.keys(companies).length) {
 const periodSelect = document.querySelector("#period-select");
 const metricTabs = [...document.querySelectorAll("[data-market-metric]")];
 const basisButtons = [...document.querySelectorAll("[data-value-basis]")];
+const claimBasisButtons = [...document.querySelectorAll("[data-claim-basis]")];
 const trendModal = document.querySelector("#trend-modal");
 const trendModalClose = document.querySelector("#trend-modal-close");
 const movementModal = document.querySelector("#movement-modal");
@@ -72,6 +74,7 @@ const state = {
   periodKey: null,
   marketMetric: "csm",
   valueBasis: "cumulative",
+  claimExperienceBasis: "management",
 };
 
 const marketMetrics = {
@@ -613,7 +616,11 @@ function renderForecastMethodology() {
 function openTrendModal(companyKey) {
   const context = getTrendContext(companyKey);
   if (!context.period) return;
-  const driverPilot = forecastData.forecasts?.[companyKey]?.driverForecast;
+  const forecastEntry = forecastData.forecasts?.[companyKey];
+  const driverPilot = forecastEntry?.driverForecast;
+  const movementTargetLabel = forecastEntry?.targetPeriod
+    ? `${parsePeriodKey(forecastEntry.targetPeriod).year}년말 전망`
+    : `${forecastTargetLabel(context.periodKey)} 전망`;
   document.querySelector("#trend-modal-title").textContent = `${context.company.name} CSM 추이`;
   document.querySelector("#trend-modal-subtitle").textContent =
     driverPilot
@@ -622,9 +629,9 @@ function openTrendModal(companyKey) {
   document.querySelector("#trend-modal-content").innerHTML = `
     <article class="forecast-executive-summary" id="forecast-executive-summary"></article>
     <div class="forecast-detail-tabs" role="tablist" aria-label="전망 상세 구분">
-      <button type="button" role="tab" aria-selected="true" data-forecast-tab="outlook">전망 경로</button>
-      <button type="button" role="tab" aria-selected="false" data-forecast-tab="movement">Movement</button>
-      <button type="button" role="tab" aria-selected="false" data-forecast-tab="evidence">근거·검증</button>
+      <button type="button" role="tab" aria-selected="true" data-forecast-tab="outlook">실적·중장기 전망</button>
+      <button type="button" role="tab" aria-selected="false" data-forecast-tab="movement"><span>Movement</span><small>${movementTargetLabel}</small></button>
+      <button type="button" role="tab" aria-selected="false" data-forecast-tab="evidence">산출 근거·검증</button>
     </div>
     <section class="forecast-detail-panel" data-forecast-panel="movement" hidden>
       <article class="forecast-decision-brief" id="forecast-decision-brief"></article>
@@ -1459,6 +1466,15 @@ function reviewSummary(companyKey, periodKey) {
 
 const qualityMethodology = [
   {
+    metric: "예실차 · 관리기준",
+    source:
+      "각 보험사 홈페이지의 연말 결산 경영공시 중 별도 SAP 손익계산서 또는 공식 Factsheet만 원본으로 사용. 현재 수록기간은 2024·2025년말. 삼성생명·한화생명·삼성화재·메리츠화재·DB손해보험·현대해상은 예상·발생 세부 행, 교보생명·신한라이프·KB손해보험은 결산 경영공시의 공식 결과값을 사용.",
+    validation:
+      "회사·연도·별도 여부·원문 문서명·시트·열·행·부호·원단위를 확인하고 억원으로 정규화. 세부 행 공개 6개사는 예상액−실제액과 세 비율을 재계산해 원문 결과와 대조. 교보·신한·KB는 공식 결과값과 공개 분모 범위를 구분하며, 신한의 세부 비율과 KB의 비율처럼 분모가 없으면 미산출로 유지.",
+    rule:
+      "종합 = 보험금 + 사업비. 보험금 = 예상보험금 − (발생보험금 + 발생사고요소조정), 사업비 = 예상 손해조사비·계약유지비·투자관리비 합계 − 동일 발생액 합계. 각 비율은 대응 예상액을 분모로 사용하고 종합 비율은 예상보험금+예상사업비를 사용. 상단 1~3분기는 직전 연말, 4분기·연말은 해당 연말을 당기로 선택하며 전기 미수록 값은 공란. ±5%는 참고선이고 Open DART·FISIS·공시기준 값으로 SAP 미공개 값을 대체하지 않음. 첨부 양식과 ref_data는 화면 구조 참고에만 사용.",
+  },
+  {
     metric: "보험부채 변동내역",
     source:
       "Open DART 사업보고서 재무제표 주석의 보험계약부채 변동표 중 회사계·발행한 보험계약 기준에서 2024·2025년 BEL·RA·CSM을 직접 수집.",
@@ -1467,7 +1483,7 @@ const qualityMethodology = [
     rule: "원본·검증 기준은 Open DART로 단일화하고 연말 선택 시에만 표시. 원·천원·백만원·억원을 억원으로 정규화하며 구성요소 합계와 공시 합계의 반올림 차이만 허용.",
   },
   {
-    metric: "보험금 예실차 비율",
+    metric: "예실차 · 공시기준",
     source:
       "Open DART 사업보고서 · 연결재무제표 주석의 합계 행에서 예상손해율(A), 실제손해율(B), 보험금 예실차비율(C)을 수집.",
     validation:
@@ -1735,7 +1751,113 @@ function disclosureEmptyState(label) {
   return `<div class="assumption-unavailable"><strong>${heading}</strong><p>${label}은 2024년말부터 연 1회 공시됩니다.</p></div>`;
 }
 
-function renderClaimExperience() {
+function formatSignedEok(value) {
+  if (value == null || !Number.isFinite(Number(value))) return "—";
+  const number = Number(value);
+  const sign = number > 0 ? "+" : number < 0 ? "−" : "";
+  return `${sign}${Math.abs(number).toLocaleString("ko-KR", {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  })}억원`;
+}
+
+function formatManagementRatio(value, suffix = "%") {
+  if (value == null || !Number.isFinite(Number(value))) return "—";
+  const rounded = Number(Number(value).toFixed(1));
+  const sign = rounded > 0 ? "+" : rounded < 0 ? "−" : "";
+  return `${sign}${Math.abs(rounded).toLocaleString("ko-KR", {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  })}${suffix}`;
+}
+
+function managementDirection(value) {
+  if (value == null || !Number.isFinite(Number(value))) return "neutral";
+  return Number(value) > 0 ? "positive" : Number(value) < 0 ? "negative" : "neutral";
+}
+
+function managementSourceLink(source) {
+  if (!source?.url) return "";
+  return `<a class="disclosure-source-link management-source-link" href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer" aria-label="${escapeHtml(source.publisher)} SAP 원문 열기">SAP 원문 ↗</a>`;
+}
+
+function managementExperienceAvailablePeriods() {
+  const configured = managementExperienceData.comparisonPeriods ?? [];
+  const companyPeriods = Object.values(managementExperienceData.companies ?? {})
+    .flatMap((item) => Object.keys(item.periods ?? {}));
+  return [...new Set([...configured, ...companyPeriods])].sort(comparePeriods);
+}
+
+function managementExperiencePeriodKey() {
+  return latestAnnualPeriodAtOrBefore(
+    managementExperienceAvailablePeriods(),
+    annualDisclosureTargetYear(),
+  );
+}
+
+function managementExperiencePeriodAvailable() {
+  const periodKey = managementExperiencePeriodKey();
+  return periodKey != null && managementExperienceAvailablePeriods().includes(periodKey);
+}
+
+function renderManagementExperience() {
+  const grid = document.querySelector("#management-experience-grid");
+  if (!grid) return;
+  const currentPeriodKey = managementExperiencePeriodKey();
+  const currentYear = currentPeriodKey ? parsePeriodKey(currentPeriodKey).year : annualDisclosureTargetYear();
+  const priorPeriodKey = `${currentYear - 1}-ye`;
+  const priorYear = currentYear - 1;
+  const periodLabelElement = document.querySelector("#management-period-label");
+  if (periodLabelElement) periodLabelElement.textContent = currentPeriodKey ? periodLabel(currentPeriodKey) : periodLabel(state.periodKey);
+  const fullButton = document.querySelector('[data-full-metric="management"]');
+  if (fullButton) fullButton.disabled = !managementExperiencePeriodAvailable();
+  if (!managementExperiencePeriodAvailable()) {
+    grid.innerHTML = disclosureEmptyState("관리기준 예실차");
+    return;
+  }
+  const values = companyCatalog.map((catalog) => ({ catalog, item: managementExperienceData.companies?.[catalog.key] }));
+  const valuesByCompany = Object.fromEntries(values.map((entry) => [entry.catalog.key, entry.item]));
+  const metricDefinitions = [
+    ["종합 예실차", "total", "보험금 + 사업비"],
+    ["보험금 예실차", "claim", "예실차 ÷ 예상보험금"],
+    ["사업비 예실차", "expense", "예실차 ÷ 예상사업비"],
+  ];
+  const maxAbsByMetric = Object.fromEntries(metricDefinitions.map(([, key]) => [
+    key,
+    Math.max(...values.map(({ item }) => Math.abs(item?.periods?.[currentPeriodKey]?.ratios?.[key] ?? 0)), 1),
+  ]));
+  grid.innerHTML = renderSectorCardGroups((catalog) => {
+    const item = valuesByCompany[catalog.key];
+    if (!item?.periods?.[currentPeriodKey]) return `<article class="claim-summary-card management-claim-card is-empty"><strong>${escapeHtml(catalog.name)}</strong><span>${currentYear}년말 관리기준 데이터 없음</span></article>`;
+    const prior = item.periods?.[priorPeriodKey];
+    const current = item.periods?.[currentPeriodKey];
+    const metricRows = metricDefinitions.map(([label, key, description], index) => {
+      const priorValue = prior?.ratios?.[key];
+      const currentValue = current?.ratios?.[key];
+      const currentDirection = managementDirection(currentValue);
+      const priorDirection = managementDirection(priorValue);
+      const extent = Math.min(Math.abs(currentValue ?? 0) / maxAbsByMetric[key] * 48, 48);
+      const status = currentValue == null ? "예상금액 분모 미공개" : currentValue < 0 ? "비우호적 경험차" : "우호적 경험차";
+      return `<section class="management-claim-metric ${index === 0 ? "is-primary" : ""}">
+        <div class="management-claim-metric-head"><strong>${label}</strong><small>${description}</small></div>
+        <div class="claim-period-values" aria-label="${escapeHtml(catalog.name)} ${label} 전기·당기 비율">
+          <div class="claim-prior-value"><span>전기 ${priorYear}</span><strong class="${priorDirection}">${formatManagementRatio(priorValue)}</strong></div>
+          <div class="claim-current-value"><span>당기 ${currentYear}</span><strong class="${currentDirection}">${formatManagementRatio(currentValue)}</strong></div>
+        </div>
+        <div class="claim-diverging" aria-label="${escapeHtml(catalog.name)} ${label} ${formatManagementRatio(currentValue)}"><i class="${currentDirection}" style="--claim-extent:${extent}%"></i></div>
+        <small class="management-claim-status">${status}</small>
+      </section>`;
+    }).join("");
+    const currentSource = current?.source ?? prior?.source;
+    return `<article class="claim-summary-card management-claim-card ${state.companyKey === catalog.key ? "is-selected" : ""}">
+      <div class="claim-summary-head"><strong>${escapeHtml(catalog.name)}</strong><span class="verification-badge ${item.verificationStatus === "official_component_recalculated" ? "is-recalculated" : ""}">${escapeHtml(item.verificationLabel)}</span></div>
+      <div class="management-claim-ratio-list">${metricRows}</div>
+      <div class="claim-summary-foot management-claim-foot"><small>${escapeHtml(currentSource?.location)}</small>${managementSourceLink(currentSource)}</div>
+    </article>`;
+  }, "management-sector-grid");
+}
+
+function renderPublicClaimExperience() {
   const grid = document.querySelector("#claim-summary-grid");
   const periodKey = assumptionPeriodKey();
   const year = assumptionYear();
@@ -1770,6 +1892,21 @@ function renderClaimExperience() {
         <div class="claim-summary-foot"><small>${value < 0 ? "실제손해율이 예상 상회" : "예상손해율이 실제 상회"}</small>${assumptionSourceLink(claimSourceForYear(item, year))}</div>
       </article>`;
     }, "claim-sector-grid");
+}
+
+function renderClaimExperience() {
+  const managementView = document.querySelector("#claim-management-view");
+  const publicView = document.querySelector("#claim-public-view");
+  const isManagement = state.claimExperienceBasis === "management";
+  managementView.hidden = !isManagement;
+  publicView.hidden = isManagement;
+  claimBasisButtons.forEach((button) => {
+    const isActive = button.dataset.claimBasis === state.claimExperienceBasis;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+  renderManagementExperience();
+  renderPublicClaimExperience();
 }
 
 function compactDurationLabels() {
@@ -1849,7 +1986,83 @@ function fullDurationTable(type) {
   return `<div class="disclosure-table-wrap modal-disclosure-table-wrap"><table class="disclosure-table duration-table"><caption class="table-unit-caption">표시 단위 · 금액: 억원 · 비율: % · 좌우로 이동해 전체 경과구간 확인</caption><thead><tr><th class="modal-sector-cell">업권</th><th class="modal-company-cell">회사</th><th class="modal-metric-cell">구분</th>${(assumptionData.durationBuckets ?? []).map((bucket, index) => `<th class="duration-bucket duration-bucket-${index}">${escapeHtml(bucket)}</th>`).join("")}<th class="modal-current-value">현재가치</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
+function managementComponentValue(period, key) {
+  const components = period?.components ?? {};
+  if (key === "actualClaims") {
+    if (components.incurredClaims == null || components.incurredClaimAdjustment == null) return null;
+    return components.incurredClaims + components.incurredClaimAdjustment;
+  }
+  return components[key] ?? null;
+}
+
+function formatManagementTableValue(value, kind, isChange = false) {
+  if (value == null || !Number.isFinite(Number(value))) return "—";
+  const number = Number(value);
+  const rounded = Number(number.toFixed(1));
+  const sign = isChange && rounded > 0 ? "+" : rounded < 0 ? "−" : "";
+  const suffix = kind === "ratio" ? (isChange ? "%p" : "%") : "";
+  return `${sign}${Math.abs(rounded).toLocaleString("ko-KR", {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  })}${suffix}`;
+}
+
+function fullManagementExperienceTable() {
+  const currentPeriodKey = managementExperiencePeriodKey();
+  if (!currentPeriodKey) return "";
+  const currentYear = parsePeriodKey(currentPeriodKey).year;
+  const priorPeriodKey = `${currentYear - 1}-ye`;
+  const priorYear = currentYear - 1;
+  const definitions = [
+    { label: "종합 예실차", kind: "amount", group: "total", value: (period) => period?.totalExperience },
+    { label: "종합 예실차비율", kind: "ratio", group: "total", value: (period) => period?.ratios?.total },
+    { label: "보험금 예실차", kind: "amount", group: "claim", value: (period) => period?.claimExperience },
+    { label: "보험금 예실차비율", kind: "ratio", group: "claim", value: (period) => period?.ratios?.claim },
+    { label: "예상보험금", kind: "amount", group: "claim", value: (period) => managementComponentValue(period, "expectedClaims") },
+    { label: "실제보험금", kind: "amount", group: "claim", value: (period) => managementComponentValue(period, "actualClaims") },
+    { label: "발생보험금", kind: "amount", group: "claim-detail", value: (period) => managementComponentValue(period, "incurredClaims") },
+    { label: "발생사고요소조정", kind: "amount", group: "claim-detail", value: (period) => managementComponentValue(period, "incurredClaimAdjustment") },
+    { label: "사업비 예실차", kind: "amount", group: "expense", value: (period) => period?.expenseExperience },
+    { label: "사업비 예실차비율", kind: "ratio", group: "expense", value: (period) => period?.ratios?.expense },
+    { label: "예상사업비", kind: "amount", group: "expense", value: (period) => managementComponentValue(period, "expectedExpenseTotal") },
+    { label: "실제사업비", kind: "amount", group: "expense", value: (period) => managementComponentValue(period, "actualExpenseTotal") },
+  ];
+  const rows = companyCatalog.flatMap((catalog) => {
+    const item = managementExperienceData.companies?.[catalog.key];
+    const prior = item?.periods?.[priorPeriodKey];
+    const current = item?.periods?.[currentPeriodKey];
+    const isSectorStart = companiesInSector(catalog.sector)[0].key === catalog.key;
+    return definitions.map((definition, index) => {
+      const priorValue = definition.value(prior);
+      const currentValue = definition.value(current);
+      const change = priorValue == null || currentValue == null ? null : currentValue - priorValue;
+      const directionClass = definition.kind === "ratio" || definition.label.includes("예실차") ? managementDirection(currentValue) : "";
+      return `<tr class="management-full-row group-${definition.group} ${index === 0 && isSectorStart ? "sector-start" : ""}">
+        ${index === 0 && isSectorStart ? `<th class="modal-sector-cell sector-${sectorMetaForCompany(catalog).key}" rowspan="${companiesInSector(catalog.sector).length * definitions.length}"><span>${catalog.shortSector}</span><small>${escapeHtml(catalog.sector)}</small></th>` : ""}
+        ${index === 0 ? `<th class="modal-company-cell" rowspan="${definitions.length}"><strong>${escapeHtml(catalog.name)}</strong><span>${escapeHtml(item?.verificationLabel)}</span>${managementSourceLink(current?.source ?? prior?.source)}</th>` : ""}
+        <th class="modal-metric-cell">${definition.label}</th>
+        <td class="${directionClass}">${formatManagementTableValue(priorValue, definition.kind)}</td>
+        <td class="${directionClass}">${formatManagementTableValue(currentValue, definition.kind)}</td>
+        <td class="${managementDirection(change)}">${formatManagementTableValue(change, definition.kind, true)}</td>
+      </tr>`;
+    });
+  }).join("");
+  const coverageNotes = companyCatalog.flatMap((catalog) => {
+    const periods = managementExperienceData.companies?.[catalog.key]?.periods ?? {};
+    const note = periods[currentPeriodKey]?.coverageNote ?? periods[priorPeriodKey]?.coverageNote;
+    return note ? [`<li><strong>${escapeHtml(catalog.name)}</strong><span>${escapeHtml(note)}</span></li>`] : [];
+  }).join("");
+  return `<div class="disclosure-table-wrap management-full-table-wrap">
+    <table class="disclosure-table management-full-table">
+      <caption class="table-unit-caption">금액: 억원 · 비율: % · 전년비: 금액 증감 또는 %p</caption>
+      <thead><tr><th class="modal-sector-cell">업권</th><th class="modal-company-cell">회사</th><th class="modal-metric-cell">구분</th><th>${priorYear}년 전기</th><th>${currentYear}년 당기</th><th>전년비</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>${coverageNotes ? `<ul class="management-modal-notes">${coverageNotes}</ul>` : ""}`;
+}
+
 const assumptionExportMeta = {
+  management: { filename: "관리기준_예실차", sheetName: "관리기준 예실차" },
   liability: { filename: "보험부채_변동내역", sheetName: "보험부채 변동내역" },
   claim: { filename: "보험금_예실차", sheetName: "보험금 예실차" },
   loss: { filename: "경과기간_손해율", sheetName: "경과기간 손해율" },
@@ -1857,6 +2070,12 @@ const assumptionExportMeta = {
 };
 
 function assumptionExportPeriodToken(type) {
+  if (type === "management") {
+    const periodKey = managementExperiencePeriodKey();
+    if (!periodKey) return "latest";
+    const year = parsePeriodKey(periodKey).year;
+    return `${year - 1}-${year}`;
+  }
   const periodKey = type === "liability" ? liabilityAvailablePeriodKey() : assumptionPeriodKey();
   if (!periodKey) return "latest";
   const year = parsePeriodKey(periodKey).year;
@@ -1898,6 +2117,17 @@ function downloadAssumptionTable() {
 }
 
 function openAssumptionTable(type) {
+  if (type === "management") {
+    const periodKey = managementExperiencePeriodKey();
+    if (!periodKey) return;
+    const year = parsePeriodKey(periodKey).year;
+    document.querySelector("#assumption-table-modal-title").textContent = "관리기준 예실차 전체보기";
+    document.querySelector("#assumption-table-modal-subtitle").textContent = `회사 공식 별도 SAP · ${year - 1}년 전기 / ${year}년 당기 / 전년비 · 금액과 비율`;
+    document.querySelector("#assumption-table-modal-content").innerHTML = fullManagementExperienceTable();
+    prepareAssumptionDownload(type);
+    assumptionTableModal.showModal();
+    return;
+  }
   if (type === "liability") {
     const periodKey = liabilityAvailablePeriodKey();
     if (!periodKey) return;
@@ -2452,6 +2682,13 @@ basisButtons.forEach((button) => {
   button.addEventListener("click", () => {
     state.valueBasis = button.dataset.valueBasis;
     renderDashboard();
+  });
+});
+
+claimBasisButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    state.claimExperienceBasis = button.dataset.claimBasis;
+    renderClaimExperience();
   });
 });
 

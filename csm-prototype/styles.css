@@ -1153,6 +1153,460 @@ tr.sector-start > * {
   font-size: 9px;
 }
 
+.claim-basis-control {
+  display: grid;
+  gap: 6px;
+}
+
+.claim-basis-control > span {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.claim-basis-toggle {
+  display: flex;
+  min-height: 42px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #f5f7f9;
+}
+
+.claim-basis-toggle button {
+  min-width: 88px;
+  padding: 0 15px;
+  border: 0;
+  border-radius: 7px;
+  color: var(--muted);
+  background: transparent;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.claim-basis-toggle button.is-active {
+  color: #fff;
+  background: var(--ink);
+  box-shadow: 0 2px 7px rgba(16, 24, 40, 0.16);
+}
+
+.claim-basis-toggle button:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 2px;
+}
+
+.claim-basis-view[hidden] {
+  display: none;
+}
+
+.claim-view-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(135deg, #f7faff, #fbfefd);
+}
+
+.claim-view-heading > div:first-child > span {
+  color: var(--blue);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.claim-view-heading h3 {
+  margin: 6px 0 0;
+  font-size: 20px;
+}
+
+.claim-view-heading p {
+  max-width: 680px;
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.public-claim-heading,
+.management-claim-heading {
+  margin-top: 28px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.management-experience-panel {
+  margin-top: 0;
+}
+
+.management-heading-actions {
+  display: grid;
+  justify-items: end;
+  gap: 9px;
+}
+
+.management-formula-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.management-formula-grid > div {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 15px 20px;
+}
+
+.management-formula-grid > div + div {
+  border-left: 1px solid var(--line);
+}
+
+.management-formula-grid strong {
+  color: var(--ink);
+  font-size: 11px;
+}
+
+.management-formula-grid span {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.management-guidance-note {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid #f0dcb0;
+  color: #75570d;
+  background: #fffaeb;
+}
+
+.management-guidance-note strong {
+  flex: 0 0 auto;
+  font-size: 11px;
+}
+
+.management-guidance-note span {
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.management-experience-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  background: transparent;
+}
+
+.management-claim-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.management-claim-ratio-list {
+  display: grid;
+  gap: 0;
+  margin-top: 13px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.management-claim-metric {
+  min-width: 0;
+  padding: 13px 14px;
+  background: #fff;
+}
+
+.management-claim-metric + .management-claim-metric {
+  border-top: 1px solid var(--line);
+}
+
+.management-claim-metric.is-primary {
+  background: #f6f8fd;
+}
+
+.management-claim-metric-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.management-claim-metric-head strong {
+  color: var(--ink);
+  font-size: 11px;
+}
+
+.management-claim-metric-head small {
+  color: var(--muted);
+  font-size: 8px;
+  text-align: right;
+}
+
+.management-claim-metric .claim-period-values {
+  margin-top: 9px;
+}
+
+.management-claim-metric .claim-diverging {
+  height: 10px;
+  margin-top: 10px;
+}
+
+.management-claim-metric .claim-diverging i {
+  top: 2px;
+  height: 6px;
+}
+
+.management-claim-status {
+  display: block;
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 8.5px;
+  text-align: right;
+}
+
+.management-claim-foot {
+  align-items: flex-end;
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+.management-claim-foot > small {
+  max-width: 72%;
+  line-height: 1.45;
+}
+
+.management-claim-card.is-empty {
+  display: grid;
+  min-height: 300px;
+  place-content: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.management-experience-card {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 12px;
+  min-width: 0;
+  padding: 18px;
+  background: #fff;
+}
+
+.management-experience-card.is-empty {
+  display: grid;
+  min-height: 210px;
+  place-content: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.management-experience-head,
+.management-experience-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.management-experience-head {
+  grid-column: 1 / -1;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.management-experience-head > strong {
+  font-size: 13px;
+}
+
+.verification-badge {
+  padding: 4px 7px;
+  border-radius: 999px;
+  color: #175cd3;
+  background: #eff8ff;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.verification-badge.is-recalculated {
+  color: #067647;
+  background: #ecfdf3;
+}
+
+.management-experience-metric {
+  display: grid;
+  gap: 9px;
+  min-width: 0;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #e7ebf1;
+  border-radius: 10px;
+  background: #fbfcfe;
+}
+
+.management-experience-metric.is-primary {
+  grid-column: 1 / -1;
+  border-color: #cbd8ef;
+  background: #f4f7fd;
+}
+
+.management-metric-title,
+.management-period-values {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.management-metric-title > span {
+  color: var(--ink-soft);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.management-metric-title > small {
+  color: var(--muted);
+  font-size: 8px;
+}
+
+.management-period-values > div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.management-period-values > div:last-child {
+  justify-items: end;
+  text-align: right;
+}
+
+.management-period-values span {
+  color: var(--muted);
+  font-size: 8.5px;
+  font-weight: 700;
+}
+
+.management-period-values strong {
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.025em;
+}
+
+.management-experience-metric.is-primary .management-period-values strong {
+  font-size: 20px;
+}
+
+.management-experience-card .positive { color: var(--mint); }
+.management-experience-card .negative { color: var(--red); }
+.management-experience-card .neutral { color: var(--muted); }
+
+.management-metric-change {
+  color: var(--muted);
+  font-size: 8.5px;
+  font-weight: 700;
+}
+
+.management-experience-foot {
+  grid-column: 1 / -1;
+  align-items: flex-end;
+  margin-top: 15px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.management-experience-foot > span {
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.management-source-link {
+  flex: 0 0 auto;
+}
+
+.management-full-table-wrap {
+  max-height: calc(100vh - 214px);
+  margin-top: 22px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.management-full-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.management-full-table th,
+.management-full-table td {
+  height: 35px;
+  padding: 6px 10px;
+  border-right: 1px solid #eef0f3;
+  border-bottom: 1px solid #e7eaf0;
+}
+
+.management-full-table thead th {
+  position: sticky;
+  z-index: 6;
+  top: 0;
+  color: #fff;
+  background: var(--navy);
+  text-align: center;
+}
+
+.management-full-table thead .modal-sector-cell,
+.management-full-table thead .modal-company-cell,
+.management-full-table thead .modal-metric-cell {
+  color: #fff !important;
+  background: var(--navy) !important;
+}
+
+.management-full-table .modal-sector-cell { width: 62px; }
+.management-full-table .modal-company-cell { width: 128px; background: #fbfcfe; }
+.management-full-table .modal-company-cell > span { display: block; margin: 5px 0; color: var(--muted); font-size: 8px; font-weight: 700; }
+.management-full-table .modal-company-cell .management-source-link { display: inline-block; margin-top: 5px; }
+.management-full-table .modal-metric-cell { width: 170px; color: var(--ink-soft); text-align: left; }
+.management-full-table td { text-align: right; }
+.management-full-table .positive { color: var(--mint); font-weight: 800; }
+.management-full-table .negative { color: var(--red); font-weight: 800; }
+.management-full-table .group-total > * { background: #f4f7fd; font-weight: 800; }
+.management-full-table .group-claim-detail .modal-metric-cell { padding-left: 24px; color: var(--muted); }
+.management-full-table tr.group-claim:first-of-type > *,
+.management-full-table tr.group-expense > * { border-top: 1px solid #cdd5df; }
+.management-full-table tbody tr.sector-start > * { border-top: 3px solid #9aa8ba; }
+
+.management-modal-notes {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.management-modal-notes li {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #6b520f;
+  background: #fffaeb;
+  font-size: 9.5px;
+  line-height: 1.5;
+}
+
 .compact-ratio-wrap {
   width: 100%;
   overflow: hidden;
@@ -2468,14 +2922,27 @@ button.trend-card:hover {
 }
 
 .forecast-detail-tabs button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
   min-height: 48px;
+  padding: 0 14px;
   border: 0;
   border-left: 1px solid #d7e0eb;
   color: var(--muted);
   background: transparent;
   font-size: 14px;
   font-weight: 900;
+  line-height: 1.2;
   cursor: pointer;
+}
+
+.forecast-detail-tabs button small {
+  color: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.72;
 }
 
 .forecast-detail-tabs button:first-child {
@@ -4635,6 +5102,7 @@ footer {
 
   .industry-board,
   .claim-summary-grid,
+  .management-experience-grid,
   .liability-summary-grid,
   .trend-grid {
     grid-template-columns: 1fr;
@@ -4763,6 +5231,31 @@ footer {
     gap: 18px;
   }
 
+  .claim-section-heading,
+  .claim-view-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .claim-basis-toggle button {
+    min-height: 44px;
+    flex: 1;
+  }
+
+  .management-formula-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .management-formula-grid > div + div {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .management-guidance-note {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .section-heading h2,
   .panel-header h2,
   .quality-intro h2 {
@@ -4794,6 +5287,7 @@ footer {
 
   .liability-card,
   .claim-summary-card,
+  .management-experience-card,
   .trend-card {
     padding: 18px;
   }

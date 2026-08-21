@@ -59,7 +59,7 @@ test("agent run returns a validation-gated snapshot and finishes with no review 
   assert.equal(validationPassed.stages[3].status, "completed");
   assert.ok(validationPassed.snapshot, "snapshot should be attached after validation");
   assert.equal(validationPassed.snapshot.sampleData["samsung-life"].name, "삼성생명");
-  assert.equal(validationPassed.forecastContractVersion, "2026.08.16-v7.4");
+  assert.equal(validationPassed.forecastContractVersion, "2026.08.16-v7.5");
   assert.equal(validationPassed.forecastRuntimeContractVersion, "csm-forecast-runtime/v1");
   assert.ok(validationPassed.forecastHash);
   assert.equal(validationPassed.forecast.independentModel, 14135);

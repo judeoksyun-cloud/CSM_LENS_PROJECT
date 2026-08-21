@@ -30,7 +30,7 @@ test('analyze returns a grounded dashboard bundle for the latest validated perio
   assert.ok(result.calculation.length > 0);
   assert.ok(result.followUps.length > 0);
   assert.ok(result.answer.summary.length > 0);
-  assert.equal(result.forecastContractVersion, '2026.08.16-v7.4');
+  assert.equal(result.forecastContractVersion, '2026.08.16-v7.5');
   assert.equal(result.forecastRuntimeContractVersion, 'csm-forecast-runtime/v1');
   assert.equal(result.forecast.independentModel, 14135);
   assert.equal(result.forecast.base, 13500);
@@ -140,5 +140,5 @@ test('status reports both quarterly and forecast contract hashes', async () => {
   assert.ok(status.dashboardHash);
   assert.ok(status.forecastHash);
   assert.equal(status.dashboardContractVersion, 'csm-dashboard-quarterly/v1');
-  assert.equal(status.forecastContractVersion, '2026.08.16-v7.4');
+  assert.equal(status.forecastContractVersion, '2026.08.16-v7.5');
 });

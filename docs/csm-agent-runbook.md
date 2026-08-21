@@ -1,6 +1,6 @@
 # CSM Agent Runbook
 
-최종 갱신: 2026-08-15
+최종 갱신: 2026-08-21
 
 ## 목적
 
@@ -10,6 +10,8 @@
 
 - `external-data/csm-quarterly-dashboard-data.json` — 화면·AI·Agent Run의 단일 진실 원천
 - `csm-prototype/dashboard-data.generated.js`
+- `external-data/management-experience-2025.json` — 관리기준 예실차 연말 정규화 계약
+- `csm-prototype/management-experience-data.generated.js` — 관리기준 예실차 브라우저 산출물
 - `tools/dashboard-contract.mjs` — AI/Agent 공통 런타임 계약과 리뷰 상태 파생
 
 `external-data/csm-dashboard-agent-output.json`과 `tools/csm_agent_pipeline.py`는 초기 2개사 파일럿 보존물이다. 최신 9개사 대시보드와 런타임은 이 파일을 읽지 않는다.
@@ -26,6 +28,24 @@ python tools/build_csm_forecast.py
 
 원시 캐시가 없으면 먼저 `annual_dart_insurance_extract.py`, `quarterly_dart_insurance_extract.py`, `quarterly_fisis_financial_extract.py`를 실행한다. API 키와 네트워크 호출이 필요하다.
 
+## 관리기준 예실차 갱신
+
+관리기준 예실차는 Open DART 수집기가 아니라 회사 공식 홈페이지의 연말 결산 별도 SAP 손익계산서·Factsheet를 사용한다. 전체 기준은 [management-experience-standard.md](management-experience-standard.md)를 따른다.
+
+갱신 순서는 다음과 같다.
+
+1. 대상 회사와 결산연도를 확정한다.
+2. 공식 회사 도메인에서 결산 경영공시·Factsheet를 확보하고 별도 SAP 범위를 확인한다.
+3. 문서명, URL, 시트·페이지, 열·행, 원단위를 먼저 기록한다.
+4. 예상보험금, 발생보험금, 발생사고요소조정과 예상·발생 사업비 세 항목을 추출한다.
+5. 억원으로 정규화하고 보험금·사업비·종합 예실차 및 세 비율을 재계산한다.
+6. 세부 행이 없으면 회사의 공식 결과금액만 저장하고, 동일 SAP 기준 분모가 없으면 비율을 `null`로 둔다.
+7. 결과와 함께 `verificationStatus`, `verificationLabel`, `coverageNote`, `source`를 갱신한다.
+8. `external-data/management-experience-2025.json`과 `csm-prototype/management-experience-data.generated.js`를 동일하게 만든다.
+9. 데이터 기준 표와 방법론 변경 이력을 갱신하고 회귀 테스트를 실행한다.
+
+절대 사용하지 않는 보정 원본은 Open DART 공시기준 예실차, FISIS의 다른 재무비율, 기사·증권사 표, `ref_data`, 사용자 첨부 양식이다. 이 자료들은 SAP 관리기준 결측값을 채우는 데 사용할 수 없다.
+
 ## 검증
 
 파이프라인 메타데이터, UI 구조, AI 계약, 에이전트 런타임 상태를 확인할 때는 다음 명령을 순서대로 실행한다.
@@ -38,6 +58,7 @@ node --test tests/csm-lens-ia.test.mjs
 node --test tests/dashboard-contract.test.mjs
 node --test tests/test_ai_gateway_contract.mjs
 node --test tests/test_agent_run_gateway.mjs
+node tests/management-experience.test.mjs
 python tools/test_quarterly_dashboard_data.py
 ```
 

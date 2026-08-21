@@ -1,0 +1,208 @@
+{
+  "schemaVersion": "management-experience/v2",
+  "asOfPeriod": "2025-ye",
+  "comparisonPeriods": ["2024-ye", "2025-ye"],
+  "basis": "별도 · SAP 손익계산서",
+  "unit": "억원",
+  "sourcePolicy": {
+    "primary": "각 보험사 공식 홈페이지의 연말 결산 별도 SAP 손익계산서·Factsheet·경영공시",
+    "excludedAsSourceOrValidator": ["Open DART 공시기준 예실차", "FISIS 유사 재무지표", "기사", "증권사 표", "ref_data", "사용자 첨부 양식"],
+    "rule": "세부 SAP 행이 있으면 구성항목을 재계산하고, 없으면 회사가 기술한 공식 결과금액만 사용한다."
+  },
+  "periodSelectionPolicy": {
+    "frequency": "annual_only",
+    "q1ToQ3": "직전 연말을 당기로 선택",
+    "q4OrYearEnd": "해당 연말을 당기로 선택",
+    "prior": "당기의 직전 연말만 전기로 사용하며 미수록이면 null"
+  },
+  "validationPolicy": {
+    "componentStatus": "official_component_recalculated",
+    "reportedStatus": "official_reported_outcome",
+    "missingRule": "동일 SAP 기준 예상금액 분모가 없으면 비율을 null로 유지하고 다른 지표로 대체하지 않는다.",
+    "requiredTrace": ["publisher", "document", "scope", "location", "url", "coverageNote"]
+  },
+  "formulas": {
+    "total": "보험금 예실차 + 사업비 예실차",
+    "claim": "예상보험금 - (발생보험금 + 발생사고요소조정)",
+    "expense": "(예상손해조사비 + 예상계약유지비 + 예상투자관리비) - (발생손해조사비 + 발생계약유지비 + 발생투자관리비)",
+    "totalRatio": "종합 예실차 / (예상보험금 + 예상사업비)",
+    "claimRatio": "보험금 예실차 / 예상보험금",
+    "expenseRatio": "사업비 예실차 / 예상사업비"
+  },
+  "guidance": {
+    "thresholdPercent": 5,
+    "displayStatus": "context_only",
+    "note": "업무상 관리 참고선은 ±5% 이내로 설정한다. 회사가 예상금액 분모를 공개하지 않은 세부 지표는 비율을 산출하지 않고 공개 범위 그대로 표시한다."
+  },
+  "definitionNote": "보험금·사업비 예실차의 항목 배치는 사용자 지정 관리기준을 따른다. ref_data와 첨부 양식은 화면 구조 참고에만 사용하며 수치 원본이나 검증값으로 사용하지 않는다.",
+  "companies": {
+    "samsung-life": {
+      "verificationStatus": "official_component_recalculated",
+      "verificationLabel": "세부항목 재계산",
+      "periods": {
+        "2024-ye": {
+          "claimExperience": -4132.35574, "expenseExperience": -1335.58418, "totalExperience": -5467.93992,
+          "ratios": { "total": -8.4226493199, "claim": -9.0107260928, "expense": -7.0076043361 },
+          "components": { "expectedClaims": 45860.40789, "incurredClaims": 46603.97397, "incurredClaimAdjustment": 3388.78966, "expectedExpenseTotal": 19059.06949, "actualExpenseTotal": 20394.65367 },
+          "source": { "publisher": "삼성생명", "document": "SLI FY25Factsheet_KOR.xlsx", "scope": "별도 · SAP", "location": "Ⅴ-4 시트 · 2024 누적 열", "url": "https://www.samsunglife.com/individual/display/invest/PDK-IRIVI015220M" }
+        },
+        "2025-ye": {
+          "claimExperience": -3701.5, "expenseExperience": 728.85, "totalExperience": -2972.65,
+          "ratios": { "total": -4.4041197072, "claim": -7.6856170472, "expense": 3.769464057 },
+          "components": { "expectedClaims": 48161.39, "incurredClaims": 50499.6, "incurredClaimAdjustment": 1363.29, "expectedExpenseTotal": 19335.64, "actualExpenseTotal": 18606.79 },
+          "source": { "publisher": "삼성생명", "document": "SLI FY25Factsheet_KOR.xlsx", "scope": "별도 · SAP", "location": "Ⅴ-4 시트 · 2025 누적 열 · 11·12·33·34·37행", "url": "https://www.samsunglife.com/individual/display/invest/PDK-IRIVI015220M" }
+        }
+      }
+    },
+    "hanwha-life": {
+      "verificationStatus": "official_component_recalculated",
+      "verificationLabel": "세부항목 재계산",
+      "periods": {
+        "2024-ye": {
+          "claimExperience": -2066.63451158, "expenseExperience": -39.83128826, "totalExperience": -2106.46579984,
+          "ratios": { "total": -6.8966107789, "claim": -8.5764707379, "expense": -0.6178332829 },
+          "components": { "expectedClaims": 24096.56109997, "incurredClaims": 24878.8139335, "incurredClaimAdjustment": 1284.38167805, "expectedExpenseTotal": 6446.93145558, "actualExpenseTotal": 6486.76274384 },
+          "source": { "publisher": "한화생명", "document": "FY25 HLI FactSheet(KOR).xlsx", "scope": "별도 · SAP", "location": "별도 손익계산서(SAP) 시트 · 2024 누적 열", "url": "https://company.hanwhalife.com/ko/investment/investor/earnings-release" }
+        },
+        "2025-ye": {
+          "claimExperience": -3799.28476014, "expenseExperience": 452.81706449, "totalExperience": -3346.46769565,
+          "ratios": { "total": -10.3469863552, "claim": -15.2420631277, "expense": 6.105846312 },
+          "components": { "expectedClaims": 24926.31560638, "incurredClaims": 29910.84406277, "incurredClaimAdjustment": -1185.24369625, "expectedExpenseTotal": 7416.12286569, "actualExpenseTotal": 6963.3058012 },
+          "source": { "publisher": "한화생명", "document": "FY25 HLI FactSheet(KOR).xlsx", "scope": "별도 · SAP", "location": "별도 손익계산서(SAP) 시트 · 2025 누적 열 · 8~11·20~25행", "url": "https://company.hanwhalife.com/ko/investment/investor/earnings-release" }
+        }
+      }
+    },
+    "kyobo-life": {
+      "verificationStatus": "official_reported_outcome",
+      "verificationLabel": "공식 결과값",
+      "periods": {
+        "2024-ye": {
+          "claimExperience": 410, "expenseExperience": 871, "totalExperience": 1281,
+          "ratios": { "total": 4.0578771759, "claim": 2.0614876399, "expense": 7.457396093 },
+          "components": { "expectedClaims": 19888.55, "expectedExpenseTotal": 11679.68 },
+          "coverageNote": "공식 경영공시 결과값과 감사보고서 예상금액을 결합한 비율이며, 발생사고요소조정 등 SAP 세부 행은 공개되지 않았다.",
+          "source": { "publisher": "교보생명", "document": "2024년 결산 경영공시", "scope": "별도 · SAP 공식 결과", "location": "재무정보 요약 · 보험금 410억원, 사업비 871억원", "url": "https://www.kyobo.com/dgt/web/notice-management/fixed-term/last-fiveYear" }
+        },
+        "2025-ye": {
+          "claimExperience": 773, "expenseExperience": 1158, "totalExperience": 1931,
+          "ratios": { "total": 5.8130118747, "claim": 3.580979947, "expense": 9.9550304282 },
+          "components": { "expectedClaims": 21586.27, "expectedExpenseTotal": 11632.31 },
+          "coverageNote": "공식 경영공시 결과값과 감사보고서 예상금액을 결합한 비율이며, 발생사고요소조정 등 SAP 세부 행은 공개되지 않았다.",
+          "source": { "publisher": "교보생명", "document": "2025년 결산 경영공시", "scope": "별도 · SAP 공식 결과", "location": "p.15 재무정보 요약사항 기술", "url": "https://www.kyobo.com/dgt/web/notice-management/fixed-term/last-year" }
+        }
+      }
+    },
+    "shinhan-life": {
+      "verificationStatus": "official_reported_outcome",
+      "verificationLabel": "공식 결과값",
+      "periods": {
+        "2024-ye": {
+          "claimExperience": 200.15, "expenseExperience": 50.96, "totalExperience": 251.11,
+          "ratios": { "total": 1.5198799155, "claim": null, "expense": null },
+          "components": { "expectedCombined": 16521.7, "actualCombined": 16270.59 },
+          "coverageNote": "별도 감사보고서에는 보험금·사업비 예상액이 합산 공개되어 종합 비율만 산출했다.",
+          "source": { "publisher": "신한라이프", "document": "2024년 결산 경영공시", "scope": "별도 · SAP 공식 결과", "location": "재무정보 요약 및 별도 감사보고서 보험영업수익(비용)", "url": "https://www.shinhanlife.co.kr/bizxpress/cdh/cdhi/op/fx/__etc/6.%202024년%20년결산%20경영공시_수정본.pdf" }
+        },
+        "2025-ye": {
+          "claimExperience": -144.43, "expenseExperience": 159.31, "totalExperience": 14.88,
+          "ratios": { "total": 0.0847921225, "claim": null, "expense": null },
+          "components": { "expectedCombined": 17548.8, "actualCombined": 17533.92 },
+          "coverageNote": "별도 감사보고서에는 보험금·사업비 예상액이 합산 공개되어 종합 비율만 산출했다.",
+          "source": { "publisher": "신한라이프", "document": "2025년 결산 경영공시", "scope": "별도 · SAP 공식 결과", "location": "p.20 재무정보 요약 및 별도 감사보고서 보험영업수익(비용)", "url": "https://www.shinhanlife.co.kr/bizxpress/cdh/cdhi/op/fx/__etc/25년%20결산%20경영공시_신한라이프.pdf" }
+        }
+      }
+    },
+    "samsung-fire": {
+      "verificationStatus": "official_component_recalculated",
+      "verificationLabel": "세부항목 재계산",
+      "periods": {
+        "2024-ye": {
+          "claimExperience": 1364.91326392, "expenseExperience": -651.55953026, "totalExperience": 713.35373366,
+          "ratios": { "total": 1.232962706, "claim": 2.9605756637, "expense": -5.5433428702 },
+          "components": { "expectedClaims": 46102.96844081, "incurredClaims": 48876.01611454, "incurredClaimAdjustment": -4137.96093765, "expectedExpenseTotal": 11753.90996942, "actualExpenseTotal": 12405.46949968 },
+          "source": { "publisher": "삼성화재", "document": "(KOR) 삼성화재 25.4Q.xlsx", "scope": "별도 · SAP", "location": "PL-별도감독 2512 시트 · 2024 누적 열", "url": "https://www.samsungfire.com/vh/page/VH.HPMK0201.do" }
+        },
+        "2025-ye": {
+          "claimExperience": -1349.70771779, "expenseExperience": 279.39099418, "totalExperience": -1070.31672361,
+          "ratios": { "total": -1.6016278678, "claim": -2.4940135208, "expense": 2.198387535 },
+          "components": { "expectedClaims": 54117.89898198, "incurredClaims": 56726.91787558, "incurredClaimAdjustment": -1259.31117581, "expectedExpenseTotal": 12708.90549215, "actualExpenseTotal": 12429.51449797 },
+          "source": { "publisher": "삼성화재", "document": "(KOR) 삼성화재 25.4Q.xlsx", "scope": "별도 · SAP", "location": "PL-별도감독 2512 시트 · 2025 누적 열 · 12~15·26~31행", "url": "https://www.samsungfire.com/vh/page/VH.HPMK0201.do" }
+        }
+      }
+    },
+    "meritz-fire": {
+      "verificationStatus": "official_component_recalculated",
+      "verificationLabel": "세부항목 재계산",
+      "periods": {
+        "2024-ye": {
+          "claimExperience": 4281.58791606, "expenseExperience": 46.46048175, "totalExperience": 4328.04839781,
+          "ratios": { "total": 8.5746644943, "claim": 9.3623075373, "expense": 0.9796299569 },
+          "components": { "expectedClaims": 45732.18620518, "incurredClaims": 44061.08596872, "incurredClaimAdjustment": -2610.4876796, "expectedExpenseTotal": 4742.65628807, "actualExpenseTotal": 4696.19580632 },
+          "source": { "publisher": "메리츠금융그룹", "document": "FY2025 Factsheet", "scope": "메리츠화재 별도 · SAP", "location": "Insurance_PL 시트 · 2024 누적 열", "url": "https://www.meritzgroup.com/commfiles/hld/attach/2026/20260211/202602111556270780007U.xlsx" }
+        },
+        "2025-ye": {
+          "claimExperience": 7.1714914, "expenseExperience": -160.49704827, "totalExperience": -153.32555687,
+          "ratios": { "total": -0.2920457468, "claim": 0.0151047571, "expense": -3.1957744582 },
+          "components": { "expectedClaims": 47478.36280887, "incurredClaims": 49216.31203941, "incurredClaimAdjustment": -1745.12072194, "expectedExpenseTotal": 5022.16443516, "actualExpenseTotal": 5182.66148343 },
+          "source": { "publisher": "메리츠금융그룹", "document": "FY2025 Factsheet", "scope": "메리츠화재 별도 · SAP", "location": "Insurance_PL 시트 · 2025 누적 열", "url": "https://www.meritzgroup.com/commfiles/hld/attach/2026/20260211/202602111556270780007U.xlsx" }
+        }
+      }
+    },
+    "db-insurance": {
+      "verificationStatus": "official_component_recalculated",
+      "verificationLabel": "세부항목 재계산",
+      "periods": {
+        "2024-ye": {
+          "claimExperience": 2199.0837837, "expenseExperience": -462.62090883, "totalExperience": 1736.46287487,
+          "ratios": { "total": 3.1801109762, "claim": 4.5713385298, "expense": -7.1195011784 },
+          "components": { "expectedClaims": 48105.90529199, "incurredClaims": 47675.71107925, "incurredClaimAdjustment": -1768.88957096, "expectedExpenseTotal": 6497.93991515, "actualExpenseTotal": 6960.56082398 },
+          "source": { "publisher": "DB손해보험", "document": "2024.12 FactSheet", "scope": "별도 · SAP", "location": "PL_'24.4Q 시트 · 2024.12월 열", "url": "https://www.idbins.com/pcweb/bizxpress/cmy/inv/ir/__etc/2024.12_FactSheet_DB%20Insurance_Kor_.xlsx" }
+        },
+        "2025-ye": {
+          "claimExperience": -2068.18323206, "expenseExperience": -229.00710108, "totalExperience": -2297.19033314,
+          "ratios": { "total": -3.9735111882, "claim": -4.069130716, "expense": -3.2778812921 },
+          "components": { "expectedClaims": 50826.16844778, "incurredClaims": 49964.96869346, "incurredClaimAdjustment": 2929.38298638, "expectedExpenseTotal": 6986.43668497, "actualExpenseTotal": 7215.44378605 },
+          "source": { "publisher": "DB손해보험", "document": "2025.12_FactSheet_DB Insurance_Kor.xlsx", "scope": "별도 · SAP", "location": "PL_'25.4Q 시트 · 2025.12월 열 · 6~9·23~28행", "url": "https://www.idbins.com/pcweb/bizxpress/cmy/inv/ir/__etc/2025.12_FactSheet_DB%20Insurance_Kor.xlsx" }
+        }
+      }
+    },
+    "hyundai-marine": {
+      "verificationStatus": "official_component_recalculated",
+      "verificationLabel": "세부항목 재계산",
+      "periods": {
+        "2024-ye": {
+          "claimExperience": -1882.92371995, "expenseExperience": -25.03005701, "totalExperience": -1907.95377696,
+          "ratios": { "total": -3.3291232044, "claim": -3.7003500015, "expense": -0.3895133071 },
+          "components": { "expectedClaims": 50885.01680138, "incurredClaims": 54782.07520603, "incurredClaimAdjustment": -2014.1346847, "expectedExpenseTotal": 6425.98251576, "actualExpenseTotal": 6451.01257277 },
+          "excludedComponents": { "otherInsuranceServiceExpenses": 215.67482503, "reason": "사용자 관리 산식 외 항목" },
+          "source": { "publisher": "현대해상", "document": "FY2025 Factsheet", "scope": "별도 · SAP", "location": "(3) UW Income 시트 · 2024 YTD", "url": "https://www.hi.co.kr/FileActionServlet/download/0/data/202602/9c41482cd069c7fb3c8aa9e73331d133.xlsx" }
+        },
+        "2025-ye": {
+          "claimExperience": -3498.11028916, "expenseExperience": 481.19378343, "totalExperience": -3016.91650573,
+          "ratios": { "total": -4.90076515, "claim": -6.3849580564, "expense": 7.104197256 },
+          "components": { "expectedClaims": 54786.73874207, "incurredClaims": 60433.77230016, "incurredClaimAdjustment": -2148.92326893, "expectedExpenseTotal": 6773.3730651, "actualExpenseTotal": 6292.17928167 },
+          "excludedComponents": { "otherInsuranceServiceExpenses": 44.22448667, "reason": "사용자 관리 산식 외 항목" },
+          "source": { "publisher": "현대해상", "document": "FY2025 Factsheet", "scope": "별도 · SAP", "location": "(3) UW Income 시트 · 2025 YTD · 16~21행", "url": "https://www.hi.co.kr/FileActionServlet/download/0/data/202602/9c41482cd069c7fb3c8aa9e73331d133.xlsx" }
+        }
+      }
+    },
+    "kb-insurance": {
+      "verificationStatus": "official_reported_outcome",
+      "verificationLabel": "공식 결과값",
+      "periods": {
+        "2024-ye": {
+          "claimExperience": 775, "expenseExperience": -454, "totalExperience": 321,
+          "ratios": { "total": null, "claim": null, "expense": null },
+          "coverageNote": "공식 결과금액은 확인했으나 관리비율 분모인 SAP 예상보험금·예상사업비 세부액은 공개 자료에서 확인되지 않았다.",
+          "source": { "publisher": "KB손해보험", "document": "FY2024 결산 경영공시", "scope": "별도 · SAP 공식 결과", "location": "p.25 재무정보 요약사항 기술", "url": "https://www.kbinsure.co.kr/CG801020002.ec?seq=935" }
+        },
+        "2025-ye": {
+          "claimExperience": -2003, "expenseExperience": -108, "totalExperience": -2111,
+          "ratios": { "total": null, "claim": null, "expense": null },
+          "coverageNote": "공식 결과금액은 확인했으나 관리비율 분모인 SAP 예상보험금·예상사업비 세부액은 공개 자료에서 확인되지 않았다.",
+          "source": { "publisher": "KB손해보험", "document": "FY2025 결산 경영공시", "scope": "별도 · SAP 공식 결과", "location": "p.30 재무정보 요약사항 기술", "url": "https://www.kbinsure.co.kr/CG801020002.ec?seq=1028" }
+        }
+      }
+    }
+  }
+}

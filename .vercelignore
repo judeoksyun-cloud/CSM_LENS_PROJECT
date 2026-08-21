@@ -8,6 +8,15 @@ outputs
 tests
 tools
 *.png
+.env
+.vercel/
+vercel-home/
+vercel-cache/
+ref_data/
+*.xlsx
 *.log
 *.out
 *.err
+__pycache__/
+*.pyc
+.DS_Store

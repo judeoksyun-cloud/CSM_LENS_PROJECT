@@ -8,6 +8,7 @@ const dashboardData = JSON.parse(
 );
 const dashboardHtml = readFileSync("csm-prototype/index.html", "utf8");
 const dashboardScript = readFileSync("csm-prototype/script.js", "utf8");
+const dashboardGeneratedScript = readFileSync("csm-prototype/dashboard-data.generated.js", "utf8");
 
 assert.match(
   rootHtml,
@@ -104,4 +105,7 @@ assert.match(dashboardScript, /renderProcessingLineage/);
 assert.match(dashboardScript, /생보 SH154\/A, 손보 SI150\/A/);
 assert.match(dashboardScript, /생보 SH154\/G, 손보 SI150\/G/);
 assert.match(dashboardScript, /생보 SH021\/D·손보 SI021\/D/);
-assert.match(dashboardHtml, /FISIS에 없는 CSM과 Movement는 각 회사 공식 IR/);
+assert.match(dashboardHtml, /관리기준 예실차는 각 회사 홈페이지의 결산 별도 SAP 손익계산서/);
+assert.match(dashboardHtml, /SAP 세부 분모가 없으면 공시기준이나 다른 지표로 대체하지 않습니다/);
+assert.match(dashboardHtml, /첨부 양식과 ref_data는 화면 구조 참고에만 사용합니다/);
+assert.match(dashboardGeneratedScript, /9개사 관리기준 예실차/);

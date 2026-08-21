@@ -1,6 +1,6 @@
 ﻿# CSM Lens System Architecture
 
-최종 갱신: 2026-08-15
+최종 갱신: 2026-08-21
 
 ## 문서 역할
 
@@ -31,7 +31,7 @@ CSM Lens는 보험업계 CSM 벤치마킹과 리서치 보조를 위한 분석 �
 
 ## 3. 현재 범위
 
-현재 대상은 생명보험 4개사와 손해보험 5개사다. `external-data/csm-quarterly-dashboard-data.json`의 9개사 2023 Q1~2026 Q1 분기 데이터가 화면, AI Gateway, Agent Run Gateway의 단일 진실 원천이다. 초기 삼성생명·삼성화재 2개사 산출물은 회귀 참고용으로만 보존한다.
+현재 대상은 생명보험 4개사와 손해보험 5개사다. CSM·손익·K-ICS의 핵심 분기 계약은 `external-data/csm-quarterly-dashboard-data.json`이며, 관리기준 예실차의 연말 계약은 `external-data/management-experience-2025.json`이다. 각 지표는 자신에게 지정된 정규화 계약만 진실 원천으로 사용하며 서로의 결측값을 보충하지 않는다. 초기 삼성생명·삼성화재 2개사 산출물은 회귀 참고용으로만 보존한다.
 
 회사와 기간을 확장할 때는 다음 기준을 적용한다.
 
@@ -55,6 +55,8 @@ CSM Lens는 보험업계 CSM 벤치마킹과 리서치 보조를 위한 분석 �
 | 비지배지분 | 투자손익 역산 시 지배주주 연결손익을 연결 당기순이익으로 되돌리는 조정항목 |
 | K-ICS 비율 | 지급여력 공시 기준 |
 | 기시 CSM | 누적 기준은 전년도말, 분기 단독 기준은 직전 분기말 |
+| 관리기준 예실차 | 회사 공식 연말 결산 별도 SAP 손익계산서. 종합·보험금·사업비 금액과 대응 예상금액 대비 비율 |
+| 공시기준 예실차 | Open DART 연결재무제표 주석의 예상손해율·실제손해율·차이 |
 
 초기 2개사 파일럿은 투자손익을 다음 방식으로 역산했다. 이 값은 현재 9개사 분기 계약으로 승격되지 않았으며 AI도 표시하지 않는다.
 
@@ -71,6 +73,21 @@ CSM Lens는 보험업계 CSM 벤치마킹과 리서치 보조를 위한 분석 �
 현재 제품은 외부 DART/FISIS 추출 산출물을 읽어 화면을 채우는 생성형 정적 웹앱이다. 브라우저는 `csm-prototype/dashboard-data.generated.js`를 읽고, AI와 Agent Run은 같은 원본 JSON을 `tools/dashboard-contract.mjs`를 통해 읽는다. 실시간 Open DART 자동 수집과 원문 파싱은 별도 Python 파이프라인 단계로 관리한다.
 
 샘플 숫자와 실제 파싱 숫자는 반드시 구분한다. 샘플 숫자는 화면 구조와 분석 흐름 검증에만 사용하며, 실제 대시보드 집계에는 원문 출처가 있는 값만 사용한다.
+
+### 4.1 관리기준 예실차 데이터 계약
+
+관리기준 예실차는 Open DART 중심 CSM 파이프라인과 원본이 다르다. 각 보험사 공식 홈페이지의 연말 결산 별도 SAP 손익계산서·공식 Factsheet를 사용한다. Open DART, FISIS, 기사, 증권사 표, `ref_data`, 사용자 첨부 양식은 관리기준 값의 원본이나 결측 보정값이 될 수 없다.
+
+정규화 결과는 `external-data/management-experience-2025.json`, 브라우저 산출물은 `csm-prototype/management-experience-data.generated.js`에 저장한다. 회사·연도별로 세 결과금액, 세 비율, 원문 구성항목, 공식 URL, 문서·시트·열·행, 별도 SAP 범위, 검증등급, 결측 사유를 함께 보존한다.
+
+검증등급은 다음 두 가지를 구분한다.
+
+- `official_component_recalculated`: 공식 SAP의 예상·발생 구성항목으로 금액과 비율을 재계산
+- `official_reported_outcome`: 공식 경영공시의 결과금액을 사용하고 공개된 동일 기준 분모가 있을 때만 비율 계산
+
+분모가 없으면 `null`로 저장한다. 공시기준 손해율, K-ICS 익스포져, 전년도 비율로 대체하지 않는다. 기간은 연말만 저장하며, 화면에서 1~3분기는 직전 연말, 4분기·연말은 해당 연말을 당기로 선택한다. 직전 연말이 없으면 전기와 전년비는 공란이다.
+
+구체적인 산식, 필드, 회사별 예외와 갱신 체크리스트는 [management-experience-standard.md](management-experience-standard.md)를 따른다.
 
 ## 5. CSM Movement 표준
 
@@ -770,4 +787,3 @@ http://127.0.0.1:8766/csm-prototype/index.html
 - `sampleData`의 `sourceReference`
 - `quarterlyAudit.openingReconciliationDifference`
 - `dashboard-data.generated.js`가 최신 산출물인지 여부
-
