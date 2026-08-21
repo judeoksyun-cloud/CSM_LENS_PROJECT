@@ -57,7 +57,9 @@ if (!Object.keys(companies).length) {
 const periodSelect = document.querySelector("#period-select");
 const metricTabs = [...document.querySelectorAll("[data-market-metric]")];
 const basisButtons = [...document.querySelectorAll("[data-value-basis]")];
-const claimBasisButtons = [...document.querySelectorAll("[data-claim-basis]")];
+const durationMetricButtons = [...document.querySelectorAll("[data-duration-metric]")];
+const peerTrendScenarioButtons = [...document.querySelectorAll("[data-peer-trend-scenario]")];
+const peerTrendReset = document.querySelector("#peer-trend-reset");
 const trendModal = document.querySelector("#trend-modal");
 const trendModalClose = document.querySelector("#trend-modal-close");
 const movementModal = document.querySelector("#movement-modal");
@@ -74,7 +76,21 @@ const state = {
   periodKey: null,
   marketMetric: "csm",
   valueBasis: "cumulative",
-  claimExperienceBasis: "management",
+  durationMetric: "loss",
+  peerTrendScenario: "base",
+  peerTrendCompanyKey: null,
+};
+
+const peerTrendColors = {
+  "samsung-life": "#1d4ed8",
+  "hanwha-life": "#7c3aed",
+  "kyobo-life": "#2563eb",
+  "shinhan-life": "#6366f1",
+  "samsung-fire": "#047857",
+  "meritz-fire": "#0f766e",
+  "db-insurance": "#0891b2",
+  "hyundai-marine": "#ca8a04",
+  "kb-insurance": "#c2410c",
 };
 
 const marketMetrics = {
@@ -474,18 +490,112 @@ function forecastTargetLabel(periodKey) {
 
 function forecastPeriodLabel(periodKey) {
   const { year } = parsePeriodKey(periodKey);
-  const term = { 2026: "1년 예상", 2027: "2년 예상", 2028: "3년 예상", 2030: "5년 예상", 2035: "10년 예상" }[year] ?? "전망";
+  const term = { 2026: "1년 예상", 2027: "2년 예상", 2028: "3년 예상", 2029: "4년 예상", 2030: "5년 예상" }[year] ?? "전망";
   return { term, year: `${String(year).slice(2)} YE` };
 }
 
 function forecastHorizonSeries(projection, scenarioKey) {
   const horizon = projection.forecastMeta?.horizon;
-  const nearTerm = horizon?.[scenarioKey] ?? [
+  return horizon?.[scenarioKey] ?? [
     { period: projection.forecastMeta?.targetPeriod ?? "2026-ye", closing: projection.closing },
   ];
-  const terminal = horizon?.terminal?.[scenarioKey];
-  if (!terminal || nearTerm.some((item) => item.period === terminal.period)) return nearTerm;
-  return [...nearTerm, terminal];
+}
+
+function formatPeerTrendRate(value) {
+  if (!Number.isFinite(value) || Math.abs(value) < 0.05) return "0.0%";
+  return `${value > 0 ? "+" : "−"}${Math.abs(value).toFixed(1)}%`;
+}
+
+function peerTrendSeries() {
+  return companyCatalog.flatMap((catalog) => {
+    const context = getTrendContext(catalog.key);
+    if (!context.period?.csm) return [];
+    const projection = calculateForecast(context, state.peerTrendScenario);
+    const horizon = forecastHorizonSeries(projection, state.peerTrendScenario);
+    if (horizon.length !== 5) return [];
+    const values = [0, ...horizon.map((point) => (point.closing / context.period.csm - 1) * 100)];
+    return [{ catalog, context, horizon, values, color: peerTrendColors[catalog.key] }];
+  });
+}
+
+function renderPeerTrendChart() {
+  const chart = document.querySelector("#peer-trend-chart");
+  const legend = document.querySelector("#peer-trend-legend");
+  if (!chart || !legend) return;
+  peerTrendScenarioButtons.forEach((button) => {
+    const isActive = button.dataset.peerTrendScenario === state.peerTrendScenario;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+  if (peerTrendReset) peerTrendReset.hidden = !state.peerTrendCompanyKey;
+
+  const series = peerTrendSeries();
+  if (!series.length) {
+    chart.innerHTML = disclosureEmptyState("9개사 CSM 추이율");
+    legend.innerHTML = "";
+    return;
+  }
+
+  const width = 1000;
+  const height = 380;
+  const plot = { left: 68, right: 26, top: 26, bottom: 48 };
+  const allValues = series.flatMap((item) => item.values);
+  let minValue = Math.min(0, ...allValues);
+  let maxValue = Math.max(0, ...allValues);
+  const padding = Math.max((maxValue - minValue) * 0.12, 2.5);
+  minValue = Math.floor((minValue - padding) / 5) * 5;
+  maxValue = Math.ceil((maxValue + padding) / 5) * 5;
+  if (maxValue - minValue < 10) {
+    minValue -= 5;
+    maxValue += 5;
+  }
+  const x = (index) => plot.left + index * ((width - plot.left - plot.right) / 5);
+  const y = (value) => plot.top + (maxValue - value) / (maxValue - minValue) * (height - plot.top - plot.bottom);
+  const yTicks = Array.from({ length: 5 }, (_, index) => maxValue - index * ((maxValue - minValue) / 4));
+  const xLabels = ["최근 실적", "1년", "2년", "3년", "4년", "5년"];
+  const selectedKey = state.peerTrendCompanyKey;
+  const scenarioLabel = state.peerTrendScenario === "base" ? "Base" : "Worst";
+
+  chart.innerHTML = `<svg class="peer-trend-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="9개 보험사 ${scenarioLabel} CSM 누적 증감률 비교 그래프">
+    <g class="peer-trend-grid" aria-hidden="true">
+      ${yTicks.map((tick) => `<line x1="${plot.left}" x2="${width - plot.right}" y1="${y(tick)}" y2="${y(tick)}"></line><text x="${plot.left - 12}" y="${y(tick) + 4}" text-anchor="end">${formatPeerTrendRate(tick)}</text>`).join("")}
+      <line class="peer-trend-zero" x1="${plot.left}" x2="${width - plot.right}" y1="${y(0)}" y2="${y(0)}"></line>
+      ${xLabels.map((label, index) => `<text x="${x(index)}" y="${height - 14}" text-anchor="middle">${label}</text>`).join("")}
+      <text class="peer-trend-axis-title" x="14" y="${plot.top - 8}">누적 증감률</text>
+    </g>
+    <g class="peer-trend-series">
+      ${series.map((item) => {
+        const dimmed = selectedKey && selectedKey !== item.catalog.key;
+        const highlighted = selectedKey === item.catalog.key;
+        const points = item.values.map((value, index) => `${x(index)},${y(value)}`).join(" ");
+        return `<g class="peer-trend-line-group ${dimmed ? "is-dimmed" : ""} ${highlighted ? "is-highlighted" : ""}" data-peer-series="${item.catalog.key}" style="--peer-color:${item.color}">
+          <title>${item.catalog.name} ${scenarioLabel}: 5년 누적 ${formatPeerTrendRate(item.values.at(-1))}</title>
+          <polyline class="peer-trend-line ${item.catalog.sector === "손해보험" ? "is-nonlife" : "is-life"}" points="${points}"></polyline>
+          ${item.values.map((value, index) => `<circle cx="${x(index)}" cy="${y(value)}" r="${index === item.values.length - 1 ? 4 : 3}"><title>${item.catalog.name} ${xLabels[index]} ${formatPeerTrendRate(value)}</title></circle>`).join("")}
+        </g>`;
+      }).join("")}
+    </g>
+  </svg>`;
+
+  legend.innerHTML = sectorCatalog.map((sector) => {
+    const sectorSeries = series.filter((item) => item.catalog.sector === sector.name);
+    return `<section class="peer-trend-legend-group sector-${sector.key}">
+      <header><span>${sector.shortName}</span><strong>${sector.name}</strong><small>${sector.name === "생명보험" ? "실선" : "점선"}</small></header>
+      <div>${sectorSeries.map((item) => {
+        const isActive = selectedKey === item.catalog.key;
+        return `<button type="button" data-peer-trend-company="${item.catalog.key}" aria-pressed="${isActive}" style="--peer-color:${item.color}">
+          <i aria-hidden="true"></i><span>${item.catalog.name}</span><strong>${formatPeerTrendRate(item.values.at(-1))}</strong><small>${formatTrendWon(item.horizon.at(-1).closing)}</small>
+        </button>`;
+      }).join("")}</div>
+    </section>`;
+  }).join("");
+
+  legend.querySelectorAll("[data-peer-trend-company]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.peerTrendCompanyKey = state.peerTrendCompanyKey === button.dataset.peerTrendCompany ? null : button.dataset.peerTrendCompany;
+      renderPeerTrendChart();
+    });
+  });
 }
 
 function mergeForecastSources(...groups) {
@@ -497,13 +607,10 @@ function mergeForecastSources(...groups) {
   return [...sources.values()];
 }
 
-function forecastTenYear(projection) {
-  return projection.forecastMeta?.horizon?.terminal ?? null;
-}
-
 function renderForecast() {
   const grid = document.querySelector("#trend-grid");
-  document.querySelector("#forecast-basis-label").textContent = "1Y · 2Y · 3Y · 5Y · 10Y";
+  document.querySelector("#forecast-basis-label").textContent = "1Y · 2Y · 3Y · 4Y · 5Y";
+  renderPeerTrendChart();
 
   grid.innerHTML = renderSectorCardGroups((catalog) => {
       const context = getTrendContext(catalog.key);
@@ -527,8 +634,8 @@ function renderForecast() {
       const worst = calculateForecast(context, "worst");
       const baseSeries = forecastHorizonSeries(base, "base");
       const worstSeries = forecastHorizonSeries(worst, "worst");
-      const tenYearBase = baseSeries.at(-1);
-      const tenYearWorst = worstSeries.at(-1);
+      const fiveYearBase = baseSeries.at(-1);
+      const fiveYearWorst = worstSeries.at(-1);
       const chartValues = [...history, ...baseSeries.map((item) => item.closing), ...worstSeries.map((item) => item.closing)];
       const min = Math.min(...chartValues) * 0.97;
       const max = Math.max(...chartValues) * 1.03;
@@ -564,11 +671,11 @@ function renderForecast() {
               ${baseSeries.map((item, index) => `<circle class="mini-base-point" cx="${forecastX[index]}" cy="${toMiniY(item.closing)}" r="1.5"></circle>`).join("")}
               ${worstSeries.map((item, index) => `<circle class="mini-worst-point" cx="${forecastX[index]}" cy="${toMiniY(item.closing)}" r="1.5"></circle>`).join("")}
             </svg>
-            <span class="mini-chart-labels"><small>실적</small><small>1~3년</small><small>5년</small><small>10년</small></span>
+            <span class="mini-chart-labels"><small>실적</small><small>1년</small><small>2년</small><small>3년</small><small>4년</small><small>5년</small></span>
           </div>
           <div class="trend-card-values">
             <span><small>${periodLabel(context.periodKey)} 실적</small><strong>${formatTrendWon(context.period.csm)}</strong></span>
-            <span><small>10년 예상 · Base / Worst</small><strong>${tenYearBase && tenYearWorst ? `${formatTrendWon(tenYearBase.closing)} / ${formatTrendWon(tenYearWorst.closing)}` : "—"}</strong></span>
+            <span><small>5년 예상 · Base / Worst</small><strong>${fiveYearBase && fiveYearWorst ? `${formatTrendWon(fiveYearBase.closing)} / ${formatTrendWon(fiveYearWorst.closing)}` : "—"}</strong></span>
           </div>
           <span class="trend-card-action">상세 보기 ↗</span>
         </button>
@@ -591,22 +698,19 @@ function renderForecastMethodology() {
       const sectorCell = companiesInSector(catalog.sector)[0].key === catalog.key
         ? `<th class="sector-group-cell sector-${sectorMetaForCompany(catalog).key}" scope="rowgroup" rowspan="${companiesInSector(catalog.sector).length}"><span>${catalog.shortSector}</span><small>${escapeHtml(catalog.sector)}</small></th>`
         : "";
-      if (!entry) return `<tr class="${sectorCell ? "sector-start" : ""}">${sectorCell}<th class="table-company-cell forecast-company-cell" scope="row">${escapeHtml(catalog.name)}</th>${"<td>—</td>".repeat(9)}</tr>`;
-      const nearBase = entry.horizon.base.at(-1);
-      const nearWorst = entry.horizon.worst.at(-1);
-      const tenYear = entry.horizon.terminal;
+      if (!entry) return `<tr class="${sectorCell ? "sector-start" : ""}">${sectorCell}<th class="table-company-cell forecast-company-cell" scope="row">${escapeHtml(catalog.name)}</th>${"<td>—</td>".repeat(13)}</tr>`;
+      const baseByYear = Object.fromEntries(entry.horizon.base.map((point) => [parsePeriodKey(point.period).year, point]));
+      const worstByYear = Object.fromEntries(entry.horizon.worst.map((point) => [parsePeriodKey(point.period).year, point]));
+      const annualScenarioCells = [2026, 2027, 2028, 2029, 2030].map((year) => `
+          <td class="forecast-base-cell">${baseByYear[year] ? formatTrendWon(baseByYear[year].closing) : "—"}</td>
+          <td class="forecast-worst-cell">${worstByYear[year] ? formatTrendWon(worstByYear[year].closing) : "—"}</td>`).join("");
       return `
         <tr class="${sectorCell ? "sector-start" : ""}">
           ${sectorCell}
           <th class="table-company-cell forecast-company-cell" scope="row">${escapeHtml(catalog.name)}</th>
           <td>${formatTrendWon(entry.asOfCsm ?? entry.base.opening)}</td>
           <td class="forecast-model-cell">${formatTrendWon(entry.independentModel?.base?.closing ?? entry.base.closing)}</td>
-          <td class="forecast-base-cell">${formatTrendWon(entry.base.closing)}</td>
-          <td class="forecast-worst-cell">${formatTrendWon(entry.worst.closing)}</td>
-          <td class="forecast-base-cell">${formatTrendWon(nearBase.closing)}</td>
-          <td class="forecast-worst-cell">${formatTrendWon(nearWorst.closing)}</td>
-          <td class="forecast-base-cell">${tenYear?.base ? formatTrendWon(tenYear.base.closing) : "—"}</td>
-          <td class="forecast-worst-cell">${tenYear?.worst ? formatTrendWon(tenYear.worst.closing) : "—"}</td>
+          ${annualScenarioCells}
           <td><span class="forecast-confidence">${escapeHtml(entry.validation?.label ?? entry.confidence)}</span></td>
         </tr>`;
     })
@@ -643,7 +747,7 @@ function openTrendModal(companyKey) {
         <article class="forecast-chart-card">
           <div class="forecast-chart-header">
             <div>
-              <span>과거 실적 → 1년 예상 → 2년 예상 → 3년 예상 → 5년 예상 → 10년 예상</span>
+              <span>과거 실적 → 1년 예상 → 2년 예상 → 3년 예상 → 4년 예상 → 5년 예상</span>
               <strong id="forecast-company-name">${context.company.name}</strong>
             </div>
             <div class="chart-legend">
@@ -802,7 +906,7 @@ function renderTrendModalDetail(context) {
         </div>
         ${driverForecast ? `
           <div class="forecast-audit-driver-grid">
-            <div><span>신계약 산출</span><p>과거 분기 패턴 ${formatTrendWon(driverForecast.newBusinessBridge.statisticalRemaining)}와 1분기 판매 흐름 ${formatTrendWon(driverForecast.newBusinessBridge.q1RunRateRemaining)}를 결합</p></div>
+            <div><span>신계약 산출</span><p>과거 하반기 패턴 ${formatTrendWon(driverForecast.newBusinessBridge.statisticalRemaining)}와 상반기 판매 흐름 ${formatTrendWon(driverForecast.newBusinessBridge.ytdRunRateRemaining)}를 결합</p></div>
             <div><span>서비스 제공률</span><p>최근 4개 분기 기준 분기 ${(driverForecast.serviceRelease.rate * 100).toFixed(2)}%</p></div>
             <div><span>입력 통제</span><p>${escapeHtml(driverForecast.inputPolicy.reason)}</p></div>
             ${driverForecast.knownBaseAnchor ? `<div><span>경영 입력 · ${escapeHtml(driverForecast.knownBaseAnchor.verificationLabel)}</span><p>Base ${formatTrendWon(driverForecast.knownBaseAnchor.value, 2)} · 독립 모델 ${formatTrendWon(driverForecast.knownBaseAnchor.modelClosing, 2)} · 연결 차이 ${formatSignedTrendWon(driverForecast.knownBaseAnchor.reconciliation, 2)}</p></div>` : ""}
@@ -866,7 +970,7 @@ function renderForecastDecisionBrief(context, base, worst, target, driverForecas
   const lower = driverForecast?.distribution?.p10?.closing ?? worst.closing;
   const reasons = driverForecast
     ? {
-        newbiz: "1분기 건강보험 중심 판매 호조와 FC 채널 확대를 반영하되, 연중 과도한 연율화는 제한했습니다.",
+        newbiz: "상반기 확정 판매 흐름과 과거 하반기 계절성을 반영하되, 연중 과도한 연율화는 제한했습니다.",
         interest: "보유 CSM과 신계약 CSM이 늘면서 계약서비스마진에 부리되는 이자도 소폭 증가합니다.",
         adjustment: "초기 해지율이 안정화돼 전년의 큰 조정 부담은 줄지만, 연말 계리 가정 재점검 부담은 남겼습니다.",
         amortization: "보유 CSM 증가와 보험서비스 제공 확대에 따라 손익으로 인식되는 CSM 규모가 소폭 커집니다.",
@@ -1016,15 +1120,17 @@ function formatForecastGrowth(rate) {
 }
 
 function forecastTrajectoryLabel(start, midpoint, end) {
-  const phase = (left, right) => {
+  const phase = (left, right, years) => {
     if (!Number.isFinite(left) || !Number.isFinite(right) || left === 0) return "unknown";
-    const rate = (right - left) / Math.abs(left);
-    if (rate > 0.01) return "up";
-    if (rate < -0.01) return "down";
+    const annualRate = left > 0 && right > 0
+      ? (right / left) ** (1 / years) - 1
+      : (right - left) / Math.abs(left) / years;
+    if (annualRate > 0.02) return "up";
+    if (annualRate < -0.02) return "down";
     return "flat";
   };
-  const middlePhase = phase(start, midpoint);
-  const longPhase = phase(midpoint, end);
+  const middlePhase = phase(start, midpoint, 4);
+  const longPhase = phase(midpoint, end, 5);
   const trajectoryLabels = {
     "up-up": "지속 우상향",
     "down-down": "지속 우하향",
@@ -1056,7 +1162,7 @@ function renderForecastMethodSummary(context, base) {
       <i aria-hidden="true">→</i>
       <div><span>02</span><small>단기</small><strong>${escapeHtml(baseSource)}</strong></div>
       <i aria-hidden="true">→</i>
-      <div><span>03</span><small>장기</small><strong>최근 3년 신계약 추세를 적용하고 2031년 이후 변동 폭을 축소</strong></div>
+      <div><span>03</span><small>장기</small><strong>24·25년 실적과 26년 전망을 가중하고 일회성 CSM 조정은 제외</strong></div>
     </div>
     <p><b>계산식</b> 기말 CSM = 기시 CSM + 신계약 CSM + 이자부리 + CSM 조정 - CSM 상각</p>
   `;
@@ -1065,42 +1171,61 @@ function renderForecastMethodSummary(context, base) {
 function renderForecastInsightRail(context, base, worst, driverForecast) {
   const rail = document.querySelector("#forecast-insight-rail");
   if (!rail) return;
-  const base2030 = base.forecastMeta?.horizon?.base?.find((point) => point.period === "2030-ye");
-  const tenYear = forecastTenYear(base);
-  const terminal = tenYear?.base;
+  const threeYearBase = base.forecastMeta?.horizon?.base?.find((point) => point.period === "2028-ye");
+  const fiveYearBase = base.forecastMeta?.horizon?.base?.find((point) => point.period === "2030-ye");
   const assumptions = base.forecastMeta?.horizon?.assumptions ?? {};
   const history = annualNewBusinessHistory(context);
   const historyText = history.length
     ? history.map((item) => `${item.year}년 ${formatTrendWon(item.value)}`).join(" → ")
     : "과거 연간 신계약 CSM 데이터 없음";
   const nearTermGrowth = formatForecastGrowth(assumptions.newbizGrowth);
-  const longTermGrowth = formatForecastGrowth(assumptions.longTermNewbizGrowth);
+  const rawGrowth = formatForecastGrowth(assumptions.rawNewbizGrowth);
+  const boundedGrowth = formatForecastGrowth(assumptions.boundedNewbizGrowth);
+  const growthBounds = assumptions.newbizGrowthBounds ?? { lower: -0.05, upper: 0.05 };
+  const optimismBiasPenalty = Number(assumptions.optimismBiasPenalty);
+  const backtestMeanError = Number(assumptions.backtestMeanErrorBn);
+  const trendWindow = assumptions.newbizTrendWindow ?? [];
+  const trendWindowText = trendWindow.length
+    ? trendWindow.map((item) => `${String(item.year).slice(-2)}년${item.valueKind === "base_forecast" ? " 전망" : ""} ${formatTrendWon(item.value)}`).join(" → ")
+    : "최근 3개년 신계약 CSM";
+  const growthControlSteps = `
+    <span><b>기준 자료</b> ${trendWindowText}</span>
+    <span><b>① 최근 흐름</b> 두 성장률을 35%·65%로 가중하면 ${rawGrowth}</span>
+    <span><b>② 공통 상·하한</b> ${formatForecastGrowth(growthBounds.lower)}~${formatForecastGrowth(growthBounds.upper)} 범위 적용 후 ${boundedGrowth}</span>
+    <span><b>③ 과거 예측오차</b> ${Number.isFinite(backtestMeanError) ? `연말 신계약 CSM을 평균 ${formatTrendWon(backtestMeanError, 2)} 높게 전망했던 오차의 일부를 반영해 ` : ""}${Number.isFinite(optimismBiasPenalty) ? `${(optimismBiasPenalty * 100).toFixed(1)}%p 차감` : "추가 차감 없음"}</span>
+    <span class="insight-growth-result"><b>④ 최종 적용</b> 2027~2030년 신계약 CSM 증가율 ${nearTermGrowth}</span>
+  `;
+  const recurringAdjustmentRate = formatForecastGrowth(assumptions.baseAdjustmentRate);
+  const adjustmentRateWindow = assumptions.adjustmentRateWindow ?? [];
+  const adjustmentRateWindowText = adjustmentRateWindow.length
+    ? adjustmentRateWindow.map((item) => `${String(item.year).slice(-2)}년${item.valueKind === "base_forecast" ? " 전망" : ""} ${formatForecastGrowth(item.rate)}`).join(" · ")
+    : "최근 3개년 가중";
   const yearEndChange = base.closing - base.opening;
   const adjustmentAndAmortization = base.adjustment + base.amortization;
   const baseInflow = Math.round(base.newbiz / 100) * 100 + Math.round(base.interest / 100) * 100;
   const baseOutflow = Math.abs(adjustmentAndAmortization);
-  const terminalInflow = terminal ? terminal.newbiz + terminal.interest : null;
-  const terminalOutflow = terminal ? Math.abs(terminal.adjustment + terminal.amortization) : null;
-  const terminalBalance = terminalInflow == null || terminalOutflow == null
-    ? "장기 Movement 데이터 없음"
-    : Math.abs(terminalInflow - terminalOutflow) < 100
-      ? `유입 ${formatTrendWon(terminalInflow)} · 감소 ${formatTrendWon(terminalOutflow)}로 거의 균형`
-      : terminalInflow > terminalOutflow
-        ? `유입 ${formatTrendWon(terminalInflow)} · 감소 ${formatTrendWon(terminalOutflow)}로 유입 우위`
-        : `유입 ${formatTrendWon(terminalInflow)} · 감소 ${formatTrendWon(terminalOutflow)}로 감소 우위`;
-  const direction = base2030 && terminal
-    ? forecastTrajectoryLabel(base.closing, base2030.closing, terminal.closing)
+  const fiveYearInflow = fiveYearBase ? fiveYearBase.newbiz + fiveYearBase.interest : null;
+  const fiveYearOutflow = fiveYearBase ? Math.abs(fiveYearBase.adjustment + fiveYearBase.amortization) : null;
+  const fiveYearBalance = fiveYearInflow == null || fiveYearOutflow == null
+    ? "5년차 Movement 데이터 없음"
+    : Math.abs(fiveYearInflow - fiveYearOutflow) < 100
+      ? `유입 ${formatTrendWon(fiveYearInflow)} · 감소 ${formatTrendWon(fiveYearOutflow)}로 거의 균형`
+      : fiveYearInflow > fiveYearOutflow
+        ? `유입 ${formatTrendWon(fiveYearInflow)} · 감소 ${formatTrendWon(fiveYearOutflow)}로 유입 우위`
+        : `유입 ${formatTrendWon(fiveYearInflow)} · 감소 ${formatTrendWon(fiveYearOutflow)}로 감소 우위`;
+  const direction = threeYearBase && fiveYearBase
+    ? forecastTrajectoryLabel(base.closing, threeYearBase.closing, fiveYearBase.closing)
     : "방향 확인 필요";
   rail.innerHTML = `
     <div class="insight-rail-heading"><span>CEO READOUT</span><strong>${escapeHtml(context.company.name)} 전망 판단</strong></div>
     <ol>
       <li class="insight-conclusion">
         <span>01 · 전망 결론</span>
-        <strong class="insight-conclusion-title"><span>${direction}</span><small>2026년 ${formatTrendWon(base.closing)} → 2035년 ${terminal ? formatTrendWon(terminal.closing) : "—"}</small></strong>
+        <strong class="insight-conclusion-title"><span>${direction}</span><small>2026년 ${formatTrendWon(base.closing)} → 2030년 ${fiveYearBase ? formatTrendWon(fiveYearBase.closing) : "—"}</small></strong>
         <div class="insight-fact-list">
           <div><b>2026 Base</b><p>${formatTrendWon(base.closing)} · 전년말 대비 ${formatSignedTrendWon(yearEndChange)}</p></div>
-          <div><b>2030 전망</b><p>${base2030 ? formatTrendWon(base2030.closing) : "—"}</p></div>
-          <div><b>2035 전망</b><p>${terminal ? formatTrendWon(terminal.closing) : "—"} · ${direction}</p></div>
+          <div><b>2028 전망</b><p>${threeYearBase ? formatTrendWon(threeYearBase.closing) : "—"}</p></div>
+          <div><b>2030 전망</b><p>${fiveYearBase ? formatTrendWon(fiveYearBase.closing) : "—"} · ${direction}</p></div>
         </div>
       </li>
       <li>
@@ -1109,7 +1234,7 @@ function renderForecastInsightRail(context, base, worst, driverForecast) {
         <div class="insight-fact-list">
           <div><b>단기 산출</b><p>확정 분기 실적과 과거 계절성을 반영</p></div>
           <div><b>과거 패턴</b><p>${historyText}</p></div>
-          <div><b>성장 가정</b><p>2030년까지 연 ${nearTermGrowth} · 이후 연 ${longTermGrowth}</p></div>
+          <div><b>성장 가정</b><p class="insight-growth-steps">${growthControlSteps}<span><b>적용 구간</b> 2027~2030년 동일 증가율 적용</span></p></div>
         </div>
       </li>
       <li>
@@ -1117,8 +1242,8 @@ function renderForecastInsightRail(context, base, worst, driverForecast) {
         <strong>2026년 유입 ${formatTrendWon(baseInflow)} · 감소 ${formatTrendWon(baseOutflow)}</strong>
         <div class="insight-fact-list">
           <div><b>유입요인</b><p>신계약 ${formatSignedTrendWon(base.newbiz)} · 이자부리 ${formatSignedTrendWon(base.interest)}</p></div>
-          <div><b>감소요인</b><p class="insight-movement-components"><span>CSM 조정 <em>${formatSignedTrendWon(base.adjustment)}</em></span><span>CSM 상각 <em>${formatSignedTrendWon(base.amortization)}</em></span></p></div>
-          <div><b>2035 구조</b><p>${terminalBalance}</p></div>
+          <div><b>감소요인</b><p class="insight-movement-components"><span>CSM 조정 <em>${formatSignedTrendWon(base.adjustment)}</em></span><span>CSM 상각 <em>${formatSignedTrendWon(base.amortization)}</em></span><small>CSM 조정률 ${recurringAdjustmentRate} · ${adjustmentRateWindowText} 가중 · 일회성 조정 제외</small></p></div>
+          <div><b>2030 구조</b><p>${fiveYearBalance}</p></div>
         </div>
       </li>
     </ol>
@@ -1137,10 +1262,19 @@ function renderDriverForecastPanel(driver, base, worst) {
   const p50 = driver?.distribution?.p50 ?? base;
   const p10 = driver?.distribution?.p10 ?? worst;
   const worstGap = p10.closing - p50.closing;
+  const worstPolicy = base.forecastMeta?.horizon?.assumptions?.worstPolicy ?? {};
+  const remainingOpening = Number(base.remainingForecast?.opening ?? base.opening);
+  const remainingAdjustment = Number(base.remainingForecast?.adjustment ?? base.adjustment);
+  const proportionalAdjustmentStress = Math.abs(remainingAdjustment) * Number(worstPolicy.adjustmentStress ?? 0.1);
+  const minimumAdjustmentStress = Math.abs(remainingOpening) * Number(worstPolicy.adjustmentRatePointFloor ?? 0.01);
+  const minimumStressApplied = minimumAdjustmentStress > proportionalAdjustmentStress;
+  const adjustmentWorstRule = minimumStressApplied
+    ? "3~4분기 Base 대비 10% 악화 · Base 조정 부담이 작아 기시 CSM의 1%를 최소 하방으로 적용"
+    : "3~4분기 Base 대비 10% 악화";
   const confidence = base.forecastMeta?.horizon?.horizonConfidence;
   const baseSummary = driver?.knownBaseAnchor
     ? `경영목표 ${formatTrendWon(driver.knownBaseAnchor.value)}를 우선 적용했습니다. 독립 모델과의 ${formatSignedTrendWon(driver.knownBaseAnchor.reconciliation)} 차이는 CSM 조정에서 분리하고 2027~2029년에 단계적으로 정상화합니다.`
-    : "1분기 확정 실적과 과거 계절성, 최근 CSM 조정률을 반영한 Base 전망입니다.";
+    : "상반기 확정 실적과 과거 계절성, 직전 2개 연말의 정상화 CSM 조정률을 반영한 Base 전망입니다.";
   panel.hidden = false;
   panel.innerHTML = `
     <div class="driver-panel-heading compact-driver-heading">
@@ -1155,10 +1289,10 @@ function renderDriverForecastPanel(driver, base, worst) {
       <section class="driver-scenario-worst">
         <div><span>Worst</span><strong>${formatTrendWon(p10.closing)}</strong><small>Base 대비 ${formatSignedTrendWon(worstGap)}</small></div>
         <div class="driver-worst-rules">
-          <p>확정된 1분기는 유지하고, 남은 전망에 전 보험사 동일 기준을 적용합니다.</p>
+          <p>확정된 상반기는 유지하고, 남은 전망에 전 보험사 동일 기준을 적용합니다.</p>
           <ul>
-            <li><span>신계약 CSM</span><b>2~4분기 Base 대비 10% 감소</b></li>
-            <li><span>CSM 조정</span><b>2~4분기 Base 대비 10% 악화</b></li>
+            <li><span>신계약 CSM</span><b>3~4분기 Base 대비 10% 감소</b></li>
+            <li><span>CSM 조정</span><b>${adjustmentWorstRule}</b></li>
           </ul>
         </div>
       </section>
@@ -1167,7 +1301,7 @@ function renderDriverForecastPanel(driver, base, worst) {
       <b>전망 해석</b>
       <span>2026 ${escapeHtml(confidence?.oneYear ?? "제한적 검증")}</span>
       <span>2027~2028 ${escapeHtml(confidence?.twoToThreeYears ?? "모델 경로")}</span>
-      <span>2030~2035 ${escapeHtml(confidence?.tenYear ?? "장기 시나리오")}</span>
+      <span>2029~2030 ${escapeHtml(confidence?.fourToFiveYears ?? "시나리오")}</span>
     </div>
   `;
 }
@@ -1185,9 +1319,6 @@ function renderDriverStressPanel(driver, base, worst) {
     const newbizDelta = worst.newbiz - base.newbiz;
     const adjustmentDelta = worst.adjustment - base.adjustment;
     const newbizDownsideRate = base.newbiz ? Math.max(0, (1 - worst.newbiz / base.newbiz) * 100) : 0;
-    const adjustmentStressRate = Math.abs(base.adjustment)
-      ? Math.max(0, (Math.abs(worst.adjustment) / Math.abs(base.adjustment) - 1) * 100)
-      : 0;
     panel.hidden = false;
     panel.innerHTML = `
       <details class="driver-stress-disclosure">
@@ -1197,7 +1328,7 @@ function renderDriverStressPanel(driver, base, worst) {
             <div class="driver-stress-group-heading"><span>01</span><strong>신계약 CSM</strong><small>판매량과 계약당 수익성 하방</small></div>
             <div class="driver-stress-row">
               <strong>Worst 신계약 CSM</strong>
-              <span>Q2~Q4 잔여 전망에 공통 -10% 적용 · 1분기 확정치를 포함한 연간 합계는 Base 대비 ${newbizDownsideRate.toFixed(1)}% 하락</span>
+              <span>Q3~Q4 잔여 전망에 공통 -10% 적용 · 상반기 확정치를 포함한 연간 합계는 Base 대비 ${newbizDownsideRate.toFixed(1)}% 하락</span>
               <b>${formatSignedTrendWon(worst.newbiz)}<small>연간 Base 대비 ${formatSignedTrendWon(newbizDelta)}</small></b>
             </div>
           </section>
@@ -1205,8 +1336,8 @@ function renderDriverStressPanel(driver, base, worst) {
             <div class="driver-stress-group-heading"><span>02</span><strong>CSM 조정</strong><small>경험조정·계리 가정 부담 확대</small></div>
             <div class="driver-stress-row">
               <strong>Worst CSM 조정</strong>
-              <span>Q2~Q4 잔여 전망에 공통 10% 악화 적용 · 장래손해율·해지·사업비 가정 부담을 단순 반영</span>
-              <b>${formatSignedTrendWon(worst.adjustment)}<small>연간 Base 대비 ${formatSignedTrendWon(adjustmentDelta)} · ${adjustmentStressRate.toFixed(1)}% 악화</small></b>
+              <span>Q3~Q4 잔여 전망에 공통 10% 악화 적용 · Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 적용</span>
+              <b>${formatSignedTrendWon(worst.adjustment)}<small>연간 Base 대비 ${formatSignedTrendWon(adjustmentDelta)}</small></b>
             </div>
           </section>
           <div class="driver-stress-combined">
@@ -1466,13 +1597,13 @@ function reviewSummary(companyKey, periodKey) {
 
 const qualityMethodology = [
   {
-    metric: "예실차 · 관리기준",
+    metric: "예실차 · 5% 관리기준",
     source:
       "각 보험사 홈페이지의 연말 결산 경영공시 중 별도 SAP 손익계산서 또는 공식 Factsheet만 원본으로 사용. 현재 수록기간은 2024·2025년말. 삼성생명·한화생명·삼성화재·메리츠화재·DB손해보험·현대해상은 예상·발생 세부 행, 교보생명·신한라이프·KB손해보험은 결산 경영공시의 공식 결과값을 사용.",
     validation:
-      "회사·연도·별도 여부·원문 문서명·시트·열·행·부호·원단위를 확인하고 억원으로 정규화. 세부 행 공개 6개사는 예상액−실제액과 세 비율을 재계산해 원문 결과와 대조. 교보·신한·KB는 공식 결과값과 공개 분모 범위를 구분하며, 신한의 세부 비율과 KB의 비율처럼 분모가 없으면 미산출로 유지.",
+      "회사·연도·별도 여부·원문 문서명·시트·열·행·부호·원단위를 확인하고 억원으로 정규화. 세부 행 공개 6개사는 예상액−실제액과 보험금·사업비 비율을 재계산해 원문 결과와 대조. 교보·신한·KB는 공식 결과값과 공개 분모 범위를 구분하며, 신한의 세부 비율과 KB의 비율처럼 분모가 없으면 미산출로 유지.",
     rule:
-      "종합 = 보험금 + 사업비. 보험금 = 예상보험금 − (발생보험금 + 발생사고요소조정), 사업비 = 예상 손해조사비·계약유지비·투자관리비 합계 − 동일 발생액 합계. 각 비율은 대응 예상액을 분모로 사용하고 종합 비율은 예상보험금+예상사업비를 사용. 상단 1~3분기는 직전 연말, 4분기·연말은 해당 연말을 당기로 선택하며 전기 미수록 값은 공란. ±5%는 참고선이고 Open DART·FISIS·공시기준 값으로 SAP 미공개 값을 대체하지 않음. 첨부 양식과 ref_data는 화면 구조 참고에만 사용.",
+      "보험금 = 예상보험금 − (발생보험금 + 발생사고요소조정), 사업비 = 예상 손해조사비·계약유지비·투자관리비 합계 − 동일 발생액 합계. 각 비율은 대응 예상액을 분모로 사용. 상단 1~3분기는 직전 연말, 4분기·연말은 해당 연말을 당기로 선택하며 전기 미수록 값은 공란. ±5%는 참고선이고 Open DART·FISIS·공시기준 값으로 SAP 미공개 값을 대체하지 않음. 첨부 양식과 ref_data는 화면 구조 참고에만 사용.",
   },
   {
     metric: "보험부채 변동내역",
@@ -1509,10 +1640,10 @@ const qualityMethodology = [
   {
     metric: "보유 CSM",
     source:
-      "Open DART 사업보고서 · 별도 보험계약 주석의 ‘보험계약마진’ 기말 잔액. 발행 보험계약만 포함하고 출재 재보험은 제외.",
+      "Open DART 사업·분기·반기보고서 · 별도 보험계약 주석의 ‘보험계약마진’ 기말 잔액. 발행 보험계약만 포함하고 출재 재보험은 제외하며 분리된 계약군 표는 합산.",
     validation:
-      "FISIS에는 CSM 항목이 없어 회사 공식 연간 IR·경영공시의 기말 CSM을 비교.",
-    rule: "십억원 원값 일치 또는 IR의 조/천억원 표시단위 반올림 범위이면 일치.",
+      "직전 연말·전분기 기말과 다음 공시 기초를 연속 대사하고, FISIS에 없는 CSM은 회사 공식 IR·경영공시로 보조검증.",
+    rule: "Movement 항등식과 기초 연속성을 모두 통과해야 확정. DB손해보험 2025년은 분리 표 #281·#285를 합산해 2026 Q1 기초와 대사.",
   },
   {
     metric: "신계약 CSM",
@@ -1535,24 +1666,24 @@ const qualityMethodology = [
     source:
       "파싱·검증이 끝난 분기별 CSM Movement를 원천으로 사용하고, 외부 보정 근거는 증권사 애널리스트 리포트만 연결. 기사·보도자료는 전망 입력에서 제외.",
     validation:
-      "최근 4개 분기 비율·전년 계절성과 대조하고, 내부 계산한 2026~2035년 모든 연도에서 기시 + 신계약 + 이자 + 조정 + 상각 = 기말을 재검산.",
-    rule: "Base 신계약·조정은 전년 계절성과 최근 실적을 우선 적용하고 회사별 직접 근거가 있을 때만 애널리스트 오버레이를 제한적으로 반영. Worst는 전 보험사 공통 하방률(신계약 CSM -10%, CSM 조정 10% 악화)을 적용하고 이자·상각을 다시 계산.",
+      "최근 4개 분기 비율·전년 계절성과 대조하고, 내부 계산한 2026~2030년 모든 연도에서 기시 + 신계약 + 이자 + 조정 + 상각 = 기말을 재검산.",
+    rule: "신계약 추세율은 2024·2025년 실적과 2026년 Base 전망으로 계산한 두 전년 대비 변화율을 35%·65% 가중한 뒤 -5%~+5% 범위와 백테스트 통제를 적용. CSM 조정률은 같은 3개년을 20%·30%·50% 가중하며 연간 순양(+) 조정, 경영목표 연결분과 분기성 환입·재분류의 총액 반복을 제외. 회사별 직접 근거가 있을 때만 증권사 오버레이를 제한적으로 반영. Worst는 신계약 CSM -10%, CSM 조정 10% 악화를 적용하고, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 사용한 뒤 이자·상각을 다시 계산.",
   },
   {
     metric: "보험손익",
     source:
-      "Open DART 별도 포괄손익계산서의 보험손익. 공시 누적값과 누적 차감으로 산출한 분기 단독값을 함께 보존.",
+      "Open DART 별도 포괄손익계산서의 표준 계정 ID ifrs-full_InsuranceServiceResult. 누적값·당 3개월 직접값·누적 차감값을 함께 보존.",
     validation:
-      "FISIS 별도 손익: 생보 SH154/A, 손보 SI150/A의 보험손익.",
-    rule: "십억원 환산 후 0.01십억원(0.1억원) 이내면 일치.",
+      "DART 당 3개월 직접 공시값과 누적 차감값을 먼저 대사. FISIS 게시 후 생보 SH154/A, 손보 SI150/A와 추가 비교.",
+    rule: "직접값과 누적 차감값은 0.001십억원 이내면 일치. FISIS 미게시 기간은 not_published로 기록하고 DART 내부 검증을 유지.",
   },
   {
     metric: "당기순이익",
     source:
-      "Open DART 연결 손익계산서의 ‘지배기업 소유주 귀속 당기순이익’. 누적값과 누적 차감으로 산출한 분기 단독값을 함께 보존.",
+      "Open DART 연결 포괄손익계산서의 표준 계정 ID ifrs-full_ProfitLossAttributableToOwnersOfParent. 한글 계정명은 ID가 없을 때만 대체.",
     validation:
-      "FISIS 별도 손익: 생보 SH154/G, 손보 SI150/G의 당기순이익.",
-    rule: "연결 귀속값과 별도값은 범위가 달라 일치 판정에서 제외하고 두 값을 병기.",
+      "DART 당 3개월 직접 공시값과 누적 차감값을 0.001십억원 허용오차로 대사. FISIS 생보 SH154/G, 손보 SI150/G는 별도 손익이므로 기준차이로 병기.",
+    rule: "연결 지배주주 귀속값을 대시보드 기준으로 확정하고 연결 총순이익·FISIS 별도 순이익으로 대체하지 않음.",
   },
   {
     metric: "K-ICS / RBC",
@@ -1812,13 +1943,12 @@ function renderManagementExperience() {
   const fullButton = document.querySelector('[data-full-metric="management"]');
   if (fullButton) fullButton.disabled = !managementExperiencePeriodAvailable();
   if (!managementExperiencePeriodAvailable()) {
-    grid.innerHTML = disclosureEmptyState("관리기준 예실차");
+    grid.innerHTML = disclosureEmptyState("예실차");
     return;
   }
   const values = companyCatalog.map((catalog) => ({ catalog, item: managementExperienceData.companies?.[catalog.key] }));
   const valuesByCompany = Object.fromEntries(values.map((entry) => [entry.catalog.key, entry.item]));
   const metricDefinitions = [
-    ["종합 예실차", "total", "보험금 + 사업비"],
     ["보험금 예실차", "claim", "예실차 ÷ 예상보험금"],
     ["사업비 예실차", "expense", "예실차 ÷ 예상사업비"],
   ];
@@ -1828,17 +1958,17 @@ function renderManagementExperience() {
   ]));
   grid.innerHTML = renderSectorCardGroups((catalog) => {
     const item = valuesByCompany[catalog.key];
-    if (!item?.periods?.[currentPeriodKey]) return `<article class="claim-summary-card management-claim-card is-empty"><strong>${escapeHtml(catalog.name)}</strong><span>${currentYear}년말 관리기준 데이터 없음</span></article>`;
+    if (!item?.periods?.[currentPeriodKey]) return `<article class="claim-summary-card management-claim-card is-empty"><strong>${escapeHtml(catalog.name)}</strong><span>${currentYear}년말 데이터 없음</span></article>`;
     const prior = item.periods?.[priorPeriodKey];
     const current = item.periods?.[currentPeriodKey];
-    const metricRows = metricDefinitions.map(([label, key, description], index) => {
+    const metricRows = metricDefinitions.map(([label, key, description]) => {
       const priorValue = prior?.ratios?.[key];
       const currentValue = current?.ratios?.[key];
       const currentDirection = managementDirection(currentValue);
       const priorDirection = managementDirection(priorValue);
       const extent = Math.min(Math.abs(currentValue ?? 0) / maxAbsByMetric[key] * 48, 48);
       const status = currentValue == null ? "예상금액 분모 미공개" : currentValue < 0 ? "비우호적 경험차" : "우호적 경험차";
-      return `<section class="management-claim-metric ${index === 0 ? "is-primary" : ""}">
+      return `<section class="management-claim-metric">
         <div class="management-claim-metric-head"><strong>${label}</strong><small>${description}</small></div>
         <div class="claim-period-values" aria-label="${escapeHtml(catalog.name)} ${label} 전기·당기 비율">
           <div class="claim-prior-value"><span>전기 ${priorYear}</span><strong class="${priorDirection}">${formatManagementRatio(priorValue)}</strong></div>
@@ -1895,16 +2025,6 @@ function renderPublicClaimExperience() {
 }
 
 function renderClaimExperience() {
-  const managementView = document.querySelector("#claim-management-view");
-  const publicView = document.querySelector("#claim-public-view");
-  const isManagement = state.claimExperienceBasis === "management";
-  managementView.hidden = !isManagement;
-  publicView.hidden = isManagement;
-  claimBasisButtons.forEach((button) => {
-    const isActive = button.dataset.claimBasis === state.claimExperienceBasis;
-    button.classList.toggle("is-active", isActive);
-    button.setAttribute("aria-selected", String(isActive));
-  });
   renderManagementExperience();
   renderPublicClaimExperience();
 }
@@ -2014,8 +2134,6 @@ function fullManagementExperienceTable() {
   const priorPeriodKey = `${currentYear - 1}-ye`;
   const priorYear = currentYear - 1;
   const definitions = [
-    { label: "종합 예실차", kind: "amount", group: "total", value: (period) => period?.totalExperience },
-    { label: "종합 예실차비율", kind: "ratio", group: "total", value: (period) => period?.ratios?.total },
     { label: "보험금 예실차", kind: "amount", group: "claim", value: (period) => period?.claimExperience },
     { label: "보험금 예실차비율", kind: "ratio", group: "claim", value: (period) => period?.ratios?.claim },
     { label: "예상보험금", kind: "amount", group: "claim", value: (period) => managementComponentValue(period, "expectedClaims") },
@@ -2062,7 +2180,7 @@ function fullManagementExperienceTable() {
 }
 
 const assumptionExportMeta = {
-  management: { filename: "관리기준_예실차", sheetName: "관리기준 예실차" },
+  management: { filename: "5퍼센트관리_예실차", sheetName: "5% 관리 예실차" },
   liability: { filename: "보험부채_변동내역", sheetName: "보험부채 변동내역" },
   claim: { filename: "보험금_예실차", sheetName: "보험금 예실차" },
   loss: { filename: "경과기간_손해율", sheetName: "경과기간 손해율" },
@@ -2121,7 +2239,7 @@ function openAssumptionTable(type) {
     const periodKey = managementExperiencePeriodKey();
     if (!periodKey) return;
     const year = parsePeriodKey(periodKey).year;
-    document.querySelector("#assumption-table-modal-title").textContent = "관리기준 예실차 전체보기";
+    document.querySelector("#assumption-table-modal-title").textContent = "예실차 전체보기 · 5% 관리 대상";
     document.querySelector("#assumption-table-modal-subtitle").textContent = `회사 공식 별도 SAP · ${year - 1}년 전기 / ${year}년 당기 / 전년비 · 금액과 비율`;
     document.querySelector("#assumption-table-modal-content").innerHTML = fullManagementExperienceTable();
     prepareAssumptionDownload(type);
@@ -2195,6 +2313,18 @@ function renderAssumptionMetrics() {
   renderClaimExperience();
   renderDurationSummary("loss");
   renderDurationSummary("expense");
+  syncDurationMetricView();
+}
+
+function syncDurationMetricView() {
+  durationMetricButtons.forEach((button) => {
+    const isActive = button.dataset.durationMetric === state.durationMetric;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+  document.querySelectorAll("[data-duration-panel]").forEach((panel) => {
+    panel.hidden = panel.dataset.durationPanel !== state.durationMetric;
+  });
 }
 
 function qualityStatus(status) {
@@ -2267,7 +2397,7 @@ function renderAuditItem({
 }
 
 function signedAuditDifference(value) {
-  if (!Number.isFinite(Number(value))) return "비교값 없음";
+  if (value == null || value === "" || !Number.isFinite(Number(value))) return "비교값 없음";
   const numeric = Number(value);
   return `${numeric >= 0 ? "+" : "−"}${Math.abs(numeric).toLocaleString("ko-KR", {
     maximumFractionDigits: 3,
@@ -2305,7 +2435,7 @@ function renderProcessingLineage(context) {
         {
           number: "04",
           title: "검증·판정",
-          text: `Movement 산식 차이 ${signedAuditDifference(audit.movementIdentityDifference)} · DART/FISIS 누적 보험손익 차이 ${signedAuditDifference(insuranceDifference)}. 순이익 기준: ${period.metricBasis?.parentNetIncome || "—"}.`,
+          text: `Movement 산식 차이 ${signedAuditDifference(audit.movementIdentityDifference)} · DART 누적 차감/당 3개월 보험손익 차이 ${signedAuditDifference(financial.insuranceProfitStandaloneDifference)} · 지배주주 순이익 차이 ${signedAuditDifference(financial.parentNetIncomeStandaloneDifference)}. FISIS 누적 보험손익 차이 ${signedAuditDifference(insuranceDifference)}.`,
         },
       ]
     : [
@@ -2536,30 +2666,69 @@ function renderQuality() {
           source: "Open DART 별도 보험계약 주석",
           note: `누적 원문과 분기 단독 환산값을 함께 보존. 기초 대사 차이 ${signedAuditDifference(audit.openingReconciliationDifference)}.`,
         },
+        ...(audit.csmValidation
+          ? [
+              {
+                label: "보유 CSM · 공식 IR 보조검증",
+                original: context.period.csm,
+                check: audit.csmValidation.value,
+                status: "basis_difference",
+                source: audit.csmValidation.source,
+                link: audit.csmValidation.sourceUrl,
+                basis: audit.csmValidation.basis,
+                note: audit.csmValidation.note,
+              },
+            ]
+          : []),
         {
           label: "보험손익",
           original: context.period.insuranceProfit,
-          check: audit.financialValidation?.fisisInsuranceProfitStandalone,
+          check:
+            audit.financialValidation?.dartInsuranceProfitStandaloneDisclosed ??
+            audit.financialValidation?.fisisInsuranceProfitStandalone,
           status:
-            audit.financialValidation?.fisisInsuranceProfitStandalone == null
-              ? "not_connected"
+            audit.financialValidation?.dartInsuranceProfitStandaloneDisclosed != null
+              ? audit.financialValidation?.insuranceProfitStandaloneStatus
+              : audit.financialValidation?.fisisInsuranceProfitStandalone == null
+                ? "not_connected"
               : Math.abs(context.period.insuranceProfit - audit.financialValidation.fisisInsuranceProfitStandalone) <= 0.1
                 ? "matched"
                 : "basis_difference",
-          source: "FISIS 분기 통계",
-          table: context.company.sector === "생명보험" ? "SH154/A" : "SI150/A",
-          note: "DART 누적값을 분기 단독으로 환산한 값과 FISIS a(분기 단독)를 비교.",
+          source:
+            audit.financialValidation?.dartInsuranceProfitStandaloneDisclosed != null
+              ? "Open DART 당 3개월 XBRL"
+              : "FISIS 분기 통계",
+          table:
+            audit.financialValidation?.insuranceProfitAccountId ??
+            (context.company.sector === "생명보험" ? "SH154/A" : "SI150/A"),
+          note:
+            audit.financialValidation?.dartInsuranceProfitStandaloneDisclosed != null
+              ? `누적 차감 환산 ${formatQualityValue(audit.financialValidation.dartInsuranceProfitStandaloneDerived)}와 직접 공시값을 대사. 차이 ${signedAuditDifference(audit.financialValidation.insuranceProfitStandaloneDifference)}.`
+              : "DART 누적값을 분기 단독으로 환산한 값과 FISIS a(분기 단독)를 비교.",
         },
         {
           label: "당기순이익",
           original: context.period.parentNetIncome,
-          check: audit.financialValidation?.fisisSeparateNetIncomeStandalone,
-          status: context.period.metricBasis?.parentNetIncome?.startsWith("별도")
-            ? "matched"
-            : "basis_difference",
-          source: "FISIS 분기 통계",
-          table: context.company.sector === "생명보험" ? "SH154/G" : "SI150/G",
-          note: context.period.metricBasis?.parentNetIncome,
+          check:
+            audit.financialValidation?.dartParentNetIncomeStandaloneDisclosed ??
+            audit.financialValidation?.fisisSeparateNetIncomeStandalone,
+          status:
+            audit.financialValidation?.dartParentNetIncomeStandaloneDisclosed != null
+              ? audit.financialValidation?.parentNetIncomeStandaloneStatus
+              : context.period.metricBasis?.parentNetIncome?.startsWith("별도")
+                ? "matched"
+                : "basis_difference",
+          source:
+            audit.financialValidation?.dartParentNetIncomeStandaloneDisclosed != null
+              ? "Open DART 당 3개월 연결 XBRL"
+              : "FISIS 분기 통계",
+          table:
+            audit.financialValidation?.parentNetIncomeAccountId ??
+            (context.company.sector === "생명보험" ? "SH154/G" : "SI150/G"),
+          note:
+            audit.financialValidation?.dartParentNetIncomeStandaloneDisclosed != null
+              ? `누적 차감 환산 ${formatQualityValue(audit.financialValidation.dartParentNetIncomeStandaloneDerived)}와 직접 공시값을 대사. 차이 ${signedAuditDifference(audit.financialValidation.parentNetIncomeStandaloneDifference)}. ${context.period.metricBasis?.parentNetIncome}`
+              : context.period.metricBasis?.parentNetIncome,
         },
       ]
     : [
@@ -2685,11 +2854,24 @@ basisButtons.forEach((button) => {
   });
 });
 
-claimBasisButtons.forEach((button) => {
+durationMetricButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    state.claimExperienceBasis = button.dataset.claimBasis;
-    renderClaimExperience();
+    state.durationMetric = button.dataset.durationMetric;
+    syncDurationMetricView();
   });
+});
+
+peerTrendScenarioButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    state.peerTrendScenario = button.dataset.peerTrendScenario;
+    state.peerTrendCompanyKey = null;
+    renderPeerTrendChart();
+  });
+});
+
+peerTrendReset?.addEventListener("click", () => {
+  state.peerTrendCompanyKey = null;
+  renderPeerTrendChart();
 });
 
 initializeControls();

@@ -48,6 +48,8 @@ python tools/build_csm_forecast.py
 
 ## 검증
 
+보험손익과 지배주주 순이익은 한글 계정명만으로 선택하지 않는다. 각각 DART 표준 계정 ID `ifrs-full_InsuranceServiceResult`, `ifrs-full_ProfitLossAttributableToOwnersOfParent`를 우선하며, 당 3개월 직접 공시값과 누적 차감 환산값을 0.001십억원 허용오차로 대사한다. FISIS가 아직 게시되지 않은 기간은 실패로 보지 않고 `not_published`로 남긴 뒤 DART 표준 계정·Movement 항등식·기초 연속성 검증으로 대체한다.
+
 파이프라인 메타데이터, UI 구조, AI 계약, 에이전트 런타임 상태를 확인할 때는 다음 명령을 순서대로 실행한다.
 
 ```bash
@@ -80,7 +82,7 @@ http://127.0.0.1:8766/csm-prototype/index.html
 
 ## 에이전트 실행 패널 운영
 
-Agent Run API는 9개사 117개 분기를 대상으로 검증 완료와 휴먼리뷰 백로그를 구분한다. 현재 단계 진행은 선택한 검증 스냅샷을 읽어 재검산 상태를 보여 주는 `snapshot_revalidation` 실행이며, DART 수집기나 Python 빌더를 실시간으로 실행하지 않는다.
+Agent Run API는 9개사 126개 분기를 대상으로 검증 완료와 휴먼리뷰 백로그를 구분한다. 현재 단계 진행은 선택한 검증 스냅샷을 읽어 재검산 상태를 보여 주는 `snapshot_revalidation` 실행이며, DART 수집기나 Python 빌더를 실시간으로 실행하지 않는다.
 
 ```text
 미완료 대상 선택 -> 에이전트 실행 ->

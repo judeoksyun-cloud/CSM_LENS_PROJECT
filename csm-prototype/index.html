@@ -11,7 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260821-forecast-tabs-v86" />
+    <link rel="stylesheet" href="./styles.css?v=20260821-peer-trend-v91" />
   </head>
   <body>
     <div class="app-shell">
@@ -35,28 +35,32 @@
             <span class="nav-number">02</span>
             <span>CSM Movement</span>
           </a>
-          <a class="nav-link" href="#trend" data-section-link="trend">
-            <span class="nav-number">03</span>
-            <span>CSM 추이</span>
-          </a>
           <a class="nav-link" href="#liability-assumption" data-section-link="liability-assumption">
-            <span class="nav-number">04</span>
+            <span class="nav-number">03</span>
             <span>보험부채 변동내역</span>
           </a>
           <a class="nav-link" href="#claim-experience" data-section-link="claim-experience">
+            <span class="nav-number">04</span>
+            <span class="nav-label-stack"><b>예실차</b><small>5% 관리기준</small></span>
+          </a>
+          <a class="nav-link" href="#trend" data-section-link="trend">
             <span class="nav-number">05</span>
-            <span>예실차</span>
+            <span>CSM 추이 전망</span>
           </a>
-          <a class="nav-link" href="#loss-duration" data-section-link="loss-duration">
-            <span class="nav-number">06</span>
-            <span>경과기간 손해율</span>
+          <div class="nav-group-label" aria-hidden="true">
+            <span>(참고사항)</span>
+            <strong>최적가정 관련 지표</strong>
+          </div>
+          <a class="nav-link nav-reference-link" href="#claim-public" data-section-link="claim-public">
+            <span class="nav-number">·</span>
+            <span>예실차 (공시기준)</span>
           </a>
-          <a class="nav-link" href="#expense-duration" data-section-link="expense-duration">
-            <span class="nav-number">07</span>
-            <span>경과기간 유지비율</span>
+          <a class="nav-link nav-reference-link" href="#duration-metrics" data-section-link="duration-metrics">
+            <span class="nav-number">·</span>
+            <span>경과기간 손해율·유지비율</span>
           </a>
-          <a class="nav-link" href="#quality" data-section-link="quality">
-            <span class="nav-number">08</span>
+          <a class="nav-link nav-quality-link" href="#quality" data-section-link="quality">
+            <span class="nav-number">DATA</span>
             <span>데이터 기준</span>
           </a>
           </nav>
@@ -203,18 +207,16 @@
             <div class="section-heading">
               <div>
                 <p class="section-kicker">HISTORY &amp; FORWARD VIEW</p>
-                <h2>CSM 추이</h2>
+                <h2>CSM 추이 전망</h2>
                 <p id="forecast-heading-copy">
-                  과거 실적에 이어 1년·2년·3년·5년·10년을 모두 Base와 Worst로 전망합니다.
+                  과거 실적에 이어 향후 1년부터 5년까지 매년 Base와 Worst로 전망합니다.
                 </p>
               </div>
               <div class="forecast-basis">
-                <span>전망 종착점</span>
-                <strong id="forecast-basis-label">1Y · 2Y · 3Y · 5Y · 10Y</strong>
+                <span>연간 전망 구간</span>
+                <strong id="forecast-basis-label">1Y · 2Y · 3Y · 4Y · 5Y</strong>
               </div>
             </div>
-
-            <div class="trend-grid" id="trend-grid" aria-label="9개사 CSM 추이"></div>
 
             <article class="panel forecast-method-panel" aria-labelledby="forecast-method-title">
               <div class="forecast-method-heading">
@@ -232,18 +234,46 @@
               <div class="forecast-method-steps forecast-base-method-steps">
                 <div><span>01 · 출발점</span><strong>최신 실제 CSM</strong><small>공시된 최근 실적과 확정된 분기 Movement에서 시작</small></div>
                 <div><span>02 · 단기 전망</span><strong>2026년 사업 흐름 반영</strong><small>확정 분기, 과거 계절성, 최근 판매 흐름을 결합하고 확인된 경영목표는 Base에 우선 적용</small></div>
-                <div><span>03 · 장기 전망</span><strong>성장률을 점진적으로 안정화</strong><small>최근 3년 신계약 추세를 2030년까지 적용하고 2031년 이후 변동 폭을 절반 수준으로 축소</small></div>
+                <div><span>03 · 5개년 전망</span><strong>당해연도 전망까지 포함한 최근 3개년 흐름</strong><small>2024·2025년 실적과 2026년 Base 전망으로 신계약 추세율과 CSM 조정률을 계산하고 2030년까지 매년 연결</small></div>
               </div>
               <div class="forecast-method-note">
                 <strong>시나리오 구분</strong>
                 <span><b>Base</b> 최근 사업 흐름을 이어간 전망</span>
                 <span><b>Worst</b> 전 보험사 공통으로 신계약 CSM 10% 감소, CSM 조정 10% 악화</span>
-                <span>장기 수치는 회사 목표가 아닌 동일 산식의 시나리오 결과</span>
+                <span>단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 적용</span>
+                <span>1~5년 수치는 회사 목표가 아닌 동일 산식의 시나리오 결과</span>
               </div>
+            </article>
+
+            <article class="panel peer-trend-panel" aria-labelledby="peer-trend-title">
+              <div class="peer-trend-heading">
+                <div>
+                  <p class="section-kicker">NINE-COMPANY RELATIVE TREND</p>
+                  <h3 id="peer-trend-title">9개사 CSM 추이율 비교</h3>
+                  <p>회사별 최근 보유 CSM을 0%로 놓고 향후 1~5년 누적 증감률을 같은 축에서 비교합니다.</p>
+                </div>
+                <div class="peer-trend-actions">
+                  <div class="peer-trend-scenario" role="group" aria-label="9개사 추이율 전망 시나리오">
+                    <button class="is-active" type="button" data-peer-trend-scenario="base" aria-pressed="true">Base</button>
+                    <button type="button" data-peer-trend-scenario="worst" aria-pressed="false">Worst</button>
+                  </div>
+                  <button class="peer-trend-reset" type="button" id="peer-trend-reset" hidden>전체 비교</button>
+                </div>
+              </div>
+              <div class="peer-trend-chart-scroll">
+                <div class="peer-trend-chart" id="peer-trend-chart" aria-live="polite"></div>
+              </div>
+              <div class="peer-trend-legend" id="peer-trend-legend" aria-label="회사별 선 색상과 5년 누적 증감률"></div>
+              <p class="peer-trend-note"><span>생보 실선</span><span>손보 점선</span><span>범례의 회사를 선택하면 해당 흐름을 강조합니다.</span></p>
+            </article>
+
+            <div class="trend-grid" id="trend-grid" aria-label="9개사 CSM 추이 전망"></div>
+
+            <article class="panel forecast-summary-panel" aria-label="9개사 CSM 전망 요약">
               <div class="forecast-summary-wrap">
-                <div class="horizontal-scroll-hint" aria-hidden="true">좌우로 이동해 10년 Worst까지 보기</div>
+                <div class="horizontal-scroll-hint" aria-hidden="true">좌우로 이동해 5년 Worst까지 보기</div>
                 <table class="forecast-summary-table">
-                  <thead><tr><th class="table-sector-heading">업권</th><th class="table-company-heading">회사</th><th>최근 실적</th><th>2026 모델</th><th>2026 Base</th><th>2026 Worst</th><th>2030 Base</th><th>2030 Worst</th><th>2035 Base</th><th>2035 Worst</th><th>검증 상태</th></tr></thead>
+                  <thead><tr><th class="table-sector-heading">업권</th><th class="table-company-heading">회사</th><th>최근 실적</th><th>2026 모델</th><th>2026 Base</th><th>2026 Worst</th><th>2027 Base</th><th>2027 Worst</th><th>2028 Base</th><th>2028 Worst</th><th>2029 Base</th><th>2029 Worst</th><th>2030 Base</th><th>2030 Worst</th><th>검증 상태</th></tr></thead>
                   <tbody id="forecast-summary-body"></tbody>
                 </table>
               </div>
@@ -278,111 +308,108 @@
               <div>
                 <p class="section-kicker">EXPERIENCE VARIANCE</p>
                 <h2>예실차</h2>
-                <p>회사 SAP 관리지표와 연결재무제표 공시지표를 분리해 같은 화면에서 확인합니다.</p>
+                <p>감독원의 업계 관리 목표인 ±5% 범위에서 보험금·사업비 예실차를 비교합니다.</p>
               </div>
-              <div class="claim-basis-control">
-                <span>표시 기준</span>
-                <div class="claim-basis-toggle" role="tablist" aria-label="예실차 표시 기준">
-                  <button type="button" class="is-active" role="tab" data-claim-basis="management" aria-selected="true">관리기준</button>
-                  <button type="button" role="tab" data-claim-basis="public" aria-selected="false">공시기준</button>
-                </div>
+              <div class="disclosure-basis">
+                <span>5% 관리 대상</span>
+                <strong id="management-period-label">2025년말</strong>
+                <small>별도 · 단위: %</small>
               </div>
             </div>
-
-            <div class="claim-basis-view" id="claim-management-view" role="tabpanel">
-              <div class="claim-view-heading management-claim-heading">
-                <div>
-                  <span>회사 홈페이지 SAP 손익계산서</span>
-                  <h3>관리기준 예실차 비율</h3>
-                  <p>종합·보험금·사업비 예실차를 선택 기준연도의 전기와 당기로 비교합니다.</p>
+            <article class="panel disclosure-panel management-experience-panel">
+              <div class="disclosure-note">
+                <div class="claim-formula-note">
+                  <strong>목표 범위 ±5% · 양수 우호적 / 음수 비우호적</strong>
+                  <span>보험금 예실차 = 예상보험금 − 실제보험금 · 사업비 예실차 = 예상사업비 − 실제사업비</span>
+                  <span>원천: 각 회사 홈페이지의 별도 SAP 손익계산서 · 공개된 예상금액 분모가 없으면 비율을 임의로 채우지 않습니다.</span>
                 </div>
-                <div class="disclosure-basis">
-                  <span>관리 기준</span>
-                  <strong id="management-period-label">2025년말</strong>
-                  <small>별도 · 단위: %</small>
-                </div>
+                <button class="disclosure-full-button" type="button" data-full-metric="management">전체보기 ↗</button>
               </div>
-              <article class="panel disclosure-panel management-experience-panel">
-                <div class="disclosure-note">
-                  <div class="claim-formula-note">
-                    <strong>관리 참고선 ±5% · 양수 우호적 / 음수 비우호적</strong>
-                    <span>종합 예실차 = 보험금 예실차 + 사업비 예실차</span>
-                    <span>보험금 예실차 = 예상보험금 − 실제보험금 · 사업비 예실차 = 예상사업비 − 실제사업비</span>
-                    <span>공개된 예상금액 분모가 없으면 비율을 임의로 채우지 않습니다.</span>
-                  </div>
-                  <button class="disclosure-full-button" type="button" data-full-metric="management">전체보기 ↗</button>
-                </div>
-                <div class="management-experience-grid" id="management-experience-grid"></div>
-              </article>
-            </div>
-
-            <div class="claim-basis-view" id="claim-public-view" role="tabpanel" hidden>
-              <div class="claim-view-heading public-claim-heading">
-                <div>
-                  <span>Open DART 연결재무제표 주석</span>
-                  <h3>보험금 예실차 비율</h3>
-                  <p>연결재무제표 주석의 예상손해율과 실제손해율을 비교해 보험금 경험차를 확인합니다.</p>
-                </div>
-                <div class="disclosure-basis">
-                  <span>공시 기준</span>
-                  <strong id="claim-period-label">2025년말</strong>
-                  <small>단위: %</small>
-                </div>
-              </div>
-              <article class="panel disclosure-panel">
-                <div class="disclosure-note">
-                  <div class="claim-formula-note">
-                    <strong>예실차 비율 = 예상손해율 − 실제손해율</strong>
-                    <span>예상손해율 = 당기 예상보험금(종신연금지급금 포함) ÷ 당기 실제위험보험료</span>
-                    <span>실제손해율 = (당기 발생보험금 + 당기 발생사고요소조정) ÷ 당기 실제위험보험료</span>
-                  </div>
-                  <button class="disclosure-full-button" type="button" data-full-metric="claim">전체보기 ↗</button>
-                </div>
-                <div class="claim-summary-grid" id="claim-summary-grid"></div>
-              </article>
-            </div>
-          </section>
-
-          <section class="dashboard-page section-block assumption-section" id="loss-duration" data-page-section="loss-duration" hidden>
-            <div class="section-heading">
-              <div>
-                <p class="section-kicker">LOSS RATIO BY DURATION</p>
-                <h2>(경과기간별) 손해율 현황</h2>
-                <p>보험계약 경과기간별 예상보험금, 위험보험료와 그 비율을 동일한 표 구조로 비교합니다.</p>
-              </div>
-              <div class="disclosure-basis"><span>공시 기준</span><strong id="loss-period-label">2025년말</strong><small>비율: %</small></div>
-            </div>
-            <article class="panel disclosure-panel">
-              <div class="disclosure-note"><span>비율 = 예상보험금 ÷ 위험보험료</span><button class="disclosure-full-button" type="button" data-full-metric="loss">전체보기 ↗</button></div>
-              <div class="compact-ratio-wrap">
-                <div class="horizontal-scroll-hint" aria-hidden="true">좌우로 이동해 장기 경과구간 보기</div>
-                <table class="compact-ratio-table" id="loss-ratio-summary-table">
-                  <thead id="loss-ratio-summary-head"></thead>
-                  <tbody id="loss-ratio-summary-body"></tbody>
-                </table>
-              </div>
+              <div class="management-experience-grid" id="management-experience-grid"></div>
             </article>
           </section>
 
-          <section class="dashboard-page section-block assumption-section" id="expense-duration" data-page-section="expense-duration" hidden>
-            <div class="section-heading">
+          <section class="dashboard-page section-block assumption-section reference-section" id="claim-public" data-page-section="claim-public" hidden>
+            <div class="section-heading claim-section-heading">
               <div>
-                <p class="section-kicker">EXPENSE RATIO BY DURATION</p>
-                <h2>(경과기간별) 유지비율 현황</h2>
-                <p>보험계약 경과기간별 예상유지비, 예정유지비와 그 비율을 연결 주석 기준으로 비교합니다.</p>
+                <p class="section-kicker">BEST-ESTIMATE REFERENCE</p>
+                <h2>예실차 (공시기준)</h2>
+                <p>보험금 예실차 비율은 Open DART 연결재무제표 주석의 예상손해율과 실제손해율을 비교해 확인합니다.</p>
               </div>
-              <div class="disclosure-basis"><span>공시 기준</span><strong id="expense-period-label">2025년말</strong><small>비율: %</small></div>
+              <div class="disclosure-basis">
+                <span>공시 기준</span>
+                <strong id="claim-period-label">2025년말</strong>
+                <small>연결 · 단위: %</small>
+              </div>
             </div>
             <article class="panel disclosure-panel">
-              <div class="disclosure-note"><span>비율 = 예상유지비 ÷ 예정유지비</span><button class="disclosure-full-button" type="button" data-full-metric="expense">전체보기 ↗</button></div>
-              <div class="compact-ratio-wrap">
-                <div class="horizontal-scroll-hint" aria-hidden="true">좌우로 이동해 장기 경과구간 보기</div>
-                <table class="compact-ratio-table" id="expense-ratio-summary-table">
-                  <thead id="expense-ratio-summary-head"></thead>
-                  <tbody id="expense-ratio-summary-body"></tbody>
-                </table>
+              <div class="disclosure-note">
+                <div class="claim-formula-note">
+                  <strong>예실차 비율 = 예상손해율 − 실제손해율</strong>
+                  <span>예상손해율 = 당기 예상보험금(종신연금지급금 포함) ÷ 당기 실제위험보험료</span>
+                  <span>실제손해율 = (당기 발생보험금 + 당기 발생사고요소조정) ÷ 당기 실제위험보험료</span>
+                </div>
+                <button class="disclosure-full-button" type="button" data-full-metric="claim">전체보기 ↗</button>
               </div>
+              <div class="claim-summary-grid" id="claim-summary-grid"></div>
             </article>
+          </section>
+
+          <section class="dashboard-page section-block assumption-section reference-section" id="duration-metrics" data-page-section="duration-metrics" hidden>
+            <div class="section-heading reference-page-heading">
+              <div>
+                <p class="section-kicker">BEST-ESTIMATE REFERENCE</p>
+                <h2>경과기간 손해율·유지비율</h2>
+                <p>손해율과 유지비율을 선택해 연결재무제표 주석의 경과기간별 흐름을 비교합니다.</p>
+              </div>
+            </div>
+            <div class="duration-view-tabs" role="tablist" aria-label="경과기간 지표 선택">
+              <button class="is-active" id="duration-loss-tab" type="button" role="tab" aria-selected="true" aria-controls="loss-duration" data-duration-metric="loss">손해율</button>
+              <button id="duration-expense-tab" type="button" role="tab" aria-selected="false" aria-controls="expense-duration" data-duration-metric="expense">유지비율</button>
+            </div>
+            <div class="duration-metrics-stack">
+              <section class="duration-metric-section" id="loss-duration" role="tabpanel" aria-labelledby="duration-loss-tab" data-duration-panel="loss">
+                <div class="section-heading duration-section-heading">
+                  <div>
+                    <p class="section-kicker">LOSS RATIO BY DURATION</p>
+                    <h3>(경과기간별) 손해율 현황</h3>
+                    <p>보험계약 경과기간별 예상보험금, 위험보험료와 그 비율을 동일한 표 구조로 비교합니다.</p>
+                  </div>
+                  <div class="disclosure-basis"><span>공시 기준</span><strong id="loss-period-label">2025년말</strong><small>비율: %</small></div>
+                </div>
+                <article class="panel disclosure-panel">
+                  <div class="disclosure-note"><span>비율 = 예상보험금 ÷ 위험보험료</span><button class="disclosure-full-button" type="button" data-full-metric="loss">전체보기 ↗</button></div>
+                  <div class="compact-ratio-wrap">
+                    <div class="horizontal-scroll-hint" aria-hidden="true">좌우로 이동해 장기 경과구간 보기</div>
+                    <table class="compact-ratio-table" id="loss-ratio-summary-table">
+                      <thead id="loss-ratio-summary-head"></thead>
+                      <tbody id="loss-ratio-summary-body"></tbody>
+                    </table>
+                  </div>
+                </article>
+              </section>
+
+              <section class="duration-metric-section" id="expense-duration" role="tabpanel" aria-labelledby="duration-expense-tab" data-duration-panel="expense" hidden>
+                <div class="section-heading duration-section-heading">
+                  <div>
+                    <p class="section-kicker">EXPENSE RATIO BY DURATION</p>
+                    <h3>(경과기간별) 유지비율 현황</h3>
+                    <p>보험계약 경과기간별 예상유지비, 예정유지비와 그 비율을 연결 주석 기준으로 비교합니다.</p>
+                  </div>
+                  <div class="disclosure-basis"><span>공시 기준</span><strong id="expense-period-label">2025년말</strong><small>비율: %</small></div>
+                </div>
+                <article class="panel disclosure-panel">
+                  <div class="disclosure-note"><span>비율 = 예상유지비 ÷ 예정유지비</span><button class="disclosure-full-button" type="button" data-full-metric="expense">전체보기 ↗</button></div>
+                  <div class="compact-ratio-wrap">
+                    <div class="horizontal-scroll-hint" aria-hidden="true">좌우로 이동해 장기 경과구간 보기</div>
+                    <table class="compact-ratio-table" id="expense-ratio-summary-table">
+                      <thead id="expense-ratio-summary-head"></thead>
+                      <tbody id="expense-ratio-summary-body"></tbody>
+                    </table>
+                  </div>
+                </article>
+              </section>
+            </div>
           </section>
 
           <section class="dashboard-page section-block quality-section" id="quality" data-page-section="quality" hidden>
@@ -534,12 +561,12 @@
       </div>
     </dialog>
 
-    <script src="./dashboard-data.generated.js?v=20260821-methodology-v5"></script>
+    <script src="./dashboard-data.generated.js?v=20260821-q2-v7"></script>
     <script src="./assumption-data.generated.js?v=20260804-official-source-v4"></script>
-    <script src="./forecast-data.generated.js?v=20260820-executive-v7-5-1"></script>
+    <script src="./forecast-data.generated.js?v=20260821-five-year-v9"></script>
     <script src="./liability-assumption-data.generated.js?v=20260804-official-source-v4"></script>
     <script src="./management-experience-data.generated.js?v=20260821-v4"></script>
     <script src="./xlsx-export.js?v=20260820-v1"></script>
-    <script src="./script.js?v=20260821-management-docs-v86"></script>
+    <script src="./script.js?v=20260821-peer-trend-v91"></script>
   </body>
 </html>

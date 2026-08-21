@@ -13,7 +13,7 @@ test("all nine forecasts satisfy the shared Movement and reconciliation contract
   const companyKeys = Object.keys(snapshot.data.forecasts);
 
   assert.equal(companyKeys.length, 9);
-  assert.equal(snapshot.data.version, "2026.08.16-v7.5");
+  assert.equal(snapshot.data.version, "2026.08.21-v10.3");
   assert.equal(snapshot.data.runtimeContractVersion, "csm-forecast-runtime/v1");
 
   for (const companyKey of companyKeys) {
@@ -40,8 +40,8 @@ test("management target overlay is included in CSM adjustment with an audit trai
 
   assert.equal(economicClosing, samsung.base.closing);
   assert.equal(samsung.base.modelClosing, samsung.independentModel.base.closing);
-  assert.equal(samsung.base.adjustmentBeforeTargetOverlay, -1640);
-  assert.equal(samsung.base.targetAdjustmentOverlay, -635);
+  assert.equal(samsung.base.adjustmentBeforeTargetOverlay, -1812);
+  assert.equal(samsung.base.targetAdjustmentOverlay, -401);
   assert.equal(
     samsung.base.adjustmentBeforeTargetOverlay + samsung.base.targetAdjustmentOverlay,
     samsung.base.adjustment,

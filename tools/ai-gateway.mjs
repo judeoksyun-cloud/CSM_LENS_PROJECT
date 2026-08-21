@@ -432,7 +432,7 @@ function buildForecastCard(facts) {
     ],
     followUps: [
       `경영목표 입력 방식은 ${anchor?.verificationLabel ?? '해당 없음'}입니다.`,
-      `장기 값은 정밀 예측이 아니라 ${forecast.horizon?.terminal?.period ?? '장기'}까지의 Base/Worst 시나리오로 해석하세요.`,
+      `5년 값은 정밀 예측이 아니라 ${forecast.horizon?.base?.at(-1)?.period ?? '2030-ye'}까지 매년 연결한 Base/Worst 시나리오로 해석하세요.`,
     ],
   };
 }

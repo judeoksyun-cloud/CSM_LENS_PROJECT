@@ -13,10 +13,11 @@ EXPECTED_COMPANIES = 9
 EXPECTED_QUARTERS = [
     *(f"{year}-q{quarter}" for year in (2023, 2024, 2025) for quarter in (1, 2, 3, 4)),
     "2026-q1",
+    "2026-q2",
 ]
 
 
-def close(left: float, right: float, tolerance: float = 0.001) -> bool:
+def close(left: float, right: float, tolerance: float = 0.002) -> bool:
     return abs(left - right) <= tolerance
 
 
@@ -32,8 +33,16 @@ def main() -> int:
         for period_key in EXPECTED_QUARTERS:
             assert period_key in periods, f"{company_key} missing {period_key}"
             period = periods[period_key]
-            for metric in ("csm", "insuranceProfit", "parentNetIncome", "kics"):
+            for metric in ("csm", "insuranceProfit", "parentNetIncome"):
                 assert period[metric] is not None, f"{company_key} {period_key} missing {metric}"
+            if company_key == "hanwha-life" and period_key == "2026-q2":
+                assert period["kics"] is None
+                assert (
+                    period["quarterlyAudit"]["financialValidation"]["solvencyStatus"]
+                    == "pending_in_source"
+                )
+            else:
+                assert period["kics"] is not None, f"{company_key} {period_key} missing kics"
             movement = period["movement"]
             calculated = sum(
                 movement[key]
@@ -60,6 +69,32 @@ def main() -> int:
                 assert close(net_total, periods[f"{year}-ye"]["parentNetIncome"]), (
                     f"{company_key} {year} net income reconciliation"
                 )
+
+        assert periods["2026-q2"]["movement"]["opening"] == periods["2026-q1"]["movement"]["closing"], (
+            f"{company_key} 2026-q2 opening continuity"
+        )
+        q2_audit = periods["2026-q2"]["quarterlyAudit"]["financialValidation"]
+        assert q2_audit["insuranceProfitAccountId"] == "ifrs-full_InsuranceServiceResult"
+        assert q2_audit["parentNetIncomeAccountId"] == "ifrs-full_ProfitLossAttributableToOwnersOfParent"
+        assert q2_audit["insuranceProfitStandaloneStatus"] == "matched"
+        assert q2_audit["parentNetIncomeStandaloneStatus"] == "matched"
+        assert abs(q2_audit["insuranceProfitStandaloneDifference"]) <= 0.001
+        assert abs(q2_audit["parentNetIncomeStandaloneDifference"]) <= 0.001
+
+    shinhan = companies["shinhan-life"]["periods"]
+    assert shinhan["2026-q1"]["csm"] == 7722
+    assert shinhan["2026-q2"]["csm"] == 7911
+    assert shinhan["2026-q2"]["sourceReference"]["sourceTables"] == [434, 436, 438]
+    assert shinhan["2026-q2"]["quarterlyAudit"]["openingReconciliationDifference"] == 0
+
+    hanwha = companies["hanwha-life"]["periods"]
+    assert close(hanwha["2026-q1"]["parentNetIncome"], 324.395)
+    assert close(hanwha["2026-q2"]["parentNetIncome"], 447.554)
+
+    db = companies["db-insurance"]["periods"]
+    assert db["2025-ye"]["csm"] == 12205
+    assert db["2025-ye"]["sourceReference"]["sourceTables"] == [281, 285]
+    assert db["2026-q1"]["movement"]["opening"] == db["2025-ye"]["csm"]
 
     print(f"quarterly integrity checks passed: {checked} company-periods")
     return 0

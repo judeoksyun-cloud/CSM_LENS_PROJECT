@@ -23,6 +23,23 @@ FISIS = ROOT / "external-data" / "fisis-quarterly-financials.json"
 OUTPUT = ROOT / "external-data" / "csm-quarterly-dashboard-data.json"
 DASHBOARD_JS = ROOT / "csm-prototype" / "dashboard-data.generated.js"
 FLOW_KEYS = ("newbiz", "interest", "amortization")
+DATA_REFRESH_DATE = "2026-08-21"
+SHINHAN_2026_CSM_IR = {
+    1: {
+        "value": 7724.9,
+        "source": "신한금융그룹 2026년 2분기 경영실적발표",
+        "sourceUrl": "https://www.shinhangroup.com/kr/ir/finance/investorPresentations/detail/33171",
+        "basis": "회사 IR · 원보험 기준",
+        "note": "DART 저장값은 별도 발행 보험계약 기준이므로 exact-value 일치 판정에서 제외",
+    },
+    2: {
+        "value": 7914.7,
+        "source": "신한금융그룹 2026년 2분기 경영실적발표",
+        "sourceUrl": "https://www.shinhangroup.com/kr/ir/finance/investorPresentations/detail/33171",
+        "basis": "회사 IR · 원보험 기준",
+        "note": "DART 저장값은 별도 발행 보험계약 기준이므로 exact-value 일치 판정에서 제외",
+    },
+}
 
 
 def parsable_tables(period: dict) -> list[tuple[dict, dict]]:
@@ -62,24 +79,47 @@ def select_cumulative_movement(period: dict, anchor: float) -> tuple[dict, list[
     if not parsed:
         raise ValueError("no parsable CSM movement table")
 
-    candidates = []
+    contiguous_candidates = []
+    alternate_candidates = []
+
+    def build_candidate(subset: list[tuple[dict, dict]]) -> tuple[float, dict, list[dict]]:
+        tables = [item[0] for item in subset]
+        movement = subset[0][1] if len(subset) == 1 else annual.combined_movement(tables)
+        relative_error = abs(movement["opening"] - anchor) / max(abs(anchor), 1)
+        # Prefer fewer tables only after balance reconciliation.
+        score = relative_error + (len(subset) - 1) * 0.000001
+        return score, movement, tables
+
     for group in table_groups(parsed):
-        # A company can split CSM by measurement model. Enumerate short,
-        # contiguous subsets while preserving the disclosure order.
+        # A company can split CSM by measurement model.  Some filings print
+        # current/comparative tables in alternating pairs, so the current
+        # issued-contract set is not necessarily contiguous (for example,
+        # Shinhan Life 2026 H1 uses tables 208, 210 and 212).  Enumerate short
+        # ordered combinations and let the audited prior year-end opening
+        # balance select the correct current-period set.
         max_size = min(4, len(group))
         for size in range(1, max_size + 1):
             for start in range(0, len(group) - size + 1):
-                subset = group[start : start + size]
-                tables = [item[0] for item in subset]
-                movement = (
-                    subset[0][1] if len(subset) == 1 else annual.combined_movement(tables)
-                )
-                relative_error = abs(movement["opening"] - anchor) / max(abs(anchor), 1)
-                # Prefer fewer tables only after balance reconciliation.
-                score = relative_error + (len(subset) - 1) * 0.000001
-                candidates.append((score, movement, tables))
+                contiguous_candidates.append(build_candidate(group[start : start + size]))
+            for indexes in combinations(range(len(group)), size):
+                if indexes == tuple(range(indexes[0], indexes[0] + size)):
+                    continue
+                alternate_candidates.append(build_candidate([group[index] for index in indexes]))
 
-    score, movement, tables = min(candidates, key=lambda item: item[0])
+    score, movement, tables = min(contiguous_candidates, key=lambda item: item[0])
+    # Preserve the existing contiguous-table rule unless it leaves a material
+    # opening bridge.  Switch to an alternating current/comparative layout only
+    # when that alternative reconciles within KRW 20bn.  This avoids silently
+    # rewriting older transition-basis periods merely because an arbitrary
+    # non-contiguous subset happens to be somewhat closer.
+    if abs(movement["opening"] - anchor) > 20:
+        reconciled_alternates = [
+            candidate
+            for candidate in alternate_candidates
+            if abs(candidate[1]["opening"] - anchor) <= 20
+        ]
+        if reconciled_alternates:
+            score, movement, tables = min(reconciled_alternates, key=lambda item: item[0])
     # 2023 interim disclosures can use an IFRS 17 transition/restatement basis
     # different from the comparative amount later printed in the annual note.
     # Preserve that bridge in the audit payload; reject only differences large
@@ -124,6 +164,21 @@ def metric(period: dict, key: str) -> float | None:
     return item.get("amount_bn") if item else None
 
 
+def metric_item(period: dict, key: str) -> dict:
+    return period.get("financial_metrics", {}).get(key) or {}
+
+
+def disclosed_standalone_metric(period: dict, key: str) -> float | None:
+    return metric_item(period, key).get("disclosed_standalone_amount_bn")
+
+
+def standalone_validation(derived: float | None, disclosed: float | None) -> tuple[float | None, str]:
+    if derived is None or disclosed is None:
+        return None, "not_available"
+    difference = round(derived - disclosed, 3)
+    return difference, "matched" if abs(difference) <= 0.001 else "mismatch"
+
+
 def quarterly_source(period: dict, table_indexes: list[int], audit: dict, basis: str) -> dict:
     report = period["report"]
     return {
@@ -165,7 +220,25 @@ def period_payload(
     opening_difference: float,
     financial_audit: dict,
     net_income_basis: str,
+    csm_validation: dict | None = None,
 ) -> dict:
+    fisis_available = any(
+        value is not None
+        for key, value in financial_audit.items()
+        if key.startswith("fisis")
+    )
+    disclosure_label = "반기" if quarter == 2 else "분기"
+    validation_label = "FISIS 교차검증" if fisis_available else "FISIS 미게시"
+    financial_audit = {
+        **financial_audit,
+        "fisisStatus": "available" if fisis_available else "not_published",
+        "fisisCheckedAt": DATA_REFRESH_DATE,
+        "fallbackValidation": (
+            "Open DART 원문 Movement 항등식·기초 잔액 연속성 검산"
+            if not fisis_available
+            else None
+        ),
+    }
     return {
         "csm": movement["closing"],
         "growth": round((movement["closing"] / movement["opening"] - 1) * 100, 1)
@@ -176,7 +249,7 @@ def period_payload(
         "parentNetIncome": parent_net_income,
         "kics": kics,
         "solvencyBasis": "K-ICS",
-        "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+        "quality": f"DART {disclosure_label} 공시 · {validation_label} · 누적값 분기 단독 환산",
         "sourceReference": source_reference,
         "metricBasis": {
             "csm": "별도 · 발행 보험계약 · 출재 재보험 제외",
@@ -190,6 +263,7 @@ def period_payload(
             "openingReconciliationDifference": opening_difference,
             "disclosedCumulativeMovement": cumulative,
             "financialValidation": financial_audit,
+            "csmValidation": csm_validation,
         },
     }
 
@@ -201,12 +275,121 @@ def build() -> dict:
     output["dataContractVersion"] = "csm-dashboard-quarterly/v1"
     output["periodBasis"] = "quarterly-point-in-time-with-standalone-flows"
     output["methodologyRegistry"] = {
-        "version": "2026-08-21.1",
+        "version": "2026-08-21.5",
         "recordPolicy": (
             "모든 데이터 변경 시 원본 출처, 파싱 규칙, 단위·기간 환산, "
             "검증 소스, 판정 결과, 예외 처리를 함께 기록한다."
         ),
         "records": [
+            {
+                "effectiveDate": "2026-08-21",
+                "scope": "당해연도 전망을 포함한 9개사 신계약 추세율·CSM 조정률",
+                "source": "검증 완료 CSM Movement, 2024·2025년 롤링 백테스트, 회사별 증권사 애널리스트 리포트",
+                "parsing": (
+                    "신계약 추세율은 2024·2025년 실적과 2026년 Base 전망의 두 변화율을 35%·65%로 가중. "
+                    "CSM 조정률은 같은 3개년을 20%·30%·50%로 가중하고 연간 순양(+) 조정, "
+                    "분기성 환입·재분류의 총액 반복과 경영목표 연결분을 제외."
+                ),
+                "conversion": (
+                    "당해연도 Base는 상반기 확정 실적과 Q3~Q4 전망의 연간 합계로 사용. "
+                    "신계약 추세는 -5%~+5%로 제한하고 2026~2030년을 연도별로 연결."
+                ),
+                "validation": (
+                    "9개사 전 연도 Movement 항등식, Base>Worst, 3개년 관측창·가중치, 일회성 제외액, "
+                    "CSM 조정률 0% 이하와 성장률 상한을 자동검사."
+                ),
+                "result": (
+                    "대시보드에 24·25년 실적과 26년 전망, 가중 추세율·최종 적용률 및 CSM 조정률을 표시. "
+                    "9개사 전망 계약을 rolling-origin-current-year/v5로 갱신."
+                ),
+            },
+            {
+                "effectiveDate": "2026-08-21",
+                "scope": "한화생명 분기 지배주주 순이익 및 9개사 2026 Q2 손익 재검증",
+                "source": "Open DART 단일회사 전체계정 API의 연결 포괄손익계산서",
+                "parsing": (
+                    "지배기업 소유주 귀속 순이익은 한글 계정명보다 표준 계정 ID "
+                    "ifrs-full_ProfitLossAttributableToOwnersOfParent를 우선 선택. 보험손익도 "
+                    "ifrs-full_InsuranceServiceResult를 우선하고 명칭 매칭은 예외 대체로만 사용."
+                ),
+                "conversion": (
+                    "보험손익·순이익은 DART가 직접 공시한 당 3개월 값을 분기 단독값으로 사용하고, "
+                    "반기 누적값에서 Q1 누적값을 차감한 값과 0.001십억원 허용오차로 재대사."
+                ),
+                "validation": (
+                    "9개사 보험손익·지배주주 순이익의 표준 계정 ID, 반기 누적, Q2 직접 공시값, "
+                    "분기 단독 환산값을 함께 저장. FISIS 2026년 6월 미게시 상태도 별도 기록."
+                ),
+                "result": (
+                    "한화생명 지배주주 순이익을 2026 Q1 381.582→324.395십억원, "
+                    "Q2 522.943→447.554십억원으로 수정. 9개사 Q2 직접 공시 손익과 환산값 대사 완료."
+                ),
+            },
+            {
+                "effectiveDate": "2026-08-21",
+                "scope": "DB손해보험 2025년말 보유 CSM 재파싱",
+                "source": "Open DART 2025 사업보고서 별도 보험계약 주석 표 #281·#285",
+                "parsing": (
+                    "발행보험계약 CSM이 분리 공시된 소규모 계약군 표와 주계약군 표를 합산. "
+                    "주계약군 단일 표 선택 규칙을 회사·연도 명시 규칙으로 교체."
+                ),
+                "conversion": "원문 백만원을 십억원으로 환산한 뒤 합산하고 표시단위에서 반올림.",
+                "validation": (
+                    "2025년말 기말 CSM을 2026 Q1·Q2 공시 기초와 대사하고 Movement 항등식 및 "
+                    "회사 공식 결산자료의 12,205십억원과 교차검증."
+                ),
+                "result": "2025년말 보유 CSM 12,187→12,205십억원, 기시 12,206→12,232십억원으로 수정.",
+            },
+            {
+                "effectiveDate": "2026-08-21",
+                "scope": "신한라이프 2026년 1·2분기 보유 CSM 재파싱",
+                "source": (
+                    "Open DART 분기·반기보고서 별도재무제표 보험계약 주석, "
+                    "신한금융그룹 2026년 2분기 공식 IR"
+                ),
+                "parsing": (
+                    "신한라이프 XBRL은 상품군별 당기표와 비교표가 교대로 배치된다. "
+                    "연속 표를 합산하지 않고, 직전 연말 별도 CSM과 기초가 20십억원 이내로 "
+                    "대사되는 당기 표 조합만 선택한다."
+                ),
+                "conversion": (
+                    "백만원 원문을 십억원으로 환산. Q1은 당기 누적값, Q2 단독 Movement는 "
+                    "반기 누적값에서 수정된 Q1 누적값을 차감한다."
+                ),
+                "validation": (
+                    "DART 별도 표의 기초 CSM을 2025년말과 대사하고 Movement 항등식과 Q1 기말·Q2 기시 "
+                    "연속성을 검산. 공식 IR 원보험 기준 CSM 7,724.9·7,914.7십억원은 기준 차이를 "
+                    "표시한 보조 검증값으로 보존한다."
+                ),
+                "result": (
+                    "보유 CSM을 2026 Q1 7,610→7,722십억원, Q2 7,702→7,911십억원으로 수정. "
+                    "기초 대사 차이는 -104→0십억원."
+                ),
+            },
+            {
+                "effectiveDate": "2026-08-21",
+                "scope": "9개사 2026년 2분기 CSM·Movement·손익·K-ICS",
+                "source": "Open DART 2026년 반기보고서, FISIS 2026년 6월 분기 통계 조회",
+                "parsing": (
+                    "CSM은 별도재무제표 발행 보험계약 표만 사용하고 출재 재보험을 제외. "
+                    "반기 XBRL의 4열·6열 반복 블록에서는 CSM 열만 합산하고 기초 잔액이 "
+                    "2025년말 공시값과 연결되는 당반기 표를 선택."
+                ),
+                "conversion": (
+                    "반기 누적 Movement에서 2026년 1분기 누적값을 차감해 2분기 단독값으로 환산. "
+                    "보험손익·순이익은 DART 당 3개월 공시값을 사용하고 누적 차감값으로 재대사하며, "
+                    "CSM·K-ICS는 2026년 6월말 시점값을 사용."
+                ),
+                "validation": (
+                    "기말 = 기시 + 신계약 + 이자 + 조정 + 상각, 1분기 기말과 2분기 기시 연속성, "
+                    "DART 누적값 재합산을 검산. FISIS 2026년 6월 값은 조회 시점 미게시여서 "
+                    "미확인으로 기록하고 회사 공식 IR은 보조검증 수단으로만 사용."
+                ),
+                "result": (
+                    "9개사 반기보고서 접수 및 2026 Q2 정규화 완료. 한화생명 K-ICS는 "
+                    "원문이 '산출중'이므로 null 유지."
+                ),
+            },
             {
                 "effectiveDate": "2026-08-21",
                 "scope": "9개사 관리기준 예실차",
@@ -241,7 +424,7 @@ def build() -> dict:
                     "기말 = 기시 + 신계약 + 이자 + 조정 + 상각, 분기 기시·기말 연속성, "
                     "연간 합계 대사. 보험손익·순이익은 FISIS SH154/SI150과 교차검증."
                 ),
-                "result": "9개사 117개 회사-분기 필수값 및 Movement 산식 검산 통과",
+                "result": "9개사 126개 회사-분기 값 및 Movement 산식 검산 대상 확장",
             },
             {
                 "effectiveDate": "2026-08-03",
@@ -315,19 +498,37 @@ def build() -> dict:
                 source_reference = quarterly_source(
                     raw_period, table_indexes, audit, "year-to-date-cumulative"
                 )
+                insurance_derived = standalone_metric(
+                    current_financial["insurance_profit"], previous_financial["insurance_profit"]
+                )
+                parent_derived = (
+                    fisis_net.get("standalone")
+                    if use_fisis_net_year
+                    else standalone_metric(
+                        current_financial["parent_net_income"],
+                        previous_financial["parent_net_income"],
+                    )
+                )
+                disclosed_insurance = disclosed_standalone_metric(raw_period, "insurance_profit")
+                disclosed_parent = disclosed_standalone_metric(raw_period, "parent_net_income")
+                # Use DART's directly disclosed three-month value when present.
+                # The cumulative subtraction remains in the audit record as an
+                # independent reconciliation and can differ by KRW 1mn because
+                # each XBRL fact is rounded separately.
+                insurance_standalone = (
+                    disclosed_insurance if disclosed_insurance is not None else insurance_derived
+                )
+                parent_standalone = disclosed_parent if disclosed_parent is not None else parent_derived
+                insurance_difference, insurance_status = standalone_validation(
+                    insurance_derived, disclosed_insurance
+                )
+                parent_difference, parent_status = standalone_validation(
+                    parent_derived, disclosed_parent
+                )
                 company["periods"][period_key] = period_payload(
                     movement=movement,
-                    insurance_profit=standalone_metric(
-                        current_financial["insurance_profit"], previous_financial["insurance_profit"]
-                    ),
-                    parent_net_income=(
-                        fisis_net.get("standalone")
-                        if use_fisis_net_year
-                        else standalone_metric(
-                            current_financial["parent_net_income"],
-                            previous_financial["parent_net_income"],
-                        )
-                    ),
+                    insurance_profit=insurance_standalone,
+                    parent_net_income=parent_standalone,
                     kics=kics,
                     source_reference=source_reference,
                     cumulative=cumulative,
@@ -335,16 +536,37 @@ def build() -> dict:
                     opening_difference=audit["openingDifference"],
                     financial_audit={
                         "dartInsuranceProfitCumulative": metric(raw_period, "insurance_profit"),
+                        "insuranceProfitAccountId": metric_item(raw_period, "insurance_profit").get("account_id"),
+                        "dartInsuranceProfitStandaloneDerived": insurance_derived,
+                        "dartInsuranceProfitStandaloneDisclosed": disclosed_insurance,
+                        "insuranceProfitStandaloneDifference": insurance_difference,
+                        "insuranceProfitStandaloneStatus": insurance_status,
                         "fisisInsuranceProfitCumulative": fisis_insurance.get("cumulative"),
                         "fisisInsuranceProfitStandalone": fisis_insurance.get("standalone"),
                         "dartParentNetIncomeCumulative": metric(raw_period, "parent_net_income"),
+                        "parentNetIncomeAccountId": metric_item(raw_period, "parent_net_income").get("account_id"),
+                        "dartParentNetIncomeStandaloneDerived": parent_derived,
+                        "dartParentNetIncomeStandaloneDisclosed": disclosed_parent,
+                        "parentNetIncomeStandaloneDifference": parent_difference,
+                        "parentNetIncomeStandaloneStatus": parent_status,
                         "fisisSeparateNetIncomeCumulative": fisis_net.get("cumulative"),
                         "fisisSeparateNetIncomeStandalone": fisis_net.get("standalone"),
+                        "solvencyStatus": "published" if kics is not None else "pending_in_source",
+                        "solvencyReason": (
+                            None
+                            if kics is not None
+                            else "Open DART 원문이 해당 분기 K-ICS를 산출 중으로 표시"
+                        ),
                     },
                     net_income_basis=(
                         "별도 · FISIS · 분기 단독 (DART 초기 공백 대체)"
                         if use_fisis_net_year
                         else "연결 · 지배기업 소유주 귀속 · 분기 단독"
+                    ),
+                    csm_validation=(
+                        SHINHAN_2026_CSM_IR.get(quarter)
+                        if company_key == "shinhan-life" and year == 2026
+                        else None
                     ),
                 )
                 previous_cumulative = cumulative
@@ -389,6 +611,8 @@ def build() -> dict:
                         "dartParentNetIncomeCumulative": annual_period["parentNetIncome"],
                         "fisisSeparateNetIncomeCumulative": fisis_q4.get("netIncome", {}).get("cumulative"),
                         "fisisSeparateNetIncomeStandalone": fisis_q4.get("netIncome", {}).get("standalone"),
+                        "solvencyStatus": "published",
+                        "solvencyReason": None,
                     },
                     net_income_basis=(
                         "별도 · FISIS · 분기 단독 (DART 초기 공백 대체)"
@@ -400,7 +624,7 @@ def build() -> dict:
     output["quarterlyBuild"] = {
         "sourceContract": source.get("contract"),
         "validationContract": fisis.get("contract"),
-        "latestAvailable": "2026-q1",
+        "latestAvailable": "2026-q2",
         "errors": errors,
     }
     return output

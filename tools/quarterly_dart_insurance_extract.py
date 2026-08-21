@@ -97,10 +97,14 @@ def account_payload(row: dict | None) -> dict | None:
     # Q3 CIS rows expose the three-month value in thstrm_amount and the
     # year-to-date value in thstrm_add_amount. Q1 and H1 use thstrm_amount.
     raw_amount = row.get("thstrm_add_amount") or row.get("thstrm_amount") or row.get("raw_amount")
+    disclosed_standalone = row.get("thstrm_amount") or row.get("raw_amount")
     return {
+        "account_id": row.get("account_id"),
         "account_nm": row.get("account_nm"),
         "raw_amount": raw_amount,
         "amount_bn": row.get("amount_bn") if row.get("amount_bn") is not None else annual.amount_bn(raw_amount),
+        "disclosed_standalone_raw_amount": disclosed_standalone,
+        "disclosed_standalone_amount_bn": annual.amount_bn(disclosed_standalone),
         "sj_nm": row.get("sj_nm"),
         "account_detail": row.get("account_detail"),
         "thstrm_nm": row.get("thstrm_nm"),
@@ -119,21 +123,43 @@ def find_quarterly_account(rows: list[dict], predicate) -> dict | None:
     return None
 
 
+def find_quarterly_account_by_id(rows: list[dict], account_id: str) -> dict | None:
+    """Find a standardized XBRL concept before relying on a Korean label.
+
+    Some insurers print the parent-owner profit row as only ``지배기업의 소유주``.
+    Matching the label alone can therefore select total profit instead.  The DART
+    account ID is stable across those presentation differences.
+    """
+    for row in rows:
+        if row.get("sj_nm") != "포괄손익계산서" or row.get("account_id") != account_id:
+            continue
+        raw_amount = row.get("thstrm_add_amount") or row.get("thstrm_amount")
+        if annual.amount_bn(raw_amount) is not None:
+            return row
+    return None
+
+
 def financial_metrics(corp_code: str, year: int, reprt_code: str) -> dict:
     ofs = accounts(corp_code, year, reprt_code, "OFS")
     cfs = accounts(corp_code, year, reprt_code, "CFS")
-    insurance = find_quarterly_account(
-        ofs,
-        lambda name: name in {"보험서비스손익", "보험서비스결과", "보험손익"},
+    insurance = find_quarterly_account_by_id(ofs, "ifrs-full_InsuranceServiceResult")
+    if insurance is None:
+        insurance = find_quarterly_account(
+            ofs,
+            lambda name: name in {"보험서비스손익", "보험서비스결과", "보험손익"},
+        )
+    parent = find_quarterly_account_by_id(
+        cfs, "ifrs-full_ProfitLossAttributableToOwnersOfParent"
     )
-    parent = find_quarterly_account(
-        cfs,
-        lambda name: (
-            "포괄" not in name
-            and "순이익" in name
-            and (("지배기업" in name and ("소유주" in name or "지분" in name)) or "지배주주" in name)
-        ),
-    )
+    if parent is None:
+        parent = find_quarterly_account(
+            cfs,
+            lambda name: (
+                "포괄" not in name
+                and "순이익" in name
+                and (("지배기업" in name and ("소유주" in name or "지분" in name)) or "지배주주" in name)
+            ),
+        )
     if parent is None:
         parent = find_quarterly_account(
             cfs,
@@ -164,6 +190,11 @@ def main() -> int:
     parser.add_argument("--company", choices=annual.COMPANIES)
     parser.add_argument("--period", help="Single period such as 2025-q1")
     parser.add_argument("--fresh", action="store_true")
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Refetch selected periods while preserving every other stored period",
+    )
     args = parser.parse_args()
 
     output = empty_output() if args.fresh or not OUTPUT.exists() else json.loads(OUTPUT.read_text(encoding="utf-8"))
@@ -177,9 +208,13 @@ def main() -> int:
                 period_key = f"{year}-{quarter}"
                 if args.period and period_key != args.period:
                     continue
-                if year == 2026 and quarter != "q1":
-                    continue
-                if period_key in output_company["periods"] and not args.fresh:
+                existing_period = output_company["periods"].get(period_key)
+                if (
+                    existing_period
+                    and existing_period.get("availability") == "filed"
+                    and not args.fresh
+                    and not args.force
+                ):
                     continue
                 print(f"collecting {company_meta['name']} {period_key}", flush=True)
                 report, tables = usable_report(company_meta["corp_code"], year, quarter)

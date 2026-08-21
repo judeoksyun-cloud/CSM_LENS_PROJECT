@@ -2031,15 +2031,15 @@
           "validation": null
         },
         "2025-ye": {
-          "csm": 12187,
+          "csm": 12205,
           "growth": -0.2,
           "movement": {
-            "opening": 12206,
-            "newbiz": 2932,
+            "opening": 12232,
+            "newbiz": 2933,
             "interest": 443,
-            "amortization": -1284,
-            "closing": 12187,
-            "adjustment": -2110
+            "amortization": -1285,
+            "closing": 12205,
+            "adjustment": -2118
           },
           "insuranceProfit": 1035.95,
           "parentNetIncome": 1788.026,
@@ -2055,6 +2055,7 @@
             "basis": "separate_financial_statement_excluding_reinsurance",
             "unit": "KRW billion",
             "sourceTables": [
+              281,
               285
             ]
           },
@@ -2146,15 +2147,15 @@
           "validation": null
         },
         "2024-ye": {
-          "csm": 8305,
-          "growth": -9.2,
+          "csm": 9142,
+          "growth": 0.0,
           "movement": {
             "opening": 9142,
             "newbiz": 1828,
             "interest": 321,
             "amortization": -951,
-            "closing": 8305,
-            "adjustment": -2035
+            "closing": 9142,
+            "adjustment": -1198
           },
           "insuranceProfit": 1043.103,
           "parentNetIncome": 850.533,
@@ -2170,7 +2171,7 @@
             "basis": "separate_financial_statement_excluding_reinsurance",
             "unit": "KRW billion",
             "sourceTables": [
-              381
+              392
             ]
           },
           "metricBasis": {

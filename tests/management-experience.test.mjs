@@ -75,18 +75,20 @@ assert.equal(sourceData.companies["kb-insurance"].periods["2025-ye"].ratios.tota
 assert.match(sourceData.companies["kb-insurance"].periods["2025-ye"].coverageNote, /분모/);
 
 assert.deepEqual(generatedData, sourceData, "browser data must exactly mirror the normalized JSON contract");
-assert.match(html, /관리기준 예실차 비율/);
+assert.match(html, /목표 범위 ±5%/);
 assert.match(html, /id="management-period-label"/);
 assert.match(html, /data-full-metric="management"/);
-assert.match(html, /종합 예실차 = 보험금 예실차 \+ 사업비 예실차/);
+assert.doesNotMatch(html, /종합 예실차/, "combined experience should not appear in the 5% dashboard view");
 assert.match(script, /function managementExperiencePeriodKey\(/);
 assert.match(script, /annualDisclosureTargetYear\(\)/);
 assert.match(script, /const priorPeriodKey = `\$\{currentYear - 1\}-ye`/);
 assert.match(script, /function fullManagementExperienceTable\(/);
-assert.match(script, /\["종합 예실차", "total", "보험금 \+ 사업비"\]/);
-assert.match(script, /management:\s*\{ filename: "관리기준_예실차"/);
+assert.doesNotMatch(script, /label: "종합 예실차"/, "combined experience should not appear in the full table");
+assert.match(script, /management:\s*\{ filename: "5퍼센트관리_예실차"/);
 assert.match(styles, /\.management-claim-ratio-list\b/);
 assert.match(styles, /\.management-claim-metric\b/);
+assert.match(styles, /\.management-claim-metric \.claim-current-value strong[\s\S]*?font-size:\s*24px/, "current management experience ratio should be emphasized");
+assert.match(styles, /\.management-claim-metric \.claim-prior-value strong[\s\S]*?font-size:\s*16px/, "prior management experience ratio should remain secondary");
 assert.match(styles, /\.management-full-table-wrap\b/);
 
 console.log("management-experience.test.mjs passed");

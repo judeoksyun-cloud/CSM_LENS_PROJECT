@@ -39,6 +39,7 @@ export function validateForecastEntry(entry) {
   const reasons = [];
   validateAnnualMovement(entry.base, "Base", reasons);
   validateAnnualMovement(entry.worst, "Worst", reasons);
+  validateFiveYearHorizon(entry.horizon, reasons);
 
   const modelClosing = entry.independentModel?.base?.closing;
   if (!Number.isFinite(modelClosing)) {
@@ -53,6 +54,25 @@ export function validateForecastEntry(entry) {
     sampleCount: entry.validation?.sampleCount ?? 0,
     validationLabel: entry.validation?.label ?? entry.confidence ?? "검증 제한",
   };
+}
+
+function validateFiveYearHorizon(horizon, reasons) {
+  const expectedPeriods = ["2026-ye", "2027-ye", "2028-ye", "2029-ye", "2030-ye"];
+  if (!horizon || horizon.terminal != null || horizon.terminalPeriod != null) {
+    reasons.push("5개년 전망 계약에 불필요한 종착 전망이 있거나 전망 구간이 없습니다.");
+    return;
+  }
+  for (const scenarioKey of ["base", "worst"]) {
+    const series = horizon[scenarioKey];
+    if (!Array.isArray(series) || series.length !== expectedPeriods.length) {
+      reasons.push(`${scenarioKey} 1~5년 연도별 전망이 완전하지 않습니다.`);
+      continue;
+    }
+    if (series.some((point, index) => point.period !== expectedPeriods[index])) {
+      reasons.push(`${scenarioKey} 전망 연도가 2026~2030년 순서와 일치하지 않습니다.`);
+    }
+    series.forEach((point) => validateAnnualMovement(point, `${scenarioKey} ${point.period}`, reasons));
+  }
 }
 
 export function summarizeForecastEntry(entry) {

@@ -57,6 +57,7 @@ NEWBIZ_LABELS = (
     "해당기간에처음인식한계약의효과",
     "해당기간에처음인식한계약의영향에따른증가분(감소분),보험계약마진",
     "해당기간에처음인식한계약의영향에따른증가분(감소분)",
+    "해당기간에처음인식한계약효과를통한증가(감소)",
 )
 AMORTIZATION_LABELS = (
     "제공한서비스에대해인식한보험계약마진",
@@ -66,6 +67,7 @@ AMORTIZATION_LABELS = (
     "보험계약마진상각",
     "서비스의이전을반영하기위해당기손익으로인식한보험계약마진금액",
     "서비스이전을반영하기위해당기손익으로인식한보험계약마진금액에따른증가분(감소분)",
+    "서비스이전을반영하기위해당기손익으로인식한보험계약마진금액을통한증가(감소)",
 )
 INTEREST_LABELS = (
     "보험계약의순금융손익",
@@ -132,6 +134,14 @@ def csm_amount(
         return sum(
             (sum(values[offset + 2 : offset + 5], Decimal("0"))
              for offset in range(0, len(values), 6)),
+            Decimal("0"),
+        )
+    # Some non-life disclosures repeat a four-column block by dividend or
+    # product group: FCF, RA, CSM, subtotal.  Only the third value in each
+    # block is CSM; the subtotal and the next block's FCF/RA must be excluded.
+    if len(values) >= 8 and len(values) % 4 == 0:
+        return sum(
+            (values[offset + 2] for offset in range(0, len(values), 4)),
             Decimal("0"),
         )
     if has_csm_subtotal and len(values) >= 3:
@@ -269,6 +279,11 @@ def general_current_and_prior(
 MULTI_TABLE_OVERRIDES = {
     ("samsung-fire", 2025): [479, 481],
     ("hyundai-marine", 2025): [397, 401],
+    # DB손해보험 2025년 발행보험계약 CSM은 같은 별도 주석 안의
+    # 소규모 계약군 표(281)와 주계약군 표(285)로 분리된다. 주계약군만
+    # 선택하면 기말이 12,187십억원으로 과소계상되고 2026 Q1 공시 기초
+    # 12,205십억원과 연결되지 않는다.
+    ("db-insurance", 2025): [281, 285],
 }
 
 # 생명보험사는 연결 주석(_00761)과 별도 주석(_00760)에 같은 형태의

@@ -11,14 +11,14 @@ test("agent target list defaults to incomplete backlog targets only", async () =
   const backlog = await gateway.listTargets();
   const allTargets = await gateway.listTargets({ includeCompleted: true });
 
-  assert.equal(allTargets.targets.length, 117, "nine companies should expose 13 quarterly periods each");
+  assert.equal(allTargets.targets.length, 126, "nine companies should expose 14 quarterly periods each");
   assert.equal(new Set(allTargets.targets.map((target) => target.companyKey)).size, 9);
-  assert.equal(allTargets.summary.backlog + allTargets.summary.completed, 117);
+  assert.equal(allTargets.summary.backlog + allTargets.summary.completed, 126);
   assert.equal(backlog.targets.length, allTargets.summary.backlog);
   assert.ok(backlog.targets.every((target) => target.status !== "completed"));
   assert.ok(
     backlog.targets.some(
-      (target) => target.companyKey === "shinhan-life" && target.periodKey === "2026-q1",
+      (target) => target.companyKey === "hanwha-life" && target.periodKey === "2023-q1",
     ),
     "material opening reconciliation differences should enter the backlog",
   );
@@ -59,14 +59,14 @@ test("agent run returns a validation-gated snapshot and finishes with no review 
   assert.equal(validationPassed.stages[3].status, "completed");
   assert.ok(validationPassed.snapshot, "snapshot should be attached after validation");
   assert.equal(validationPassed.snapshot.sampleData["samsung-life"].name, "삼성생명");
-  assert.equal(validationPassed.forecastContractVersion, "2026.08.16-v7.5");
+  assert.equal(validationPassed.forecastContractVersion, "2026.08.21-v10.3");
   assert.equal(validationPassed.forecastRuntimeContractVersion, "csm-forecast-runtime/v1");
   assert.ok(validationPassed.forecastHash);
-  assert.equal(validationPassed.forecast.independentModel, 14135);
+  assert.equal(validationPassed.forecast.independentModel, 13901);
   assert.equal(validationPassed.forecast.base, 13500);
-  assert.equal(validationPassed.forecast.worst, 13040);
-  assert.equal(validationPassed.forecast.targetAdjustmentOverlay, -635);
-  assert.equal(validationPassed.forecast.adjustmentBeforeTargetOverlay, -1640);
+  assert.equal(validationPassed.forecast.worst, 13187);
+  assert.equal(validationPassed.forecast.targetAdjustmentOverlay, -401);
+  assert.equal(validationPassed.forecast.adjustmentBeforeTargetOverlay, -1812);
 
   await wait(18);
   const finished = await gateway.getRun(started.runId);
@@ -85,8 +85,8 @@ test("agent run surfaces a human review queue instead of auto-completing the fin
   const gateway = createAgentRunGateway({ stageDelayMs: 8 });
 
   const started = await gateway.startRun({
-    companyKey: "shinhan-life",
-    periodKey: "2026-q1",
+    companyKey: "hanwha-life",
+    periodKey: "2023-q1",
   });
 
   await wait(52);

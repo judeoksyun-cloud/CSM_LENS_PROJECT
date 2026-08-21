@@ -9,11 +9,11 @@ const xlsxExporter = readFileSync("csm-prototype/xlsx-export.js", "utf8");
 for (const section of [
   "market",
   "movement",
-  "trend",
   "liability-assumption",
   "claim-experience",
-  "loss-duration",
-  "expense-duration",
+  "trend",
+  "claim-public",
+  "duration-metrics",
   "quality",
 ]) {
   assert.match(
@@ -39,16 +39,29 @@ assert.match(script, /window\.history\.pushState/, "page navigation should prese
 assert.doesNotMatch(script, /new IntersectionObserver/, "navigation should no longer follow long-page scrolling");
 
 assert.ok(
-  html.indexOf('data-page-section="trend"') <
-    html.indexOf('data-page-section="liability-assumption"') &&
-    html.indexOf('data-page-section="liability-assumption"') <
-    html.indexOf('data-page-section="claim-experience"') &&
-    html.indexOf('data-page-section="claim-experience"') <
-      html.indexOf('data-page-section="loss-duration"') &&
-    html.indexOf('data-page-section="loss-duration"') <
-      html.indexOf('data-page-section="expense-duration"'),
-  "liability and assumption metrics should follow the requested 04–07 order",
+  html.indexOf('data-section-link="movement"') <
+    html.indexOf('data-section-link="liability-assumption"') &&
+    html.indexOf('data-section-link="liability-assumption"') <
+      html.indexOf('data-section-link="claim-experience"') &&
+    html.indexOf('data-section-link="claim-experience"') <
+      html.indexOf('data-section-link="trend"') &&
+    html.indexOf('data-section-link="trend"') <
+      html.indexOf('data-section-link="claim-public"') &&
+    html.indexOf('data-section-link="claim-public"') <
+      html.indexOf('data-section-link="duration-metrics"') &&
+    html.indexOf('data-section-link="duration-metrics"') <
+      html.indexOf('data-section-link="quality"'),
+  "navigation should follow the requested main, reference, and data order",
 );
+assert.match(html, /\(참고사항\)/, "navigation should label the reference group");
+assert.match(html, /최적가정 관련 지표/, "navigation should name the best-estimate reference group");
+assert.match(html, /class="nav-label-stack"[\s\S]*?5% 관리기준/, "claim navigation should show the small 5% label");
+assert.match(html, /예실차 \(공시기준\)/, "public claim experience should be a standalone reference page");
+assert.match(html, /경과기간 손해율·유지비율/, "loss and maintenance ratios should share one reference page");
+assert.match(html, /data-duration-metric="loss"/, "duration page should expose a loss-ratio tab");
+assert.match(html, /data-duration-metric="expense"/, "duration page should expose a maintenance-ratio tab");
+assert.match(html, /data-duration-panel="expense" hidden/, "maintenance ratio should be hidden until selected");
+assert.match(script, /function syncDurationMetricView\(/, "duration tabs should switch the visible metric panel");
 assert.match(html, /보험부채 변동내역/);
 assert.match(html, /data-full-metric="liability"/);
 assert.match(html, /liability-assumption-data\.generated\.js/);
@@ -57,6 +70,8 @@ assert.match(script, /function fullLiabilityAssumptionTable\(/);
 assert.match(script, /Open DART \$\{hasPrior/);
 assert.match(script, /원본·검증 기준은 Open DART로 단일화/);
 assert.match(script, /첨부 양식과 ref_data는 화면 구조 참고에만 사용/, "dashboard methodology should state the reference-data exclusion rule");
+assert.match(script, /연간 순양\(\+\) 조정/, "dashboard methodology should disclose the one-off positive adjustment exclusion");
+assert.match(script, /백테스트 통제/, "dashboard methodology should disclose the forecast bias control");
 assert.doesNotMatch(script, /fetch\([^)]*ref_data|import[^;]*ref_data/, "dashboard runtime must not load static reference data");
 assert.match(script, /function latestAnnualPeriodAtOrBefore\(/);
 assert.match(script, /annualDisclosureTargetYear/);
@@ -86,6 +101,11 @@ assert.match(script, /function downloadAssumptionTable\(/);
 assert.match(script, /CSM_Lens_\$\{meta\.filename\}/);
 assert.match(xlsxExporter, /application\/vnd\.openxmlformats-officedocument\.spreadsheetml\.sheet/);
 assert.match(styles, /\.modal-download/);
+assert.match(styles, /\.peer-trend-panel\b/, "nine-company trend chart should have a dedicated responsive panel");
+assert.match(styles, /--type-metadata:\s*11px/, "metadata should remain readable without competing with core content");
+assert.match(styles, /--type-body:\s*13px/, "dashboard body text should use the unified readable scale");
+assert.match(styles, /\.movement-table tbody td,[\s\S]*?font-size:\s*var\(--type-body\)/, "main table values should use the readable body size");
+assert.match(styles, /\.claim-current-value strong[\s\S]*?font-size:\s*26px/, "claim experience headline values should remain prominent");
 assert.match(html, /id="assumption-table-modal"/);
 assert.match(html, /id="assumption-chart-modal"/);
 assert.match(styles, /\.compact-ratio-table\b/);
@@ -132,7 +152,11 @@ assert.match(
   "cumulative movement should use the preserved DART cumulative disclosure",
 );
 assert.match(styles, /\.basis-toggle\b/, "the basis selector should have a visible selected state");
-assert.match(html, /CSM 추이/, "dashboard should combine historical CSM and year-end forecasts");
+assert.match(html, /CSM 추이 전망/, "dashboard should name the fifth page as history and forecast");
+assert.ok(
+  html.indexOf('class="panel forecast-method-panel"') < html.indexOf('id="trend-grid"'),
+  "forecast methodology should appear between the page heading and company graph cards",
+);
 assert.match(html, /2026 Base/, "forecast should display the Base path");
 assert.match(html, /2026 Worst/, "forecast should display the Worst path");
 assert.match(script, /legend-dot actual[^\n]*실적/, "trend detail should distinguish historical actuals in business terms");
@@ -158,9 +182,9 @@ assert.match(
 );
 assert.doesNotMatch(script, /mini-actual-value/, "trend mini charts should not repeat point values");
 assert.match(script, /trend-card-values/, "trend cards should preserve the bottom numeric summary");
-assert.match(script, /return \[\.\.\.nearTerm, terminal\]/, "2035 should be appended to the common forecast horizon series");
-assert.doesNotMatch(script, /mini-long-term-base-line/, "trend cards should not special-case the 2035 segment");
-assert.doesNotMatch(script, /terminal-scenario-label/, "trend modal should use the common Base and Worst label design for 2035");
+assert.doesNotMatch(script, /terminalPeriod|horizon\?\.terminal/, "forecast series should stop at the fifth annual horizon");
+assert.doesNotMatch(script, /mini-long-term-base-line/, "trend cards should use one continuous five-year scenario line");
+assert.doesNotMatch(script, /terminal-scenario-label/, "trend modal should not expose a separate terminal scenario");
 assert.match(script, /baseSeries\.map\(\(item, index\) => `<circle class="base-point"/, "every Base horizon should use the same point renderer");
 assert.match(script, /worstSeries\.map\(\(item, index\) => `<circle class="worst-point"/, "every Worst horizon should use the same point renderer");
 assert.doesNotMatch(script, /baseSeriesLabel|worstSeriesLabel/, "forecast point labels should rely on the legend and color instead of repeating scenario names");
@@ -170,8 +194,8 @@ assert.match(script, /function formatTrendWon\(/, "trend values should use the c
 assert.match(script, /function formatSignedTrendWon\(/, "signed trend values should use the compact 조 unit");
 assert.match(
   html,
-  /1년·2년·3년·5년·10년을 모두 Base와 Worst로 전망/,
-  "trend copy should explain that every forecast horizon has Base and Worst values",
+  /향후 1년부터 5년까지 매년 Base와 Worst로 전망/,
+  "trend copy should explain that all five annual horizons have Base and Worst values",
 );
 assert.doesNotMatch(
   html,
@@ -270,7 +294,10 @@ assert.match(script, /function annualNewBusinessHistory\(/, "company commentary 
 assert.match(script, /yearEnd\?\.movement \?\? fourthQuarter\?\.quarterlyAudit\?\.disclosedCumulativeMovement/, "annual new-business commentary should prefer cumulative year-end movement");
 assert.match(script, /function forecastTrajectoryLabel\(/, "long-term commentary should distinguish the medium- and long-term path");
 assert.match(script, /중기 상승 후 보합/, "long-term commentary should avoid flattening a mixed path into one direction");
-assert.match(script, /2030년까지 연 \$\{nearTermGrowth\}/, "company commentary should explain the applied near-term growth rate");
+assert.match(script, /① 최근 흐름/, "company commentary should label the weighted growth step");
+assert.match(script, /② 공통 상·하한/, "company commentary should explain the common growth cap");
+assert.match(script, /③ 과거 예측오차/, "company commentary should explain the backtest adjustment");
+assert.match(script, /④ 최종 적용/, "company commentary should separate the final applied rate");
 assert.match(script, /01 · 전망 결론/, "CEO commentary should lead with the forecast conclusion");
 assert.match(script, /class="insight-conclusion-title"/, "the conclusion direction should sit on its own line before the forecast path");
 assert.match(script, /class="forecast-chart-scenario-detail" id="driver-forecast-panel"/, "the chart should contain the full Base and Worst scenario detail");
@@ -290,8 +317,8 @@ assert.match(script, /<b>감소요인<\/b><p class="insight-movement-components"
 assert.match(script, /CSM 조정 <em>\$\{formatSignedTrendWon\(base\.adjustment\)\}/, "CSM sustainability should disclose adjustment separately");
 assert.match(script, /CSM 상각 <em>\$\{formatSignedTrendWon\(base\.amortization\)\}/, "CSM sustainability should disclose amortization separately");
 assert.match(script, /class="insight-fact-list"/, "forecast explanations should separate assumptions and results into labeled rows");
-assert.match(script, /2~4분기 Base 대비 10% 감소/, "forecast path should state the common new-business Worst rule");
-assert.match(script, /2~4분기 Base 대비 10% 악화/, "forecast path should state the common adjustment Worst rule");
+assert.match(script, /3~4분기 Base 대비 10% 감소/, "forecast path should state the common new-business Worst rule");
+assert.match(script, /3~4분기 Base 대비 10% 악화/, "forecast path should state the common adjustment Worst rule");
 assert.match(styles, /\.driver-worst-rules\b/, "the common Worst rule should have a dedicated readable block");
 assert.match(styles, /\.forecast-method-summary\b/, "the forecast method summary should have dedicated executive styling");
 assert.match(styles, /\.trend-grid\b/, "nine-company CSM trend should use a card grid");

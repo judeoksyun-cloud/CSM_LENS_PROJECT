@@ -235,8 +235,14 @@ function buildMovementReviewItem(companyKey, company, periodKey, period) {
 function buildFinancialReviewItem(sourceData, companyKey, company, periodKey, period) {
   const financial = getFinancialMetric(sourceData, companyKey, periodKey);
   const requiredMetrics = ["insuranceProfit", "netIncome", "kics"];
-  const missingMetrics = requiredMetrics.filter((key) => !Number.isFinite(financial[key]));
-  const status = missingMetrics.length ? "failed" : "passed";
+  const solvencyStatus = period.quarterlyAudit?.financialValidation?.solvencyStatus;
+  const pendingMetrics = !Number.isFinite(financial.kics) && solvencyStatus === "pending_in_source"
+    ? ["kics"]
+    : [];
+  const missingMetrics = requiredMetrics.filter(
+    (key) => !Number.isFinite(financial[key]) && !pendingMetrics.includes(key),
+  );
+  const status = missingMetrics.length ? "failed" : pendingMetrics.length ? "needs_review" : "passed";
 
   return {
     id: `${companyKey}.${periodKey}.financial_metrics`,
@@ -247,17 +253,21 @@ function buildFinancialReviewItem(sourceData, companyKey, company, periodKey, pe
     metric: "financial_metrics",
     title: `${company.name ?? companyKey} ${periodKey} 손익/K-ICS`,
     status,
-    severity: missingMetrics.length ? "error" : "info",
+    severity: missingMetrics.length ? "error" : pendingMetrics.length ? "warning" : "info",
     systemValue: financial,
     basis: "period-level-dashboard-financial-metrics",
     sourceReference: period.sourceReference ?? {},
     reviewReason: missingMetrics.length
       ? `필수 재무지표가 누락되었습니다: ${missingMetrics.join(", ")}`
-      : "보험손익, 당기순이익, K-ICS가 최신 분기 계약에 존재합니다.",
+      : pendingMetrics.length
+        ? `원문에서 아직 산출 중인 지표입니다: ${pendingMetrics.join(", ")}`
+        : "보험손익, 당기순이익, K-ICS가 최신 분기 계약에 존재합니다.",
     recommendedAction: missingMetrics.length
       ? "DART/FISIS 원본과 분기 환산 결과를 확인합니다."
-      : "보고 전 손익 기준과 FISIS 교차검증 메타데이터를 확인합니다.",
-    validation: { missingMetrics },
+      : pendingMetrics.length
+        ? "후속 공시에서 확정값이 게시되면 재수집하고 현재 공란은 유지합니다."
+        : "보고 전 손익 기준과 FISIS 교차검증 메타데이터를 확인합니다.",
+    validation: { missingMetrics, pendingMetrics, solvencyStatus },
   };
 }
 

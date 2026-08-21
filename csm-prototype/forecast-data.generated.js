@@ -1,29 +1,30 @@
 window.CSM_FORECAST_DATA = {
-  "version": "2026.08.16-v7.5",
-  "generatedAt": "2026-08-15",
-  "asOfPeriod": "2026-q1",
+  "version": "2026.08.21-v10.3",
+  "generatedAt": "2026-08-21",
+  "asOfPeriod": "2026-q2",
   "targetPeriod": "2026-ye",
   "nearTermPeriods": [
     "2026-ye",
     "2027-ye",
     "2028-ye",
+    "2029-ye",
     "2030-ye"
   ],
-  "terminalPeriod": "2035-ye",
   "unit": "KRW billion",
   "status": "decision-support scenario; not company guidance",
   "methodologyDocument": "../CSM_FORECAST_METHODOLOGY.md",
   "methodology": {
-    "model": "rolling-origin-seasonal/v2 + samsung-driver-ensemble/v2",
+    "model": "rolling-origin-current-year/v5 + samsung-driver-ensemble/v5",
     "base": "independent model view with separately disclosed management-case reconciliation",
-    "stress": "common simple downside: Q2-Q4 newbiz -10%, CSM adjustment 10% worse than Base",
+    "stress": "common downside: Q3-Q4 newbiz -10%, CSM adjustment 10% worse with 1% of opening CSM floor",
     "analystOverlayWeight": 0.25,
     "driverPilot": "Samsung Life driver scenario ensemble",
     "worst": {
       "basis": "same rule for all nine insurers",
-      "q1ActualLocked": true,
+      "actualLockedThroughQuarter": 2,
       "newbizDiscount": 0.1,
-      "adjustmentStress": 0.1
+      "adjustmentStress": 0.1,
+      "adjustmentRatePointFloor": 0.01
     }
   },
   "backtest": {
@@ -40,32 +41,32 @@ window.CSM_FORECAST_DATA = {
     "global": {
       "quantile": 0.8,
       "sampleCount": 54,
-      "newbizStress": 0.237762,
-      "adjustmentDownsideRateToOpening": 0.069837,
-      "closingErrorP80": 0.070964
+      "newbizStress": 0.244161,
+      "adjustmentDownsideRateToOpening": 0.08,
+      "closingErrorP80": 0.091884
     },
     "bySector": {
       "생명보험": {
         "quantile": 0.8,
         "sampleCount": 24,
         "newbizStress": 0.184701,
-        "adjustmentDownsideRateToOpening": 0.069055,
-        "closingErrorP80": 0.070964
+        "adjustmentDownsideRateToOpening": 0.079847,
+        "closingErrorP80": 0.103138
       },
       "손해보험": {
         "quantile": 0.8,
         "sampleCount": 30,
-        "newbizStress": 0.245977,
-        "adjustmentDownsideRateToOpening": 0.069907,
-        "closingErrorP80": 0.057602
+        "newbizStress": 0.249292,
+        "adjustmentDownsideRateToOpening": 0.08,
+        "closingErrorP80": 0.080853
       }
     }
   },
   "forecasts": {
     "samsung-life": {
       "companyName": "삼성생명",
-      "asOfPeriod": "2026-q1",
-      "asOfCsm": 13647,
+      "asOfPeriod": "2026-q2",
+      "asOfCsm": 13741,
       "targetPeriod": "2026-ye",
       "anchor": {
         "type": "management_target",
@@ -77,19 +78,19 @@ window.CSM_FORECAST_DATA = {
         "verificationStatus": "unverified",
         "verificationLabel": "담당자 별도 기입",
         "originalAttached": false,
-        "modelClosing": 14135,
-        "reconciliation": -635,
+        "modelClosing": 13901,
+        "reconciliation": -401,
         "note": "사용자 제공 목표를 경영계획 Base로 사용 · 모델 차이는 경영목표 연결 조정으로 분리"
       },
       "ratios": {
-        "interestRate": 0.008889,
-        "amortizationRate": 0.025581,
+        "interestRate": 0.008984,
+        "amortizationRate": 0.025362,
         "denominator": "기시 CSM + 신계약 CSM",
         "lookbackPeriods": [
-          "2025-q2",
           "2025-q3",
           "2025-q4",
-          "2026-q1"
+          "2026-q1",
+          "2026-q2"
         ],
         "lookbackWeights": [
           0.1,
@@ -101,10 +102,10 @@ window.CSM_FORECAST_DATA = {
       },
       "base": {
         "opening": 13218,
-        "newbiz": 3542,
-        "interest": 524,
-        "adjustment": -2275,
-        "amortization": -1509,
+        "newbiz": 3452,
+        "interest": 522,
+        "adjustment": -2213,
+        "amortization": -1479,
         "closing": 13500,
         "quarters": [
           {
@@ -119,89 +120,81 @@ window.CSM_FORECAST_DATA = {
           },
           {
             "period": "2026-q2",
+            "actual": true,
             "opening": 13647,
-            "newbiz": 894,
-            "interest": 129,
-            "adjustment": -159,
-            "amortization": -372,
-            "closing": 14139
+            "newbiz": 868,
+            "interest": 131,
+            "amortization": -367,
+            "adjustment": -538,
+            "closing": 13741
           },
           {
             "period": "2026-q3",
-            "opening": 14139,
-            "newbiz": 946,
-            "interest": 134,
-            "adjustment": -663,
-            "amortization": -386,
-            "closing": 14170
+            "opening": 13741,
+            "newbiz": 913,
+            "interest": 132,
+            "adjustment": -540,
+            "amortization": -372,
+            "closing": 13874
           },
           {
             "period": "2026-q4",
-            "opening": 14170,
-            "newbiz": 853,
-            "interest": 134,
-            "adjustment": -1273,
-            "amortization": -384,
+            "opening": 13874,
+            "newbiz": 822,
+            "interest": 132,
+            "adjustment": -955,
+            "amortization": -373,
             "closing": 13500,
-            "adjustmentBeforeTargetOverlay": -638,
-            "targetAdjustmentOverlay": -635
+            "adjustmentBeforeTargetOverlay": -554,
+            "targetAdjustmentOverlay": -401
           }
         ],
         "remainingForecast": {
-          "opening": 13647,
-          "newbiz": 2693,
-          "interest": 397,
-          "adjustment": -2095,
-          "amortization": -1142,
+          "opening": 13741,
+          "newbiz": 1735,
+          "interest": 264,
+          "adjustment": -1495,
+          "amortization": -745,
           "closing": 13500,
           "quarters": [
             {
-              "period": "2026-q2",
-              "opening": 13647,
-              "newbiz": 894,
-              "interest": 129,
-              "adjustment": -159,
-              "amortization": -372,
-              "closing": 14139
-            },
-            {
               "period": "2026-q3",
-              "opening": 14139,
-              "newbiz": 946,
-              "interest": 134,
-              "adjustment": -663,
-              "amortization": -386,
-              "closing": 14170
+              "opening": 13741,
+              "newbiz": 913,
+              "interest": 132,
+              "adjustment": -540,
+              "amortization": -372,
+              "closing": 13874
             },
             {
               "period": "2026-q4",
-              "opening": 14170,
-              "newbiz": 853,
-              "interest": 134,
-              "adjustment": -1273,
-              "amortization": -384,
+              "opening": 13874,
+              "newbiz": 822,
+              "interest": 132,
+              "adjustment": -955,
+              "amortization": -373,
               "closing": 13500,
-              "adjustmentBeforeTargetOverlay": -638,
-              "targetAdjustmentOverlay": -635
+              "adjustmentBeforeTargetOverlay": -554,
+              "targetAdjustmentOverlay": -401
             }
           ],
-          "adjustmentBeforeTargetOverlay": -1460,
-          "targetAdjustmentOverlay": -635
+          "adjustmentBeforeTargetOverlay": -1094,
+          "targetAdjustmentOverlay": -401
         },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "modelClosing": 14135,
-        "adjustmentBeforeTargetOverlay": -1640,
-        "targetAdjustmentOverlay": -635,
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "modelClosing": 13901,
+        "adjustmentBeforeTargetOverlay": -1812,
+        "targetAdjustmentOverlay": -401,
         "adjustmentOverlayBasis": "경영목표와 독립 모델 차이를 경영목표 연결 조정으로 분리",
-        "rationale": "사용자 제공 2026년말 CSM 목표 13.5조원을 경영계획 Base로 적용했습니다. 독립 Driver 모델 대비 -0.635조원 차이를 경영목표 연결 조정으로 분리했습니다."
+        "rationale": "사용자 제공 2026년말 CSM 목표 13.5조원을 경영계획 Base로 적용했습니다. 독립 Driver 모델 대비 -0.401조원 차이를 경영목표 연결 조정으로 분리했습니다."
       },
       "worst": {
         "opening": 13218,
-        "newbiz": 3273,
-        "interest": 514,
-        "adjustment": -2484,
-        "amortization": -1481,
-        "closing": 13040,
+        "newbiz": 3279,
+        "interest": 517,
+        "adjustment": -2363,
+        "amortization": -1464,
+        "closing": 13187,
         "quarters": [
           {
             "period": "2026-q1",
@@ -215,80 +208,72 @@ window.CSM_FORECAST_DATA = {
           },
           {
             "period": "2026-q2",
+            "actual": true,
             "opening": 13647,
-            "newbiz": 805,
-            "interest": 128,
-            "adjustment": -251,
-            "amortization": -370,
-            "closing": 13959
+            "newbiz": 868,
+            "interest": 131,
+            "amortization": -367,
+            "adjustment": -538,
+            "closing": 13741
           },
           {
             "period": "2026-q3",
-            "opening": 13959,
-            "newbiz": 852,
-            "interest": 132,
-            "adjustment": -1046,
-            "amortization": -379,
-            "closing": 13518
+            "opening": 13741,
+            "newbiz": 822,
+            "interest": 131,
+            "adjustment": -813,
+            "amortization": -369,
+            "closing": 13512
           },
           {
             "period": "2026-q4",
-            "opening": 13518,
-            "newbiz": 767,
-            "interest": 127,
-            "adjustment": -1007,
-            "amortization": -365,
-            "closing": 13040
+            "opening": 13512,
+            "newbiz": 740,
+            "interest": 128,
+            "adjustment": -832,
+            "amortization": -361,
+            "closing": 13187
           }
         ],
         "remainingForecast": {
-          "opening": 13647,
-          "newbiz": 2424,
-          "interest": 387,
-          "adjustment": -2304,
-          "amortization": -1114,
-          "closing": 13040,
+          "opening": 13741,
+          "newbiz": 1562,
+          "interest": 259,
+          "adjustment": -1645,
+          "amortization": -730,
+          "closing": 13187,
           "quarters": [
             {
-              "period": "2026-q2",
-              "opening": 13647,
-              "newbiz": 805,
-              "interest": 128,
-              "adjustment": -251,
-              "amortization": -370,
-              "closing": 13959
-            },
-            {
               "period": "2026-q3",
-              "opening": 13959,
-              "newbiz": 852,
-              "interest": 132,
-              "adjustment": -1046,
-              "amortization": -379,
-              "closing": 13518
+              "opening": 13741,
+              "newbiz": 822,
+              "interest": 131,
+              "adjustment": -813,
+              "amortization": -369,
+              "closing": 13512
             },
             {
               "period": "2026-q4",
-              "opening": 13518,
-              "newbiz": 767,
-              "interest": 127,
-              "adjustment": -1007,
-              "amortization": -365,
-              "closing": 13040
+              "opening": 13512,
+              "newbiz": 740,
+              "interest": 128,
+              "adjustment": -832,
+              "amortization": -361,
+              "closing": 13187
             }
           ]
         },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "rationale": "전 보험사 공통 Worst 룰입니다. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM은 Base 대비 10% 낮추며, CSM 조정은 Base 대비 10% 더 불리하게 봅니다. CSM 조정 부담에는 장래손해율 상승, 해지 증가 및 사업비 가정 악화를 포함합니다."
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "rationale": "전 보험사 공통 Worst 룰입니다. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM은 Base 대비 10% 낮추며, CSM 조정은 Base 대비 10% 더 불리하게 적용합니다. 삼성생명은 10% 악화 금액이 내부 최소 충격 기준보다 커서 최소 충격 기준이 전망값에 추가 영향을 주지 않습니다. CSM 조정 부담에는 장래손해율 상승, 해지 증가 및 사업비 가정 악화를 포함합니다."
       },
       "independentModel": {
         "base": {
           "opening": 13218,
-          "newbiz": 3542,
-          "interest": 524,
-          "adjustment": -1640,
-          "amortization": -1509,
-          "closing": 14135,
+          "newbiz": 3452,
+          "interest": 522,
+          "adjustment": -1812,
+          "amortization": -1479,
+          "closing": 13901,
           "quarters": [
             {
               "period": "2026-q1",
@@ -302,78 +287,70 @@ window.CSM_FORECAST_DATA = {
             },
             {
               "period": "2026-q2",
+              "actual": true,
               "opening": 13647,
-              "newbiz": 894,
-              "interest": 129,
-              "adjustment": -159,
-              "amortization": -372,
-              "closing": 14139
+              "newbiz": 868,
+              "interest": 131,
+              "amortization": -367,
+              "adjustment": -538,
+              "closing": 13741
             },
             {
               "period": "2026-q3",
-              "opening": 14139,
-              "newbiz": 946,
-              "interest": 134,
-              "adjustment": -663,
-              "amortization": -386,
-              "closing": 14170
+              "opening": 13741,
+              "newbiz": 913,
+              "interest": 132,
+              "adjustment": -540,
+              "amortization": -372,
+              "closing": 13874
             },
             {
               "period": "2026-q4",
-              "opening": 14170,
-              "newbiz": 853,
-              "interest": 134,
-              "adjustment": -638,
-              "amortization": -384,
-              "closing": 14135
+              "opening": 13874,
+              "newbiz": 822,
+              "interest": 132,
+              "adjustment": -554,
+              "amortization": -373,
+              "closing": 13901
             }
           ],
           "remainingForecast": {
-            "opening": 13647,
-            "newbiz": 2693,
-            "interest": 397,
-            "adjustment": -1460,
-            "amortization": -1142,
-            "closing": 14135,
+            "opening": 13741,
+            "newbiz": 1735,
+            "interest": 264,
+            "adjustment": -1094,
+            "amortization": -745,
+            "closing": 13901,
             "quarters": [
               {
-                "period": "2026-q2",
-                "opening": 13647,
-                "newbiz": 894,
-                "interest": 129,
-                "adjustment": -159,
-                "amortization": -372,
-                "closing": 14139
-              },
-              {
                 "period": "2026-q3",
-                "opening": 14139,
-                "newbiz": 946,
-                "interest": 134,
-                "adjustment": -663,
-                "amortization": -386,
-                "closing": 14170
+                "opening": 13741,
+                "newbiz": 913,
+                "interest": 132,
+                "adjustment": -540,
+                "amortization": -372,
+                "closing": 13874
               },
               {
                 "period": "2026-q4",
-                "opening": 14170,
-                "newbiz": 853,
-                "interest": 134,
-                "adjustment": -638,
-                "amortization": -384,
-                "closing": 14135
+                "opening": 13874,
+                "newbiz": 822,
+                "interest": 132,
+                "adjustment": -554,
+                "amortization": -373,
+                "closing": 13901
               }
             ]
           },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
         },
         "worst": {
           "opening": 13218,
-          "newbiz": 3273,
-          "interest": 517,
-          "adjustment": -1786,
-          "amortization": -1493,
-          "closing": 13729,
+          "newbiz": 3279,
+          "interest": 519,
+          "adjustment": -1949,
+          "amortization": -1470,
+          "closing": 13597,
           "quarters": [
             {
               "period": "2026-q1",
@@ -387,70 +364,62 @@ window.CSM_FORECAST_DATA = {
             },
             {
               "period": "2026-q2",
+              "actual": true,
               "opening": 13647,
-              "newbiz": 805,
-              "interest": 128,
-              "adjustment": -175,
-              "amortization": -370,
-              "closing": 14035
+              "newbiz": 868,
+              "interest": 131,
+              "amortization": -367,
+              "adjustment": -538,
+              "closing": 13741
             },
             {
               "period": "2026-q3",
-              "opening": 14035,
-              "newbiz": 852,
-              "interest": 132,
-              "adjustment": -729,
-              "amortization": -381,
-              "closing": 13909
+              "opening": 13741,
+              "newbiz": 822,
+              "interest": 131,
+              "adjustment": -608,
+              "amortization": -369,
+              "closing": 13717
             },
             {
               "period": "2026-q4",
-              "opening": 13909,
-              "newbiz": 767,
+              "opening": 13717,
+              "newbiz": 740,
               "interest": 130,
-              "adjustment": -702,
-              "amortization": -375,
-              "closing": 13729
+              "adjustment": -623,
+              "amortization": -367,
+              "closing": 13597
             }
           ],
           "remainingForecast": {
-            "opening": 13647,
-            "newbiz": 2424,
-            "interest": 390,
-            "adjustment": -1606,
-            "amortization": -1126,
-            "closing": 13729,
+            "opening": 13741,
+            "newbiz": 1562,
+            "interest": 261,
+            "adjustment": -1231,
+            "amortization": -736,
+            "closing": 13597,
             "quarters": [
               {
-                "period": "2026-q2",
-                "opening": 13647,
-                "newbiz": 805,
-                "interest": 128,
-                "adjustment": -175,
-                "amortization": -370,
-                "closing": 14035
-              },
-              {
                 "period": "2026-q3",
-                "opening": 14035,
-                "newbiz": 852,
-                "interest": 132,
-                "adjustment": -729,
-                "amortization": -381,
-                "closing": 13909
+                "opening": 13741,
+                "newbiz": 822,
+                "interest": 131,
+                "adjustment": -608,
+                "amortization": -369,
+                "closing": 13717
               },
               {
                 "period": "2026-q4",
-                "opening": 13909,
-                "newbiz": 767,
+                "opening": 13717,
+                "newbiz": 740,
                 "interest": 130,
-                "adjustment": -702,
-                "amortization": -375,
-                "closing": 13729
+                "adjustment": -623,
+                "amortization": -367,
+                "closing": 13597
               }
             ]
           },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
         }
       },
       "horizon": {
@@ -458,203 +427,300 @@ window.CSM_FORECAST_DATA = {
           "2026-ye",
           "2027-ye",
           "2028-ye",
+          "2029-ye",
           "2030-ye"
         ],
-        "terminalPeriod": "2035-ye",
         "base": [
           {
             "period": "2026-ye",
             "opening": 13218,
-            "newbiz": 3542,
-            "interest": 524,
-            "adjustment": -2275,
-            "amortization": -1509,
+            "newbiz": 3452,
+            "interest": 522,
+            "adjustment": -2213,
+            "amortization": -1479,
             "closing": 13500,
-            "targetAdjustmentOverlay": -635,
-            "adjustmentBeforeTargetOverlay": -1640,
-            "modelClosing": 14135
+            "targetAdjustmentOverlay": -401,
+            "adjustmentBeforeTargetOverlay": -1812,
+            "modelClosing": 13901
           },
           {
             "period": "2027-ye",
             "opening": 13500,
-            "newbiz": 3436,
-            "interest": 515,
-            "adjustment": -2098,
-            "amortization": -1484,
-            "closing": 13869,
-            "targetAdjustmentOverlay": -423,
-            "adjustmentBeforeTargetOverlay": -1675,
-            "modelClosing": 14292
+            "newbiz": 3589,
+            "interest": 525,
+            "adjustment": -2118,
+            "amortization": -1480,
+            "closing": 14016,
+            "targetAdjustmentOverlay": -267,
+            "adjustmentBeforeTargetOverlay": -1851,
+            "modelClosing": 14283
           },
           {
             "period": "2028-ye",
-            "opening": 13869,
-            "newbiz": 3333,
-            "interest": 529,
-            "adjustment": -1933,
-            "amortization": -1520,
-            "closing": 14278,
-            "targetAdjustmentOverlay": -212,
-            "adjustmentBeforeTargetOverlay": -1721,
-            "modelClosing": 14490
+            "opening": 14016,
+            "newbiz": 3731,
+            "interest": 546,
+            "adjustment": -2056,
+            "amortization": -1543,
+            "closing": 14694,
+            "targetAdjustmentOverlay": -134,
+            "adjustmentBeforeTargetOverlay": -1922,
+            "modelClosing": 14828
+          },
+          {
+            "period": "2029-ye",
+            "opening": 14694,
+            "newbiz": 3879,
+            "interest": 574,
+            "adjustment": -2015,
+            "amortization": -1621,
+            "closing": 15511,
+            "targetAdjustmentOverlay": 0,
+            "adjustmentBeforeTargetOverlay": -2015,
+            "modelClosing": 15511
           },
           {
             "period": "2030-ye",
-            "opening": 14720,
-            "newbiz": 3136,
-            "interest": 555,
-            "adjustment": -1826,
-            "amortization": -1597,
-            "closing": 14988,
+            "opening": 15511,
+            "newbiz": 4033,
+            "interest": 604,
+            "adjustment": -2127,
+            "amortization": -1706,
+            "closing": 16315,
             "targetAdjustmentOverlay": 0,
-            "adjustmentBeforeTargetOverlay": -1826,
-            "modelClosing": 14988
+            "adjustmentBeforeTargetOverlay": -2127,
+            "modelClosing": 16315
           }
         ],
         "worst": [
           {
             "period": "2026-ye",
             "opening": 13218,
-            "newbiz": 3273,
-            "interest": 514,
-            "adjustment": -2484,
-            "amortization": -1481,
-            "closing": 13040
+            "newbiz": 3279,
+            "interest": 517,
+            "adjustment": -2363,
+            "amortization": -1464,
+            "closing": 13187
           },
           {
             "period": "2027-ye",
-            "opening": 13040,
-            "newbiz": 3092,
-            "interest": 489,
-            "adjustment": -2308,
-            "amortization": -1408,
-            "closing": 12905
+            "opening": 13187,
+            "newbiz": 3230,
+            "interest": 504,
+            "adjustment": -2330,
+            "amortization": -1420,
+            "closing": 13171
           },
           {
             "period": "2028-ye",
-            "opening": 12905,
-            "newbiz": 3000,
-            "interest": 484,
-            "adjustment": -2126,
-            "amortization": -1396,
-            "closing": 12867
+            "opening": 13171,
+            "newbiz": 3358,
+            "interest": 506,
+            "adjustment": -2262,
+            "amortization": -1428,
+            "closing": 13345
+          },
+          {
+            "period": "2029-ye",
+            "opening": 13345,
+            "newbiz": 3491,
+            "interest": 516,
+            "adjustment": -2217,
+            "amortization": -1456,
+            "closing": 13679
           },
           {
             "period": "2030-ye",
-            "opening": 12919,
-            "newbiz": 2822,
-            "interest": 483,
-            "adjustment": -2009,
-            "amortization": -1391,
-            "closing": 12824
+            "opening": 13679,
+            "newbiz": 3630,
+            "interest": 529,
+            "adjustment": -2340,
+            "amortization": -1492,
+            "closing": 14006
           }
         ],
-        "terminal": {
-          "base": {
-            "period": "2035-ye",
-            "opening": 15398,
-            "newbiz": 2983,
-            "interest": 572,
-            "adjustment": -1910,
-            "amortization": -1652,
-            "closing": 15391
-          },
-          "worst": {
-            "period": "2035-ye",
-            "opening": 12015,
-            "newbiz": 2685,
-            "interest": 448,
-            "adjustment": -2101,
-            "amortization": -1289,
-            "closing": 11758
-          }
-        },
         "assumptions": {
-          "newbizGrowth": -0.03,
-          "longTermNewbizGrowth": -0.01,
-          "baseAdjustmentRate": -0.124073,
+          "rawNewbizGrowth": 0.061827,
+          "boundedNewbizGrowth": 0.05,
+          "newbizGrowthBounds": {
+            "lower": -0.05,
+            "upper": 0.05
+          },
+          "optimismBiasPenalty": 0.010308,
+          "backtestMeanErrorBn": 545,
+          "newbizTrendWindow": [
+            {
+              "year": 2024,
+              "value": 3261,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2025,
+              "value": 3059,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2026,
+              "value": 3452,
+              "valueKind": "base_forecast"
+            }
+          ],
+          "newbizGrowthObservations": [
+            {
+              "fromYear": 2024,
+              "toYear": 2025,
+              "rate": -0.061944188899110686,
+              "weight": 0.35
+            },
+            {
+              "fromYear": 2025,
+              "toYear": 2026,
+              "rate": 0.12847335730630927,
+              "weight": 0.65
+            }
+          ],
+          "newbizGrowth": 0.039692,
+          "baseAdjustmentRate": -0.137133,
+          "adjustmentRateMethod": "2024 actual 20% + 2025 actual 30% + 2026 Base forecast 50%, one-off adjustments excluded",
+          "adjustmentRateWeights": [
+            0.2,
+            0.3,
+            0.5
+          ],
+          "adjustmentRateWindow": [
+            {
+              "year": 2024,
+              "valueKind": "actual",
+              "opening": 12247,
+              "reportedAdjustment": -1697,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -1697,
+              "rate": -0.1385645464195313,
+              "included": true,
+              "treatment": "연간 순액 사용 · 분기 내 환입·재분류는 별도 반복하지 않음",
+              "nominalWeight": 0.2,
+              "weight": 0.2
+            },
+            {
+              "year": 2025,
+              "valueKind": "actual",
+              "opening": 12902,
+              "reportedAdjustment": -1758,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -1758,
+              "rate": -0.13625794450472795,
+              "included": true,
+              "treatment": "연간 순액 사용 · 분기 내 환입·재분류는 별도 반복하지 않음",
+              "nominalWeight": 0.3,
+              "weight": 0.3
+            },
+            {
+              "year": 2026,
+              "valueKind": "base_forecast",
+              "opening": 13218,
+              "reportedAdjustment": -2213,
+              "oneOffExcluded": -401,
+              "recurringAdjustment": -1812,
+              "rate": -0.13708579210167954,
+              "included": true,
+              "treatment": "경영목표 연결분과 순양(+) 전망분 제외 · 상반기 일회성 조정은 연간 정상화 전망에서 반복하지 않음",
+              "nominalWeight": 0.5,
+              "weight": 0.5
+            }
+          ],
+          "oneOffAdjustmentPolicy": "연간 순양(+) 조정, 경영목표 연결분과 분기성 환입·재분류의 총액 반복을 제외",
+          "positiveRecurringAdjustmentCap": 0.0,
           "worstNewbizStress": 0.1,
           "worstAdjustmentStress": 0.1,
+          "worstAdjustmentRatePointFloor": 0.01,
           "stressCalibrationQuantile": 0.8,
           "stressCalibrationSampleCount": 6,
           "worstPolicy": {
             "basis": "전 보험사 공통 단순 하방 가정",
             "newbizDiscount": 0.1,
             "adjustmentStress": 0.1,
-            "q1ActualLocked": true
+            "adjustmentRatePointFloor": 0.01,
+            "actualLockedThroughQuarter": 2
           },
           "targetAdjustmentNormalization": {
             "method": "2027~2029년 3년 정액 정상화",
             "years": 3,
             "schedule": {
-              "2026-ye": -635,
-              "2027-ye": -423,
-              "2028-ye": -212,
+              "2026-ye": -401,
+              "2027-ye": -267,
+              "2028-ye": -134,
               "2029-ye": 0
             }
           },
-          "longTermMethod": "2030년 Base와 Worst를 각각 앵커로 유지하되 Worst는 공통 단순 하방 가정으로 산출"
+          "fiveYearMethod": "2026~2030년을 매년 동일한 Movement 산식으로 연결하고 Worst는 공통 단순 하방 가정으로 산출"
         },
         "executiveRationale": {
           "years1to3": "2026년은 사용자 제공 CSM 목표 13.5조원을 경영계획 Base로 적용하고 독립 모델 전망을 병렬 공개. Worst는 같은 목표를 출발점으로 잔여 신계약 CSM -10%, CSM 조정 10% 악화의 공통 하방률을 적용. 2026년 목표 연결분은 2027~2029년에 3년 정액으로 정상화해 연도 간 일시적 급증을 제한",
-          "year5": "과거 신계약 추세를 연 -3.0% 범위로 적용하고 경상 CSM 조정률을 유지하며, 2026년 경영목표 연결분은 2027~2029년에 3년 정액으로 정상화해 2030년까지 Movement를 연결",
-          "year10": "2035년 Base는 신계약 증가율 연 -1.0%와 현재 CSM 조정률을 적용하고, Worst는 같은 공통 하방률을 장기 경로에 적용"
+          "years4to5": "2024·2025년 실적과 2026년 Base를 연결한 신계약 추세에 통제를 반영해 연 +4.0%를 적용하고, 같은 3개년에서 일회성 조정을 제외한 CSM 조정률 -13.7%를 유지하며, 2026년 경영목표 연결분은 2027~2029년에 3년 정액으로 정상화해 2030년까지 Movement를 연결"
         },
         "horizonConfidence": {
           "oneYear": "제한적 검증",
           "twoToThreeYears": "모델 경로",
-          "fiveYear": "시나리오",
-          "tenYear": "장기 시나리오"
+          "fourToFiveYears": "시나리오"
         }
       },
       "model": {
-        "version": "samsung-driver-ensemble/v2",
+        "version": "samsung-driver-ensemble/v5",
         "baseline": {
-          "remainingNewbiz": 2627,
-          "remainingAdjustment": -1460,
+          "remainingNewbiz": 1744,
+          "remainingAdjustment": -1094,
           "newbizShares": [
-            0.332153,
-            0.351434,
-            0.316413
+            0.526203,
+            0.473797
           ],
           "adjustmentShares": [
-            0.108951,
-            0.454159,
-            0.43689
+            0.493987,
+            0.506013
           ],
           "drivers": {
             "newbiz": {
-              "priorYearRemaining": 2401,
-              "q1Growth": 0.290274,
-              "priorRemainingGrowth": -0.000832,
-              "appliedGrowthSignal": 0.094193
+              "ytdGrowth": 0.204067,
+              "priorRemainingGrowth": 0.011146,
+              "appliedGrowthSignal": 0.068272,
+              "futureQuarters": [
+                3,
+                4
+              ]
             },
             "adjustment": {
-              "method": "median historical Q2-Q4 adjustment rate to Q1 closing CSM",
-              "medianRate": -0.106997,
+              "method": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+              "rawAnnualRate": -0.137065,
+              "normalizedAnnualRate": -0.137065,
+              "positiveRateCapApplied": false,
+              "annualTarget": -1812,
+              "actualYtd": -718,
               "observations": [
                 {
-                  "year": 2023,
-                  "rate": -0.098284,
-                  "remaining": -1111
-                },
-                {
                   "year": 2024,
-                  "rate": -0.106997,
-                  "remaining": -1338
+                  "opening": 12247,
+                  "adjustment": -1697,
+                  "rate": -0.1385645464195313,
+                  "weight": 0.35
                 },
                 {
                   "year": 2025,
-                  "rate": -0.13164,
-                  "remaining": -1752
+                  "opening": 12902,
+                  "adjustment": -1758,
+                  "rate": -0.13625794450472795,
+                  "weight": 0.65
                 }
               ]
             },
+            "originQuarter": 2,
+            "futureQuarters": [
+              3,
+              4
+            ],
             "rateLookbackPeriods": [
-              "2025-q2",
               "2025-q3",
               "2025-q4",
-              "2026-q1"
+              "2026-q1",
+              "2026-q2"
             ]
           }
         },
@@ -662,24 +728,28 @@ window.CSM_FORECAST_DATA = {
           "weight": 0,
           "remainingNewbiz": null,
           "remainingAdjustment": null,
+          "originalQ1RemainingNewbiz": null,
+          "originalQ1RemainingAdjustment": null,
+          "realizedQ2Newbiz": null,
+          "realizedQ2Adjustment": null,
           "reason": "회사별 직접 증권사 근거가 없어 미적용"
         },
         "finalInputs": {
-          "remainingNewbiz": 2693,
-          "remainingAdjustment": -1460
+          "remainingNewbiz": 1735,
+          "remainingAdjustment": -1094
         },
         "backtest": {
           "sampleCount": 6,
-          "meanAbsolutePercentageError": 0.032876,
-          "meanAbsoluteErrorBn": 430,
-          "meanErrorBn": 402,
+          "meanAbsolutePercentageError": 0.045336,
+          "meanAbsoluteErrorBn": 586,
+          "meanErrorBn": 545,
           "validationLabel": "검증 제한",
           "calibration": {
             "quantile": 0.8,
             "sampleCount": 6,
             "newbizStress": 0.1,
-            "adjustmentDownsideRateToOpening": 0.047057,
-            "closingErrorP80": 0.045187
+            "adjustmentDownsideRateToOpening": 0.079068,
+            "closingErrorP80": 0.082623
           },
           "samples": [
             {
@@ -687,16 +757,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2024-q1",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 13308,
+              "predictedClosing": 14186,
               "actualClosing": 12902,
-              "closingError": 406,
-              "closingAbsolutePercentageError": 0.031468,
+              "closingError": 1284,
+              "closingAbsolutePercentageError": 0.099519,
               "predictedRemainingNewbiz": 2795,
               "actualRemainingNewbiz": 2403,
               "newbizAbsolutePercentageError": 0.163129,
-              "predictedRemainingAdjustment": -1229,
+              "predictedRemainingAdjustment": -334,
               "actualRemainingAdjustment": -1338,
-              "adjustmentAbsoluteErrorToOpening": 0.008717,
+              "adjustmentAbsoluteErrorToOpening": 0.080288,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q2",
@@ -705,7 +775,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.098284
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.056551,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 7885,
+                    "adjustment": 309,
+                    "rate": 0.039188332276474315,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 10749,
+                    "adjustment": -1162,
+                    "rate": -0.10810307935621918,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -713,16 +800,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2024-q2",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 12817,
+              "predictedClosing": 13968,
               "actualClosing": 12902,
-              "closingError": -85,
-              "closingAbsolutePercentageError": 0.006588,
+              "closingError": 1066,
+              "closingAbsolutePercentageError": 0.082623,
               "predictedRemainingNewbiz": 1757,
               "actualRemainingNewbiz": 1615,
               "newbizAbsolutePercentageError": 0.087926,
-              "predictedRemainingAdjustment": -1153,
+              "predictedRemainingAdjustment": 18,
               "actualRemainingAdjustment": -986,
-              "adjustmentAbsoluteErrorToOpening": 0.013152,
+              "adjustmentAbsoluteErrorToOpening": 0.079068,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q3",
@@ -731,7 +818,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": -0.090825
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.056551,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 7885,
+                    "adjustment": 309,
+                    "rate": 0.039188332276474315,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 10749,
+                    "adjustment": -1162,
+                    "rate": -0.10810307935621918,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -739,16 +843,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2024-q3",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 13485,
+              "predictedClosing": 13879,
               "actualClosing": 12902,
-              "closingError": 583,
-              "closingAbsolutePercentageError": 0.045187,
+              "closingError": 977,
+              "closingAbsolutePercentageError": 0.075725,
               "predictedRemainingNewbiz": 827,
               "actualRemainingNewbiz": 780,
               "newbizAbsolutePercentageError": 0.060256,
-              "predictedRemainingAdjustment": -49,
+              "predictedRemainingAdjustment": 345,
               "actualRemainingAdjustment": -659,
-              "adjustmentAbsoluteErrorToOpening": 0.047057,
+              "adjustmentAbsoluteErrorToOpening": 0.077451,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q4",
@@ -757,7 +861,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": -0.003758
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.056551,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 7885,
+                    "adjustment": 309,
+                    "rate": 0.039188332276474315,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 10749,
+                    "adjustment": -1162,
+                    "rate": -0.10810307935621918,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -765,16 +886,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2025-q1",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 13404,
+              "predictedClosing": 13129,
               "actualClosing": 13218,
-              "closingError": 186,
-              "closingAbsolutePercentageError": 0.014072,
+              "closingError": -89,
+              "closingAbsolutePercentageError": 0.006733,
               "predictedRemainingNewbiz": 2164,
               "actualRemainingNewbiz": 2401,
               "newbizAbsolutePercentageError": 0.098709,
-              "predictedRemainingAdjustment": -1366,
+              "predictedRemainingAdjustment": -1644,
               "actualRemainingAdjustment": -1752,
-              "adjustmentAbsoluteErrorToOpening": 0.029003,
+              "adjustmentAbsoluteErrorToOpening": 0.008115,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q2",
@@ -783,7 +904,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.10264
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.127903,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 10749,
+                    "adjustment": -1162,
+                    "rate": -0.10810307935621918,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 12247,
+                    "adjustment": -1697,
+                    "rate": -0.1385645464195313,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -791,16 +929,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2025-q2",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 13601,
+              "predictedClosing": 13185,
               "actualClosing": 13218,
-              "closingError": 383,
-              "closingAbsolutePercentageError": 0.028976,
+              "closingError": -33,
+              "closingAbsolutePercentageError": 0.002497,
               "predictedRemainingNewbiz": 1514,
               "actualRemainingNewbiz": 1633,
               "newbizAbsolutePercentageError": 0.072872,
-              "predictedRemainingAdjustment": -1158,
+              "predictedRemainingAdjustment": -1578,
               "actualRemainingAdjustment": -1686,
-              "adjustmentAbsoluteErrorToOpening": 0.038411,
+              "adjustmentAbsoluteErrorToOpening": 0.007857,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q3",
@@ -809,7 +947,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": -0.084238
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.127903,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 10749,
+                    "adjustment": -1162,
+                    "rate": -0.10810307935621918,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 12247,
+                    "adjustment": -1697,
+                    "rate": -0.1385645464195313,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -817,16 +972,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2025-q3",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 14156,
+              "predictedClosing": 13283,
               "actualClosing": 13218,
-              "closingError": 938,
-              "closingAbsolutePercentageError": 0.070964,
+              "closingError": 65,
+              "closingAbsolutePercentageError": 0.004918,
               "predictedRemainingNewbiz": 749,
               "actualRemainingNewbiz": 761,
               "newbizAbsolutePercentageError": 0.015769,
-              "predictedRemainingAdjustment": -383,
+              "predictedRemainingAdjustment": -1256,
               "actualRemainingAdjustment": -1364,
-              "adjustmentAbsoluteErrorToOpening": 0.069837,
+              "adjustmentAbsoluteErrorToOpening": 0.007688,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q4",
@@ -835,32 +990,50 @@ window.CSM_FORECAST_DATA = {
                   "2025-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": -0.027297
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.127903,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 10749,
+                    "adjustment": -1162,
+                    "rate": -0.10810307935621918,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 12247,
+                    "adjustment": -1697,
+                    "rate": -0.1385645464195313,
+                    "weight": 0.65
+                  }
+                ]
               }
             }
           ]
         }
       },
       "qualitativeJudgment": {
-        "baseNewbiz": "1분기 신계약 CSM 호조를 연중 흐름에 일부 반영하되, 이를 그대로 연율화하지 않고 과거 분기별 판매 패턴과 함께 적용해 남은 3개 분기 2.69조원으로 전망.",
-        "baseAdjustment": "통상적인 경험조정과 연말 계리 가정 재점검 부담을 구분해 반영. 현재 해지 흐름이 안정화된 점을 감안하되 연말 변동 가능성을 남겨 잔여 모델 조정 -1.46조원 적용. 경상 조정과 별도로 13.5조원 경영목표 연결분 -0.64조원을 CSM 조정에 포함.",
-        "targetAdjustmentOverlay": "경영계획 Base 13.50조원과 독립 모델 14.13조원의 차이 -0.64조원. 경영목표 연결 조정으로 분리.",
-        "worst": "전 보험사 공통 Worst 룰입니다. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM은 Base 대비 10% 낮추며, CSM 조정은 Base 대비 10% 더 불리하게 봅니다. CSM 조정 부담에는 장래손해율 상승, 해지 증가 및 사업비 가정 악화를 포함합니다."
+        "baseNewbiz": "상반기 신계약 CSM 흐름을 반영하되 그대로 연율화하지 않고 과거 하반기 판매 패턴과 함께 적용해 남은 2개 분기 1.74조원으로 전망.",
+        "baseAdjustment": "통상적인 경험조정과 연말 계리 가정 재점검 부담을 구분해 반영. 현재 해지 흐름이 안정화된 점을 감안하되 연말 변동 가능성을 남겨 잔여 모델 조정 -1.09조원 적용. 경상 조정과 별도로 13.5조원 경영목표 연결분 -0.40조원을 CSM 조정에 포함.",
+        "targetAdjustmentOverlay": "경영계획 Base 13.50조원과 독립 모델 13.90조원의 차이 -0.40조원. 경영목표 연결 조정으로 분리.",
+        "worst": "전 보험사 공통 Worst 룰입니다. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM은 Base 대비 10% 낮추며, CSM 조정은 Base 대비 10% 더 불리하게 적용합니다. 삼성생명은 10% 악화 금액이 내부 최소 충격 기준보다 커서 최소 충격 기준이 전망값에 추가 영향을 주지 않습니다. CSM 조정 부담에는 장래손해율 상승, 해지 증가 및 사업비 가정 악화를 포함합니다."
       },
       "worstAssumption": {
         "basis": "전 보험사 공통 단순 하방 가정",
-        "scope": "2026년 1분기 확정 실적은 유지하고 Q2~Q4 전망 입력에만 적용",
+        "scope": "2026년 상반기 확정 실적은 유지하고 Q3~Q4 전망 입력에만 적용",
         "newbizDiscount": 0.1,
         "adjustmentStress": 0.1,
-        "adjustmentDirection": "CSM 조정이 음수이면 절대 부담을 확대하고, 양수이면 기여 효과를 축소"
+        "adjustmentRatePointFloor": 0.01,
+        "adjustmentDirection": "Base보다 10% 불리하게 적용. 단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 사용"
       },
       "confidence": "검증 제한",
       "validation": {
         "label": "검증 제한",
         "sampleCount": 6,
-        "meanAbsolutePercentageError": 0.032876,
-        "meanAbsoluteErrorBn": 430,
-        "meanErrorBn": 402,
+        "meanAbsolutePercentageError": 0.045336,
+        "meanAbsoluteErrorBn": 586,
+        "meanErrorBn": 545,
         "scope": "회사별 2024·2025년 Q1·Q2·Q3 시점 연말 예측",
         "limitation": "IFRS17 이후 2개 연도·6개 시점으로 장기 확률 신뢰도로 해석하지 않음"
       },
@@ -879,20 +1052,27 @@ window.CSM_FORECAST_DATA = {
       },
       "sources": [
         {
+          "title": "KB증권 보험업 전망 (2026.06.22)",
+          "url": "https://rdata.kbsec.com/pdf_data/20260622111726153K.pdf",
+          "type": "sell_side",
+          "use": "업계 CSM 성장 둔화 가능성과 잔존 경험조정 위험을 장기 낙관 편향 통제의 방향성 근거로만 사용",
+          "id": "samsung-life-industry-1"
+        },
+        {
           "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
           "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
           "type": "sell_side",
           "use": "업종 방향성 참고용이며 회사별 수치 오버레이에는 사용하지 않음",
-          "id": "samsung-life-industry-1"
+          "id": "samsung-life-industry-2"
         }
       ],
       "evidenceSources": [
         {
-          "id": "samsung-life-2026-q1-dart",
-          "title": "삼성생명 분기보고서 (2026.03)",
-          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260515002696",
+          "id": "samsung-life-2026-q2-dart",
+          "title": "삼성생명 반기보고서 (2026.06)",
+          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814003263",
           "type": "official_filing",
-          "use": "2026년 1분기 CSM Movement 확정값"
+          "use": "2026년 상반기 누적 CSM Movement 확정값"
         },
         {
           "id": "samsung-life-forecast-methodology",
@@ -909,15 +1089,15 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 신계약 CSM +0.849조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "samsung-life-2026-q1-dart"
+              "headline": "2026년 상반기 신계약 CSM +1.717조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "samsung-life-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 신계약 CSM +3.542조원",
-              "detail": "1분기 확정 +0.849조원과 잔여 3개 분기 +2.693조원을 합산",
+              "headline": "2026년 연간 신계약 CSM +3.452조원",
+              "detail": "상반기 누적 확정 +1.717조원과 잔여 2개 분기 +1.735조원을 합산",
               "sourceId": "samsung-life-forecast-methodology"
             },
             {
@@ -935,34 +1115,34 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 이자부리 +0.127조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "samsung-life-2026-q1-dart"
+              "headline": "2026년 상반기 이자부리 +0.258조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "samsung-life-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 이자부리 +0.524조원",
-              "detail": "분기 이자부리율 0.89%를 기시 CSM과 신계약 CSM 합계에 적용",
+              "headline": "2026년 연간 이자부리 +0.522조원",
+              "detail": "분기 이자부리율 0.90%를 기시 CSM과 신계약 CSM 합계에 적용",
               "sourceId": "samsung-life-forecast-methodology"
             }
           ]
         },
         "adjustment": {
-          "statement": "최근 경험조정과 연말 계리 가정 재점검 부담을 반영해 CSM 조정을 산출",
+          "statement": "과거 연간 조정률을 정상화해 일회성 환입의 반복을 차단하고 CSM 조정을 산출",
           "items": [
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 조정 -0.180조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "samsung-life-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 조정 -0.718조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "samsung-life-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 조정 -2.275조원",
-              "detail": "최근 최대 3개년 Q2~Q4 조정률 중앙값으로 잔여 조정 -2.095조원을 산출",
+              "headline": "2026년 연간 CSM 조정 -2.213조원",
+              "detail": "직전 2개 연말 조정률을 35%·65%로 가중하고 양(+)의 경상 조정률은 0%로 제한해 연간 목표 -1.812조원, 잔여 조정 -1.495조원을 산출",
               "sourceId": "samsung-life-forecast-methodology"
             },
             {
@@ -980,24 +1160,24 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 상각 -0.367조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "samsung-life-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 상각 -0.734조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "samsung-life-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 상각 -1.509조원",
-              "detail": "분기 상각률 2.56%를 기시 CSM과 신계약 CSM 합계에 적용",
+              "headline": "2026년 연간 CSM 상각 -1.479조원",
+              "detail": "분기 상각률 2.54%를 기시 CSM과 신계약 CSM 합계에 적용",
               "sourceId": "samsung-life-forecast-methodology"
             }
           ]
         }
       },
       "driverForecast": {
-        "modelVersion": "samsung-driver-ensemble/v2",
+        "modelVersion": "samsung-driver-ensemble/v5",
         "status": "pilot",
-        "asOfPeriod": "2026-q1",
+        "asOfPeriod": "2026-q2",
         "targetPeriod": "2026-ye",
         "interval": {
           "type": "common deterministic downside scenario",
@@ -1007,16 +1187,17 @@ window.CSM_FORECAST_DATA = {
           "companyBacktestSamples": 6,
           "newbizDiscount": 0.1,
           "adjustmentStress": 0.1,
+          "adjustmentRatePointFloor": 0.01,
           "interpretation": "Base는 경영입력 또는 모델 경로이며 Worst는 모든 보험사에 동일한 단순 하방률을 적용한 경영진 검토용 시나리오"
         },
         "distribution": {
           "p10": {
             "opening": 13218,
-            "newbiz": 3273,
-            "interest": 514,
-            "adjustment": -2484,
-            "amortization": -1481,
-            "closing": 13040,
+            "newbiz": 3279,
+            "interest": 517,
+            "adjustment": -2363,
+            "amortization": -1464,
+            "closing": 13187,
             "quarters": [
               {
                 "period": "2026-q1",
@@ -1030,79 +1211,71 @@ window.CSM_FORECAST_DATA = {
               },
               {
                 "period": "2026-q2",
+                "actual": true,
                 "opening": 13647,
-                "newbiz": 805,
-                "interest": 128,
-                "adjustment": -251,
-                "amortization": -370,
-                "closing": 13959
+                "newbiz": 868,
+                "interest": 131,
+                "amortization": -367,
+                "adjustment": -538,
+                "closing": 13741
               },
               {
                 "period": "2026-q3",
-                "opening": 13959,
-                "newbiz": 852,
-                "interest": 132,
-                "adjustment": -1046,
-                "amortization": -379,
-                "closing": 13518
+                "opening": 13741,
+                "newbiz": 822,
+                "interest": 131,
+                "adjustment": -813,
+                "amortization": -369,
+                "closing": 13512
               },
               {
                 "period": "2026-q4",
-                "opening": 13518,
-                "newbiz": 767,
-                "interest": 127,
-                "adjustment": -1007,
-                "amortization": -365,
-                "closing": 13040
+                "opening": 13512,
+                "newbiz": 740,
+                "interest": 128,
+                "adjustment": -832,
+                "amortization": -361,
+                "closing": 13187
               }
             ],
             "remainingForecast": {
-              "opening": 13647,
-              "newbiz": 2424,
-              "interest": 387,
-              "adjustment": -2304,
-              "amortization": -1114,
-              "closing": 13040,
+              "opening": 13741,
+              "newbiz": 1562,
+              "interest": 259,
+              "adjustment": -1645,
+              "amortization": -730,
+              "closing": 13187,
               "quarters": [
                 {
-                  "period": "2026-q2",
-                  "opening": 13647,
-                  "newbiz": 805,
-                  "interest": 128,
-                  "adjustment": -251,
-                  "amortization": -370,
-                  "closing": 13959
-                },
-                {
                   "period": "2026-q3",
-                  "opening": 13959,
-                  "newbiz": 852,
-                  "interest": 132,
-                  "adjustment": -1046,
-                  "amortization": -379,
-                  "closing": 13518
+                  "opening": 13741,
+                  "newbiz": 822,
+                  "interest": 131,
+                  "adjustment": -813,
+                  "amortization": -369,
+                  "closing": 13512
                 },
                 {
                   "period": "2026-q4",
-                  "opening": 13518,
-                  "newbiz": 767,
-                  "interest": 127,
-                  "adjustment": -1007,
-                  "amortization": -365,
-                  "closing": 13040
+                  "opening": 13512,
+                  "newbiz": 740,
+                  "interest": 128,
+                  "adjustment": -832,
+                  "amortization": -361,
+                  "closing": 13187
                 }
               ]
             },
-            "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+            "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
             "label": "Worst",
-            "description": "1분기 확정 실적은 유지하고 최종 Base의 남은 기간 신계약 CSM과 CSM 조정에 공통 하방률을 적용한 경우"
+            "description": "상반기 확정 실적은 유지하고 최종 Base의 남은 기간 신계약 CSM과 CSM 조정에 공통 하방률을 적용한 경우"
           },
           "p50": {
             "opening": 13218,
-            "newbiz": 3542,
-            "interest": 524,
-            "adjustment": -2275,
-            "amortization": -1509,
+            "newbiz": 3452,
+            "interest": 522,
+            "adjustment": -2213,
+            "amortization": -1479,
             "closing": 13500,
             "quarters": [
               {
@@ -1117,92 +1290,84 @@ window.CSM_FORECAST_DATA = {
               },
               {
                 "period": "2026-q2",
+                "actual": true,
                 "opening": 13647,
-                "newbiz": 894,
-                "interest": 129,
-                "adjustment": -159,
-                "amortization": -372,
-                "closing": 14139
+                "newbiz": 868,
+                "interest": 131,
+                "amortization": -367,
+                "adjustment": -538,
+                "closing": 13741
               },
               {
                 "period": "2026-q3",
-                "opening": 14139,
-                "newbiz": 946,
-                "interest": 134,
-                "adjustment": -663,
-                "amortization": -386,
-                "closing": 14170
+                "opening": 13741,
+                "newbiz": 913,
+                "interest": 132,
+                "adjustment": -540,
+                "amortization": -372,
+                "closing": 13874
               },
               {
                 "period": "2026-q4",
-                "opening": 14170,
-                "newbiz": 853,
-                "interest": 134,
-                "adjustment": -1273,
-                "amortization": -384,
+                "opening": 13874,
+                "newbiz": 822,
+                "interest": 132,
+                "adjustment": -955,
+                "amortization": -373,
                 "closing": 13500,
-                "adjustmentBeforeTargetOverlay": -638,
-                "targetAdjustmentOverlay": -635
+                "adjustmentBeforeTargetOverlay": -554,
+                "targetAdjustmentOverlay": -401
               }
             ],
             "remainingForecast": {
-              "opening": 13647,
-              "newbiz": 2693,
-              "interest": 397,
-              "adjustment": -2095,
-              "amortization": -1142,
+              "opening": 13741,
+              "newbiz": 1735,
+              "interest": 264,
+              "adjustment": -1495,
+              "amortization": -745,
               "closing": 13500,
               "quarters": [
                 {
-                  "period": "2026-q2",
-                  "opening": 13647,
-                  "newbiz": 894,
-                  "interest": 129,
-                  "adjustment": -159,
-                  "amortization": -372,
-                  "closing": 14139
-                },
-                {
                   "period": "2026-q3",
-                  "opening": 14139,
-                  "newbiz": 946,
-                  "interest": 134,
-                  "adjustment": -663,
-                  "amortization": -386,
-                  "closing": 14170
+                  "opening": 13741,
+                  "newbiz": 913,
+                  "interest": 132,
+                  "adjustment": -540,
+                  "amortization": -372,
+                  "closing": 13874
                 },
                 {
                   "period": "2026-q4",
-                  "opening": 14170,
-                  "newbiz": 853,
-                  "interest": 134,
-                  "adjustment": -1273,
-                  "amortization": -384,
+                  "opening": 13874,
+                  "newbiz": 822,
+                  "interest": 132,
+                  "adjustment": -955,
+                  "amortization": -373,
                   "closing": 13500,
-                  "adjustmentBeforeTargetOverlay": -638,
-                  "targetAdjustmentOverlay": -635
+                  "adjustmentBeforeTargetOverlay": -554,
+                  "targetAdjustmentOverlay": -401
                 }
               ],
-              "adjustmentBeforeTargetOverlay": -1460,
-              "targetAdjustmentOverlay": -635
+              "adjustmentBeforeTargetOverlay": -1094,
+              "targetAdjustmentOverlay": -401
             },
-            "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+            "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
             "label": "Base",
-            "description": "1분기 판매 호조를 일부 이어가되 과도하게 연장하지 않은 Base 경로",
-            "modelClosing": 14135,
-            "adjustmentBeforeTargetOverlay": -1640,
-            "targetAdjustmentOverlay": -635,
+            "description": "상반기 판매 흐름을 일부 이어가되 과도하게 연장하지 않은 Base 경로",
+            "modelClosing": 13901,
+            "adjustmentBeforeTargetOverlay": -1812,
+            "targetAdjustmentOverlay": -401,
             "adjustmentOverlayBasis": "경영목표와 독립 모델 차이를 경영목표 연결 조정으로 분리"
           }
         },
         "independentModel": {
           "base": {
             "opening": 13218,
-            "newbiz": 3542,
-            "interest": 524,
-            "adjustment": -1640,
-            "amortization": -1509,
-            "closing": 14135,
+            "newbiz": 3452,
+            "interest": 522,
+            "adjustment": -1812,
+            "amortization": -1479,
+            "closing": 13901,
             "quarters": [
               {
                 "period": "2026-q1",
@@ -1216,80 +1381,72 @@ window.CSM_FORECAST_DATA = {
               },
               {
                 "period": "2026-q2",
+                "actual": true,
                 "opening": 13647,
-                "newbiz": 894,
-                "interest": 129,
-                "adjustment": -159,
-                "amortization": -372,
-                "closing": 14139
+                "newbiz": 868,
+                "interest": 131,
+                "amortization": -367,
+                "adjustment": -538,
+                "closing": 13741
               },
               {
                 "period": "2026-q3",
-                "opening": 14139,
-                "newbiz": 946,
-                "interest": 134,
-                "adjustment": -663,
-                "amortization": -386,
-                "closing": 14170
+                "opening": 13741,
+                "newbiz": 913,
+                "interest": 132,
+                "adjustment": -540,
+                "amortization": -372,
+                "closing": 13874
               },
               {
                 "period": "2026-q4",
-                "opening": 14170,
-                "newbiz": 853,
-                "interest": 134,
-                "adjustment": -638,
-                "amortization": -384,
-                "closing": 14135
+                "opening": 13874,
+                "newbiz": 822,
+                "interest": 132,
+                "adjustment": -554,
+                "amortization": -373,
+                "closing": 13901
               }
             ],
             "remainingForecast": {
-              "opening": 13647,
-              "newbiz": 2693,
-              "interest": 397,
-              "adjustment": -1460,
-              "amortization": -1142,
-              "closing": 14135,
+              "opening": 13741,
+              "newbiz": 1735,
+              "interest": 264,
+              "adjustment": -1094,
+              "amortization": -745,
+              "closing": 13901,
               "quarters": [
                 {
-                  "period": "2026-q2",
-                  "opening": 13647,
-                  "newbiz": 894,
-                  "interest": 129,
-                  "adjustment": -159,
-                  "amortization": -372,
-                  "closing": 14139
-                },
-                {
                   "period": "2026-q3",
-                  "opening": 14139,
-                  "newbiz": 946,
-                  "interest": 134,
-                  "adjustment": -663,
-                  "amortization": -386,
-                  "closing": 14170
+                  "opening": 13741,
+                  "newbiz": 913,
+                  "interest": 132,
+                  "adjustment": -540,
+                  "amortization": -372,
+                  "closing": 13874
                 },
                 {
                   "period": "2026-q4",
-                  "opening": 14170,
-                  "newbiz": 853,
-                  "interest": 134,
-                  "adjustment": -638,
-                  "amortization": -384,
-                  "closing": 14135
+                  "opening": 13874,
+                  "newbiz": 822,
+                  "interest": 132,
+                  "adjustment": -554,
+                  "amortization": -373,
+                  "closing": 13901
                 }
               ]
             },
-            "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+            "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
             "label": "Base",
-            "description": "1분기 판매 호조를 일부 이어가되 과도하게 연장하지 않은 Base 경로"
+            "description": "상반기 판매 흐름을 일부 이어가되 과도하게 연장하지 않은 Base 경로"
           },
           "worst": {
             "opening": 13218,
-            "newbiz": 3273,
-            "interest": 517,
-            "adjustment": -1786,
-            "amortization": -1493,
-            "closing": 13729,
+            "newbiz": 3279,
+            "interest": 519,
+            "adjustment": -1949,
+            "amortization": -1470,
+            "closing": 13597,
             "quarters": [
               {
                 "period": "2026-q1",
@@ -1303,95 +1460,87 @@ window.CSM_FORECAST_DATA = {
               },
               {
                 "period": "2026-q2",
+                "actual": true,
                 "opening": 13647,
-                "newbiz": 805,
-                "interest": 128,
-                "adjustment": -175,
-                "amortization": -370,
-                "closing": 14035
+                "newbiz": 868,
+                "interest": 131,
+                "amortization": -367,
+                "adjustment": -538,
+                "closing": 13741
               },
               {
                 "period": "2026-q3",
-                "opening": 14035,
-                "newbiz": 852,
-                "interest": 132,
-                "adjustment": -729,
-                "amortization": -381,
-                "closing": 13909
+                "opening": 13741,
+                "newbiz": 822,
+                "interest": 131,
+                "adjustment": -608,
+                "amortization": -369,
+                "closing": 13717
               },
               {
                 "period": "2026-q4",
-                "opening": 13909,
-                "newbiz": 767,
+                "opening": 13717,
+                "newbiz": 740,
                 "interest": 130,
-                "adjustment": -702,
-                "amortization": -375,
-                "closing": 13729
+                "adjustment": -623,
+                "amortization": -367,
+                "closing": 13597
               }
             ],
             "remainingForecast": {
-              "opening": 13647,
-              "newbiz": 2424,
-              "interest": 390,
-              "adjustment": -1606,
-              "amortization": -1126,
-              "closing": 13729,
+              "opening": 13741,
+              "newbiz": 1562,
+              "interest": 261,
+              "adjustment": -1231,
+              "amortization": -736,
+              "closing": 13597,
               "quarters": [
                 {
-                  "period": "2026-q2",
-                  "opening": 13647,
-                  "newbiz": 805,
-                  "interest": 128,
-                  "adjustment": -175,
-                  "amortization": -370,
-                  "closing": 14035
-                },
-                {
                   "period": "2026-q3",
-                  "opening": 14035,
-                  "newbiz": 852,
-                  "interest": 132,
-                  "adjustment": -729,
-                  "amortization": -381,
-                  "closing": 13909
+                  "opening": 13741,
+                  "newbiz": 822,
+                  "interest": 131,
+                  "adjustment": -608,
+                  "amortization": -369,
+                  "closing": 13717
                 },
                 {
                   "period": "2026-q4",
-                  "opening": 13909,
-                  "newbiz": 767,
+                  "opening": 13717,
+                  "newbiz": 740,
                   "interest": 130,
-                  "adjustment": -702,
-                  "amortization": -375,
-                  "closing": 13729
+                  "adjustment": -623,
+                  "amortization": -367,
+                  "closing": 13597
                 }
               ]
             },
-            "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+            "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
             "label": "Worst",
-            "description": "1분기 확정 실적은 유지하고 남은 기간 신계약 CSM과 CSM 조정에 공통 하방률을 적용한 경우"
+            "description": "상반기 확정 실적은 유지하고 남은 기간 신계약 CSM과 CSM 조정에 공통 하방률을 적용한 경우"
           }
         },
         "newBusinessBridge": {
-          "statisticalRemaining": 2627,
-          "q1Actual": 849,
-          "historicalQ1Shares": [
+          "statisticalRemaining": 1744,
+          "actualYtd": 1717,
+          "historicalYtdShares": [
             {
               "year": 2023,
-              "share": 0.233186
+              "share": 0.500551
             },
             {
               "year": 2024,
-              "share": 0.263109
+              "share": 0.504753
             },
             {
               "year": 2025,
-              "share": 0.215103
+              "share": 0.466165
             }
           ],
-          "medianQ1Share": 0.233186,
-          "q1RunRateRemaining": 2792,
-          "runRateWeight": 0.4,
-          "p50Remaining": 2693,
+          "medianYtdShare": 0.500551,
+          "ytdRunRateRemaining": 1713,
+          "runRateWeight": 0.3,
+          "p50Remaining": 1735,
           "driverSignals": [
             {
               "driver": "distribution",
@@ -1412,57 +1561,57 @@ window.CSM_FORECAST_DATA = {
         },
         "serviceRelease": {
           "method": "최근 4개 분기 coverage-unit 서비스 제공률 대용치",
-          "rate": 0.025581,
+          "rate": 0.025362,
           "denominator": "기시 CSM + 신계약 CSM",
           "lookbackPeriods": [
-            "2025-q2",
             "2025-q3",
             "2025-q4",
-            "2026-q1"
+            "2026-q1",
+            "2026-q2"
           ],
-          "q1ActualAmortization": -367,
+          "actualYtdAmortization": -734,
           "limitation": "상품군별 coverage unit 원자료가 정규화되기 전까지 실제 CSM 상각률을 서비스 제공률 대용치로 사용"
         },
         "adjustmentBridge": {
-          "p50Remaining": -1460,
+          "p50Remaining": -1094,
           "components": {
-            "recurringExperience": -388,
-            "annualAssumptionReviewReserve": -1072,
+            "recurringExperience": -322,
+            "annualAssumptionReviewReserve": -772,
             "incrementalLapseOverlay": 0,
             "unidentifiedEventOverlay": 0
           },
           "recurringObservations": [
             {
               "year": 2023,
-              "q2ToQ4": -1111,
+              "q3ToQ4": -1082,
               "largestAbsoluteQuarter": -1038,
-              "recurringExEvent": -73
+              "recurringExEvent": -44
             },
             {
               "year": 2024,
-              "q2ToQ4": -1338,
+              "q3ToQ4": -986,
               "largestAbsoluteQuarter": -659,
-              "recurringExEvent": -679
+              "recurringExEvent": -327
             },
             {
               "year": 2025,
-              "q2ToQ4": -1752,
+              "q3ToQ4": -1686,
               "largestAbsoluteQuarter": -1364,
-              "recurringExEvent": -388
+              "recurringExEvent": -322
             }
           ],
           "managementSignal": "해지율은 2~3월 안정화됐고 추가 대규모 해지 가정 조정은 예상 CSM에 반영하지 않음"
         },
         "movementEvidence": {
           "newbiz": {
-            "statement": "1분기 건강보험 중심 판매 호조와 FC 채널 확대를 반영하되 연중 과도한 연율화는 제한",
+            "statement": "상반기 확정 판매 흐름과 과거 하반기 계절성을 반영하되 연중 과도한 연율화는 제한",
             "items": [
               {
                 "kind": "actual",
                 "label": "확정 실적",
-                "headline": "2026년 1분기 신계약 CSM 0.849조원",
-                "detail": "분기보고서 기준 확정 Movement이며, 실적발표에서는 전분기 대비 11% 증가로 설명",
-                "sourceId": "samsung-2026-q1-dart"
+                "headline": "2026년 상반기 신계약 CSM 1.717조원",
+                "detail": "반기보고서 기준 1~2분기 누적 확정 Movement",
+                "sourceId": "samsung-2026-q2-dart"
               },
               {
                 "kind": "management",
@@ -1474,8 +1623,8 @@ window.CSM_FORECAST_DATA = {
               {
                 "kind": "model",
                 "label": "산출식",
-                "headline": "잔여 3개 분기 2.693조원",
-                "detail": "과거 계절성 잔여 전망 2.627조원 60%와 1분기 런레이트 잔여 전망 2.792조원 40%를 결합. 1분기 확정치를 더한 연간 신계약 CSM은 3.542조원",
+                "headline": "잔여 2개 분기 1.735조원",
+                "detail": "과거 계절성 잔여 전망 1.744조원 70%와 상반기 런레이트 잔여 전망 1.713조원 30%를 결합. 상반기 확정치를 더한 연간 신계약 CSM은 3.452조원",
                 "sourceId": "csm-forecast-methodology"
               }
             ]
@@ -1486,28 +1635,28 @@ window.CSM_FORECAST_DATA = {
               {
                 "kind": "actual",
                 "label": "확정 실적",
-                "headline": "2026년 1분기 이자부리 +0.127조원",
-                "detail": "DART 분기보고서에서 파싱·검증한 1분기 누적 CSM Movement",
-                "sourceId": "samsung-2026-q1-dart"
+                "headline": "2026년 상반기 이자부리 +0.258조원",
+                "detail": "DART 반기보고서에서 파싱·검증한 상반기 누적 CSM Movement",
+                "sourceId": "samsung-2026-q2-dart"
               },
               {
                 "kind": "model",
                 "label": "산출식",
-                "headline": "연간 이자부리 +0.524조원",
-                "detail": "최근 4개 분기에서 계산한 분기 이자부리율 0.89%를 각 분기 기시 CSM과 신계약 CSM 합계에 적용해 분기별로 재계산",
+                "headline": "연간 이자부리 +0.522조원",
+                "detail": "최근 4개 분기에서 계산한 분기 이자부리율 0.90%를 각 분기 기시 CSM과 신계약 CSM 합계에 적용해 분기별로 재계산",
                 "sourceId": "csm-forecast-methodology"
               }
             ]
           },
           "adjustment": {
-            "statement": "해지 흐름 안정화와 연말 계리 가정 재점검 부담을 반영. 경상 조정과 별도로 13.5조원 경영목표 연결분 -0.64조원을 CSM 조정에 포함",
+            "statement": "해지 흐름 안정화와 연말 계리 가정 재점검 부담을 반영. 경상 조정과 별도로 13.5조원 경영목표 연결분 -0.40조원을 CSM 조정에 포함",
             "items": [
               {
                 "kind": "actual",
                 "label": "확정 실적",
-                "headline": "2026년 1분기 CSM 조정 -0.180조원",
-                "detail": "DART 분기보고서 기준 확정 Movement. 연간 Base는 1분기 확정치를 변경하지 않음",
-                "sourceId": "samsung-2026-q1-dart"
+                "headline": "2026년 상반기 CSM 조정 -0.718조원",
+                "detail": "DART 반기보고서 기준 확정 Movement. 연간 Base는 상반기 확정치를 변경하지 않음",
+                "sourceId": "samsung-2026-q2-dart"
               },
               {
                 "kind": "management",
@@ -1519,8 +1668,8 @@ window.CSM_FORECAST_DATA = {
               {
                 "kind": "model",
                 "label": "조정 브리지",
-                "headline": "연간 CSM 조정 -2.275조원",
-                "detail": "잔여 조정 -1.460조원을 반복 경험조정 -0.388조원과 연말 가정 재점검 예비분 -1.072조원으로 구분. 여기에 13.5조원 경영목표 연결분 -0.635조원을 별도 추가해 연간 CSM 조정에 포함",
+                "headline": "연간 CSM 조정 -2.213조원",
+                "detail": "잔여 조정 -1.094조원을 반복 경험조정 -0.322조원과 연말 가정 재점검 예비분 -0.772조원으로 구분. 여기에 13.5조원 경영목표 연결분 -0.401조원을 별도 추가해 연간 CSM 조정에 포함",
                 "sourceId": "csm-forecast-methodology"
               }
             ]
@@ -1531,15 +1680,15 @@ window.CSM_FORECAST_DATA = {
               {
                 "kind": "actual",
                 "label": "확정 실적",
-                "headline": "2026년 1분기 CSM 상각 -0.367조원",
-                "detail": "DART 분기보고서 기준 보험서비스 제공에 따라 손익으로 인식된 확정 CSM Movement",
-                "sourceId": "samsung-2026-q1-dart"
+                "headline": "2026년 상반기 CSM 상각 -0.734조원",
+                "detail": "DART 반기보고서 기준 보험서비스 제공에 따라 손익으로 인식된 확정 CSM Movement",
+                "sourceId": "samsung-2026-q2-dart"
               },
               {
                 "kind": "model",
                 "label": "산출식과 한계",
-                "headline": "연간 CSM 상각 -1.509조원",
-                "detail": "최근 4개 분기 상각률 2.56%를 각 분기 기시 CSM과 신계약 CSM 합계에 적용. 상품군별 coverage unit 원자료가 정규화되기 전까지 실제 상각률을 서비스 제공률 대용치로 사용",
+                "headline": "연간 CSM 상각 -1.479조원",
+                "detail": "최근 4개 분기 상각률 2.54%를 각 분기 기시 CSM과 신계약 CSM 합계에 적용. 상품군별 coverage unit 원자료가 정규화되기 전까지 실제 상각률을 서비스 제공률 대용치로 사용",
                 "sourceId": "csm-forecast-methodology"
               }
             ]
@@ -1548,11 +1697,11 @@ window.CSM_FORECAST_DATA = {
         "stressScenarios": {
           "salesSlowdown": {
             "opening": 13218,
-            "newbiz": 3273,
-            "interest": 515,
-            "adjustment": -2275,
-            "amortization": -1484,
-            "closing": 13247,
+            "newbiz": 3279,
+            "interest": 518,
+            "adjustment": -2213,
+            "amortization": -1466,
+            "closing": 13336,
             "quarters": [
               {
                 "period": "2026-q1",
@@ -1566,80 +1715,72 @@ window.CSM_FORECAST_DATA = {
               },
               {
                 "period": "2026-q2",
+                "actual": true,
                 "opening": 13647,
-                "newbiz": 805,
-                "interest": 128,
-                "adjustment": -228,
-                "amortization": -370,
-                "closing": 13982
+                "newbiz": 868,
+                "interest": 131,
+                "amortization": -367,
+                "adjustment": -538,
+                "closing": 13741
               },
               {
                 "period": "2026-q3",
-                "opening": 13982,
-                "newbiz": 852,
-                "interest": 132,
-                "adjustment": -951,
-                "amortization": -379,
-                "closing": 13636
+                "opening": 13741,
+                "newbiz": 822,
+                "interest": 131,
+                "adjustment": -739,
+                "amortization": -369,
+                "closing": 13586
               },
               {
                 "period": "2026-q4",
-                "opening": 13636,
-                "newbiz": 767,
-                "interest": 128,
-                "adjustment": -916,
-                "amortization": -368,
-                "closing": 13247
+                "opening": 13586,
+                "newbiz": 740,
+                "interest": 129,
+                "adjustment": -756,
+                "amortization": -363,
+                "closing": 13336
               }
             ],
             "remainingForecast": {
-              "opening": 13647,
-              "newbiz": 2424,
-              "interest": 388,
-              "adjustment": -2095,
-              "amortization": -1117,
-              "closing": 13247,
+              "opening": 13741,
+              "newbiz": 1562,
+              "interest": 260,
+              "adjustment": -1495,
+              "amortization": -732,
+              "closing": 13336,
               "quarters": [
                 {
-                  "period": "2026-q2",
-                  "opening": 13647,
-                  "newbiz": 805,
-                  "interest": 128,
-                  "adjustment": -228,
-                  "amortization": -370,
-                  "closing": 13982
-                },
-                {
                   "period": "2026-q3",
-                  "opening": 13982,
-                  "newbiz": 852,
-                  "interest": 132,
-                  "adjustment": -951,
-                  "amortization": -379,
-                  "closing": 13636
+                  "opening": 13741,
+                  "newbiz": 822,
+                  "interest": 131,
+                  "adjustment": -739,
+                  "amortization": -369,
+                  "closing": 13586
                 },
                 {
                   "period": "2026-q4",
-                  "opening": 13636,
-                  "newbiz": 767,
-                  "interest": 128,
-                  "adjustment": -916,
-                  "amortization": -368,
-                  "closing": 13247
+                  "opening": 13586,
+                  "newbiz": 740,
+                  "interest": 129,
+                  "adjustment": -756,
+                  "amortization": -363,
+                  "closing": 13336
                 }
               ]
             },
-            "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+            "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
             "label": "신계약 CSM 하방",
             "description": "판매량 감소 또는 상품 믹스·계약당 수익성 저하를 단순화해 잔여 신계약 CSM을 Base 대비 10% 낮추는 경우"
           },
           "marginCompression": {
             "opening": 13218,
-            "newbiz": 3273,
-            "interest": 515,
-            "adjustment": -2275,
-            "amortization": -1484,
-            "closing": 13247,
+            "newbiz": 3279,
+            "interest": 518,
+            "adjustment": -2213,
+            "amortization": -1466,
+            "closing": 13336,
             "quarters": [
               {
                 "period": "2026-q1",
@@ -1653,80 +1794,72 @@ window.CSM_FORECAST_DATA = {
               },
               {
                 "period": "2026-q2",
+                "actual": true,
                 "opening": 13647,
-                "newbiz": 805,
-                "interest": 128,
-                "adjustment": -228,
-                "amortization": -370,
-                "closing": 13982
+                "newbiz": 868,
+                "interest": 131,
+                "amortization": -367,
+                "adjustment": -538,
+                "closing": 13741
               },
               {
                 "period": "2026-q3",
-                "opening": 13982,
-                "newbiz": 852,
-                "interest": 132,
-                "adjustment": -951,
-                "amortization": -379,
-                "closing": 13636
+                "opening": 13741,
+                "newbiz": 822,
+                "interest": 131,
+                "adjustment": -739,
+                "amortization": -369,
+                "closing": 13586
               },
               {
                 "period": "2026-q4",
-                "opening": 13636,
-                "newbiz": 767,
-                "interest": 128,
-                "adjustment": -916,
-                "amortization": -368,
-                "closing": 13247
+                "opening": 13586,
+                "newbiz": 740,
+                "interest": 129,
+                "adjustment": -756,
+                "amortization": -363,
+                "closing": 13336
               }
             ],
             "remainingForecast": {
-              "opening": 13647,
-              "newbiz": 2424,
-              "interest": 388,
-              "adjustment": -2095,
-              "amortization": -1117,
-              "closing": 13247,
+              "opening": 13741,
+              "newbiz": 1562,
+              "interest": 260,
+              "adjustment": -1495,
+              "amortization": -732,
+              "closing": 13336,
               "quarters": [
                 {
-                  "period": "2026-q2",
-                  "opening": 13647,
-                  "newbiz": 805,
-                  "interest": 128,
-                  "adjustment": -228,
-                  "amortization": -370,
-                  "closing": 13982
-                },
-                {
                   "period": "2026-q3",
-                  "opening": 13982,
-                  "newbiz": 852,
-                  "interest": 132,
-                  "adjustment": -951,
-                  "amortization": -379,
-                  "closing": 13636
+                  "opening": 13741,
+                  "newbiz": 822,
+                  "interest": 131,
+                  "adjustment": -739,
+                  "amortization": -369,
+                  "closing": 13586
                 },
                 {
                   "period": "2026-q4",
-                  "opening": 13636,
-                  "newbiz": 767,
-                  "interest": 128,
-                  "adjustment": -916,
-                  "amortization": -368,
-                  "closing": 13247
+                  "opening": 13586,
+                  "newbiz": 740,
+                  "interest": 129,
+                  "adjustment": -756,
+                  "amortization": -363,
+                  "closing": 13336
                 }
               ]
             },
-            "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+            "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
             "label": "수익성 압박",
             "description": "상품 믹스와 계약당 수익성이 낮아져 잔여 신계약 CSM을 Base 대비 10% 낮추는 경우"
           },
           "lapseAndExpense": {
             "opening": 13218,
-            "newbiz": 3542,
-            "interest": 518,
-            "adjustment": -2484,
-            "amortization": -1495,
-            "closing": 13299,
+            "newbiz": 3452,
+            "interest": 520,
+            "adjustment": -2363,
+            "amortization": -1472,
+            "closing": 13355,
             "quarters": [
               {
                 "period": "2026-q1",
@@ -1740,80 +1873,72 @@ window.CSM_FORECAST_DATA = {
               },
               {
                 "period": "2026-q2",
+                "actual": true,
                 "opening": 13647,
-                "newbiz": 894,
-                "interest": 129,
-                "adjustment": -251,
-                "amortization": -372,
-                "closing": 14047
+                "newbiz": 868,
+                "interest": 131,
+                "amortization": -367,
+                "adjustment": -538,
+                "closing": 13741
               },
               {
                 "period": "2026-q3",
-                "opening": 14047,
-                "newbiz": 946,
-                "interest": 133,
-                "adjustment": -1046,
-                "amortization": -384,
-                "closing": 13696
+                "opening": 13741,
+                "newbiz": 913,
+                "interest": 132,
+                "adjustment": -813,
+                "amortization": -372,
+                "closing": 13601
               },
               {
                 "period": "2026-q4",
-                "opening": 13696,
-                "newbiz": 853,
-                "interest": 129,
-                "adjustment": -1007,
-                "amortization": -372,
-                "closing": 13299
+                "opening": 13601,
+                "newbiz": 822,
+                "interest": 130,
+                "adjustment": -832,
+                "amortization": -366,
+                "closing": 13355
               }
             ],
             "remainingForecast": {
-              "opening": 13647,
-              "newbiz": 2693,
-              "interest": 391,
-              "adjustment": -2304,
-              "amortization": -1128,
-              "closing": 13299,
+              "opening": 13741,
+              "newbiz": 1735,
+              "interest": 262,
+              "adjustment": -1645,
+              "amortization": -738,
+              "closing": 13355,
               "quarters": [
                 {
-                  "period": "2026-q2",
-                  "opening": 13647,
-                  "newbiz": 894,
-                  "interest": 129,
-                  "adjustment": -251,
-                  "amortization": -372,
-                  "closing": 14047
-                },
-                {
                   "period": "2026-q3",
-                  "opening": 14047,
-                  "newbiz": 946,
-                  "interest": 133,
-                  "adjustment": -1046,
-                  "amortization": -384,
-                  "closing": 13696
+                  "opening": 13741,
+                  "newbiz": 913,
+                  "interest": 132,
+                  "adjustment": -813,
+                  "amortization": -372,
+                  "closing": 13601
                 },
                 {
                   "period": "2026-q4",
-                  "opening": 13696,
-                  "newbiz": 853,
-                  "interest": 129,
-                  "adjustment": -1007,
-                  "amortization": -372,
-                  "closing": 13299
+                  "opening": 13601,
+                  "newbiz": 822,
+                  "interest": 130,
+                  "adjustment": -832,
+                  "amortization": -366,
+                  "closing": 13355
                 }
               ]
             },
-            "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+            "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
             "label": "장래손해율·해지·비용 부담",
             "description": "판매는 계획대로 진행되지만 장래손해율 상승, 해지 증가 또는 사업비 가정 악화로 CSM 조정을 Base 대비 10% 더 불리하게 보는 경우"
           },
           "combined": {
             "opening": 13218,
-            "newbiz": 3273,
-            "interest": 514,
-            "adjustment": -2484,
-            "amortization": -1481,
-            "closing": 13040,
+            "newbiz": 3279,
+            "interest": 517,
+            "adjustment": -2363,
+            "amortization": -1464,
+            "closing": 13187,
             "quarters": [
               {
                 "period": "2026-q1",
@@ -1827,70 +1952,62 @@ window.CSM_FORECAST_DATA = {
               },
               {
                 "period": "2026-q2",
+                "actual": true,
                 "opening": 13647,
-                "newbiz": 805,
-                "interest": 128,
-                "adjustment": -251,
-                "amortization": -370,
-                "closing": 13959
+                "newbiz": 868,
+                "interest": 131,
+                "amortization": -367,
+                "adjustment": -538,
+                "closing": 13741
               },
               {
                 "period": "2026-q3",
-                "opening": 13959,
-                "newbiz": 852,
-                "interest": 132,
-                "adjustment": -1046,
-                "amortization": -379,
-                "closing": 13518
+                "opening": 13741,
+                "newbiz": 822,
+                "interest": 131,
+                "adjustment": -813,
+                "amortization": -369,
+                "closing": 13512
               },
               {
                 "period": "2026-q4",
-                "opening": 13518,
-                "newbiz": 767,
-                "interest": 127,
-                "adjustment": -1007,
-                "amortization": -365,
-                "closing": 13040
+                "opening": 13512,
+                "newbiz": 740,
+                "interest": 128,
+                "adjustment": -832,
+                "amortization": -361,
+                "closing": 13187
               }
             ],
             "remainingForecast": {
-              "opening": 13647,
-              "newbiz": 2424,
-              "interest": 387,
-              "adjustment": -2304,
-              "amortization": -1114,
-              "closing": 13040,
+              "opening": 13741,
+              "newbiz": 1562,
+              "interest": 259,
+              "adjustment": -1645,
+              "amortization": -730,
+              "closing": 13187,
               "quarters": [
                 {
-                  "period": "2026-q2",
-                  "opening": 13647,
-                  "newbiz": 805,
-                  "interest": 128,
-                  "adjustment": -251,
-                  "amortization": -370,
-                  "closing": 13959
-                },
-                {
                   "period": "2026-q3",
-                  "opening": 13959,
-                  "newbiz": 852,
-                  "interest": 132,
-                  "adjustment": -1046,
-                  "amortization": -379,
-                  "closing": 13518
+                  "opening": 13741,
+                  "newbiz": 822,
+                  "interest": 131,
+                  "adjustment": -813,
+                  "amortization": -369,
+                  "closing": 13512
                 },
                 {
                   "period": "2026-q4",
-                  "opening": 13518,
-                  "newbiz": 767,
-                  "interest": 127,
-                  "adjustment": -1007,
-                  "amortization": -365,
-                  "closing": 13040
+                  "opening": 13512,
+                  "newbiz": 740,
+                  "interest": 128,
+                  "adjustment": -832,
+                  "amortization": -361,
+                  "closing": 13187
                 }
               ]
             },
-            "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
+            "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
             "label": "복합 스트레스",
             "description": "전 보험사 공통 Worst 룰에 따라 신계약 CSM 하방과 CSM 조정 악화를 동시에 반영한 경로"
           }
@@ -1910,8 +2027,8 @@ window.CSM_FORECAST_DATA = {
           "verificationStatus": "unverified",
           "verificationLabel": "담당자 별도 기입",
           "originalAttached": false,
-          "modelClosing": 14135,
-          "reconciliation": -635,
+          "modelClosing": 13901,
+          "reconciliation": -401,
           "application": "2026년 Base의 CSM 조정에 목표 연결분을 별도 반영하고 2027~2029년 3년 정액으로 정상화"
         },
         "sources": [
@@ -1924,11 +2041,11 @@ window.CSM_FORECAST_DATA = {
             "use": "담당자가 별도 기입한 목표를 경영계획 Base에 적용"
           },
           {
-            "id": "samsung-2026-q1-dart",
-            "title": "삼성생명 2026년 1분기 분기보고서",
-            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260515002696",
+            "id": "samsung-2026-q2-dart",
+            "title": "삼성생명 2026년 반기보고서",
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814003263",
             "type": "official_filing",
-            "use": "2026년 1분기 CSM과 신계약 CSM 실제값의 원문 기준점"
+            "use": "2026년 상반기 CSM과 누적 CSM Movement 실제값의 원문 기준점"
           },
           {
             "id": "samsung-2026-q1-call",
@@ -1956,23 +2073,23 @@ window.CSM_FORECAST_DATA = {
     },
     "hanwha-life": {
       "companyName": "한화생명",
-      "asOfPeriod": "2026-q1",
-      "asOfCsm": 8921,
+      "asOfPeriod": "2026-q2",
+      "asOfCsm": 8928,
       "targetPeriod": "2026-ye",
       "anchor": {
         "type": "model_generated",
-        "value": 9036,
+        "value": 9185,
         "note": "담당자 입력값 없음 · 모델 예상치를 사용"
       },
       "ratios": {
-        "interestRate": 0.009522,
-        "amortizationRate": 0.020594,
+        "interestRate": 0.009508,
+        "amortizationRate": 0.019895,
         "denominator": "기시 CSM + 신계약 CSM",
         "lookbackPeriods": [
-          "2025-q2",
           "2025-q3",
           "2025-q4",
-          "2026-q1"
+          "2026-q1",
+          "2026-q2"
         ],
         "lookbackWeights": [
           0.1,
@@ -1984,11 +2101,11 @@ window.CSM_FORECAST_DATA = {
       },
       "base": {
         "opening": 8714,
-        "newbiz": 2325,
+        "newbiz": 2534,
         "interest": 363,
-        "adjustment": -1580,
-        "amortization": -786,
-        "closing": 9036,
+        "adjustment": -1669,
+        "amortization": -757,
+        "closing": 9185,
         "quarters": [
           {
             "period": "2026-q1",
@@ -2002,79 +2119,71 @@ window.CSM_FORECAST_DATA = {
           },
           {
             "period": "2026-q2",
+            "actual": true,
             "opening": 8921,
-            "newbiz": 558,
-            "interest": 90,
-            "adjustment": -308,
-            "amortization": -195,
-            "closing": 9066
+            "newbiz": 689,
+            "interest": 91,
+            "amortization": -182,
+            "adjustment": -591,
+            "closing": 8928
           },
           {
             "period": "2026-q3",
-            "opening": 9066,
-            "newbiz": 541,
-            "interest": 91,
-            "adjustment": -314,
-            "amortization": -198,
-            "closing": 9186
+            "opening": 8928,
+            "newbiz": 575,
+            "interest": 90,
+            "adjustment": -256,
+            "amortization": -189,
+            "closing": 9148
           },
           {
             "period": "2026-q4",
-            "opening": 9186,
-            "newbiz": 615,
+            "opening": 9148,
+            "newbiz": 659,
             "interest": 93,
-            "adjustment": -656,
-            "amortization": -202,
-            "closing": 9036
+            "adjustment": -520,
+            "amortization": -195,
+            "closing": 9185
           }
         ],
         "remainingForecast": {
-          "opening": 8921,
-          "newbiz": 1714,
-          "interest": 274,
-          "adjustment": -1278,
-          "amortization": -595,
-          "closing": 9036,
+          "opening": 8928,
+          "newbiz": 1234,
+          "interest": 183,
+          "adjustment": -776,
+          "amortization": -384,
+          "closing": 9185,
           "quarters": [
             {
-              "period": "2026-q2",
-              "opening": 8921,
-              "newbiz": 558,
-              "interest": 90,
-              "adjustment": -308,
-              "amortization": -195,
-              "closing": 9066
-            },
-            {
               "period": "2026-q3",
-              "opening": 9066,
-              "newbiz": 541,
-              "interest": 91,
-              "adjustment": -314,
-              "amortization": -198,
-              "closing": 9186
+              "opening": 8928,
+              "newbiz": 575,
+              "interest": 90,
+              "adjustment": -256,
+              "amortization": -189,
+              "closing": 9148
             },
             {
               "period": "2026-q4",
-              "opening": 9186,
-              "newbiz": 615,
+              "opening": 9148,
+              "newbiz": 659,
               "interest": 93,
-              "adjustment": -656,
-              "amortization": -202,
-              "closing": 9036
+              "adjustment": -520,
+              "amortization": -195,
+              "closing": 9185
             }
           ]
         },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "rationale": "전년 동분기 계절성, Q1 성장 신호, 최근 3개년 조정률 중앙값과 최근 4개 분기 이자·상각률로 산출. 증권사 근거가 있는 정성 입력을 25% 오버레이."
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "rationale": "전년 동기간 계절성, 상반기 성장 신호, 직전 2개 연말 정상화 조정률과 최근 4개 분기 이자·상각률로 산출. 증권사 근거가 있는 정성 입력을 25% 오버레이."
       },
       "worst": {
         "opening": 8714,
-        "newbiz": 2154,
-        "interest": 360,
-        "adjustment": -1708,
-        "amortization": -777,
-        "closing": 8743,
+        "newbiz": 2411,
+        "interest": 362,
+        "adjustment": -1758,
+        "amortization": -753,
+        "closing": 8976,
         "quarters": [
           {
             "period": "2026-q1",
@@ -2088,80 +2197,72 @@ window.CSM_FORECAST_DATA = {
           },
           {
             "period": "2026-q2",
+            "actual": true,
             "opening": 8921,
-            "newbiz": 502,
-            "interest": 90,
-            "adjustment": -339,
-            "amortization": -194,
-            "closing": 8980
+            "newbiz": 689,
+            "interest": 91,
+            "amortization": -182,
+            "adjustment": -591,
+            "closing": 8928
           },
           {
             "period": "2026-q3",
-            "opening": 8980,
-            "newbiz": 487,
+            "opening": 8928,
+            "newbiz": 517,
             "interest": 90,
-            "adjustment": -345,
-            "amortization": -195,
-            "closing": 9017
+            "adjustment": -285,
+            "amortization": -188,
+            "closing": 9062
           },
           {
             "period": "2026-q4",
-            "opening": 9017,
-            "newbiz": 554,
-            "interest": 91,
-            "adjustment": -722,
-            "amortization": -197,
-            "closing": 8743
+            "opening": 9062,
+            "newbiz": 594,
+            "interest": 92,
+            "adjustment": -580,
+            "amortization": -192,
+            "closing": 8976
           }
         ],
         "remainingForecast": {
-          "opening": 8921,
-          "newbiz": 1543,
-          "interest": 271,
-          "adjustment": -1406,
-          "amortization": -586,
-          "closing": 8743,
+          "opening": 8928,
+          "newbiz": 1111,
+          "interest": 182,
+          "adjustment": -865,
+          "amortization": -380,
+          "closing": 8976,
           "quarters": [
             {
-              "period": "2026-q2",
-              "opening": 8921,
-              "newbiz": 502,
-              "interest": 90,
-              "adjustment": -339,
-              "amortization": -194,
-              "closing": 8980
-            },
-            {
               "period": "2026-q3",
-              "opening": 8980,
-              "newbiz": 487,
+              "opening": 8928,
+              "newbiz": 517,
               "interest": 90,
-              "adjustment": -345,
-              "amortization": -195,
-              "closing": 9017
+              "adjustment": -285,
+              "amortization": -188,
+              "closing": 9062
             },
             {
               "period": "2026-q4",
-              "opening": 9017,
-              "newbiz": 554,
-              "interest": 91,
-              "adjustment": -722,
-              "amortization": -197,
-              "closing": 8743
+              "opening": 9062,
+              "newbiz": 594,
+              "interest": 92,
+              "adjustment": -580,
+              "amortization": -192,
+              "closing": 8976
             }
           ]
         },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "rationale": "전 보험사에 같은 단순 하방 가정을 적용. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영. 조정은 Base -1.28조원에서 Worst -1.41조원으로 적용."
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "rationale": "전 보험사에 같은 단순 하방 가정을 적용. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영하되 충격이 작아지지 않도록 기시 CSM의 1%p를 최소 부담으로 적용. 조정은 Base -0.78조원에서 Worst -0.86조원으로 적용."
       },
       "independentModel": {
         "base": {
           "opening": 8714,
-          "newbiz": 2325,
+          "newbiz": 2534,
           "interest": 363,
-          "adjustment": -1580,
-          "amortization": -786,
-          "closing": 9036,
+          "adjustment": -1669,
+          "amortization": -757,
+          "closing": 9185,
           "quarters": [
             {
               "period": "2026-q1",
@@ -2175,78 +2276,70 @@ window.CSM_FORECAST_DATA = {
             },
             {
               "period": "2026-q2",
+              "actual": true,
               "opening": 8921,
-              "newbiz": 558,
-              "interest": 90,
-              "adjustment": -308,
-              "amortization": -195,
-              "closing": 9066
+              "newbiz": 689,
+              "interest": 91,
+              "amortization": -182,
+              "adjustment": -591,
+              "closing": 8928
             },
             {
               "period": "2026-q3",
-              "opening": 9066,
-              "newbiz": 541,
-              "interest": 91,
-              "adjustment": -314,
-              "amortization": -198,
-              "closing": 9186
+              "opening": 8928,
+              "newbiz": 575,
+              "interest": 90,
+              "adjustment": -256,
+              "amortization": -189,
+              "closing": 9148
             },
             {
               "period": "2026-q4",
-              "opening": 9186,
-              "newbiz": 615,
+              "opening": 9148,
+              "newbiz": 659,
               "interest": 93,
-              "adjustment": -656,
-              "amortization": -202,
-              "closing": 9036
+              "adjustment": -520,
+              "amortization": -195,
+              "closing": 9185
             }
           ],
           "remainingForecast": {
-            "opening": 8921,
-            "newbiz": 1714,
-            "interest": 274,
-            "adjustment": -1278,
-            "amortization": -595,
-            "closing": 9036,
+            "opening": 8928,
+            "newbiz": 1234,
+            "interest": 183,
+            "adjustment": -776,
+            "amortization": -384,
+            "closing": 9185,
             "quarters": [
               {
-                "period": "2026-q2",
-                "opening": 8921,
-                "newbiz": 558,
-                "interest": 90,
-                "adjustment": -308,
-                "amortization": -195,
-                "closing": 9066
-              },
-              {
                 "period": "2026-q3",
-                "opening": 9066,
-                "newbiz": 541,
-                "interest": 91,
-                "adjustment": -314,
-                "amortization": -198,
-                "closing": 9186
+                "opening": 8928,
+                "newbiz": 575,
+                "interest": 90,
+                "adjustment": -256,
+                "amortization": -189,
+                "closing": 9148
               },
               {
                 "period": "2026-q4",
-                "opening": 9186,
-                "newbiz": 615,
+                "opening": 9148,
+                "newbiz": 659,
                 "interest": 93,
-                "adjustment": -656,
-                "amortization": -202,
-                "closing": 9036
+                "adjustment": -520,
+                "amortization": -195,
+                "closing": 9185
               }
             ]
           },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
         },
         "worst": {
           "opening": 8714,
-          "newbiz": 2154,
-          "interest": 360,
-          "adjustment": -1708,
-          "amortization": -777,
-          "closing": 8743,
+          "newbiz": 2411,
+          "interest": 362,
+          "adjustment": -1758,
+          "amortization": -753,
+          "closing": 8976,
           "quarters": [
             {
               "period": "2026-q1",
@@ -2260,70 +2353,62 @@ window.CSM_FORECAST_DATA = {
             },
             {
               "period": "2026-q2",
+              "actual": true,
               "opening": 8921,
-              "newbiz": 502,
-              "interest": 90,
-              "adjustment": -339,
-              "amortization": -194,
-              "closing": 8980
+              "newbiz": 689,
+              "interest": 91,
+              "amortization": -182,
+              "adjustment": -591,
+              "closing": 8928
             },
             {
               "period": "2026-q3",
-              "opening": 8980,
-              "newbiz": 487,
+              "opening": 8928,
+              "newbiz": 517,
               "interest": 90,
-              "adjustment": -345,
-              "amortization": -195,
-              "closing": 9017
+              "adjustment": -285,
+              "amortization": -188,
+              "closing": 9062
             },
             {
               "period": "2026-q4",
-              "opening": 9017,
-              "newbiz": 554,
-              "interest": 91,
-              "adjustment": -722,
-              "amortization": -197,
-              "closing": 8743
+              "opening": 9062,
+              "newbiz": 594,
+              "interest": 92,
+              "adjustment": -580,
+              "amortization": -192,
+              "closing": 8976
             }
           ],
           "remainingForecast": {
-            "opening": 8921,
-            "newbiz": 1543,
-            "interest": 271,
-            "adjustment": -1406,
-            "amortization": -586,
-            "closing": 8743,
+            "opening": 8928,
+            "newbiz": 1111,
+            "interest": 182,
+            "adjustment": -865,
+            "amortization": -380,
+            "closing": 8976,
             "quarters": [
               {
-                "period": "2026-q2",
-                "opening": 8921,
-                "newbiz": 502,
-                "interest": 90,
-                "adjustment": -339,
-                "amortization": -194,
-                "closing": 8980
-              },
-              {
                 "period": "2026-q3",
-                "opening": 8980,
-                "newbiz": 487,
+                "opening": 8928,
+                "newbiz": 517,
                 "interest": 90,
-                "adjustment": -345,
-                "amortization": -195,
-                "closing": 9017
+                "adjustment": -285,
+                "amortization": -188,
+                "closing": 9062
               },
               {
                 "period": "2026-q4",
-                "opening": 9017,
-                "newbiz": 554,
-                "interest": 91,
-                "adjustment": -722,
-                "amortization": -197,
-                "closing": 8743
+                "opening": 9062,
+                "newbiz": 594,
+                "interest": 92,
+                "adjustment": -580,
+                "amortization": -192,
+                "closing": 8976
               }
             ]
           },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
         }
       },
       "horizon": {
@@ -2331,207 +2416,305 @@ window.CSM_FORECAST_DATA = {
           "2026-ye",
           "2027-ye",
           "2028-ye",
+          "2029-ye",
           "2030-ye"
         ],
-        "terminalPeriod": "2035-ye",
         "base": [
           {
             "period": "2026-ye",
             "opening": 8714,
-            "newbiz": 2325,
+            "newbiz": 2534,
             "interest": 363,
-            "adjustment": -1580,
-            "amortization": -786,
-            "closing": 9036
+            "adjustment": -1669,
+            "amortization": -757,
+            "closing": 9185
           },
           {
             "period": "2027-ye",
-            "opening": 9036,
-            "newbiz": 2255,
-            "interest": 368,
-            "adjustment": -1638,
-            "amortization": -798,
-            "closing": 9223
+            "opening": 9185,
+            "newbiz": 2633,
+            "interest": 379,
+            "adjustment": -1842,
+            "amortization": -795,
+            "closing": 9560
           },
           {
             "period": "2028-ye",
-            "opening": 9223,
-            "newbiz": 2187,
-            "interest": 373,
-            "adjustment": -1672,
-            "amortization": -807,
-            "closing": 9304
+            "opening": 9560,
+            "newbiz": 2735,
+            "interest": 394,
+            "adjustment": -1917,
+            "amortization": -828,
+            "closing": 9944
+          },
+          {
+            "period": "2029-ye",
+            "opening": 9944,
+            "newbiz": 2841,
+            "interest": 410,
+            "adjustment": -1995,
+            "amortization": -860,
+            "closing": 10340
           },
           {
             "period": "2030-ye",
-            "opening": 9303,
-            "newbiz": 2057,
-            "interest": 372,
-            "adjustment": -1687,
-            "amortization": -806,
-            "closing": 9239
+            "opening": 10340,
+            "newbiz": 2952,
+            "interest": 426,
+            "adjustment": -2074,
+            "amortization": -894,
+            "closing": 10750
           }
         ],
         "worst": [
           {
             "period": "2026-ye",
             "opening": 8714,
-            "newbiz": 2154,
-            "interest": 360,
-            "adjustment": -1708,
-            "amortization": -777,
-            "closing": 8743
+            "newbiz": 2411,
+            "interest": 362,
+            "adjustment": -1758,
+            "amortization": -753,
+            "closing": 8976
           },
           {
             "period": "2027-ye",
-            "opening": 8743,
-            "newbiz": 2030,
-            "interest": 350,
-            "adjustment": -1802,
-            "amortization": -758,
-            "closing": 8563
+            "opening": 8976,
+            "newbiz": 2370,
+            "interest": 364,
+            "adjustment": -2026,
+            "amortization": -760,
+            "closing": 8924
           },
           {
             "period": "2028-ye",
-            "opening": 8563,
-            "newbiz": 1968,
-            "interest": 341,
-            "adjustment": -1839,
-            "amortization": -737,
-            "closing": 8296
+            "opening": 8924,
+            "newbiz": 2462,
+            "interest": 363,
+            "adjustment": -2109,
+            "amortization": -758,
+            "closing": 8882
+          },
+          {
+            "period": "2029-ye",
+            "opening": 8882,
+            "newbiz": 2557,
+            "interest": 361,
+            "adjustment": -2195,
+            "amortization": -756,
+            "closing": 8849
           },
           {
             "period": "2030-ye",
-            "opening": 7966,
-            "newbiz": 1851,
-            "interest": 315,
-            "adjustment": -1856,
-            "amortization": -684,
-            "closing": 7592
+            "opening": 8849,
+            "newbiz": 2657,
+            "interest": 360,
+            "adjustment": -2281,
+            "amortization": -756,
+            "closing": 8829
           }
         ],
-        "terminal": {
-          "base": {
-            "period": "2035-ye",
-            "opening": 8940,
-            "newbiz": 1956,
-            "interest": 358,
-            "adjustment": -1621,
-            "amortization": -774,
-            "closing": 8859
-          },
-          "worst": {
-            "period": "2035-ye",
-            "opening": 6221,
-            "newbiz": 1760,
-            "interest": 249,
-            "adjustment": -1783,
-            "amortization": -539,
-            "closing": 5908
-          }
-        },
         "assumptions": {
-          "newbizGrowth": -0.03,
-          "longTermNewbizGrowth": -0.01,
-          "baseAdjustmentRate": -0.181317,
+          "rawNewbizGrowth": 0.137844,
+          "boundedNewbizGrowth": 0.05,
+          "newbizGrowthBounds": {
+            "lower": -0.05,
+            "upper": 0.05
+          },
+          "optimismBiasPenalty": 0.011103,
+          "backtestMeanErrorBn": 387,
+          "newbizTrendWindow": [
+            {
+              "year": 2024,
+              "value": 2123,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2025,
+              "value": 2066,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2026,
+              "value": 2534,
+              "valueKind": "base_forecast"
+            }
+          ],
+          "newbizGrowthObservations": [
+            {
+              "fromYear": 2024,
+              "toYear": 2025,
+              "rate": -0.026848798869524293,
+              "weight": 0.35
+            },
+            {
+              "fromYear": 2025,
+              "toYear": 2026,
+              "rate": 0.22652468538238146,
+              "weight": 0.65
+            }
+          ],
+          "newbizGrowth": 0.038897,
+          "baseAdjustmentRate": -0.200575,
+          "adjustmentRateMethod": "2024 actual 20% + 2025 actual 30% + 2026 Base forecast 50%, one-off adjustments excluded",
+          "adjustmentRateWeights": [
+            0.2,
+            0.3,
+            0.5
+          ],
+          "adjustmentRateWindow": [
+            {
+              "year": 2024,
+              "valueKind": "actual",
+              "opening": 9238,
+              "reportedAdjustment": -1750,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -1750,
+              "rate": -0.1894349426282745,
+              "included": true,
+              "treatment": "연간 순액 사용 · 분기 내 환입·재분류는 별도 반복하지 않음",
+              "nominalWeight": 0.2,
+              "weight": 0.2
+            },
+            {
+              "year": 2025,
+              "valueKind": "actual",
+              "opening": 9109,
+              "reportedAdjustment": -2032,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -2032,
+              "rate": -0.22307607860357886,
+              "included": true,
+              "treatment": "연간 순액 사용 · 분기 내 환입·재분류는 별도 반복하지 않음",
+              "nominalWeight": 0.3,
+              "weight": 0.3
+            },
+            {
+              "year": 2026,
+              "valueKind": "base_forecast",
+              "opening": 8714,
+              "reportedAdjustment": -1669,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -1669,
+              "rate": -0.19153086986458573,
+              "included": true,
+              "treatment": "경영목표 연결분과 순양(+) 전망분 제외 · 상반기 일회성 조정은 연간 정상화 전망에서 반복하지 않음",
+              "nominalWeight": 0.5,
+              "weight": 0.5
+            }
+          ],
+          "oneOffAdjustmentPolicy": "연간 순양(+) 조정, 경영목표 연결분과 분기성 환입·재분류의 총액 반복을 제외",
+          "positiveRecurringAdjustmentCap": 0.0,
           "worstNewbizStress": 0.1,
           "worstAdjustmentStress": 0.1,
+          "worstAdjustmentRatePointFloor": 0.01,
           "stressCalibrationQuantile": 0.8,
           "stressCalibrationSampleCount": 6,
           "worstPolicy": {
             "basis": "전 보험사 공통 단순 하방 가정",
             "newbizDiscount": 0.1,
             "adjustmentStress": 0.1,
-            "q1ActualLocked": true
+            "adjustmentRatePointFloor": 0.01,
+            "actualLockedThroughQuarter": 2
           },
           "targetAdjustmentNormalization": null,
-          "longTermMethod": "2030년 Base와 Worst를 각각 앵커로 유지하되 Worst는 공통 단순 하방 가정으로 산출"
+          "fiveYearMethod": "2026~2030년을 매년 동일한 Movement 산식으로 연결하고 Worst는 공통 단순 하방 가정으로 산출"
         },
         "executiveRationale": {
-          "years1to3": "최근 분기 실적과 전년 계절성으로 Base를 산출하고, 증권사 근거가 있는 회사만 제한적으로 반영. Worst는 1분기 확정 실적은 유지하고 잔여 신계약 CSM을 Base 대비 10% 낮추며 CSM 조정은 Base 대비 10% 더 불리하게 적용",
-          "year5": "과거 신계약 추세를 연 -3.0% 범위로 적용하고 경상 CSM 조정률을 유지하며, 2030년까지 Movement를 연결",
-          "year10": "2035년 Base는 신계약 증가율 연 -1.0%와 현재 CSM 조정률을 적용하고, Worst는 같은 공통 하방률을 장기 경로에 적용"
+          "years1to3": "최근 분기 실적과 전년 계절성으로 Base를 산출하고, 증권사 근거가 있는 회사만 제한적으로 반영. Worst는 상반기 확정 실적은 유지하고 잔여 신계약 CSM을 Base 대비 10% 낮추며 CSM 조정은 Base 대비 10% 더 불리하게 적용. 단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 적용",
+          "years4to5": "2024·2025년 실적과 2026년 Base를 연결한 신계약 추세에 통제를 반영해 연 +3.9%를 적용하고, 같은 3개년에서 일회성 조정을 제외한 CSM 조정률 -20.1%를 유지하며, 2030년까지 Movement를 연결"
         },
         "horizonConfidence": {
           "oneYear": "제한적 검증",
           "twoToThreeYears": "모델 경로",
-          "fiveYear": "시나리오",
-          "tenYear": "장기 시나리오"
+          "fourToFiveYears": "시나리오"
         }
       },
       "model": {
-        "version": "rolling-origin-seasonal/v2",
+        "version": "rolling-origin-current-year/v5",
         "baseline": {
-          "remainingNewbiz": 1702,
-          "remainingAdjustment": -1420,
+          "remainingNewbiz": 1292,
+          "remainingAdjustment": -948,
           "newbizShares": [
-            0.325464,
-            0.315838,
-            0.358698
+            0.465674,
+            0.534326
           ],
           "adjustmentShares": [
-            0.241105,
-            0.245616,
-            0.513279
+            0.329409,
+            0.670591
           ],
           "drivers": {
             "newbiz": {
-              "priorYearRemaining": 1578,
-              "q1Growth": 0.252049,
-              "priorRemainingGrowth": -0.018657,
-              "appliedGrowthSignal": 0.078651
+              "ytdGrowth": 0.403888,
+              "priorRemainingGrowth": 0.011535,
+              "appliedGrowthSignal": 0.133282,
+              "futureQuarters": [
+                3,
+                4
+              ]
             },
             "adjustment": {
-              "method": "median historical Q2-Q4 adjustment rate to Q1 closing CSM",
-              "medianRate": -0.159147,
+              "method": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+              "rawAnnualRate": -0.211302,
+              "normalizedAnnualRate": -0.211302,
+              "positiveRateCapApplied": false,
+              "annualTarget": -1841,
+              "actualYtd": -893,
               "observations": [
                 {
-                  "year": 2023,
-                  "rate": -0.185216,
-                  "remaining": -1799
-                },
-                {
                   "year": 2024,
-                  "rate": -0.148961,
-                  "remaining": -1377
+                  "opening": 9238,
+                  "adjustment": -1750,
+                  "rate": -0.1894349426282745,
+                  "weight": 0.35
                 },
                 {
                   "year": 2025,
-                  "rate": -0.159147,
-                  "remaining": -1411
+                  "opening": 9109,
+                  "adjustment": -2032,
+                  "rate": -0.22307607860357886,
+                  "weight": 0.65
                 }
               ]
             },
+            "originQuarter": 2,
+            "futureQuarters": [
+              3,
+              4
+            ],
             "rateLookbackPeriods": [
-              "2025-q2",
               "2025-q3",
               "2025-q4",
-              "2026-q1"
+              "2026-q1",
+              "2026-q2"
             ]
           }
         },
         "analystOverlay": {
           "weight": 0.25,
-          "remainingNewbiz": 1750,
-          "remainingAdjustment": -850,
+          "remainingNewbiz": 1061,
+          "remainingAdjustment": -259,
+          "originalQ1RemainingNewbiz": 1750,
+          "originalQ1RemainingAdjustment": -850,
+          "realizedQ2Newbiz": 689,
+          "realizedQ2Adjustment": -591,
           "reason": "1분기 신계약 CSM 0.61조원과 종신보험 배수 개선을 반영해 잔여 신계약 1.75조원으로 설정. 회사가 밝힌 조정 감소와 연간 CSM 순증 가능성을 반영하되 2분기 가정 점검 불확실성을 남겨 -0.85조원 적용."
         },
         "finalInputs": {
-          "remainingNewbiz": 1714,
-          "remainingAdjustment": -1278
+          "remainingNewbiz": 1234,
+          "remainingAdjustment": -776
         },
         "backtest": {
           "sampleCount": 6,
-          "meanAbsolutePercentageError": 0.029355,
-          "meanAbsoluteErrorBn": 265,
-          "meanErrorBn": -248,
+          "meanAbsolutePercentageError": 0.042596,
+          "meanAbsoluteErrorBn": 387,
+          "meanErrorBn": 387,
           "validationLabel": "검증 제한",
           "calibration": {
             "quantile": 0.8,
             "sampleCount": 6,
             "newbizStress": 0.107877,
-            "adjustmentDownsideRateToOpening": 0.049814,
-            "closingErrorP80": 0.052256
+            "adjustmentDownsideRateToOpening": 0.079637,
+            "closingErrorP80": 0.084971
           },
           "samples": [
             {
@@ -2539,16 +2722,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2024-q1",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 8888,
+              "predictedClosing": 9943,
               "actualClosing": 9109,
-              "closingError": -221,
-              "closingAbsolutePercentageError": 0.024262,
+              "closingError": 834,
+              "closingAbsolutePercentageError": 0.091558,
               "predictedRemainingNewbiz": 1905,
               "actualRemainingNewbiz": 1608,
               "newbizAbsolutePercentageError": 0.184701,
-              "predictedRemainingAdjustment": -1712,
+              "predictedRemainingAdjustment": -648,
               "actualRemainingAdjustment": -1377,
-              "adjustmentAbsoluteErrorToOpening": 0.03624,
+              "adjustmentAbsoluteErrorToOpening": 0.078862,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q2",
@@ -2557,7 +2740,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.185216
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.110558,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 7477,
+                    "adjustment": 1238,
+                    "rate": 0.16557442824662297,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 9763,
+                    "adjustment": -2531,
+                    "rate": -0.25924408480999694,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -2565,16 +2765,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2024-q2",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 8533,
+              "predictedClosing": 9713,
               "actualClosing": 9109,
-              "closingError": -576,
-              "closingAbsolutePercentageError": 0.063234,
+              "closingError": 604,
+              "closingAbsolutePercentageError": 0.066308,
               "predictedRemainingNewbiz": 1079,
               "actualRemainingNewbiz": 1127,
               "newbizAbsolutePercentageError": 0.042591,
-              "predictedRemainingAdjustment": -1392,
+              "predictedRemainingAdjustment": -207,
               "actualRemainingAdjustment": -936,
-              "adjustmentAbsoluteErrorToOpening": 0.049814,
+              "adjustmentAbsoluteErrorToOpening": 0.079637,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q3",
@@ -2583,7 +2783,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": -0.152021
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.110558,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 7477,
+                    "adjustment": 1238,
+                    "rate": 0.16557442824662297,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 9763,
+                    "adjustment": -2531,
+                    "rate": -0.25924408480999694,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -2591,16 +2808,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2024-q3",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 8633,
+              "predictedClosing": 9883,
               "actualClosing": 9109,
-              "closingError": -476,
-              "closingAbsolutePercentageError": 0.052256,
+              "closingError": 774,
+              "closingAbsolutePercentageError": 0.084971,
               "predictedRemainingNewbiz": 647,
               "actualRemainingNewbiz": 584,
               "newbizAbsolutePercentageError": 0.107877,
-              "predictedRemainingAdjustment": -1013,
+              "predictedRemainingAdjustment": 237,
               "actualRemainingAdjustment": -492,
-              "adjustmentAbsoluteErrorToOpening": 0.057065,
+              "adjustmentAbsoluteErrorToOpening": 0.079847,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q4",
@@ -2609,7 +2826,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": -0.11093
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.110558,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 7477,
+                    "adjustment": 1238,
+                    "rate": 0.16557442824662297,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 9763,
+                    "adjustment": -2531,
+                    "rate": -0.25924408480999694,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -2617,16 +2851,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2025-q1",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 8578,
+              "predictedClosing": 8730,
               "actualClosing": 8714,
-              "closingError": -136,
-              "closingAbsolutePercentageError": 0.015607,
+              "closingError": 16,
+              "closingAbsolutePercentageError": 0.001836,
               "predictedRemainingNewbiz": 1529,
               "actualRemainingNewbiz": 1578,
               "newbizAbsolutePercentageError": 0.031052,
-              "predictedRemainingAdjustment": -1481,
+              "predictedRemainingAdjustment": -1327,
               "actualRemainingAdjustment": -1411,
-              "adjustmentAbsoluteErrorToOpening": 0.007895,
+              "adjustmentAbsoluteErrorToOpening": 0.009474,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q2",
@@ -2635,7 +2869,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.167089
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.213868,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 9763,
+                    "adjustment": -2531,
+                    "rate": -0.25924408480999694,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 9238,
+                    "adjustment": -1750,
+                    "rate": -0.1894349426282745,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -2643,16 +2894,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2025-q2",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 8584,
+              "predictedClosing": 8743,
               "actualClosing": 8714,
-              "closingError": -130,
-              "closingAbsolutePercentageError": 0.014919,
+              "closingError": 29,
+              "closingAbsolutePercentageError": 0.003328,
               "predictedRemainingNewbiz": 1092,
               "actualRemainingNewbiz": 1140,
               "newbizAbsolutePercentageError": 0.042105,
-              "predictedRemainingAdjustment": -1123,
+              "predictedRemainingAdjustment": -963,
               "actualRemainingAdjustment": -1047,
-              "adjustmentAbsoluteErrorToOpening": 0.008604,
+              "adjustmentAbsoluteErrorToOpening": 0.00951,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q3",
@@ -2661,7 +2912,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": -0.127136
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.213868,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 9763,
+                    "adjustment": -2531,
+                    "rate": -0.25924408480999694,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 9238,
+                    "adjustment": -1750,
+                    "rate": -0.1894349426282745,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -2669,16 +2937,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2025-q3",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 8765,
+              "predictedClosing": 8780,
               "actualClosing": 8714,
-              "closingError": 51,
-              "closingAbsolutePercentageError": 0.005853,
+              "closingError": 66,
+              "closingAbsolutePercentageError": 0.007574,
               "predictedRemainingNewbiz": 563,
               "actualRemainingNewbiz": 576,
               "newbizAbsolutePercentageError": 0.022569,
-              "predictedRemainingAdjustment": -747,
+              "predictedRemainingAdjustment": -732,
               "actualRemainingAdjustment": -816,
-              "adjustmentAbsoluteErrorToOpening": 0.007617,
+              "adjustmentAbsoluteErrorToOpening": 0.009273,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q4",
@@ -2687,32 +2955,50 @@ window.CSM_FORECAST_DATA = {
                   "2025-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": -0.082409
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.213868,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 9763,
+                    "adjustment": -2531,
+                    "rate": -0.25924408480999694,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 9238,
+                    "adjustment": -1750,
+                    "rate": -0.1894349426282745,
+                    "weight": 0.65
+                  }
+                ]
               }
             }
           ]
         }
       },
       "qualitativeJudgment": {
-        "baseNewbiz": "데이터 모델 1.70조원과 애널리스트 판단 1.75조원을 25% 가중해 1.71조원 적용.",
-        "baseAdjustment": "최근 최대 3개년 Q2~Q4 조정률 중앙값 기반 -1.42조원에 애널리스트 판단을 25% 가중해 -1.28조원 적용.",
+        "baseNewbiz": "데이터 모델 1.29조원과 기존 애널리스트 잔여 관점에서 2분기 실적을 차감한 1.06조원을 25% 가중해 1.23조원 적용.",
+        "baseAdjustment": "직전 2개 연말 조정률을 35%·65% 가중하고 양(+) 경상률을 0%로 제한한 정상화 기준 -0.95조원에 애널리스트 판단을 25% 가중해 -0.78조원 적용.",
         "targetAdjustmentOverlay": "경영목표 연결 조정 없음",
-        "worst": "전 보험사에 같은 단순 하방 가정을 적용. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영. 조정은 Base -1.28조원에서 Worst -1.41조원으로 적용."
+        "worst": "전 보험사에 같은 단순 하방 가정을 적용. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영하되 충격이 작아지지 않도록 기시 CSM의 1%p를 최소 부담으로 적용. 조정은 Base -0.78조원에서 Worst -0.86조원으로 적용."
       },
       "worstAssumption": {
         "basis": "전 보험사 공통 단순 하방 가정",
-        "scope": "2026년 1분기 확정 실적은 유지하고 Q2~Q4 전망 입력에만 적용",
+        "scope": "2026년 상반기 확정 실적은 유지하고 Q3~Q4 전망 입력에만 적용",
         "newbizDiscount": 0.1,
         "adjustmentStress": 0.1,
-        "adjustmentDirection": "CSM 조정이 음수이면 절대 부담을 확대하고, 양수이면 기여 효과를 축소"
+        "adjustmentRatePointFloor": 0.01,
+        "adjustmentDirection": "Base보다 10% 불리하게 적용. 단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 사용"
       },
       "confidence": "검증 제한",
       "validation": {
         "label": "검증 제한",
         "sampleCount": 6,
-        "meanAbsolutePercentageError": 0.029355,
-        "meanAbsoluteErrorBn": 265,
-        "meanErrorBn": -248,
+        "meanAbsolutePercentageError": 0.042596,
+        "meanAbsoluteErrorBn": 387,
+        "meanErrorBn": 387,
         "scope": "회사별 2024·2025년 Q1·Q2·Q3 시점 연말 예측",
         "limitation": "IFRS17 이후 2개 연도·6개 시점으로 장기 확률 신뢰도로 해석하지 않음"
       },
@@ -2738,20 +3024,27 @@ window.CSM_FORECAST_DATA = {
           "id": "hanwha-life-analyst-1"
         },
         {
+          "title": "KB증권 보험업 전망 (2026.06.22)",
+          "url": "https://rdata.kbsec.com/pdf_data/20260622111726153K.pdf",
+          "type": "sell_side",
+          "use": "업계 CSM 성장 둔화 가능성과 잔존 경험조정 위험을 장기 낙관 편향 통제의 방향성 근거로만 사용",
+          "id": "hanwha-life-industry-1"
+        },
+        {
           "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
           "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
           "type": "sell_side",
           "use": "업종 방향성 참고용이며 회사별 수치 오버레이에는 사용하지 않음",
-          "id": "hanwha-life-industry-1"
+          "id": "hanwha-life-industry-2"
         }
       ],
       "evidenceSources": [
         {
-          "id": "hanwha-life-2026-q1-dart",
-          "title": "한화생명 [기재정정]분기보고서 (2026.03)",
-          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529001672",
+          "id": "hanwha-life-2026-q2-dart",
+          "title": "한화생명 반기보고서 (2026.06)",
+          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260813001536",
           "type": "official_filing",
-          "use": "2026년 1분기 CSM Movement 확정값"
+          "use": "2026년 상반기 누적 CSM Movement 확정값"
         },
         {
           "id": "hanwha-life-forecast-methodology",
@@ -2768,15 +3061,15 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 신계약 CSM +0.611조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "hanwha-life-2026-q1-dart"
+              "headline": "2026년 상반기 신계약 CSM +1.300조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "hanwha-life-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 신계약 CSM +2.325조원",
-              "detail": "1분기 확정 +0.611조원과 잔여 3개 분기 +1.714조원을 합산",
+              "headline": "2026년 연간 신계약 CSM +2.534조원",
+              "detail": "상반기 누적 확정 +1.300조원과 잔여 2개 분기 +1.234조원을 합산",
               "sourceId": "hanwha-life-forecast-methodology"
             },
             {
@@ -2794,9 +3087,9 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 이자부리 +0.089조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "hanwha-life-2026-q1-dart"
+              "headline": "2026년 상반기 이자부리 +0.180조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "hanwha-life-2026-q2-dart"
             },
             {
               "kind": "model",
@@ -2808,20 +3101,20 @@ window.CSM_FORECAST_DATA = {
           ]
         },
         "adjustment": {
-          "statement": "최근 경험조정과 연말 계리 가정 재점검 부담을 반영해 CSM 조정을 산출",
+          "statement": "과거 연간 조정률을 정상화해 일회성 환입의 반복을 차단하고 CSM 조정을 산출",
           "items": [
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 조정 -0.302조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "hanwha-life-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 조정 -0.893조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "hanwha-life-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 조정 -1.580조원",
-              "detail": "최근 최대 3개년 Q2~Q4 조정률 중앙값으로 잔여 조정 -1.278조원을 산출",
+              "headline": "2026년 연간 CSM 조정 -1.669조원",
+              "detail": "직전 2개 연말 조정률을 35%·65%로 가중하고 양(+)의 경상 조정률은 0%로 제한해 연간 목표 -1.841조원, 잔여 조정 -0.776조원을 산출",
               "sourceId": "hanwha-life-forecast-methodology"
             },
             {
@@ -2839,15 +3132,15 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 상각 -0.191조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "hanwha-life-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 상각 -0.373조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "hanwha-life-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 상각 -0.786조원",
-              "detail": "분기 상각률 2.06%를 기시 CSM과 신계약 CSM 합계에 적용",
+              "headline": "2026년 연간 CSM 상각 -0.757조원",
+              "detail": "분기 상각률 1.99%를 기시 CSM과 신계약 CSM 합계에 적용",
               "sourceId": "hanwha-life-forecast-methodology"
             }
           ]
@@ -2856,23 +3149,23 @@ window.CSM_FORECAST_DATA = {
     },
     "kyobo-life": {
       "companyName": "교보생명",
-      "asOfPeriod": "2026-q1",
-      "asOfCsm": 6687,
+      "asOfPeriod": "2026-q2",
+      "asOfCsm": 6925,
       "targetPeriod": "2026-ye",
       "anchor": {
         "type": "model_generated",
-        "value": 7266,
+        "value": 7120,
         "note": "담당자 입력값 없음 · 모델 예상치를 사용"
       },
       "ratios": {
         "interestRate": 0.007,
-        "amortizationRate": 0.022211,
+        "amortizationRate": 0.022648,
         "denominator": "기시 CSM + 신계약 CSM",
         "lookbackPeriods": [
-          "2025-q2",
           "2025-q3",
           "2025-q4",
-          "2026-q1"
+          "2026-q1",
+          "2026-q2"
         ],
         "lookbackWeights": [
           0.1,
@@ -2884,11 +3177,11 @@ window.CSM_FORECAST_DATA = {
       },
       "base": {
         "opening": 6511,
-        "newbiz": 1641,
-        "interest": 202,
-        "adjustment": -448,
-        "amortization": -640,
-        "closing": 7266,
+        "newbiz": 1692,
+        "interest": 203,
+        "adjustment": -631,
+        "amortization": -655,
+        "closing": 7120,
         "quarters": [
           {
             "period": "2026-q1",
@@ -2902,79 +3195,71 @@ window.CSM_FORECAST_DATA = {
           },
           {
             "period": "2026-q2",
+            "actual": true,
             "opening": 6687,
-            "newbiz": 363,
-            "interest": 49,
-            "adjustment": -79,
-            "amortization": -157,
-            "closing": 6863
+            "newbiz": 390,
+            "interest": 50,
+            "amortization": -165,
+            "adjustment": -37,
+            "closing": 6925
           },
           {
             "period": "2026-q3",
-            "opening": 6863,
-            "newbiz": 451,
-            "interest": 51,
-            "adjustment": -113,
-            "amortization": -162,
-            "closing": 7090
+            "opening": 6925,
+            "newbiz": 463,
+            "interest": 52,
+            "adjustment": -216,
+            "amortization": -167,
+            "closing": 7057
           },
           {
             "period": "2026-q4",
-            "opening": 7090,
-            "newbiz": 411,
-            "interest": 53,
-            "adjustment": -121,
-            "amortization": -167,
-            "closing": 7266
+            "opening": 7057,
+            "newbiz": 423,
+            "interest": 52,
+            "adjustment": -243,
+            "amortization": -169,
+            "closing": 7120
           }
         ],
         "remainingForecast": {
-          "opening": 6687,
-          "newbiz": 1225,
-          "interest": 153,
-          "adjustment": -313,
-          "amortization": -486,
-          "closing": 7266,
+          "opening": 6925,
+          "newbiz": 886,
+          "interest": 104,
+          "adjustment": -459,
+          "amortization": -336,
+          "closing": 7120,
           "quarters": [
             {
-              "period": "2026-q2",
-              "opening": 6687,
-              "newbiz": 363,
-              "interest": 49,
-              "adjustment": -79,
-              "amortization": -157,
-              "closing": 6863
-            },
-            {
               "period": "2026-q3",
-              "opening": 6863,
-              "newbiz": 451,
-              "interest": 51,
-              "adjustment": -113,
-              "amortization": -162,
-              "closing": 7090
+              "opening": 6925,
+              "newbiz": 463,
+              "interest": 52,
+              "adjustment": -216,
+              "amortization": -167,
+              "closing": 7057
             },
             {
               "period": "2026-q4",
-              "opening": 7090,
-              "newbiz": 411,
-              "interest": 53,
-              "adjustment": -121,
-              "amortization": -167,
-              "closing": 7266
+              "opening": 7057,
+              "newbiz": 423,
+              "interest": 52,
+              "adjustment": -243,
+              "amortization": -169,
+              "closing": 7120
             }
           ]
         },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "rationale": "전년 동분기 계절성, Q1 성장 신호, 최근 3개년 조정률 중앙값과 최근 4개 분기 이자·상각률로 산출. 회사별 직접 근거가 없어 정성 오버레이는 0%."
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "rationale": "전년 동기간 계절성, 상반기 성장 신호, 직전 2개 연말 정상화 조정률과 최근 4개 분기 이자·상각률로 산출. 회사별 직접 근거가 없어 정성 오버레이는 0%."
       },
       "worst": {
         "opening": 6511,
-        "newbiz": 1518,
-        "interest": 201,
-        "adjustment": -479,
-        "amortization": -634,
-        "closing": 7117,
+        "newbiz": 1603,
+        "interest": 202,
+        "adjustment": -700,
+        "amortization": -652,
+        "closing": 6964,
         "quarters": [
           {
             "period": "2026-q1",
@@ -2988,80 +3273,72 @@ window.CSM_FORECAST_DATA = {
           },
           {
             "period": "2026-q2",
+            "actual": true,
             "opening": 6687,
-            "newbiz": 326,
-            "interest": 49,
-            "adjustment": -87,
-            "amortization": -156,
-            "closing": 6819
+            "newbiz": 390,
+            "interest": 50,
+            "amortization": -165,
+            "adjustment": -37,
+            "closing": 6925
           },
           {
             "period": "2026-q3",
-            "opening": 6819,
-            "newbiz": 406,
+            "opening": 6925,
+            "newbiz": 417,
             "interest": 51,
-            "adjustment": -124,
-            "amortization": -160,
-            "closing": 6992
+            "adjustment": -249,
+            "amortization": -166,
+            "closing": 6978
           },
           {
             "period": "2026-q4",
-            "opening": 6992,
-            "newbiz": 370,
+            "opening": 6978,
+            "newbiz": 380,
             "interest": 52,
-            "adjustment": -133,
-            "amortization": -164,
-            "closing": 7117
+            "adjustment": -279,
+            "amortization": -167,
+            "closing": 6964
           }
         ],
         "remainingForecast": {
-          "opening": 6687,
-          "newbiz": 1102,
-          "interest": 152,
-          "adjustment": -344,
-          "amortization": -480,
-          "closing": 7117,
+          "opening": 6925,
+          "newbiz": 797,
+          "interest": 103,
+          "adjustment": -528,
+          "amortization": -333,
+          "closing": 6964,
           "quarters": [
             {
-              "period": "2026-q2",
-              "opening": 6687,
-              "newbiz": 326,
-              "interest": 49,
-              "adjustment": -87,
-              "amortization": -156,
-              "closing": 6819
-            },
-            {
               "period": "2026-q3",
-              "opening": 6819,
-              "newbiz": 406,
+              "opening": 6925,
+              "newbiz": 417,
               "interest": 51,
-              "adjustment": -124,
-              "amortization": -160,
-              "closing": 6992
+              "adjustment": -249,
+              "amortization": -166,
+              "closing": 6978
             },
             {
               "period": "2026-q4",
-              "opening": 6992,
-              "newbiz": 370,
+              "opening": 6978,
+              "newbiz": 380,
               "interest": 52,
-              "adjustment": -133,
-              "amortization": -164,
-              "closing": 7117
+              "adjustment": -279,
+              "amortization": -167,
+              "closing": 6964
             }
           ]
         },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "rationale": "전 보험사에 같은 단순 하방 가정을 적용. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영. 조정은 Base -0.31조원에서 Worst -0.34조원으로 적용."
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "rationale": "전 보험사에 같은 단순 하방 가정을 적용. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영하되 충격이 작아지지 않도록 기시 CSM의 1%p를 최소 부담으로 적용. 조정은 Base -0.46조원에서 Worst -0.53조원으로 적용."
       },
       "independentModel": {
         "base": {
           "opening": 6511,
-          "newbiz": 1641,
-          "interest": 202,
-          "adjustment": -448,
-          "amortization": -640,
-          "closing": 7266,
+          "newbiz": 1692,
+          "interest": 203,
+          "adjustment": -631,
+          "amortization": -655,
+          "closing": 7120,
           "quarters": [
             {
               "period": "2026-q1",
@@ -3075,78 +3352,70 @@ window.CSM_FORECAST_DATA = {
             },
             {
               "period": "2026-q2",
+              "actual": true,
               "opening": 6687,
-              "newbiz": 363,
-              "interest": 49,
-              "adjustment": -79,
-              "amortization": -157,
-              "closing": 6863
+              "newbiz": 390,
+              "interest": 50,
+              "amortization": -165,
+              "adjustment": -37,
+              "closing": 6925
             },
             {
               "period": "2026-q3",
-              "opening": 6863,
-              "newbiz": 451,
-              "interest": 51,
-              "adjustment": -113,
-              "amortization": -162,
-              "closing": 7090
+              "opening": 6925,
+              "newbiz": 463,
+              "interest": 52,
+              "adjustment": -216,
+              "amortization": -167,
+              "closing": 7057
             },
             {
               "period": "2026-q4",
-              "opening": 7090,
-              "newbiz": 411,
-              "interest": 53,
-              "adjustment": -121,
-              "amortization": -167,
-              "closing": 7266
+              "opening": 7057,
+              "newbiz": 423,
+              "interest": 52,
+              "adjustment": -243,
+              "amortization": -169,
+              "closing": 7120
             }
           ],
           "remainingForecast": {
-            "opening": 6687,
-            "newbiz": 1225,
-            "interest": 153,
-            "adjustment": -313,
-            "amortization": -486,
-            "closing": 7266,
+            "opening": 6925,
+            "newbiz": 886,
+            "interest": 104,
+            "adjustment": -459,
+            "amortization": -336,
+            "closing": 7120,
             "quarters": [
               {
-                "period": "2026-q2",
-                "opening": 6687,
-                "newbiz": 363,
-                "interest": 49,
-                "adjustment": -79,
-                "amortization": -157,
-                "closing": 6863
-              },
-              {
                 "period": "2026-q3",
-                "opening": 6863,
-                "newbiz": 451,
-                "interest": 51,
-                "adjustment": -113,
-                "amortization": -162,
-                "closing": 7090
+                "opening": 6925,
+                "newbiz": 463,
+                "interest": 52,
+                "adjustment": -216,
+                "amortization": -167,
+                "closing": 7057
               },
               {
                 "period": "2026-q4",
-                "opening": 7090,
-                "newbiz": 411,
-                "interest": 53,
-                "adjustment": -121,
-                "amortization": -167,
-                "closing": 7266
+                "opening": 7057,
+                "newbiz": 423,
+                "interest": 52,
+                "adjustment": -243,
+                "amortization": -169,
+                "closing": 7120
               }
             ]
           },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
         },
         "worst": {
           "opening": 6511,
-          "newbiz": 1518,
-          "interest": 201,
-          "adjustment": -479,
-          "amortization": -634,
-          "closing": 7117,
+          "newbiz": 1603,
+          "interest": 202,
+          "adjustment": -700,
+          "amortization": -652,
+          "closing": 6964,
           "quarters": [
             {
               "period": "2026-q1",
@@ -3160,70 +3429,62 @@ window.CSM_FORECAST_DATA = {
             },
             {
               "period": "2026-q2",
+              "actual": true,
               "opening": 6687,
-              "newbiz": 326,
-              "interest": 49,
-              "adjustment": -87,
-              "amortization": -156,
-              "closing": 6819
+              "newbiz": 390,
+              "interest": 50,
+              "amortization": -165,
+              "adjustment": -37,
+              "closing": 6925
             },
             {
               "period": "2026-q3",
-              "opening": 6819,
-              "newbiz": 406,
+              "opening": 6925,
+              "newbiz": 417,
               "interest": 51,
-              "adjustment": -124,
-              "amortization": -160,
-              "closing": 6992
+              "adjustment": -249,
+              "amortization": -166,
+              "closing": 6978
             },
             {
               "period": "2026-q4",
-              "opening": 6992,
-              "newbiz": 370,
+              "opening": 6978,
+              "newbiz": 380,
               "interest": 52,
-              "adjustment": -133,
-              "amortization": -164,
-              "closing": 7117
+              "adjustment": -279,
+              "amortization": -167,
+              "closing": 6964
             }
           ],
           "remainingForecast": {
-            "opening": 6687,
-            "newbiz": 1102,
-            "interest": 152,
-            "adjustment": -344,
-            "amortization": -480,
-            "closing": 7117,
+            "opening": 6925,
+            "newbiz": 797,
+            "interest": 103,
+            "adjustment": -528,
+            "amortization": -333,
+            "closing": 6964,
             "quarters": [
               {
-                "period": "2026-q2",
-                "opening": 6687,
-                "newbiz": 326,
-                "interest": 49,
-                "adjustment": -87,
-                "amortization": -156,
-                "closing": 6819
-              },
-              {
                 "period": "2026-q3",
-                "opening": 6819,
-                "newbiz": 406,
+                "opening": 6925,
+                "newbiz": 417,
                 "interest": 51,
-                "adjustment": -124,
-                "amortization": -160,
-                "closing": 6992
+                "adjustment": -249,
+                "amortization": -166,
+                "closing": 6978
               },
               {
                 "period": "2026-q4",
-                "opening": 6992,
-                "newbiz": 370,
+                "opening": 6978,
+                "newbiz": 380,
                 "interest": 52,
-                "adjustment": -133,
-                "amortization": -164,
-                "closing": 7117
+                "adjustment": -279,
+                "amortization": -167,
+                "closing": 6964
               }
             ]
           },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
         }
       },
       "horizon": {
@@ -3231,182 +3492,276 @@ window.CSM_FORECAST_DATA = {
           "2026-ye",
           "2027-ye",
           "2028-ye",
+          "2029-ye",
           "2030-ye"
         ],
-        "terminalPeriod": "2035-ye",
         "base": [
           {
             "period": "2026-ye",
             "opening": 6511,
-            "newbiz": 1641,
-            "interest": 202,
-            "adjustment": -448,
-            "amortization": -640,
-            "closing": 7266
+            "newbiz": 1692,
+            "interest": 203,
+            "adjustment": -631,
+            "amortization": -655,
+            "closing": 7120
           },
           {
             "period": "2027-ye",
-            "opening": 7266,
-            "newbiz": 1592,
-            "interest": 222,
-            "adjustment": -500,
-            "amortization": -702,
-            "closing": 7878
+            "opening": 7120,
+            "newbiz": 1743,
+            "interest": 218,
+            "adjustment": -676,
+            "amortization": -705,
+            "closing": 7700
           },
           {
             "period": "2028-ye",
-            "opening": 7878,
-            "newbiz": 1544,
-            "interest": 237,
-            "adjustment": -542,
-            "amortization": -751,
-            "closing": 8366
+            "opening": 7700,
+            "newbiz": 1795,
+            "interest": 234,
+            "adjustment": -731,
+            "amortization": -758,
+            "closing": 8240
+          },
+          {
+            "period": "2029-ye",
+            "opening": 8240,
+            "newbiz": 1849,
+            "interest": 250,
+            "adjustment": -782,
+            "amortization": -806,
+            "closing": 8751
           },
           {
             "period": "2030-ye",
-            "opening": 8748,
-            "newbiz": 1453,
-            "interest": 258,
-            "adjustment": -602,
-            "amortization": -819,
-            "closing": 9038
+            "opening": 8751,
+            "newbiz": 1904,
+            "interest": 263,
+            "adjustment": -830,
+            "amortization": -853,
+            "closing": 9235
           }
         ],
         "worst": [
           {
             "period": "2026-ye",
             "opening": 6511,
-            "newbiz": 1518,
-            "interest": 201,
-            "adjustment": -479,
-            "amortization": -634,
-            "closing": 7117
+            "newbiz": 1603,
+            "interest": 202,
+            "adjustment": -700,
+            "amortization": -652,
+            "closing": 6964
           },
           {
             "period": "2027-ye",
-            "opening": 7117,
-            "newbiz": 1433,
-            "interest": 214,
-            "adjustment": -550,
-            "amortization": -678,
-            "closing": 7536
+            "opening": 6964,
+            "newbiz": 1569,
+            "interest": 209,
+            "adjustment": -747,
+            "amortization": -680,
+            "closing": 7315
           },
           {
             "period": "2028-ye",
-            "opening": 7536,
-            "newbiz": 1390,
-            "interest": 224,
-            "adjustment": -596,
-            "amortization": -711,
-            "closing": 7843
+            "opening": 7315,
+            "newbiz": 1616,
+            "interest": 220,
+            "adjustment": -808,
+            "amortization": -710,
+            "closing": 7633
+          },
+          {
+            "period": "2029-ye",
+            "opening": 7633,
+            "newbiz": 1664,
+            "interest": 228,
+            "adjustment": -864,
+            "amortization": -739,
+            "closing": 7922
           },
           {
             "period": "2030-ye",
-            "opening": 8054,
-            "newbiz": 1308,
+            "opening": 7922,
+            "newbiz": 1714,
             "interest": 236,
-            "adjustment": -662,
-            "amortization": -749,
-            "closing": 8187
+            "adjustment": -918,
+            "amortization": -766,
+            "closing": 8188
           }
         ],
-        "terminal": {
-          "base": {
-            "period": "2035-ye",
-            "opening": 9751,
-            "newbiz": 1382,
-            "interest": 284,
-            "adjustment": -671,
-            "amortization": -900,
-            "closing": 9846
-          },
-          "worst": {
-            "period": "2035-ye",
-            "opening": 8357,
-            "newbiz": 1244,
-            "interest": 244,
-            "adjustment": -738,
-            "amortization": -769,
-            "closing": 8338
-          }
-        },
         "assumptions": {
-          "newbizGrowth": -0.03,
-          "longTermNewbizGrowth": -0.01,
-          "baseAdjustmentRate": -0.068807,
+          "rawNewbizGrowth": 0.186584,
+          "boundedNewbizGrowth": 0.05,
+          "newbizGrowthBounds": {
+            "lower": -0.05,
+            "upper": 0.05
+          },
+          "optimismBiasPenalty": 0.02,
+          "backtestMeanErrorBn": 635,
+          "newbizTrendWindow": [
+            {
+              "year": 2024,
+              "value": 1372,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2025,
+              "value": 1278,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2026,
+              "value": 1692,
+              "valueKind": "base_forecast"
+            }
+          ],
+          "newbizGrowthObservations": [
+            {
+              "fromYear": 2024,
+              "toYear": 2025,
+              "rate": -0.06851311953352768,
+              "weight": 0.35
+            },
+            {
+              "fromYear": 2025,
+              "toYear": 2026,
+              "rate": 0.323943661971831,
+              "weight": 0.65
+            }
+          ],
+          "newbizGrowth": 0.03,
+          "baseAdjustmentRate": -0.094883,
+          "adjustmentRateMethod": "2024 actual 20% + 2025 actual 30% + 2026 Base forecast 50%, one-off adjustments excluded",
+          "adjustmentRateWeights": [
+            0.2,
+            0.3,
+            0.5
+          ],
+          "adjustmentRateWindow": [
+            {
+              "year": 2024,
+              "valueKind": "actual",
+              "opening": 5825,
+              "reportedAdjustment": -261,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -261,
+              "rate": -0.0448068669527897,
+              "included": true,
+              "treatment": "연간 순액 사용 · 분기 내 환입·재분류는 별도 반복하지 않음",
+              "nominalWeight": 0.2,
+              "weight": 0.2
+            },
+            {
+              "year": 2025,
+              "valueKind": "actual",
+              "opening": 6438,
+              "reportedAdjustment": -804,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -804,
+              "rate": -0.12488350419384903,
+              "included": true,
+              "treatment": "연간 순액 사용 · 분기 내 환입·재분류는 별도 반복하지 않음",
+              "nominalWeight": 0.3,
+              "weight": 0.3
+            },
+            {
+              "year": 2026,
+              "valueKind": "base_forecast",
+              "opening": 6511,
+              "reportedAdjustment": -631,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -631,
+              "rate": -0.0969129166026724,
+              "included": true,
+              "treatment": "경영목표 연결분과 순양(+) 전망분 제외 · 상반기 일회성 조정은 연간 정상화 전망에서 반복하지 않음",
+              "nominalWeight": 0.5,
+              "weight": 0.5
+            }
+          ],
+          "oneOffAdjustmentPolicy": "연간 순양(+) 조정, 경영목표 연결분과 분기성 환입·재분류의 총액 반복을 제외",
+          "positiveRecurringAdjustmentCap": 0.0,
           "worstNewbizStress": 0.1,
           "worstAdjustmentStress": 0.1,
+          "worstAdjustmentRatePointFloor": 0.01,
           "stressCalibrationQuantile": 0.8,
           "stressCalibrationSampleCount": 6,
           "worstPolicy": {
             "basis": "전 보험사 공통 단순 하방 가정",
             "newbizDiscount": 0.1,
             "adjustmentStress": 0.1,
-            "q1ActualLocked": true
+            "adjustmentRatePointFloor": 0.01,
+            "actualLockedThroughQuarter": 2
           },
           "targetAdjustmentNormalization": null,
-          "longTermMethod": "2030년 Base와 Worst를 각각 앵커로 유지하되 Worst는 공통 단순 하방 가정으로 산출"
+          "fiveYearMethod": "2026~2030년을 매년 동일한 Movement 산식으로 연결하고 Worst는 공통 단순 하방 가정으로 산출"
         },
         "executiveRationale": {
-          "years1to3": "최근 분기 실적과 전년 계절성으로 Base를 산출하고, 증권사 근거가 있는 회사만 제한적으로 반영. Worst는 1분기 확정 실적은 유지하고 잔여 신계약 CSM을 Base 대비 10% 낮추며 CSM 조정은 Base 대비 10% 더 불리하게 적용",
-          "year5": "과거 신계약 추세를 연 -3.0% 범위로 적용하고 경상 CSM 조정률을 유지하며, 2030년까지 Movement를 연결",
-          "year10": "2035년 Base는 신계약 증가율 연 -1.0%와 현재 CSM 조정률을 적용하고, Worst는 같은 공통 하방률을 장기 경로에 적용"
+          "years1to3": "최근 분기 실적과 전년 계절성으로 Base를 산출하고, 증권사 근거가 있는 회사만 제한적으로 반영. Worst는 상반기 확정 실적은 유지하고 잔여 신계약 CSM을 Base 대비 10% 낮추며 CSM 조정은 Base 대비 10% 더 불리하게 적용. 단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 적용",
+          "years4to5": "2024·2025년 실적과 2026년 Base를 연결한 신계약 추세에 통제를 반영해 연 +3.0%를 적용하고, 같은 3개년에서 일회성 조정을 제외한 CSM 조정률 -9.5%를 유지하며, 2030년까지 Movement를 연결"
         },
         "horizonConfidence": {
           "oneYear": "제한적 검증",
           "twoToThreeYears": "모델 경로",
-          "fiveYear": "시나리오",
-          "tenYear": "장기 시나리오"
+          "fourToFiveYears": "시나리오"
         }
       },
       "model": {
-        "version": "rolling-origin-seasonal/v2",
+        "version": "rolling-origin-current-year/v5",
         "baseline": {
-          "remainingNewbiz": 1225,
-          "remainingAdjustment": -313,
+          "remainingNewbiz": 886,
+          "remainingAdjustment": -459,
           "newbizShares": [
-            0.295979,
-            0.368264,
-            0.335757
+            0.522936,
+            0.477064
           ],
           "adjustmentShares": [
-            0.253356,
-            0.360314,
-            0.386331
+            0.471455,
+            0.528545
           ],
           "drivers": {
             "newbiz": {
-              "priorYearRemaining": 1021,
-              "q1Growth": 0.618677,
-              "priorRemainingGrowth": 0.042901,
-              "appliedGrowthSignal": 0.2
+              "ytdGrowth": 0.515038,
+              "priorRemainingGrowth": 0.118441,
+              "appliedGrowthSignal": 0.188114,
+              "futureQuarters": [
+                3,
+                4
+              ]
             },
             "adjustment": {
-              "method": "median historical Q2-Q4 adjustment rate to Q1 closing CSM",
-              "medianRate": -0.04683,
+              "method": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+              "rawAnnualRate": -0.096857,
+              "normalizedAnnualRate": -0.096857,
+              "positiveRateCapApplied": false,
+              "annualTarget": -631,
+              "actualYtd": -172,
               "observations": [
                 {
-                  "year": 2023,
-                  "rate": -0.092773,
-                  "remaining": -475
-                },
-                {
                   "year": 2024,
-                  "rate": -0.04683,
-                  "remaining": -291
+                  "opening": 5825,
+                  "adjustment": -261,
+                  "rate": -0.0448068669527897,
+                  "weight": 0.35
                 },
                 {
                   "year": 2025,
-                  "rate": -0.000807,
-                  "remaining": -5
+                  "opening": 6438,
+                  "adjustment": -804,
+                  "rate": -0.12488350419384903,
+                  "weight": 0.65
                 }
               ]
             },
+            "originQuarter": 2,
+            "futureQuarters": [
+              3,
+              4
+            ],
             "rateLookbackPeriods": [
-              "2025-q2",
               "2025-q3",
               "2025-q4",
-              "2026-q1"
+              "2026-q1",
+              "2026-q2"
             ]
           }
         },
@@ -3414,24 +3769,28 @@ window.CSM_FORECAST_DATA = {
           "weight": 0,
           "remainingNewbiz": null,
           "remainingAdjustment": null,
+          "originalQ1RemainingNewbiz": null,
+          "originalQ1RemainingAdjustment": null,
+          "realizedQ2Newbiz": null,
+          "realizedQ2Adjustment": null,
           "reason": "회사별 직접 증권사 근거가 없어 미적용"
         },
         "finalInputs": {
-          "remainingNewbiz": 1225,
-          "remainingAdjustment": -313
+          "remainingNewbiz": 886,
+          "remainingAdjustment": -459
         },
         "backtest": {
           "sampleCount": 6,
-          "meanAbsolutePercentageError": 0.107045,
-          "meanAbsoluteErrorBn": 692,
-          "meanErrorBn": -68,
+          "meanAbsolutePercentageError": 0.164092,
+          "meanAbsoluteErrorBn": 1062,
+          "meanErrorBn": 635,
           "validationLabel": "검증 제한",
           "calibration": {
             "quantile": 0.8,
             "sampleCount": 6,
             "newbizStress": 0.153771,
-            "adjustmentDownsideRateToOpening": 0.08,
-            "closingErrorP80": 0.124712
+            "adjustmentDownsideRateToOpening": 0.041415,
+            "closingErrorP80": 0.208916
           },
           "samples": [
             {
@@ -3439,16 +3798,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2024-q1",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 7096,
+              "predictedClosing": 7640,
               "actualClosing": 6438,
-              "closingError": 658,
-              "closingAbsolutePercentageError": 0.102206,
+              "closingError": 1202,
+              "closingAbsolutePercentageError": 0.186704,
               "predictedRemainingNewbiz": 1031,
               "actualRemainingNewbiz": 979,
               "newbizAbsolutePercentageError": 0.053115,
-              "predictedRemainingAdjustment": -576,
+              "predictedRemainingAdjustment": -37,
               "actualRemainingAdjustment": -291,
-              "adjustmentAbsoluteErrorToOpening": 0.045864,
+              "adjustmentAbsoluteErrorToOpening": 0.040875,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q2",
@@ -3457,7 +3816,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.092773
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.048488,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 4696,
+                    "adjustment": 2205,
+                    "rate": 0.46954855195911416,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 5534,
+                    "adjustment": -1812,
+                    "rate": -0.3274304300686664,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -3465,16 +3841,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2024-q2",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 6854,
+              "predictedClosing": 7783,
               "actualClosing": 6438,
-              "closingError": 416,
-              "closingAbsolutePercentageError": 0.064616,
+              "closingError": 1345,
+              "closingAbsolutePercentageError": 0.208916,
               "predictedRemainingNewbiz": 718,
               "actualRemainingNewbiz": 667,
               "newbizAbsolutePercentageError": 0.076462,
-              "predictedRemainingAdjustment": -363,
+              "predictedRemainingAdjustment": 555,
               "actualRemainingAdjustment": 301,
-              "adjustmentAbsoluteErrorToOpening": 0.108267,
+              "adjustmentAbsoluteErrorToOpening": 0.041415,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q3",
@@ -3483,7 +3859,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": -0.059235
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.048488,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 4696,
+                    "adjustment": 2205,
+                    "rate": 0.46954855195911416,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 5534,
+                    "adjustment": -1812,
+                    "rate": -0.3274304300686664,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -3491,16 +3884,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2024-q3",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 4970,
+              "predictedClosing": 7102,
               "actualClosing": 6438,
-              "closingError": -1468,
-              "closingAbsolutePercentageError": 0.228021,
+              "closingError": 664,
+              "closingAbsolutePercentageError": 0.103138,
               "predictedRemainingNewbiz": 347,
               "actualRemainingNewbiz": 318,
               "newbizAbsolutePercentageError": 0.091195,
-              "predictedRemainingAdjustment": -1353,
+              "predictedRemainingAdjustment": 779,
               "actualRemainingAdjustment": 525,
-              "adjustmentAbsoluteErrorToOpening": 0.314731,
+              "adjustmentAbsoluteErrorToOpening": 0.042567,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q4",
@@ -3509,7 +3902,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": -0.226774
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.048488,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 4696,
+                    "adjustment": 2205,
+                    "rate": 0.46954855195911416,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 5534,
+                    "adjustment": -1812,
+                    "rate": -0.3274304300686664,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -3517,16 +3927,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2025-q1",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 6515,
+              "predictedClosing": 6823,
               "actualClosing": 6511,
-              "closingError": 4,
-              "closingAbsolutePercentageError": 0.000614,
+              "closingError": 312,
+              "closingAbsolutePercentageError": 0.047919,
               "predictedRemainingNewbiz": 864,
               "actualRemainingNewbiz": 1021,
               "newbizAbsolutePercentageError": 0.153771,
-              "predictedRemainingAdjustment": -433,
+              "predictedRemainingAdjustment": -126,
               "actualRemainingAdjustment": -5,
-              "adjustmentAbsoluteErrorToOpening": 0.069055,
+              "adjustmentAbsoluteErrorToOpening": 0.019522,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q2",
@@ -3535,7 +3945,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.069802
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.143725,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 5534,
+                    "adjustment": -1812,
+                    "rate": -0.3274304300686664,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 5825,
+                    "adjustment": -261,
+                    "rate": -0.0448068669527897,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -3543,16 +3970,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2025-q2",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 7306,
+              "predictedClosing": 8080,
               "actualClosing": 6511,
-              "closingError": 795,
-              "closingAbsolutePercentageError": 0.122101,
+              "closingError": 1569,
+              "closingAbsolutePercentageError": 0.240977,
               "predictedRemainingNewbiz": 608,
               "actualRemainingNewbiz": 746,
               "newbizAbsolutePercentageError": 0.184987,
-              "predictedRemainingAdjustment": -32,
+              "predictedRemainingAdjustment": 732,
               "actualRemainingAdjustment": 853,
-              "adjustmentAbsoluteErrorToOpening": 0.141804,
+              "adjustmentAbsoluteErrorToOpening": 0.019388,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q3",
@@ -3561,7 +3988,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": -0.005078
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.143725,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 5534,
+                    "adjustment": -1812,
+                    "rate": -0.3274304300686664,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 5825,
+                    "adjustment": -261,
+                    "rate": -0.0448068669527897,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -3569,16 +4013,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2025-q3",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 5699,
+              "predictedClosing": 5229,
               "actualClosing": 6511,
-              "closingError": -812,
-              "closingAbsolutePercentageError": 0.124712,
+              "closingError": -1282,
+              "closingAbsolutePercentageError": 0.196898,
               "predictedRemainingNewbiz": 302,
               "actualRemainingNewbiz": 348,
               "newbizAbsolutePercentageError": 0.132184,
-              "predictedRemainingAdjustment": -443,
+              "predictedRemainingAdjustment": -913,
               "actualRemainingAdjustment": -792,
-              "adjustmentAbsoluteErrorToOpening": 0.054625,
+              "adjustmentAbsoluteErrorToOpening": 0.018939,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q4",
@@ -3587,32 +4031,50 @@ window.CSM_FORECAST_DATA = {
                   "2025-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": -0.069395
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.143725,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 5534,
+                    "adjustment": -1812,
+                    "rate": -0.3274304300686664,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 5825,
+                    "adjustment": -261,
+                    "rate": -0.0448068669527897,
+                    "weight": 0.65
+                  }
+                ]
               }
             }
           ]
         }
       },
       "qualitativeJudgment": {
-        "baseNewbiz": "데이터 모델 1.23조원을 그대로 적용. +20.0% 성장 신호 반영.",
-        "baseAdjustment": "최근 최대 3개년 Q2~Q4 조정률 중앙값 기반 -0.31조원을 그대로 적용.",
+        "baseNewbiz": "데이터 모델 0.89조원을 그대로 적용. +18.8% 성장 신호 반영.",
+        "baseAdjustment": "직전 2개 연말 조정률을 35%·65% 가중하고 양(+) 경상률을 0%로 제한한 정상화 기준 -0.46조원을 그대로 적용.",
         "targetAdjustmentOverlay": "경영목표 연결 조정 없음",
-        "worst": "전 보험사에 같은 단순 하방 가정을 적용. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영. 조정은 Base -0.31조원에서 Worst -0.34조원으로 적용."
+        "worst": "전 보험사에 같은 단순 하방 가정을 적용. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영하되 충격이 작아지지 않도록 기시 CSM의 1%p를 최소 부담으로 적용. 조정은 Base -0.46조원에서 Worst -0.53조원으로 적용."
       },
       "worstAssumption": {
         "basis": "전 보험사 공통 단순 하방 가정",
-        "scope": "2026년 1분기 확정 실적은 유지하고 Q2~Q4 전망 입력에만 적용",
+        "scope": "2026년 상반기 확정 실적은 유지하고 Q3~Q4 전망 입력에만 적용",
         "newbizDiscount": 0.1,
         "adjustmentStress": 0.1,
-        "adjustmentDirection": "CSM 조정이 음수이면 절대 부담을 확대하고, 양수이면 기여 효과를 축소"
+        "adjustmentRatePointFloor": 0.01,
+        "adjustmentDirection": "Base보다 10% 불리하게 적용. 단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 사용"
       },
       "confidence": "검증 제한",
       "validation": {
         "label": "검증 제한",
         "sampleCount": 6,
-        "meanAbsolutePercentageError": 0.107045,
-        "meanAbsoluteErrorBn": 692,
-        "meanErrorBn": -68,
+        "meanAbsolutePercentageError": 0.164092,
+        "meanAbsoluteErrorBn": 1062,
+        "meanErrorBn": 635,
         "scope": "회사별 2024·2025년 Q1·Q2·Q3 시점 연말 예측",
         "limitation": "IFRS17 이후 2개 연도·6개 시점으로 장기 확률 신뢰도로 해석하지 않음"
       },
@@ -3631,20 +4093,27 @@ window.CSM_FORECAST_DATA = {
       },
       "sources": [
         {
+          "title": "KB증권 보험업 전망 (2026.06.22)",
+          "url": "https://rdata.kbsec.com/pdf_data/20260622111726153K.pdf",
+          "type": "sell_side",
+          "use": "업계 CSM 성장 둔화 가능성과 잔존 경험조정 위험을 장기 낙관 편향 통제의 방향성 근거로만 사용",
+          "id": "kyobo-life-industry-1"
+        },
+        {
           "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
           "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
           "type": "sell_side",
           "use": "업종 방향성 참고용이며 회사별 수치 오버레이에는 사용하지 않음",
-          "id": "kyobo-life-industry-1"
+          "id": "kyobo-life-industry-2"
         }
       ],
       "evidenceSources": [
         {
-          "id": "kyobo-life-2026-q1-dart",
-          "title": "교보생명 [기재정정]분기보고서 (2026.03)",
-          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529000841",
+          "id": "kyobo-life-2026-q2-dart",
+          "title": "교보생명 반기보고서 (2026.06)",
+          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814004024",
           "type": "official_filing",
-          "use": "2026년 1분기 CSM Movement 확정값"
+          "use": "2026년 상반기 누적 CSM Movement 확정값"
         },
         {
           "id": "kyobo-life-forecast-methodology",
@@ -3661,15 +4130,15 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 신계약 CSM +0.416조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "kyobo-life-2026-q1-dart"
+              "headline": "2026년 상반기 신계약 CSM +0.806조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "kyobo-life-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 신계약 CSM +1.641조원",
-              "detail": "1분기 확정 +0.416조원과 잔여 3개 분기 +1.225조원을 합산",
+              "headline": "2026년 연간 신계약 CSM +1.692조원",
+              "detail": "상반기 누적 확정 +0.806조원과 잔여 2개 분기 +0.886조원을 합산",
               "sourceId": "kyobo-life-forecast-methodology"
             },
             {
@@ -3687,34 +4156,34 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 이자부리 +0.049조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "kyobo-life-2026-q1-dart"
+              "headline": "2026년 상반기 이자부리 +0.099조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "kyobo-life-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 이자부리 +0.202조원",
+              "headline": "2026년 연간 이자부리 +0.203조원",
               "detail": "분기 이자부리율 0.70%를 기시 CSM과 신계약 CSM 합계에 적용",
               "sourceId": "kyobo-life-forecast-methodology"
             }
           ]
         },
         "adjustment": {
-          "statement": "최근 경험조정과 연말 계리 가정 재점검 부담을 반영해 CSM 조정을 산출",
+          "statement": "과거 연간 조정률을 정상화해 일회성 환입의 반복을 차단하고 CSM 조정을 산출",
           "items": [
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 조정 -0.135조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "kyobo-life-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 조정 -0.172조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "kyobo-life-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 조정 -0.448조원",
-              "detail": "최근 최대 3개년 Q2~Q4 조정률 중앙값으로 잔여 조정 -0.313조원을 산출",
+              "headline": "2026년 연간 CSM 조정 -0.631조원",
+              "detail": "직전 2개 연말 조정률을 35%·65%로 가중하고 양(+)의 경상 조정률은 0%로 제한해 연간 목표 -0.631조원, 잔여 조정 -0.459조원을 산출",
               "sourceId": "kyobo-life-forecast-methodology"
             },
             {
@@ -3732,15 +4201,15 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 상각 -0.154조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "kyobo-life-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 상각 -0.319조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "kyobo-life-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 상각 -0.640조원",
-              "detail": "분기 상각률 2.22%를 기시 CSM과 신계약 CSM 합계에 적용",
+              "headline": "2026년 연간 CSM 상각 -0.655조원",
+              "detail": "분기 상각률 2.26%를 기시 CSM과 신계약 CSM 합계에 적용",
               "sourceId": "kyobo-life-forecast-methodology"
             }
           ]
@@ -3749,23 +4218,23 @@ window.CSM_FORECAST_DATA = {
     },
     "shinhan-life": {
       "companyName": "신한라이프",
-      "asOfPeriod": "2026-q1",
-      "asOfCsm": 7610,
+      "asOfPeriod": "2026-q2",
+      "asOfCsm": 7911,
       "targetPeriod": "2026-ye",
       "anchor": {
         "type": "model_generated",
-        "value": 8006,
+        "value": 7942,
         "note": "담당자 입력값 없음 · 모델 예상치를 사용"
       },
       "ratios": {
-        "interestRate": 0.008669,
-        "amortizationRate": 0.023366,
+        "interestRate": 0.00861,
+        "amortizationRate": 0.023862,
         "denominator": "기시 CSM + 신계약 CSM",
         "lookbackPeriods": [
-          "2025-q2",
           "2025-q3",
           "2025-q4",
-          "2026-q1"
+          "2026-q1",
+          "2026-q2"
         ],
         "lookbackWeights": [
           0.1,
@@ -3776,347 +4245,315 @@ window.CSM_FORECAST_DATA = {
         "interestOverride": false
       },
       "base": {
-        "opening": 7450,
-        "newbiz": 1732,
-        "interest": 280,
-        "adjustment": -702,
-        "amortization": -754,
-        "closing": 8006,
+        "opening": 7554,
+        "newbiz": 1740,
+        "interest": 285,
+        "adjustment": -846,
+        "amortization": -791,
+        "closing": 7942,
         "quarters": [
           {
             "period": "2026-q1",
             "actual": true,
-            "opening": 7450,
-            "newbiz": 361,
+            "opening": 7554,
+            "newbiz": 363,
             "interest": 69,
-            "amortization": -183,
-            "adjustment": -87,
-            "closing": 7610
+            "amortization": -188,
+            "adjustment": -76,
+            "closing": 7722
           },
           {
             "period": "2026-q2",
-            "opening": 7610,
-            "newbiz": 393,
-            "interest": 69,
-            "adjustment": -318,
-            "amortization": -187,
-            "closing": 7567
-          },
-          {
-            "period": "2026-q3",
-            "opening": 7567,
-            "newbiz": 539,
-            "interest": 70,
-            "adjustment": -98,
-            "amortization": -189,
-            "closing": 7889
-          },
-          {
-            "period": "2026-q4",
-            "opening": 7889,
-            "newbiz": 439,
-            "interest": 72,
-            "adjustment": -199,
-            "amortization": -195,
-            "closing": 8006
-          }
-        ],
-        "remainingForecast": {
-          "opening": 7610,
-          "newbiz": 1371,
-          "interest": 211,
-          "adjustment": -615,
-          "amortization": -571,
-          "closing": 8006,
-          "quarters": [
-            {
-              "period": "2026-q2",
-              "opening": 7610,
-              "newbiz": 393,
-              "interest": 69,
-              "adjustment": -318,
-              "amortization": -187,
-              "closing": 7567
-            },
-            {
-              "period": "2026-q3",
-              "opening": 7567,
-              "newbiz": 539,
-              "interest": 70,
-              "adjustment": -98,
-              "amortization": -189,
-              "closing": 7889
-            },
-            {
-              "period": "2026-q4",
-              "opening": 7889,
-              "newbiz": 439,
-              "interest": 72,
-              "adjustment": -199,
-              "amortization": -195,
-              "closing": 8006
-            }
-          ]
-        },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "rationale": "전년 동분기 계절성, Q1 성장 신호, 최근 3개년 조정률 중앙값과 최근 4개 분기 이자·상각률로 산출. 회사별 직접 근거가 없어 정성 오버레이는 0%."
-      },
-      "worst": {
-        "opening": 7450,
-        "newbiz": 1595,
-        "interest": 278,
-        "adjustment": -763,
-        "amortization": -747,
-        "closing": 7813,
-        "quarters": [
-          {
-            "period": "2026-q1",
             "actual": true,
-            "opening": 7450,
-            "newbiz": 361,
-            "interest": 69,
-            "amortization": -183,
-            "adjustment": -87,
-            "closing": 7610
-          },
-          {
-            "period": "2026-q2",
-            "opening": 7610,
+            "opening": 7722,
             "newbiz": 353,
             "interest": 69,
-            "adjustment": -349,
-            "amortization": -186,
-            "closing": 7497
+            "amortization": -197,
+            "adjustment": -36,
+            "closing": 7911
           },
           {
             "period": "2026-q3",
-            "opening": 7497,
-            "newbiz": 485,
-            "interest": 69,
-            "adjustment": -107,
-            "amortization": -187,
-            "closing": 7757
+            "opening": 7911,
+            "newbiz": 565,
+            "interest": 73,
+            "adjustment": -262,
+            "amortization": -202,
+            "closing": 8085
           },
           {
             "period": "2026-q4",
-            "opening": 7757,
-            "newbiz": 396,
-            "interest": 71,
-            "adjustment": -220,
-            "amortization": -191,
-            "closing": 7813
+            "opening": 8085,
+            "newbiz": 459,
+            "interest": 74,
+            "adjustment": -472,
+            "amortization": -204,
+            "closing": 7942
           }
         ],
         "remainingForecast": {
-          "opening": 7610,
-          "newbiz": 1234,
-          "interest": 209,
-          "adjustment": -676,
-          "amortization": -564,
-          "closing": 7813,
+          "opening": 7911,
+          "newbiz": 1024,
+          "interest": 147,
+          "adjustment": -734,
+          "amortization": -406,
+          "closing": 7942,
           "quarters": [
             {
-              "period": "2026-q2",
-              "opening": 7610,
-              "newbiz": 353,
-              "interest": 69,
-              "adjustment": -349,
-              "amortization": -186,
-              "closing": 7497
-            },
-            {
               "period": "2026-q3",
-              "opening": 7497,
-              "newbiz": 485,
-              "interest": 69,
-              "adjustment": -107,
-              "amortization": -187,
-              "closing": 7757
+              "opening": 7911,
+              "newbiz": 565,
+              "interest": 73,
+              "adjustment": -262,
+              "amortization": -202,
+              "closing": 8085
             },
             {
               "period": "2026-q4",
-              "opening": 7757,
-              "newbiz": 396,
-              "interest": 71,
-              "adjustment": -220,
-              "amortization": -191,
-              "closing": 7813
+              "opening": 8085,
+              "newbiz": 459,
+              "interest": 74,
+              "adjustment": -472,
+              "amortization": -204,
+              "closing": 7942
             }
           ]
         },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "rationale": "전 보험사에 같은 단순 하방 가정을 적용. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영. 조정은 Base -0.61조원에서 Worst -0.68조원으로 적용."
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "rationale": "전년 동기간 계절성, 상반기 성장 신호, 직전 2개 연말 정상화 조정률과 최근 4개 분기 이자·상각률로 산출. 회사별 직접 근거가 없어 정성 오버레이는 0%."
+      },
+      "worst": {
+        "opening": 7554,
+        "newbiz": 1638,
+        "interest": 282,
+        "adjustment": -925,
+        "amortization": -787,
+        "closing": 7762,
+        "quarters": [
+          {
+            "period": "2026-q1",
+            "actual": true,
+            "opening": 7554,
+            "newbiz": 363,
+            "interest": 69,
+            "amortization": -188,
+            "adjustment": -76,
+            "closing": 7722
+          },
+          {
+            "period": "2026-q2",
+            "actual": true,
+            "opening": 7722,
+            "newbiz": 353,
+            "interest": 69,
+            "amortization": -197,
+            "adjustment": -36,
+            "closing": 7911
+          },
+          {
+            "period": "2026-q3",
+            "opening": 7911,
+            "newbiz": 509,
+            "interest": 72,
+            "adjustment": -290,
+            "amortization": -201,
+            "closing": 8001
+          },
+          {
+            "period": "2026-q4",
+            "opening": 8001,
+            "newbiz": 413,
+            "interest": 72,
+            "adjustment": -523,
+            "amortization": -201,
+            "closing": 7762
+          }
+        ],
+        "remainingForecast": {
+          "opening": 7911,
+          "newbiz": 922,
+          "interest": 144,
+          "adjustment": -813,
+          "amortization": -402,
+          "closing": 7762,
+          "quarters": [
+            {
+              "period": "2026-q3",
+              "opening": 7911,
+              "newbiz": 509,
+              "interest": 72,
+              "adjustment": -290,
+              "amortization": -201,
+              "closing": 8001
+            },
+            {
+              "period": "2026-q4",
+              "opening": 8001,
+              "newbiz": 413,
+              "interest": 72,
+              "adjustment": -523,
+              "amortization": -201,
+              "closing": 7762
+            }
+          ]
+        },
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "rationale": "전 보험사에 같은 단순 하방 가정을 적용. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영하되 충격이 작아지지 않도록 기시 CSM의 1%p를 최소 부담으로 적용. 조정은 Base -0.73조원에서 Worst -0.81조원으로 적용."
       },
       "independentModel": {
         "base": {
-          "opening": 7450,
-          "newbiz": 1732,
-          "interest": 280,
-          "adjustment": -702,
-          "amortization": -754,
-          "closing": 8006,
+          "opening": 7554,
+          "newbiz": 1740,
+          "interest": 285,
+          "adjustment": -846,
+          "amortization": -791,
+          "closing": 7942,
           "quarters": [
             {
               "period": "2026-q1",
               "actual": true,
-              "opening": 7450,
-              "newbiz": 361,
+              "opening": 7554,
+              "newbiz": 363,
               "interest": 69,
-              "amortization": -183,
-              "adjustment": -87,
-              "closing": 7610
+              "amortization": -188,
+              "adjustment": -76,
+              "closing": 7722
             },
             {
               "period": "2026-q2",
-              "opening": 7610,
-              "newbiz": 393,
-              "interest": 69,
-              "adjustment": -318,
-              "amortization": -187,
-              "closing": 7567
-            },
-            {
-              "period": "2026-q3",
-              "opening": 7567,
-              "newbiz": 539,
-              "interest": 70,
-              "adjustment": -98,
-              "amortization": -189,
-              "closing": 7889
-            },
-            {
-              "period": "2026-q4",
-              "opening": 7889,
-              "newbiz": 439,
-              "interest": 72,
-              "adjustment": -199,
-              "amortization": -195,
-              "closing": 8006
-            }
-          ],
-          "remainingForecast": {
-            "opening": 7610,
-            "newbiz": 1371,
-            "interest": 211,
-            "adjustment": -615,
-            "amortization": -571,
-            "closing": 8006,
-            "quarters": [
-              {
-                "period": "2026-q2",
-                "opening": 7610,
-                "newbiz": 393,
-                "interest": 69,
-                "adjustment": -318,
-                "amortization": -187,
-                "closing": 7567
-              },
-              {
-                "period": "2026-q3",
-                "opening": 7567,
-                "newbiz": 539,
-                "interest": 70,
-                "adjustment": -98,
-                "amortization": -189,
-                "closing": 7889
-              },
-              {
-                "period": "2026-q4",
-                "opening": 7889,
-                "newbiz": 439,
-                "interest": 72,
-                "adjustment": -199,
-                "amortization": -195,
-                "closing": 8006
-              }
-            ]
-          },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
-        },
-        "worst": {
-          "opening": 7450,
-          "newbiz": 1595,
-          "interest": 278,
-          "adjustment": -763,
-          "amortization": -747,
-          "closing": 7813,
-          "quarters": [
-            {
-              "period": "2026-q1",
               "actual": true,
-              "opening": 7450,
-              "newbiz": 361,
-              "interest": 69,
-              "amortization": -183,
-              "adjustment": -87,
-              "closing": 7610
-            },
-            {
-              "period": "2026-q2",
-              "opening": 7610,
+              "opening": 7722,
               "newbiz": 353,
               "interest": 69,
-              "adjustment": -349,
-              "amortization": -186,
-              "closing": 7497
+              "amortization": -197,
+              "adjustment": -36,
+              "closing": 7911
             },
             {
               "period": "2026-q3",
-              "opening": 7497,
-              "newbiz": 485,
-              "interest": 69,
-              "adjustment": -107,
-              "amortization": -187,
-              "closing": 7757
+              "opening": 7911,
+              "newbiz": 565,
+              "interest": 73,
+              "adjustment": -262,
+              "amortization": -202,
+              "closing": 8085
             },
             {
               "period": "2026-q4",
-              "opening": 7757,
-              "newbiz": 396,
-              "interest": 71,
-              "adjustment": -220,
-              "amortization": -191,
-              "closing": 7813
+              "opening": 8085,
+              "newbiz": 459,
+              "interest": 74,
+              "adjustment": -472,
+              "amortization": -204,
+              "closing": 7942
             }
           ],
           "remainingForecast": {
-            "opening": 7610,
-            "newbiz": 1234,
-            "interest": 209,
-            "adjustment": -676,
-            "amortization": -564,
-            "closing": 7813,
+            "opening": 7911,
+            "newbiz": 1024,
+            "interest": 147,
+            "adjustment": -734,
+            "amortization": -406,
+            "closing": 7942,
             "quarters": [
               {
-                "period": "2026-q2",
-                "opening": 7610,
-                "newbiz": 353,
-                "interest": 69,
-                "adjustment": -349,
-                "amortization": -186,
-                "closing": 7497
-              },
-              {
                 "period": "2026-q3",
-                "opening": 7497,
-                "newbiz": 485,
-                "interest": 69,
-                "adjustment": -107,
-                "amortization": -187,
-                "closing": 7757
+                "opening": 7911,
+                "newbiz": 565,
+                "interest": 73,
+                "adjustment": -262,
+                "amortization": -202,
+                "closing": 8085
               },
               {
                 "period": "2026-q4",
-                "opening": 7757,
-                "newbiz": 396,
-                "interest": 71,
-                "adjustment": -220,
-                "amortization": -191,
-                "closing": 7813
+                "opening": 8085,
+                "newbiz": 459,
+                "interest": 74,
+                "adjustment": -472,
+                "amortization": -204,
+                "closing": 7942
               }
             ]
           },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
+        },
+        "worst": {
+          "opening": 7554,
+          "newbiz": 1638,
+          "interest": 282,
+          "adjustment": -925,
+          "amortization": -787,
+          "closing": 7762,
+          "quarters": [
+            {
+              "period": "2026-q1",
+              "actual": true,
+              "opening": 7554,
+              "newbiz": 363,
+              "interest": 69,
+              "amortization": -188,
+              "adjustment": -76,
+              "closing": 7722
+            },
+            {
+              "period": "2026-q2",
+              "actual": true,
+              "opening": 7722,
+              "newbiz": 353,
+              "interest": 69,
+              "amortization": -197,
+              "adjustment": -36,
+              "closing": 7911
+            },
+            {
+              "period": "2026-q3",
+              "opening": 7911,
+              "newbiz": 509,
+              "interest": 72,
+              "adjustment": -290,
+              "amortization": -201,
+              "closing": 8001
+            },
+            {
+              "period": "2026-q4",
+              "opening": 8001,
+              "newbiz": 413,
+              "interest": 72,
+              "adjustment": -523,
+              "amortization": -201,
+              "closing": 7762
+            }
+          ],
+          "remainingForecast": {
+            "opening": 7911,
+            "newbiz": 922,
+            "interest": 144,
+            "adjustment": -813,
+            "amortization": -402,
+            "closing": 7762,
+            "quarters": [
+              {
+                "period": "2026-q3",
+                "opening": 7911,
+                "newbiz": 509,
+                "interest": 72,
+                "adjustment": -290,
+                "amortization": -201,
+                "closing": 8001
+              },
+              {
+                "period": "2026-q4",
+                "opening": 8001,
+                "newbiz": 413,
+                "interest": 72,
+                "adjustment": -523,
+                "amortization": -201,
+                "closing": 7762
+              }
+            ]
+          },
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
         }
       },
       "horizon": {
@@ -4124,182 +4561,276 @@ window.CSM_FORECAST_DATA = {
           "2026-ye",
           "2027-ye",
           "2028-ye",
+          "2029-ye",
           "2030-ye"
         ],
-        "terminalPeriod": "2035-ye",
         "base": [
           {
             "period": "2026-ye",
-            "opening": 7450,
-            "newbiz": 1732,
-            "interest": 280,
-            "adjustment": -702,
-            "amortization": -754,
-            "closing": 8006
+            "opening": 7554,
+            "newbiz": 1740,
+            "interest": 285,
+            "adjustment": -846,
+            "amortization": -791,
+            "closing": 7942
           },
           {
             "period": "2027-ye",
-            "opening": 8006,
-            "newbiz": 1819,
-            "interest": 301,
-            "adjustment": -754,
-            "amortization": -811,
-            "closing": 8561
+            "opening": 7942,
+            "newbiz": 1810,
+            "interest": 294,
+            "adjustment": -886,
+            "amortization": -816,
+            "closing": 8344
           },
           {
             "period": "2028-ye",
-            "opening": 8561,
-            "newbiz": 1910,
-            "interest": 321,
-            "adjustment": -807,
-            "amortization": -865,
-            "closing": 9120
+            "opening": 8344,
+            "newbiz": 1883,
+            "interest": 310,
+            "adjustment": -931,
+            "amortization": -856,
+            "closing": 8750
+          },
+          {
+            "period": "2029-ye",
+            "opening": 8750,
+            "newbiz": 1958,
+            "interest": 323,
+            "adjustment": -977,
+            "amortization": -896,
+            "closing": 9158
           },
           {
             "period": "2030-ye",
-            "opening": 9688,
-            "newbiz": 2106,
-            "interest": 362,
-            "adjustment": -913,
-            "amortization": -976,
-            "closing": 10267
+            "opening": 9158,
+            "newbiz": 2036,
+            "interest": 338,
+            "adjustment": -1022,
+            "amortization": -938,
+            "closing": 9572
           }
         ],
         "worst": [
           {
             "period": "2026-ye",
-            "opening": 7450,
-            "newbiz": 1595,
-            "interest": 278,
-            "adjustment": -763,
-            "amortization": -747,
-            "closing": 7813
+            "opening": 7554,
+            "newbiz": 1638,
+            "interest": 282,
+            "adjustment": -925,
+            "amortization": -787,
+            "closing": 7762
           },
           {
             "period": "2027-ye",
-            "opening": 7813,
-            "newbiz": 1637,
-            "interest": 289,
-            "adjustment": -829,
-            "amortization": -780,
-            "closing": 8130
+            "opening": 7762,
+            "newbiz": 1629,
+            "interest": 283,
+            "adjustment": -975,
+            "amortization": -786,
+            "closing": 7913
           },
           {
             "period": "2028-ye",
-            "opening": 8130,
-            "newbiz": 1719,
-            "interest": 301,
-            "adjustment": -888,
-            "amortization": -812,
-            "closing": 8450
+            "opening": 7913,
+            "newbiz": 1695,
+            "interest": 289,
+            "adjustment": -1024,
+            "amortization": -802,
+            "closing": 8071
+          },
+          {
+            "period": "2029-ye",
+            "opening": 8071,
+            "newbiz": 1762,
+            "interest": 295,
+            "adjustment": -1075,
+            "amortization": -818,
+            "closing": 8235
           },
           {
             "period": "2030-ye",
-            "opening": 8779,
-            "newbiz": 1895,
-            "interest": 325,
-            "adjustment": -1004,
-            "amortization": -876,
-            "closing": 9119
+            "opening": 8235,
+            "newbiz": 1832,
+            "interest": 302,
+            "adjustment": -1124,
+            "amortization": -837,
+            "closing": 8408
           }
         ],
-        "terminal": {
-          "base": {
-            "period": "2035-ye",
-            "opening": 12198,
-            "newbiz": 2326,
-            "interest": 450,
-            "adjustment": -1149,
-            "amortization": -1210,
-            "closing": 12615
-          },
-          "worst": {
-            "period": "2035-ye",
-            "opening": 10133,
-            "newbiz": 2093,
-            "interest": 372,
-            "adjustment": -1264,
-            "amortization": -1002,
-            "closing": 10332
-          }
-        },
         "assumptions": {
-          "newbizGrowth": 0.05,
-          "longTermNewbizGrowth": 0.02,
-          "baseAdjustmentRate": -0.094228,
+          "rawNewbizGrowth": 0.142535,
+          "boundedNewbizGrowth": 0.05,
+          "newbizGrowthBounds": {
+            "lower": -0.05,
+            "upper": 0.05
+          },
+          "optimismBiasPenalty": 0.009929,
+          "backtestMeanErrorBn": 300,
+          "newbizTrendWindow": [
+            {
+              "year": 2024,
+              "value": 1265,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2025,
+              "value": 1646,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2026,
+              "value": 1740,
+              "valueKind": "base_forecast"
+            }
+          ],
+          "newbizGrowthObservations": [
+            {
+              "fromYear": 2024,
+              "toYear": 2025,
+              "rate": 0.3011857707509882,
+              "weight": 0.35
+            },
+            {
+              "fromYear": 2025,
+              "toYear": 2026,
+              "rate": 0.05710814094775207,
+              "weight": 0.65
+            }
+          ],
+          "newbizGrowth": 0.040071,
+          "baseAdjustmentRate": -0.11162,
+          "adjustmentRateMethod": "2024 actual 20% + 2025 actual 30% + 2026 Base forecast 50%, one-off adjustments excluded",
+          "adjustmentRateWeights": [
+            0.2,
+            0.3,
+            0.5
+          ],
+          "adjustmentRateWindow": [
+            {
+              "year": 2024,
+              "valueKind": "actual",
+              "opening": 7169,
+              "reportedAdjustment": -733,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -733,
+              "rate": -0.1022457804435765,
+              "included": true,
+              "treatment": "연간 순액 사용 · 분기 내 환입·재분류는 별도 반복하지 않음",
+              "nominalWeight": 0.2,
+              "weight": 0.2
+            },
+            {
+              "year": 2025,
+              "valueKind": "actual",
+              "opening": 7224,
+              "reportedAdjustment": -847,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -847,
+              "rate": -0.11724806201550388,
+              "included": true,
+              "treatment": "연간 순액 사용 · 분기 내 환입·재분류는 별도 반복하지 않음",
+              "nominalWeight": 0.3,
+              "weight": 0.3
+            },
+            {
+              "year": 2026,
+              "valueKind": "base_forecast",
+              "opening": 7554,
+              "reportedAdjustment": -846,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -846,
+              "rate": -0.11199364575059571,
+              "included": true,
+              "treatment": "경영목표 연결분과 순양(+) 전망분 제외 · 상반기 일회성 조정은 연간 정상화 전망에서 반복하지 않음",
+              "nominalWeight": 0.5,
+              "weight": 0.5
+            }
+          ],
+          "oneOffAdjustmentPolicy": "연간 순양(+) 조정, 경영목표 연결분과 분기성 환입·재분류의 총액 반복을 제외",
+          "positiveRecurringAdjustmentCap": 0.0,
           "worstNewbizStress": 0.1,
           "worstAdjustmentStress": 0.1,
+          "worstAdjustmentRatePointFloor": 0.01,
           "stressCalibrationQuantile": 0.8,
           "stressCalibrationSampleCount": 6,
           "worstPolicy": {
             "basis": "전 보험사 공통 단순 하방 가정",
             "newbizDiscount": 0.1,
             "adjustmentStress": 0.1,
-            "q1ActualLocked": true
+            "adjustmentRatePointFloor": 0.01,
+            "actualLockedThroughQuarter": 2
           },
           "targetAdjustmentNormalization": null,
-          "longTermMethod": "2030년 Base와 Worst를 각각 앵커로 유지하되 Worst는 공통 단순 하방 가정으로 산출"
+          "fiveYearMethod": "2026~2030년을 매년 동일한 Movement 산식으로 연결하고 Worst는 공통 단순 하방 가정으로 산출"
         },
         "executiveRationale": {
-          "years1to3": "최근 분기 실적과 전년 계절성으로 Base를 산출하고, 증권사 근거가 있는 회사만 제한적으로 반영. Worst는 1분기 확정 실적은 유지하고 잔여 신계약 CSM을 Base 대비 10% 낮추며 CSM 조정은 Base 대비 10% 더 불리하게 적용",
-          "year5": "과거 신계약 추세를 연 +5.0% 범위로 적용하고 경상 CSM 조정률을 유지하며, 2030년까지 Movement를 연결",
-          "year10": "2035년 Base는 신계약 증가율 연 +2.0%와 현재 CSM 조정률을 적용하고, Worst는 같은 공통 하방률을 장기 경로에 적용"
+          "years1to3": "최근 분기 실적과 전년 계절성으로 Base를 산출하고, 증권사 근거가 있는 회사만 제한적으로 반영. Worst는 상반기 확정 실적은 유지하고 잔여 신계약 CSM을 Base 대비 10% 낮추며 CSM 조정은 Base 대비 10% 더 불리하게 적용. 단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 적용",
+          "years4to5": "2024·2025년 실적과 2026년 Base를 연결한 신계약 추세에 통제를 반영해 연 +4.0%를 적용하고, 같은 3개년에서 일회성 조정을 제외한 CSM 조정률 -11.2%를 유지하며, 2030년까지 Movement를 연결"
         },
         "horizonConfidence": {
           "oneYear": "제한적 검증",
           "twoToThreeYears": "모델 경로",
-          "fiveYear": "시나리오",
-          "tenYear": "장기 시나리오"
+          "fourToFiveYears": "시나리오"
         }
       },
       "model": {
-        "version": "rolling-origin-seasonal/v2",
+        "version": "rolling-origin-current-year/v5",
         "baseline": {
-          "remainingNewbiz": 1371,
-          "remainingAdjustment": -615,
+          "remainingNewbiz": 1024,
+          "remainingAdjustment": -734,
           "newbizShares": [
-            0.286388,
-            0.39287,
-            0.320742
+            0.552026,
+            0.447974
           ],
           "adjustmentShares": [
-            0.516394,
-            0.158734,
-            0.324871
+            0.357184,
+            0.642816
           ],
           "drivers": {
             "newbiz": {
-              "priorYearRemaining": 1279,
-              "q1Growth": -0.016349,
-              "priorRemainingGrowth": 0.440315,
-              "appliedGrowthSignal": 0.071742
+              "ytdGrowth": 0.017045,
+              "priorRemainingGrowth": 0.46729,
+              "appliedGrowthSignal": 0.087315,
+              "futureQuarters": [
+                3,
+                4
+              ]
             },
             "adjustment": {
-              "method": "median historical Q2-Q4 adjustment rate to Q1 closing CSM",
-              "medianRate": -0.080791,
+              "method": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+              "rawAnnualRate": -0.111997,
+              "normalizedAnnualRate": -0.111997,
+              "positiveRateCapApplied": false,
+              "annualTarget": -846,
+              "actualYtd": -112,
               "observations": [
                 {
-                  "year": 2023,
-                  "rate": -0.027319,
-                  "remaining": -192
-                },
-                {
                   "year": 2024,
-                  "rate": -0.080791,
-                  "remaining": -588
+                  "opening": 7169,
+                  "adjustment": -733,
+                  "rate": -0.1022457804435765,
+                  "weight": 0.35
                 },
                 {
                   "year": 2025,
-                  "rate": -0.107624,
-                  "remaining": -799
+                  "opening": 7224,
+                  "adjustment": -847,
+                  "rate": -0.11724806201550388,
+                  "weight": 0.65
                 }
               ]
             },
+            "originQuarter": 2,
+            "futureQuarters": [
+              3,
+              4
+            ],
             "rateLookbackPeriods": [
-              "2025-q2",
               "2025-q3",
               "2025-q4",
-              "2026-q1"
+              "2026-q1",
+              "2026-q2"
             ]
           }
         },
@@ -4307,24 +4838,28 @@ window.CSM_FORECAST_DATA = {
           "weight": 0,
           "remainingNewbiz": null,
           "remainingAdjustment": null,
+          "originalQ1RemainingNewbiz": null,
+          "originalQ1RemainingAdjustment": null,
+          "realizedQ2Newbiz": null,
+          "realizedQ2Adjustment": null,
           "reason": "회사별 직접 증권사 근거가 없어 미적용"
         },
         "finalInputs": {
-          "remainingNewbiz": 1371,
-          "remainingAdjustment": -615
+          "remainingNewbiz": 1024,
+          "remainingAdjustment": -734
         },
         "backtest": {
           "sampleCount": 6,
-          "meanAbsolutePercentageError": 0.019064,
-          "meanAbsoluteErrorBn": 140,
-          "meanErrorBn": 70,
+          "meanAbsolutePercentageError": 0.044402,
+          "meanAbsoluteErrorBn": 323,
+          "meanErrorBn": 300,
           "validationLabel": "검증 제한",
           "calibration": {
             "quantile": 0.8,
             "sampleCount": 6,
             "newbizStress": 0.274433,
-            "adjustmentDownsideRateToOpening": 0.053449,
-            "closingErrorP80": 0.033492
+            "adjustmentDownsideRateToOpening": 0.08,
+            "closingErrorP80": 0.072259
           },
           "samples": [
             {
@@ -4332,16 +4867,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2024-q1",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 7525,
+              "predictedClosing": 7777,
               "actualClosing": 7224,
-              "closingError": 301,
-              "closingAbsolutePercentageError": 0.041667,
+              "closingError": 553,
+              "closingAbsolutePercentageError": 0.07655,
               "predictedRemainingNewbiz": 817,
               "actualRemainingNewbiz": 888,
               "newbizAbsolutePercentageError": 0.079955,
-              "predictedRemainingAdjustment": -199,
+              "predictedRemainingAdjustment": 57,
               "actualRemainingAdjustment": -588,
-              "adjustmentAbsoluteErrorToOpening": 0.053449,
+              "adjustmentAbsoluteErrorToOpening": 0.088623,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q2",
@@ -4350,7 +4885,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.027319
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.012339,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 6488,
+                    "adjustment": 121,
+                    "rate": 0.018649815043156596,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 6925,
+                    "adjustment": -201,
+                    "rate": -0.029025270758122744,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -4358,16 +4910,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2024-q2",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 7263,
+              "predictedClosing": 7746,
               "actualClosing": 7224,
-              "closingError": 39,
-              "closingAbsolutePercentageError": 0.005399,
+              "closingError": 522,
+              "closingAbsolutePercentageError": 0.072259,
               "predictedRemainingNewbiz": 528,
               "actualRemainingNewbiz": 642,
               "newbizAbsolutePercentageError": 0.17757,
-              "predictedRemainingAdjustment": -95,
+              "predictedRemainingAdjustment": 389,
               "actualRemainingAdjustment": -256,
-              "adjustmentAbsoluteErrorToOpening": 0.022769,
+              "adjustmentAbsoluteErrorToOpening": 0.091218,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q3",
@@ -4376,7 +4928,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": -0.013492
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.012339,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 6488,
+                    "adjustment": 121,
+                    "rate": 0.018649815043156596,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 6925,
+                    "adjustment": -201,
+                    "rate": -0.029025270758122744,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -4384,16 +4953,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2024-q3",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 7016,
+              "predictedClosing": 7736,
               "actualClosing": 7224,
-              "closingError": -208,
-              "closingAbsolutePercentageError": 0.028793,
+              "closingError": 512,
+              "closingAbsolutePercentageError": 0.070875,
               "predictedRemainingNewbiz": 194,
               "actualRemainingNewbiz": 316,
               "newbizAbsolutePercentageError": 0.386076,
-              "predictedRemainingAdjustment": -89,
+              "predictedRemainingAdjustment": 631,
               "actualRemainingAdjustment": -14,
-              "adjustmentAbsoluteErrorToOpening": 0.010669,
+              "adjustmentAbsoluteErrorToOpening": 0.09175,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q4",
@@ -4402,7 +4971,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": -0.012634
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.012339,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 6488,
+                    "adjustment": 121,
+                    "rate": 0.018649815043156596,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 6925,
+                    "adjustment": -201,
+                    "rate": -0.029025270758122744,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -4410,16 +4996,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2025-q1",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 7588,
+              "predictedClosing": 7485,
               "actualClosing": 7554,
-              "closingError": 34,
-              "closingAbsolutePercentageError": 0.004501,
+              "closingError": -69,
+              "closingAbsolutePercentageError": 0.009134,
               "predictedRemainingNewbiz": 928,
               "actualRemainingNewbiz": 1279,
               "newbizAbsolutePercentageError": 0.274433,
-              "predictedRemainingAdjustment": -401,
+              "predictedRemainingAdjustment": -505,
               "actualRemainingAdjustment": -799,
-              "adjustmentAbsoluteErrorToOpening": 0.05361,
+              "adjustmentAbsoluteErrorToOpening": 0.039601,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q2",
@@ -4428,7 +5014,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.054055
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.076619,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 6925,
+                    "adjustment": -201,
+                    "rate": -0.029025270758122744,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 7169,
+                    "adjustment": -733,
+                    "rate": -0.1022457804435765,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -4436,16 +5039,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2025-q2",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 7558,
+              "predictedClosing": 7616,
               "actualClosing": 7554,
-              "closingError": 4,
-              "closingAbsolutePercentageError": 0.00053,
+              "closingError": 62,
+              "closingAbsolutePercentageError": 0.008208,
               "predictedRemainingNewbiz": 712,
               "actualRemainingNewbiz": 942,
               "newbizAbsolutePercentageError": 0.244161,
-              "predictedRemainingAdjustment": -180,
+              "predictedRemainingAdjustment": -122,
               "actualRemainingAdjustment": -416,
-              "adjustmentAbsoluteErrorToOpening": 0.032498,
+              "adjustmentAbsoluteErrorToOpening": 0.040485,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q3",
@@ -4454,7 +5057,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": -0.024848
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.076619,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 6925,
+                    "adjustment": -201,
+                    "rate": -0.029025270758122744,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 7169,
+                    "adjustment": -733,
+                    "rate": -0.1022457804435765,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -4462,16 +5082,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2025-q3",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 7807,
+              "predictedClosing": 7776,
               "actualClosing": 7554,
-              "closingError": 253,
-              "closingAbsolutePercentageError": 0.033492,
+              "closingError": 222,
+              "closingAbsolutePercentageError": 0.029388,
               "predictedRemainingNewbiz": 379,
               "actualRemainingNewbiz": 445,
               "newbizAbsolutePercentageError": 0.148315,
-              "predictedRemainingAdjustment": -56,
+              "predictedRemainingAdjustment": -87,
               "actualRemainingAdjustment": -381,
-              "adjustmentAbsoluteErrorToOpening": 0.042729,
+              "adjustmentAbsoluteErrorToOpening": 0.038654,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q4",
@@ -4480,32 +5100,50 @@ window.CSM_FORECAST_DATA = {
                   "2025-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": -0.007313
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.076619,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 6925,
+                    "adjustment": -201,
+                    "rate": -0.029025270758122744,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 7169,
+                    "adjustment": -733,
+                    "rate": -0.1022457804435765,
+                    "weight": 0.65
+                  }
+                ]
               }
             }
           ]
         }
       },
       "qualitativeJudgment": {
-        "baseNewbiz": "데이터 모델 1.37조원을 그대로 적용. +7.2% 성장 신호 반영.",
-        "baseAdjustment": "최근 최대 3개년 Q2~Q4 조정률 중앙값 기반 -0.61조원을 그대로 적용.",
+        "baseNewbiz": "데이터 모델 1.02조원을 그대로 적용. +8.7% 성장 신호 반영.",
+        "baseAdjustment": "직전 2개 연말 조정률을 35%·65% 가중하고 양(+) 경상률을 0%로 제한한 정상화 기준 -0.73조원을 그대로 적용.",
         "targetAdjustmentOverlay": "경영목표 연결 조정 없음",
-        "worst": "전 보험사에 같은 단순 하방 가정을 적용. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영. 조정은 Base -0.61조원에서 Worst -0.68조원으로 적용."
+        "worst": "전 보험사에 같은 단순 하방 가정을 적용. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영하되 충격이 작아지지 않도록 기시 CSM의 1%p를 최소 부담으로 적용. 조정은 Base -0.73조원에서 Worst -0.81조원으로 적용."
       },
       "worstAssumption": {
         "basis": "전 보험사 공통 단순 하방 가정",
-        "scope": "2026년 1분기 확정 실적은 유지하고 Q2~Q4 전망 입력에만 적용",
+        "scope": "2026년 상반기 확정 실적은 유지하고 Q3~Q4 전망 입력에만 적용",
         "newbizDiscount": 0.1,
         "adjustmentStress": 0.1,
-        "adjustmentDirection": "CSM 조정이 음수이면 절대 부담을 확대하고, 양수이면 기여 효과를 축소"
+        "adjustmentRatePointFloor": 0.01,
+        "adjustmentDirection": "Base보다 10% 불리하게 적용. 단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 사용"
       },
       "confidence": "검증 제한",
       "validation": {
         "label": "검증 제한",
         "sampleCount": 6,
-        "meanAbsolutePercentageError": 0.019064,
-        "meanAbsoluteErrorBn": 140,
-        "meanErrorBn": 70,
+        "meanAbsolutePercentageError": 0.044402,
+        "meanAbsoluteErrorBn": 323,
+        "meanErrorBn": 300,
         "scope": "회사별 2024·2025년 Q1·Q2·Q3 시점 연말 예측",
         "limitation": "IFRS17 이후 2개 연도·6개 시점으로 장기 확률 신뢰도로 해석하지 않음"
       },
@@ -4524,20 +5162,27 @@ window.CSM_FORECAST_DATA = {
       },
       "sources": [
         {
+          "title": "KB증권 보험업 전망 (2026.06.22)",
+          "url": "https://rdata.kbsec.com/pdf_data/20260622111726153K.pdf",
+          "type": "sell_side",
+          "use": "업계 CSM 성장 둔화 가능성과 잔존 경험조정 위험을 장기 낙관 편향 통제의 방향성 근거로만 사용",
+          "id": "shinhan-life-industry-1"
+        },
+        {
           "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
           "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
           "type": "sell_side",
           "use": "업종 방향성 참고용이며 회사별 수치 오버레이에는 사용하지 않음",
-          "id": "shinhan-life-industry-1"
+          "id": "shinhan-life-industry-2"
         }
       ],
       "evidenceSources": [
         {
-          "id": "shinhan-life-2026-q1-dart",
-          "title": "신한라이프 [기재정정]분기보고서 (2026.03)",
-          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529001251",
+          "id": "shinhan-life-2026-q2-dart",
+          "title": "신한라이프 반기보고서 (2026.06)",
+          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814001090",
           "type": "official_filing",
-          "use": "2026년 1분기 CSM Movement 확정값"
+          "use": "2026년 상반기 누적 CSM Movement 확정값"
         },
         {
           "id": "shinhan-life-forecast-methodology",
@@ -4554,15 +5199,15 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 신계약 CSM +0.361조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "shinhan-life-2026-q1-dart"
+              "headline": "2026년 상반기 신계약 CSM +0.716조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "shinhan-life-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 신계약 CSM +1.732조원",
-              "detail": "1분기 확정 +0.361조원과 잔여 3개 분기 +1.371조원을 합산",
+              "headline": "2026년 연간 신계약 CSM +1.740조원",
+              "detail": "상반기 누적 확정 +0.716조원과 잔여 2개 분기 +1.024조원을 합산",
               "sourceId": "shinhan-life-forecast-methodology"
             },
             {
@@ -4580,34 +5225,34 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 이자부리 +0.069조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "shinhan-life-2026-q1-dart"
+              "headline": "2026년 상반기 이자부리 +0.138조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "shinhan-life-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 이자부리 +0.280조원",
-              "detail": "분기 이자부리율 0.87%를 기시 CSM과 신계약 CSM 합계에 적용",
+              "headline": "2026년 연간 이자부리 +0.285조원",
+              "detail": "분기 이자부리율 0.86%를 기시 CSM과 신계약 CSM 합계에 적용",
               "sourceId": "shinhan-life-forecast-methodology"
             }
           ]
         },
         "adjustment": {
-          "statement": "최근 경험조정과 연말 계리 가정 재점검 부담을 반영해 CSM 조정을 산출",
+          "statement": "과거 연간 조정률을 정상화해 일회성 환입의 반복을 차단하고 CSM 조정을 산출",
           "items": [
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 조정 -0.087조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "shinhan-life-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 조정 -0.112조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "shinhan-life-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 조정 -0.702조원",
-              "detail": "최근 최대 3개년 Q2~Q4 조정률 중앙값으로 잔여 조정 -0.615조원을 산출",
+              "headline": "2026년 연간 CSM 조정 -0.846조원",
+              "detail": "직전 2개 연말 조정률을 35%·65%로 가중하고 양(+)의 경상 조정률은 0%로 제한해 연간 목표 -0.846조원, 잔여 조정 -0.734조원을 산출",
               "sourceId": "shinhan-life-forecast-methodology"
             },
             {
@@ -4625,15 +5270,15 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 상각 -0.183조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "shinhan-life-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 상각 -0.385조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "shinhan-life-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 상각 -0.754조원",
-              "detail": "분기 상각률 2.34%를 기시 CSM과 신계약 CSM 합계에 적용",
+              "headline": "2026년 연간 CSM 상각 -0.791조원",
+              "detail": "분기 상각률 2.39%를 기시 CSM과 신계약 CSM 합계에 적용",
               "sourceId": "shinhan-life-forecast-methodology"
             }
           ]
@@ -4642,23 +5287,23 @@ window.CSM_FORECAST_DATA = {
     },
     "samsung-fire": {
       "companyName": "삼성화재",
-      "asOfPeriod": "2026-q1",
-      "asOfCsm": 14469,
+      "asOfPeriod": "2026-q2",
+      "asOfCsm": 14595,
       "targetPeriod": "2026-ye",
       "anchor": {
         "type": "model_generated",
-        "value": 14260,
+        "value": 13970,
         "note": "담당자 입력값 없음 · 모델 예상치를 사용"
       },
       "ratios": {
-        "interestRate": 0.00814,
-        "amortizationRate": 0.026429,
+        "interestRate": 0.008071,
+        "amortizationRate": 0.026503,
         "denominator": "기시 CSM + 신계약 CSM",
         "lookbackPeriods": [
-          "2025-q2",
           "2025-q3",
           "2025-q4",
-          "2026-q1"
+          "2026-q1",
+          "2026-q2"
         ],
         "lookbackWeights": [
           0.1,
@@ -4670,11 +5315,11 @@ window.CSM_FORECAST_DATA = {
       },
       "base": {
         "opening": 14168,
-        "newbiz": 2691,
-        "interest": 491,
-        "adjustment": -1482,
-        "amortization": -1608,
-        "closing": 14260,
+        "newbiz": 2611,
+        "interest": 486,
+        "adjustment": -1684,
+        "amortization": -1611,
+        "closing": 13970,
         "quarters": [
           {
             "period": "2026-q1",
@@ -4688,79 +5333,71 @@ window.CSM_FORECAST_DATA = {
           },
           {
             "period": "2026-q2",
+            "actual": true,
             "opening": 14469,
-            "newbiz": 519,
-            "interest": 122,
-            "adjustment": -153,
-            "amortization": -396,
-            "closing": 14561
+            "newbiz": 615,
+            "interest": 121,
+            "amortization": -403,
+            "adjustment": -207,
+            "closing": 14595
           },
           {
             "period": "2026-q3",
-            "opening": 14561,
-            "newbiz": 639,
-            "interest": 124,
-            "adjustment": -330,
+            "opening": 14595,
+            "newbiz": 581,
+            "interest": 122,
+            "adjustment": -359,
             "amortization": -402,
-            "closing": 14592
+            "closing": 14537
           },
           {
             "period": "2026-q4",
-            "opening": 14592,
-            "newbiz": 906,
-            "interest": 126,
-            "adjustment": -954,
-            "amortization": -410,
-            "closing": 14260
+            "opening": 14537,
+            "newbiz": 788,
+            "interest": 124,
+            "adjustment": -1073,
+            "amortization": -406,
+            "closing": 13970
           }
         ],
         "remainingForecast": {
-          "opening": 14469,
-          "newbiz": 2064,
-          "interest": 372,
-          "adjustment": -1437,
-          "amortization": -1208,
-          "closing": 14260,
+          "opening": 14595,
+          "newbiz": 1369,
+          "interest": 246,
+          "adjustment": -1432,
+          "amortization": -808,
+          "closing": 13970,
           "quarters": [
             {
-              "period": "2026-q2",
-              "opening": 14469,
-              "newbiz": 519,
-              "interest": 122,
-              "adjustment": -153,
-              "amortization": -396,
-              "closing": 14561
-            },
-            {
               "period": "2026-q3",
-              "opening": 14561,
-              "newbiz": 639,
-              "interest": 124,
-              "adjustment": -330,
+              "opening": 14595,
+              "newbiz": 581,
+              "interest": 122,
+              "adjustment": -359,
               "amortization": -402,
-              "closing": 14592
+              "closing": 14537
             },
             {
               "period": "2026-q4",
-              "opening": 14592,
-              "newbiz": 906,
-              "interest": 126,
-              "adjustment": -954,
-              "amortization": -410,
-              "closing": 14260
+              "opening": 14537,
+              "newbiz": 788,
+              "interest": 124,
+              "adjustment": -1073,
+              "amortization": -406,
+              "closing": 13970
             }
           ]
         },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "rationale": "전년 동분기 계절성, Q1 성장 신호, 최근 3개년 조정률 중앙값과 최근 4개 분기 이자·상각률로 산출. 회사별 직접 근거가 없어 정성 오버레이는 0%."
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "rationale": "전년 동기간 계절성, 상반기 성장 신호, 직전 2개 연말 정상화 조정률과 최근 4개 분기 이자·상각률로 산출. 회사별 직접 근거가 없어 정성 오버레이는 0%."
       },
       "worst": {
         "opening": 14168,
-        "newbiz": 2485,
-        "interest": 488,
-        "adjustment": -1626,
-        "amortization": -1596,
-        "closing": 13919,
+        "newbiz": 2474,
+        "interest": 484,
+        "adjustment": -1830,
+        "amortization": -1606,
+        "closing": 13690,
         "quarters": [
           {
             "period": "2026-q1",
@@ -4774,80 +5411,72 @@ window.CSM_FORECAST_DATA = {
           },
           {
             "period": "2026-q2",
+            "actual": true,
             "opening": 14469,
-            "newbiz": 467,
-            "interest": 122,
-            "adjustment": -169,
-            "amortization": -395,
-            "closing": 14494
+            "newbiz": 615,
+            "interest": 121,
+            "amortization": -403,
+            "adjustment": -207,
+            "closing": 14595
           },
           {
             "period": "2026-q3",
-            "opening": 14494,
-            "newbiz": 575,
-            "interest": 123,
-            "adjustment": -363,
-            "amortization": -398,
-            "closing": 14431
+            "opening": 14595,
+            "newbiz": 523,
+            "interest": 122,
+            "adjustment": -396,
+            "amortization": -401,
+            "closing": 14443
           },
           {
             "period": "2026-q4",
-            "opening": 14431,
-            "newbiz": 816,
-            "interest": 124,
-            "adjustment": -1049,
-            "amortization": -403,
-            "closing": 13919
+            "opening": 14443,
+            "newbiz": 709,
+            "interest": 122,
+            "adjustment": -1182,
+            "amortization": -402,
+            "closing": 13690
           }
         ],
         "remainingForecast": {
-          "opening": 14469,
-          "newbiz": 1858,
-          "interest": 369,
-          "adjustment": -1581,
-          "amortization": -1196,
-          "closing": 13919,
+          "opening": 14595,
+          "newbiz": 1232,
+          "interest": 244,
+          "adjustment": -1578,
+          "amortization": -803,
+          "closing": 13690,
           "quarters": [
             {
-              "period": "2026-q2",
-              "opening": 14469,
-              "newbiz": 467,
-              "interest": 122,
-              "adjustment": -169,
-              "amortization": -395,
-              "closing": 14494
-            },
-            {
               "period": "2026-q3",
-              "opening": 14494,
-              "newbiz": 575,
-              "interest": 123,
-              "adjustment": -363,
-              "amortization": -398,
-              "closing": 14431
+              "opening": 14595,
+              "newbiz": 523,
+              "interest": 122,
+              "adjustment": -396,
+              "amortization": -401,
+              "closing": 14443
             },
             {
               "period": "2026-q4",
-              "opening": 14431,
-              "newbiz": 816,
-              "interest": 124,
-              "adjustment": -1049,
-              "amortization": -403,
-              "closing": 13919
+              "opening": 14443,
+              "newbiz": 709,
+              "interest": 122,
+              "adjustment": -1182,
+              "amortization": -402,
+              "closing": 13690
             }
           ]
         },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "rationale": "전 보험사에 같은 단순 하방 가정을 적용. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영. 조정은 Base -1.44조원에서 Worst -1.58조원으로 적용."
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "rationale": "전 보험사에 같은 단순 하방 가정을 적용. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영하되 충격이 작아지지 않도록 기시 CSM의 1%p를 최소 부담으로 적용. 조정은 Base -1.43조원에서 Worst -1.58조원으로 적용."
       },
       "independentModel": {
         "base": {
           "opening": 14168,
-          "newbiz": 2691,
-          "interest": 491,
-          "adjustment": -1482,
-          "amortization": -1608,
-          "closing": 14260,
+          "newbiz": 2611,
+          "interest": 486,
+          "adjustment": -1684,
+          "amortization": -1611,
+          "closing": 13970,
           "quarters": [
             {
               "period": "2026-q1",
@@ -4861,78 +5490,70 @@ window.CSM_FORECAST_DATA = {
             },
             {
               "period": "2026-q2",
+              "actual": true,
               "opening": 14469,
-              "newbiz": 519,
-              "interest": 122,
-              "adjustment": -153,
-              "amortization": -396,
-              "closing": 14561
+              "newbiz": 615,
+              "interest": 121,
+              "amortization": -403,
+              "adjustment": -207,
+              "closing": 14595
             },
             {
               "period": "2026-q3",
-              "opening": 14561,
-              "newbiz": 639,
-              "interest": 124,
-              "adjustment": -330,
+              "opening": 14595,
+              "newbiz": 581,
+              "interest": 122,
+              "adjustment": -359,
               "amortization": -402,
-              "closing": 14592
+              "closing": 14537
             },
             {
               "period": "2026-q4",
-              "opening": 14592,
-              "newbiz": 906,
-              "interest": 126,
-              "adjustment": -954,
-              "amortization": -410,
-              "closing": 14260
+              "opening": 14537,
+              "newbiz": 788,
+              "interest": 124,
+              "adjustment": -1073,
+              "amortization": -406,
+              "closing": 13970
             }
           ],
           "remainingForecast": {
-            "opening": 14469,
-            "newbiz": 2064,
-            "interest": 372,
-            "adjustment": -1437,
-            "amortization": -1208,
-            "closing": 14260,
+            "opening": 14595,
+            "newbiz": 1369,
+            "interest": 246,
+            "adjustment": -1432,
+            "amortization": -808,
+            "closing": 13970,
             "quarters": [
               {
-                "period": "2026-q2",
-                "opening": 14469,
-                "newbiz": 519,
-                "interest": 122,
-                "adjustment": -153,
-                "amortization": -396,
-                "closing": 14561
-              },
-              {
                 "period": "2026-q3",
-                "opening": 14561,
-                "newbiz": 639,
-                "interest": 124,
-                "adjustment": -330,
+                "opening": 14595,
+                "newbiz": 581,
+                "interest": 122,
+                "adjustment": -359,
                 "amortization": -402,
-                "closing": 14592
+                "closing": 14537
               },
               {
                 "period": "2026-q4",
-                "opening": 14592,
-                "newbiz": 906,
-                "interest": 126,
-                "adjustment": -954,
-                "amortization": -410,
-                "closing": 14260
+                "opening": 14537,
+                "newbiz": 788,
+                "interest": 124,
+                "adjustment": -1073,
+                "amortization": -406,
+                "closing": 13970
               }
             ]
           },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
         },
         "worst": {
           "opening": 14168,
-          "newbiz": 2485,
-          "interest": 488,
-          "adjustment": -1626,
-          "amortization": -1596,
-          "closing": 13919,
+          "newbiz": 2474,
+          "interest": 484,
+          "adjustment": -1830,
+          "amortization": -1606,
+          "closing": 13690,
           "quarters": [
             {
               "period": "2026-q1",
@@ -4946,70 +5567,62 @@ window.CSM_FORECAST_DATA = {
             },
             {
               "period": "2026-q2",
+              "actual": true,
               "opening": 14469,
-              "newbiz": 467,
-              "interest": 122,
-              "adjustment": -169,
-              "amortization": -395,
-              "closing": 14494
+              "newbiz": 615,
+              "interest": 121,
+              "amortization": -403,
+              "adjustment": -207,
+              "closing": 14595
             },
             {
               "period": "2026-q3",
-              "opening": 14494,
-              "newbiz": 575,
-              "interest": 123,
-              "adjustment": -363,
-              "amortization": -398,
-              "closing": 14431
+              "opening": 14595,
+              "newbiz": 523,
+              "interest": 122,
+              "adjustment": -396,
+              "amortization": -401,
+              "closing": 14443
             },
             {
               "period": "2026-q4",
-              "opening": 14431,
-              "newbiz": 816,
-              "interest": 124,
-              "adjustment": -1049,
-              "amortization": -403,
-              "closing": 13919
+              "opening": 14443,
+              "newbiz": 709,
+              "interest": 122,
+              "adjustment": -1182,
+              "amortization": -402,
+              "closing": 13690
             }
           ],
           "remainingForecast": {
-            "opening": 14469,
-            "newbiz": 1858,
-            "interest": 369,
-            "adjustment": -1581,
-            "amortization": -1196,
-            "closing": 13919,
+            "opening": 14595,
+            "newbiz": 1232,
+            "interest": 244,
+            "adjustment": -1578,
+            "amortization": -803,
+            "closing": 13690,
             "quarters": [
               {
-                "period": "2026-q2",
-                "opening": 14469,
-                "newbiz": 467,
-                "interest": 122,
-                "adjustment": -169,
-                "amortization": -395,
-                "closing": 14494
-              },
-              {
                 "period": "2026-q3",
-                "opening": 14494,
-                "newbiz": 575,
-                "interest": 123,
-                "adjustment": -363,
-                "amortization": -398,
-                "closing": 14431
+                "opening": 14595,
+                "newbiz": 523,
+                "interest": 122,
+                "adjustment": -396,
+                "amortization": -401,
+                "closing": 14443
               },
               {
                 "period": "2026-q4",
-                "opening": 14431,
-                "newbiz": 816,
-                "interest": 124,
-                "adjustment": -1049,
-                "amortization": -403,
-                "closing": 13919
+                "opening": 14443,
+                "newbiz": 709,
+                "interest": 122,
+                "adjustment": -1182,
+                "amortization": -402,
+                "closing": 13690
               }
             ]
           },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
         }
       },
       "horizon": {
@@ -5017,182 +5630,276 @@ window.CSM_FORECAST_DATA = {
           "2026-ye",
           "2027-ye",
           "2028-ye",
+          "2029-ye",
           "2030-ye"
         ],
-        "terminalPeriod": "2035-ye",
         "base": [
           {
             "period": "2026-ye",
             "opening": 14168,
-            "newbiz": 2691,
-            "interest": 491,
-            "adjustment": -1482,
-            "amortization": -1608,
-            "closing": 14260
+            "newbiz": 2611,
+            "interest": 486,
+            "adjustment": -1684,
+            "amortization": -1611,
+            "closing": 13970
           },
           {
             "period": "2027-ye",
-            "opening": 14260,
-            "newbiz": 2610,
-            "interest": 485,
-            "adjustment": -1492,
-            "amortization": -1577,
-            "closing": 14286
+            "opening": 13970,
+            "newbiz": 2480,
+            "interest": 468,
+            "adjustment": -1659,
+            "amortization": -1537,
+            "closing": 13722
           },
           {
             "period": "2028-ye",
-            "opening": 14286,
-            "newbiz": 2532,
-            "interest": 484,
-            "adjustment": -1494,
-            "amortization": -1575,
-            "closing": 14233
+            "opening": 13722,
+            "newbiz": 2356,
+            "interest": 459,
+            "adjustment": -1630,
+            "amortization": -1504,
+            "closing": 13403
+          },
+          {
+            "period": "2029-ye",
+            "opening": 13403,
+            "newbiz": 2238,
+            "interest": 446,
+            "adjustment": -1592,
+            "amortization": -1466,
+            "closing": 13029
           },
           {
             "period": "2030-ye",
-            "opening": 14117,
-            "newbiz": 2382,
-            "interest": 477,
-            "adjustment": -1477,
-            "amortization": -1549,
-            "closing": 13950
+            "opening": 13029,
+            "newbiz": 2126,
+            "interest": 433,
+            "adjustment": -1548,
+            "amortization": -1421,
+            "closing": 12619
           }
         ],
         "worst": [
           {
             "period": "2026-ye",
             "opening": 14168,
-            "newbiz": 2485,
-            "interest": 488,
-            "adjustment": -1626,
-            "amortization": -1596,
-            "closing": 13919
+            "newbiz": 2474,
+            "interest": 484,
+            "adjustment": -1830,
+            "amortization": -1606,
+            "closing": 13690
           },
           {
             "period": "2027-ye",
-            "opening": 13919,
-            "newbiz": 2349,
-            "interest": 468,
-            "adjustment": -1641,
-            "amortization": -1520,
-            "closing": 13575
+            "opening": 13690,
+            "newbiz": 2232,
+            "interest": 452,
+            "adjustment": -1825,
+            "amortization": -1485,
+            "closing": 13064
           },
           {
             "period": "2028-ye",
-            "opening": 13575,
-            "newbiz": 2279,
-            "interest": 456,
-            "adjustment": -1643,
-            "amortization": -1480,
-            "closing": 13187
+            "opening": 13064,
+            "newbiz": 2120,
+            "interest": 431,
+            "adjustment": -1793,
+            "amortization": -1414,
+            "closing": 12408
+          },
+          {
+            "period": "2029-ye",
+            "opening": 12408,
+            "newbiz": 2014,
+            "interest": 408,
+            "adjustment": -1751,
+            "amortization": -1342,
+            "closing": 11737
           },
           {
             "period": "2030-ye",
-            "opening": 12766,
-            "newbiz": 2144,
-            "interest": 427,
-            "adjustment": -1625,
-            "amortization": -1390,
-            "closing": 12322
+            "opening": 11737,
+            "newbiz": 1913,
+            "interest": 386,
+            "adjustment": -1703,
+            "amortization": -1268,
+            "closing": 11065
           }
         ],
-        "terminal": {
-          "base": {
-            "period": "2035-ye",
-            "opening": 13337,
-            "newbiz": 2265,
-            "interest": 451,
-            "adjustment": -1395,
-            "amortization": -1464,
-            "closing": 13194
-          },
-          "worst": {
-            "period": "2035-ye",
-            "opening": 10830,
-            "newbiz": 2038,
-            "interest": 365,
-            "adjustment": -1535,
-            "amortization": -1186,
-            "closing": 10512
-          }
-        },
         "assumptions": {
-          "newbizGrowth": -0.03,
-          "longTermNewbizGrowth": -0.01,
-          "baseAdjustmentRate": -0.104602,
+          "rawNewbizGrowth": -0.120457,
+          "boundedNewbizGrowth": -0.05,
+          "newbizGrowthBounds": {
+            "lower": -0.05,
+            "upper": 0.05
+          },
+          "optimismBiasPenalty": 0.02,
+          "backtestMeanErrorBn": 1455,
+          "newbizTrendWindow": [
+            {
+              "year": 2024,
+              "value": 3451,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2025,
+              "value": 2898,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2026,
+              "value": 2611,
+              "valueKind": "base_forecast"
+            }
+          ],
+          "newbizGrowthObservations": [
+            {
+              "fromYear": 2024,
+              "toYear": 2025,
+              "rate": -0.1602434077079108,
+              "weight": 0.35
+            },
+            {
+              "fromYear": 2025,
+              "toYear": 2026,
+              "rate": -0.09903381642512077,
+              "weight": 0.65
+            }
+          ],
+          "newbizGrowth": -0.05,
+          "baseAdjustmentRate": -0.118785,
+          "adjustmentRateMethod": "2024 actual 20% + 2025 actual 30% + 2026 Base forecast 50%, one-off adjustments excluded",
+          "adjustmentRateWeights": [
+            0.2,
+            0.3,
+            0.5
+          ],
+          "adjustmentRateWindow": [
+            {
+              "year": 2024,
+              "valueKind": "actual",
+              "opening": 13303,
+              "reportedAdjustment": -1559,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -1559,
+              "rate": -0.11719161091483124,
+              "included": true,
+              "treatment": "연간 순액 사용 · 분기 내 환입·재분류는 별도 반복하지 않음",
+              "nominalWeight": 0.2,
+              "weight": 0.2
+            },
+            {
+              "year": 2025,
+              "valueKind": "actual",
+              "opening": 14074,
+              "reportedAdjustment": -1685,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -1685,
+              "rate": -0.11972431433849652,
+              "included": true,
+              "treatment": "연간 순액 사용 · 분기 내 환입·재분류는 별도 반복하지 않음",
+              "nominalWeight": 0.3,
+              "weight": 0.3
+            },
+            {
+              "year": 2026,
+              "valueKind": "base_forecast",
+              "opening": 14168,
+              "reportedAdjustment": -1684,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -1684,
+              "rate": -0.11885940146809712,
+              "included": true,
+              "treatment": "경영목표 연결분과 순양(+) 전망분 제외 · 상반기 일회성 조정은 연간 정상화 전망에서 반복하지 않음",
+              "nominalWeight": 0.5,
+              "weight": 0.5
+            }
+          ],
+          "oneOffAdjustmentPolicy": "연간 순양(+) 조정, 경영목표 연결분과 분기성 환입·재분류의 총액 반복을 제외",
+          "positiveRecurringAdjustmentCap": 0.0,
           "worstNewbizStress": 0.1,
           "worstAdjustmentStress": 0.1,
+          "worstAdjustmentRatePointFloor": 0.01,
           "stressCalibrationQuantile": 0.8,
           "stressCalibrationSampleCount": 6,
           "worstPolicy": {
             "basis": "전 보험사 공통 단순 하방 가정",
             "newbizDiscount": 0.1,
             "adjustmentStress": 0.1,
-            "q1ActualLocked": true
+            "adjustmentRatePointFloor": 0.01,
+            "actualLockedThroughQuarter": 2
           },
           "targetAdjustmentNormalization": null,
-          "longTermMethod": "2030년 Base와 Worst를 각각 앵커로 유지하되 Worst는 공통 단순 하방 가정으로 산출"
+          "fiveYearMethod": "2026~2030년을 매년 동일한 Movement 산식으로 연결하고 Worst는 공통 단순 하방 가정으로 산출"
         },
         "executiveRationale": {
-          "years1to3": "최근 분기 실적과 전년 계절성으로 Base를 산출하고, 증권사 근거가 있는 회사만 제한적으로 반영. Worst는 1분기 확정 실적은 유지하고 잔여 신계약 CSM을 Base 대비 10% 낮추며 CSM 조정은 Base 대비 10% 더 불리하게 적용",
-          "year5": "과거 신계약 추세를 연 -3.0% 범위로 적용하고 경상 CSM 조정률을 유지하며, 2030년까지 Movement를 연결",
-          "year10": "2035년 Base는 신계약 증가율 연 -1.0%와 현재 CSM 조정률을 적용하고, Worst는 같은 공통 하방률을 장기 경로에 적용"
+          "years1to3": "최근 분기 실적과 전년 계절성으로 Base를 산출하고, 증권사 근거가 있는 회사만 제한적으로 반영. Worst는 상반기 확정 실적은 유지하고 잔여 신계약 CSM을 Base 대비 10% 낮추며 CSM 조정은 Base 대비 10% 더 불리하게 적용. 단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 적용",
+          "years4to5": "2024·2025년 실적과 2026년 Base를 연결한 신계약 추세에 통제를 반영해 연 -5.0%를 적용하고, 같은 3개년에서 일회성 조정을 제외한 CSM 조정률 -11.9%를 유지하며, 2030년까지 Movement를 연결"
         },
         "horizonConfidence": {
           "oneYear": "제한적 검증",
           "twoToThreeYears": "모델 경로",
-          "fiveYear": "시나리오",
-          "tenYear": "장기 시나리오"
+          "fourToFiveYears": "시나리오"
         }
       },
       "model": {
-        "version": "rolling-origin-seasonal/v2",
+        "version": "rolling-origin-current-year/v5",
         "baseline": {
-          "remainingNewbiz": 2064,
-          "remainingAdjustment": -1437,
+          "remainingNewbiz": 1369,
+          "remainingAdjustment": -1432,
           "newbizShares": [
-            0.251538,
-            0.309723,
-            0.438739
+            0.424664,
+            0.575336
           ],
           "adjustmentShares": [
-            0.10659,
-            0.229729,
-            0.663682
+            0.250969,
+            0.749031
           ],
           "drivers": {
             "newbiz": {
-              "priorYearRemaining": 2196,
-              "q1Growth": -0.106838,
-              "priorRemainingGrowth": -0.14386,
-              "appliedGrowthSignal": -0.059898
+              "ytdGrowth": -0.125968,
+              "priorRemainingGrowth": -0.185328,
+              "appliedGrowthSignal": -0.073372,
+              "futureQuarters": [
+                3,
+                4
+              ]
             },
             "adjustment": {
-              "method": "median historical Q2-Q4 adjustment rate to Q1 closing CSM",
-              "medianRate": -0.099329,
+              "method": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+              "rawAnnualRate": -0.118838,
+              "normalizedAnnualRate": -0.118838,
+              "positiveRateCapApplied": false,
+              "annualTarget": -1684,
+              "actualYtd": -252,
               "observations": [
                 {
-                  "year": 2023,
-                  "rate": -0.082267,
-                  "remaining": -1016
-                },
-                {
                   "year": 2024,
-                  "rate": -0.099329,
-                  "remaining": -1362
+                  "opening": 13303,
+                  "adjustment": -1559,
+                  "rate": -0.11719161091483124,
+                  "weight": 0.35
                 },
                 {
                   "year": 2025,
-                  "rate": -0.106468,
-                  "remaining": -1526
+                  "opening": 14074,
+                  "adjustment": -1685,
+                  "rate": -0.11972431433849652,
+                  "weight": 0.65
                 }
               ]
             },
+            "originQuarter": 2,
+            "futureQuarters": [
+              3,
+              4
+            ],
             "rateLookbackPeriods": [
-              "2025-q2",
               "2025-q3",
               "2025-q4",
-              "2026-q1"
+              "2026-q1",
+              "2026-q2"
             ]
           }
         },
@@ -5200,24 +5907,28 @@ window.CSM_FORECAST_DATA = {
           "weight": 0,
           "remainingNewbiz": null,
           "remainingAdjustment": null,
+          "originalQ1RemainingNewbiz": null,
+          "originalQ1RemainingAdjustment": null,
+          "realizedQ2Newbiz": null,
+          "realizedQ2Adjustment": null,
           "reason": "회사별 직접 증권사 근거가 없어 미적용"
         },
         "finalInputs": {
-          "remainingNewbiz": 2064,
-          "remainingAdjustment": -1437
+          "remainingNewbiz": 1369,
+          "remainingAdjustment": -1432
         },
         "backtest": {
           "sampleCount": 6,
-          "meanAbsolutePercentageError": 0.041386,
-          "meanAbsoluteErrorBn": 584,
-          "meanErrorBn": 102,
+          "meanAbsolutePercentageError": 0.103333,
+          "meanAbsoluteErrorBn": 1455,
+          "meanErrorBn": 1455,
           "validationLabel": "검증 제한",
           "calibration": {
             "quantile": 0.8,
             "sampleCount": 6,
             "newbizStress": 0.209747,
-            "adjustmentDownsideRateToOpening": 0.073694,
-            "closingErrorP80": 0.050945
+            "adjustmentDownsideRateToOpening": 0.08,
+            "closingErrorP80": 0.144167
           },
           "samples": [
             {
@@ -5225,16 +5936,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2024-q1",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 14791,
+              "predictedClosing": 16103,
               "actualClosing": 14074,
-              "closingError": 717,
-              "closingAbsolutePercentageError": 0.050945,
+              "closingError": 2029,
+              "closingAbsolutePercentageError": 0.144167,
               "predictedRemainingNewbiz": 3103,
               "actualRemainingNewbiz": 2565,
               "newbizAbsolutePercentageError": 0.209747,
-              "predictedRemainingAdjustment": -1128,
+              "predictedRemainingAdjustment": 197,
               "actualRemainingAdjustment": -1362,
-              "adjustmentAbsoluteErrorToOpening": 0.017065,
+              "adjustmentAbsoluteErrorToOpening": 0.113696,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q2",
@@ -5243,7 +5954,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.082267
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": 0.0,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 7821,
+                    "adjustment": 3224,
+                    "rate": 0.41222350083109577,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 12144,
+                    "adjustment": -1200,
+                    "rate": -0.09881422924901186,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -5251,16 +5979,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2024-q2",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 14608,
+              "predictedClosing": 15950,
               "actualClosing": 14074,
-              "closingError": 534,
-              "closingAbsolutePercentageError": 0.037942,
+              "closingError": 1876,
+              "closingAbsolutePercentageError": 0.133295,
               "predictedRemainingNewbiz": 2147,
               "actualRemainingNewbiz": 1813,
               "newbizAbsolutePercentageError": 0.184225,
-              "predictedRemainingAdjustment": -931,
+              "predictedRemainingAdjustment": 422,
               "actualRemainingAdjustment": -1137,
-              "adjustmentAbsoluteErrorToOpening": 0.014762,
+              "adjustmentAbsoluteErrorToOpening": 0.111716,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q3",
@@ -5269,7 +5997,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": -0.066693
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": 0.0,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 7821,
+                    "adjustment": 3224,
+                    "rate": 0.41222350083109577,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 12144,
+                    "adjustment": -1200,
+                    "rate": -0.09881422924901186,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -5277,16 +6022,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2024-q3",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 13661,
+              "predictedClosing": 18121,
               "actualClosing": 14074,
-              "closingError": -413,
-              "closingAbsolutePercentageError": 0.029345,
+              "closingError": 4047,
+              "closingAbsolutePercentageError": 0.287552,
               "predictedRemainingNewbiz": 3500,
               "actualRemainingNewbiz": 974,
               "newbizAbsolutePercentageError": 2.593429,
-              "predictedRemainingAdjustment": -3711,
+              "predictedRemainingAdjustment": 749,
               "actualRemainingAdjustment": -810,
-              "adjustmentAbsoluteErrorToOpening": 0.204569,
+              "adjustmentAbsoluteErrorToOpening": 0.109936,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q4",
@@ -5295,7 +6040,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": -0.261709
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": 0.0,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 7821,
+                    "adjustment": 3224,
+                    "rate": 0.41222350083109577,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 12144,
+                    "adjustment": -1200,
+                    "rate": -0.09881422924901186,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -5303,16 +6065,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2025-q1",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 14524,
+              "predictedClosing": 14426,
               "actualClosing": 14168,
-              "closingError": 356,
-              "closingAbsolutePercentageError": 0.025127,
+              "closingError": 258,
+              "closingAbsolutePercentageError": 0.01821,
               "predictedRemainingNewbiz": 2351,
               "actualRemainingNewbiz": 2196,
               "newbizAbsolutePercentageError": 0.070583,
-              "predictedRemainingAdjustment": -1301,
+              "predictedRemainingAdjustment": -1400,
               "actualRemainingAdjustment": -1526,
-              "adjustmentAbsoluteErrorToOpening": 0.015698,
+              "adjustmentAbsoluteErrorToOpening": 0.008791,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q2",
@@ -5321,7 +6083,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.090798
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.11076,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 12144,
+                    "adjustment": -1200,
+                    "rate": -0.09881422924901186,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 13303,
+                    "adjustment": -1559,
+                    "rate": -0.11719161091483124,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -5329,16 +6108,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2025-q2",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 14619,
+              "predictedClosing": 14493,
               "actualClosing": 14168,
-              "closingError": 451,
-              "closingAbsolutePercentageError": 0.031832,
+              "closingError": 325,
+              "closingAbsolutePercentageError": 0.022939,
               "predictedRemainingNewbiz": 1697,
               "actualRemainingNewbiz": 1477,
               "newbizAbsolutePercentageError": 0.148951,
-              "predictedRemainingAdjustment": -1080,
+              "predictedRemainingAdjustment": -1206,
               "actualRemainingAdjustment": -1332,
-              "adjustmentAbsoluteErrorToOpening": 0.017286,
+              "adjustmentAbsoluteErrorToOpening": 0.008643,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q3",
@@ -5347,7 +6126,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": -0.074085
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.11076,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 12144,
+                    "adjustment": -1200,
+                    "rate": -0.09881422924901186,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 13303,
+                    "adjustment": -1559,
+                    "rate": -0.11719161091483124,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -5355,16 +6151,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2025-q3",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 13132,
+              "predictedClosing": 14364,
               "actualClosing": 14168,
-              "closingError": -1036,
-              "closingAbsolutePercentageError": 0.073123,
+              "closingError": 196,
+              "closingAbsolutePercentageError": 0.013834,
               "predictedRemainingNewbiz": 814,
               "actualRemainingNewbiz": 710,
               "newbizAbsolutePercentageError": 0.146479,
-              "predictedRemainingAdjustment": -2392,
+              "predictedRemainingAdjustment": -1160,
               "actualRemainingAdjustment": -1286,
-              "adjustmentAbsoluteErrorToOpening": 0.073694,
+              "adjustmentAbsoluteErrorToOpening": 0.008396,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q4",
@@ -5373,32 +6169,50 @@ window.CSM_FORECAST_DATA = {
                   "2025-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": -0.159414
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.11076,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 12144,
+                    "adjustment": -1200,
+                    "rate": -0.09881422924901186,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 13303,
+                    "adjustment": -1559,
+                    "rate": -0.11719161091483124,
+                    "weight": 0.65
+                  }
+                ]
               }
             }
           ]
         }
       },
       "qualitativeJudgment": {
-        "baseNewbiz": "데이터 모델 2.06조원을 그대로 적용. -6.0% 성장 신호 반영.",
-        "baseAdjustment": "최근 최대 3개년 Q2~Q4 조정률 중앙값 기반 -1.44조원을 그대로 적용.",
+        "baseNewbiz": "데이터 모델 1.37조원을 그대로 적용. -7.3% 성장 신호 반영.",
+        "baseAdjustment": "직전 2개 연말 조정률을 35%·65% 가중하고 양(+) 경상률을 0%로 제한한 정상화 기준 -1.43조원을 그대로 적용.",
         "targetAdjustmentOverlay": "경영목표 연결 조정 없음",
-        "worst": "전 보험사에 같은 단순 하방 가정을 적용. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영. 조정은 Base -1.44조원에서 Worst -1.58조원으로 적용."
+        "worst": "전 보험사에 같은 단순 하방 가정을 적용. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영하되 충격이 작아지지 않도록 기시 CSM의 1%p를 최소 부담으로 적용. 조정은 Base -1.43조원에서 Worst -1.58조원으로 적용."
       },
       "worstAssumption": {
         "basis": "전 보험사 공통 단순 하방 가정",
-        "scope": "2026년 1분기 확정 실적은 유지하고 Q2~Q4 전망 입력에만 적용",
+        "scope": "2026년 상반기 확정 실적은 유지하고 Q3~Q4 전망 입력에만 적용",
         "newbizDiscount": 0.1,
         "adjustmentStress": 0.1,
-        "adjustmentDirection": "CSM 조정이 음수이면 절대 부담을 확대하고, 양수이면 기여 효과를 축소"
+        "adjustmentRatePointFloor": 0.01,
+        "adjustmentDirection": "Base보다 10% 불리하게 적용. 단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 사용"
       },
       "confidence": "검증 제한",
       "validation": {
         "label": "검증 제한",
         "sampleCount": 6,
-        "meanAbsolutePercentageError": 0.041386,
-        "meanAbsoluteErrorBn": 584,
-        "meanErrorBn": 102,
+        "meanAbsolutePercentageError": 0.103333,
+        "meanAbsoluteErrorBn": 1455,
+        "meanErrorBn": 1455,
         "scope": "회사별 2024·2025년 Q1·Q2·Q3 시점 연말 예측",
         "limitation": "IFRS17 이후 2개 연도·6개 시점으로 장기 확률 신뢰도로 해석하지 않음"
       },
@@ -5417,20 +6231,27 @@ window.CSM_FORECAST_DATA = {
       },
       "sources": [
         {
+          "title": "KB증권 보험업 전망 (2026.06.22)",
+          "url": "https://rdata.kbsec.com/pdf_data/20260622111726153K.pdf",
+          "type": "sell_side",
+          "use": "업계 CSM 성장 둔화 가능성과 잔존 경험조정 위험을 장기 낙관 편향 통제의 방향성 근거로만 사용",
+          "id": "samsung-fire-industry-1"
+        },
+        {
           "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
           "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
           "type": "sell_side",
           "use": "업종 방향성 참고용이며 회사별 수치 오버레이에는 사용하지 않음",
-          "id": "samsung-fire-industry-1"
+          "id": "samsung-fire-industry-2"
         }
       ],
       "evidenceSources": [
         {
-          "id": "samsung-fire-2026-q1-dart",
-          "title": "삼성화재 분기보고서 (2026.03)",
-          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260515001950",
+          "id": "samsung-fire-2026-q2-dart",
+          "title": "삼성화재 반기보고서 (2026.06)",
+          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814003992",
           "type": "official_filing",
-          "use": "2026년 1분기 CSM Movement 확정값"
+          "use": "2026년 상반기 누적 CSM Movement 확정값"
         },
         {
           "id": "samsung-fire-forecast-methodology",
@@ -5447,15 +6268,15 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 신계약 CSM +0.627조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "samsung-fire-2026-q1-dart"
+              "headline": "2026년 상반기 신계약 CSM +1.242조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "samsung-fire-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 신계약 CSM +2.691조원",
-              "detail": "1분기 확정 +0.627조원과 잔여 3개 분기 +2.064조원을 합산",
+              "headline": "2026년 연간 신계약 CSM +2.611조원",
+              "detail": "상반기 누적 확정 +1.242조원과 잔여 2개 분기 +1.369조원을 합산",
               "sourceId": "samsung-fire-forecast-methodology"
             },
             {
@@ -5473,34 +6294,34 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 이자부리 +0.119조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "samsung-fire-2026-q1-dart"
+              "headline": "2026년 상반기 이자부리 +0.240조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "samsung-fire-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 이자부리 +0.491조원",
+              "headline": "2026년 연간 이자부리 +0.486조원",
               "detail": "분기 이자부리율 0.81%를 기시 CSM과 신계약 CSM 합계에 적용",
               "sourceId": "samsung-fire-forecast-methodology"
             }
           ]
         },
         "adjustment": {
-          "statement": "최근 경험조정과 연말 계리 가정 재점검 부담을 반영해 CSM 조정을 산출",
+          "statement": "과거 연간 조정률을 정상화해 일회성 환입의 반복을 차단하고 CSM 조정을 산출",
           "items": [
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 조정 -0.045조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "samsung-fire-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 조정 -0.252조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "samsung-fire-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 조정 -1.482조원",
-              "detail": "최근 최대 3개년 Q2~Q4 조정률 중앙값으로 잔여 조정 -1.437조원을 산출",
+              "headline": "2026년 연간 CSM 조정 -1.684조원",
+              "detail": "직전 2개 연말 조정률을 35%·65%로 가중하고 양(+)의 경상 조정률은 0%로 제한해 연간 목표 -1.684조원, 잔여 조정 -1.432조원을 산출",
               "sourceId": "samsung-fire-forecast-methodology"
             },
             {
@@ -5518,15 +6339,15 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 상각 -0.400조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "samsung-fire-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 상각 -0.803조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "samsung-fire-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 상각 -1.608조원",
-              "detail": "분기 상각률 2.64%를 기시 CSM과 신계약 CSM 합계에 적용",
+              "headline": "2026년 연간 CSM 상각 -1.611조원",
+              "detail": "분기 상각률 2.65%를 기시 CSM과 신계약 CSM 합계에 적용",
               "sourceId": "samsung-fire-forecast-methodology"
             }
           ]
@@ -5535,23 +6356,23 @@ window.CSM_FORECAST_DATA = {
     },
     "meritz-fire": {
       "companyName": "메리츠화재",
-      "asOfPeriod": "2026-q1",
-      "asOfCsm": 11291,
+      "asOfPeriod": "2026-q2",
+      "asOfCsm": 12120,
       "targetPeriod": "2026-ye",
       "anchor": {
         "type": "model_generated",
-        "value": 11865,
+        "value": 11542,
         "note": "담당자 입력값 없음 · 모델 예상치를 사용"
       },
       "ratios": {
-        "interestRate": 0.007725,
-        "amortizationRate": 0.025578,
+        "interestRate": 0.007729,
+        "amortizationRate": 0.026367,
         "denominator": "기시 CSM + 신계약 CSM",
         "lookbackPeriods": [
-          "2025-q2",
           "2025-q3",
           "2025-q4",
-          "2026-q1"
+          "2026-q1",
+          "2026-q2"
         ],
         "lookbackWeights": [
           0.1,
@@ -5563,11 +6384,11 @@ window.CSM_FORECAST_DATA = {
       },
       "base": {
         "opening": 11102,
-        "newbiz": 1812,
-        "interest": 366,
-        "adjustment": -193,
-        "amortization": -1222,
-        "closing": 11865,
+        "newbiz": 1858,
+        "interest": 374,
+        "adjustment": -503,
+        "amortization": -1289,
+        "closing": 11542,
         "quarters": [
           {
             "period": "2026-q1",
@@ -5581,79 +6402,71 @@ window.CSM_FORECAST_DATA = {
           },
           {
             "period": "2026-q2",
+            "actual": true,
             "opening": 11291,
-            "newbiz": 448,
+            "newbiz": 454,
             "interest": 91,
-            "adjustment": -28,
-            "amortization": -300,
-            "closing": 11502
+            "amortization": -321,
+            "adjustment": 605,
+            "closing": 12120
           },
           {
             "period": "2026-q3",
-            "opening": 11502,
-            "newbiz": 472,
-            "interest": 92,
-            "adjustment": -33,
-            "amortization": -306,
-            "closing": 11727
+            "opening": 12120,
+            "newbiz": 493,
+            "interest": 97,
+            "adjustment": -279,
+            "amortization": -333,
+            "closing": 12098
           },
           {
             "period": "2026-q4",
-            "opening": 11727,
-            "newbiz": 452,
-            "interest": 94,
-            "adjustment": -96,
-            "amortization": -312,
-            "closing": 11865
+            "opening": 12098,
+            "newbiz": 471,
+            "interest": 97,
+            "adjustment": -793,
+            "amortization": -331,
+            "closing": 11542
           }
         ],
         "remainingForecast": {
-          "opening": 11291,
-          "newbiz": 1372,
-          "interest": 277,
-          "adjustment": -157,
-          "amortization": -918,
-          "closing": 11865,
+          "opening": 12120,
+          "newbiz": 964,
+          "interest": 194,
+          "adjustment": -1072,
+          "amortization": -664,
+          "closing": 11542,
           "quarters": [
             {
-              "period": "2026-q2",
-              "opening": 11291,
-              "newbiz": 448,
-              "interest": 91,
-              "adjustment": -28,
-              "amortization": -300,
-              "closing": 11502
-            },
-            {
               "period": "2026-q3",
-              "opening": 11502,
-              "newbiz": 472,
-              "interest": 92,
-              "adjustment": -33,
-              "amortization": -306,
-              "closing": 11727
+              "opening": 12120,
+              "newbiz": 493,
+              "interest": 97,
+              "adjustment": -279,
+              "amortization": -333,
+              "closing": 12098
             },
             {
               "period": "2026-q4",
-              "opening": 11727,
-              "newbiz": 452,
-              "interest": 94,
-              "adjustment": -96,
-              "amortization": -312,
-              "closing": 11865
+              "opening": 12098,
+              "newbiz": 471,
+              "interest": 97,
+              "adjustment": -793,
+              "amortization": -331,
+              "closing": 11542
             }
           ]
         },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "rationale": "전년 동분기 계절성, Q1 성장 신호, 최근 3개년 조정률 중앙값과 최근 4개 분기 이자·상각률로 산출. 회사별 직접 근거가 없어 정성 오버레이는 0%."
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "rationale": "전년 동기간 계절성, 상반기 성장 신호, 직전 2개 연말 정상화 조정률과 최근 4개 분기 이자·상각률로 산출. 회사별 직접 근거가 없어 정성 오버레이는 0%."
       },
       "worst": {
         "opening": 11102,
-        "newbiz": 1675,
-        "interest": 364,
-        "adjustment": -209,
-        "amortization": -1215,
-        "closing": 11717,
+        "newbiz": 1762,
+        "interest": 373,
+        "adjustment": -624,
+        "amortization": -1284,
+        "closing": 11329,
         "quarters": [
           {
             "period": "2026-q1",
@@ -5667,80 +6480,72 @@ window.CSM_FORECAST_DATA = {
           },
           {
             "period": "2026-q2",
+            "actual": true,
             "opening": 11291,
-            "newbiz": 403,
-            "interest": 90,
-            "adjustment": -31,
-            "amortization": -299,
-            "closing": 11454
+            "newbiz": 454,
+            "interest": 91,
+            "amortization": -321,
+            "adjustment": 605,
+            "closing": 12120
           },
           {
             "period": "2026-q3",
-            "opening": 11454,
-            "newbiz": 425,
-            "interest": 92,
-            "adjustment": -37,
-            "amortization": -304,
-            "closing": 11630
+            "opening": 12120,
+            "newbiz": 444,
+            "interest": 97,
+            "adjustment": -310,
+            "amortization": -331,
+            "closing": 12020
           },
           {
             "period": "2026-q4",
-            "opening": 11630,
-            "newbiz": 407,
-            "interest": 93,
-            "adjustment": -105,
-            "amortization": -308,
-            "closing": 11717
+            "opening": 12020,
+            "newbiz": 424,
+            "interest": 96,
+            "adjustment": -883,
+            "amortization": -328,
+            "closing": 11329
           }
         ],
         "remainingForecast": {
-          "opening": 11291,
-          "newbiz": 1235,
-          "interest": 275,
-          "adjustment": -173,
-          "amortization": -911,
-          "closing": 11717,
+          "opening": 12120,
+          "newbiz": 868,
+          "interest": 193,
+          "adjustment": -1193,
+          "amortization": -659,
+          "closing": 11329,
           "quarters": [
             {
-              "period": "2026-q2",
-              "opening": 11291,
-              "newbiz": 403,
-              "interest": 90,
-              "adjustment": -31,
-              "amortization": -299,
-              "closing": 11454
-            },
-            {
               "period": "2026-q3",
-              "opening": 11454,
-              "newbiz": 425,
-              "interest": 92,
-              "adjustment": -37,
-              "amortization": -304,
-              "closing": 11630
+              "opening": 12120,
+              "newbiz": 444,
+              "interest": 97,
+              "adjustment": -310,
+              "amortization": -331,
+              "closing": 12020
             },
             {
               "period": "2026-q4",
-              "opening": 11630,
-              "newbiz": 407,
-              "interest": 93,
-              "adjustment": -105,
-              "amortization": -308,
-              "closing": 11717
+              "opening": 12020,
+              "newbiz": 424,
+              "interest": 96,
+              "adjustment": -883,
+              "amortization": -328,
+              "closing": 11329
             }
           ]
         },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "rationale": "전 보험사에 같은 단순 하방 가정을 적용. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영. 조정은 Base -0.16조원에서 Worst -0.17조원으로 적용."
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "rationale": "전 보험사에 같은 단순 하방 가정을 적용. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영하되 충격이 작아지지 않도록 기시 CSM의 1%p를 최소 부담으로 적용. 조정은 Base -1.07조원에서 Worst -1.19조원으로 적용."
       },
       "independentModel": {
         "base": {
           "opening": 11102,
-          "newbiz": 1812,
-          "interest": 366,
-          "adjustment": -193,
-          "amortization": -1222,
-          "closing": 11865,
+          "newbiz": 1858,
+          "interest": 374,
+          "adjustment": -503,
+          "amortization": -1289,
+          "closing": 11542,
           "quarters": [
             {
               "period": "2026-q1",
@@ -5754,78 +6559,70 @@ window.CSM_FORECAST_DATA = {
             },
             {
               "period": "2026-q2",
+              "actual": true,
               "opening": 11291,
-              "newbiz": 448,
+              "newbiz": 454,
               "interest": 91,
-              "adjustment": -28,
-              "amortization": -300,
-              "closing": 11502
+              "amortization": -321,
+              "adjustment": 605,
+              "closing": 12120
             },
             {
               "period": "2026-q3",
-              "opening": 11502,
-              "newbiz": 472,
-              "interest": 92,
-              "adjustment": -33,
-              "amortization": -306,
-              "closing": 11727
+              "opening": 12120,
+              "newbiz": 493,
+              "interest": 97,
+              "adjustment": -279,
+              "amortization": -333,
+              "closing": 12098
             },
             {
               "period": "2026-q4",
-              "opening": 11727,
-              "newbiz": 452,
-              "interest": 94,
-              "adjustment": -96,
-              "amortization": -312,
-              "closing": 11865
+              "opening": 12098,
+              "newbiz": 471,
+              "interest": 97,
+              "adjustment": -793,
+              "amortization": -331,
+              "closing": 11542
             }
           ],
           "remainingForecast": {
-            "opening": 11291,
-            "newbiz": 1372,
-            "interest": 277,
-            "adjustment": -157,
-            "amortization": -918,
-            "closing": 11865,
+            "opening": 12120,
+            "newbiz": 964,
+            "interest": 194,
+            "adjustment": -1072,
+            "amortization": -664,
+            "closing": 11542,
             "quarters": [
               {
-                "period": "2026-q2",
-                "opening": 11291,
-                "newbiz": 448,
-                "interest": 91,
-                "adjustment": -28,
-                "amortization": -300,
-                "closing": 11502
-              },
-              {
                 "period": "2026-q3",
-                "opening": 11502,
-                "newbiz": 472,
-                "interest": 92,
-                "adjustment": -33,
-                "amortization": -306,
-                "closing": 11727
+                "opening": 12120,
+                "newbiz": 493,
+                "interest": 97,
+                "adjustment": -279,
+                "amortization": -333,
+                "closing": 12098
               },
               {
                 "period": "2026-q4",
-                "opening": 11727,
-                "newbiz": 452,
-                "interest": 94,
-                "adjustment": -96,
-                "amortization": -312,
-                "closing": 11865
+                "opening": 12098,
+                "newbiz": 471,
+                "interest": 97,
+                "adjustment": -793,
+                "amortization": -331,
+                "closing": 11542
               }
             ]
           },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
         },
         "worst": {
           "opening": 11102,
-          "newbiz": 1675,
-          "interest": 364,
-          "adjustment": -209,
-          "amortization": -1215,
-          "closing": 11717,
+          "newbiz": 1762,
+          "interest": 373,
+          "adjustment": -624,
+          "amortization": -1284,
+          "closing": 11329,
           "quarters": [
             {
               "period": "2026-q1",
@@ -5839,70 +6636,62 @@ window.CSM_FORECAST_DATA = {
             },
             {
               "period": "2026-q2",
+              "actual": true,
               "opening": 11291,
-              "newbiz": 403,
-              "interest": 90,
-              "adjustment": -31,
-              "amortization": -299,
-              "closing": 11454
+              "newbiz": 454,
+              "interest": 91,
+              "amortization": -321,
+              "adjustment": 605,
+              "closing": 12120
             },
             {
               "period": "2026-q3",
-              "opening": 11454,
-              "newbiz": 425,
-              "interest": 92,
-              "adjustment": -37,
-              "amortization": -304,
-              "closing": 11630
+              "opening": 12120,
+              "newbiz": 444,
+              "interest": 97,
+              "adjustment": -310,
+              "amortization": -331,
+              "closing": 12020
             },
             {
               "period": "2026-q4",
-              "opening": 11630,
-              "newbiz": 407,
-              "interest": 93,
-              "adjustment": -105,
-              "amortization": -308,
-              "closing": 11717
+              "opening": 12020,
+              "newbiz": 424,
+              "interest": 96,
+              "adjustment": -883,
+              "amortization": -328,
+              "closing": 11329
             }
           ],
           "remainingForecast": {
-            "opening": 11291,
-            "newbiz": 1235,
-            "interest": 275,
-            "adjustment": -173,
-            "amortization": -911,
-            "closing": 11717,
+            "opening": 12120,
+            "newbiz": 868,
+            "interest": 193,
+            "adjustment": -1193,
+            "amortization": -659,
+            "closing": 11329,
             "quarters": [
               {
-                "period": "2026-q2",
-                "opening": 11291,
-                "newbiz": 403,
-                "interest": 90,
-                "adjustment": -31,
-                "amortization": -299,
-                "closing": 11454
-              },
-              {
                 "period": "2026-q3",
-                "opening": 11454,
-                "newbiz": 425,
-                "interest": 92,
-                "adjustment": -37,
-                "amortization": -304,
-                "closing": 11630
+                "opening": 12120,
+                "newbiz": 444,
+                "interest": 97,
+                "adjustment": -310,
+                "amortization": -331,
+                "closing": 12020
               },
               {
                 "period": "2026-q4",
-                "opening": 11630,
-                "newbiz": 407,
-                "interest": 93,
-                "adjustment": -105,
-                "amortization": -308,
-                "closing": 11717
+                "opening": 12020,
+                "newbiz": 424,
+                "interest": 96,
+                "adjustment": -883,
+                "amortization": -328,
+                "closing": 11329
               }
             ]
           },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
         }
       },
       "horizon": {
@@ -5910,182 +6699,276 @@ window.CSM_FORECAST_DATA = {
           "2026-ye",
           "2027-ye",
           "2028-ye",
+          "2029-ye",
           "2030-ye"
         ],
-        "terminalPeriod": "2035-ye",
         "base": [
           {
             "period": "2026-ye",
             "opening": 11102,
-            "newbiz": 1812,
-            "interest": 366,
-            "adjustment": -193,
-            "amortization": -1222,
-            "closing": 11865
+            "newbiz": 1858,
+            "interest": 374,
+            "adjustment": -503,
+            "amortization": -1289,
+            "closing": 11542
           },
           {
             "period": "2027-ye",
-            "opening": 11865,
-            "newbiz": 1902,
-            "interest": 390,
-            "adjustment": -206,
-            "amortization": -1294,
-            "closing": 12657
+            "opening": 11542,
+            "newbiz": 1938,
+            "interest": 376,
+            "adjustment": -662,
+            "amortization": -1283,
+            "closing": 11911
           },
           {
             "period": "2028-ye",
-            "opening": 12657,
-            "newbiz": 1996,
-            "interest": 416,
-            "adjustment": -220,
-            "amortization": -1378,
-            "closing": 13471
+            "opening": 11911,
+            "newbiz": 2022,
+            "interest": 389,
+            "adjustment": -683,
+            "amortization": -1325,
+            "closing": 12314
+          },
+          {
+            "period": "2029-ye",
+            "opening": 12314,
+            "newbiz": 2109,
+            "interest": 402,
+            "adjustment": -707,
+            "amortization": -1371,
+            "closing": 12747
           },
           {
             "period": "2030-ye",
-            "opening": 14310,
-            "newbiz": 2199,
-            "interest": 470,
-            "adjustment": -249,
-            "amortization": -1554,
-            "closing": 15176
+            "opening": 12747,
+            "newbiz": 2200,
+            "interest": 417,
+            "adjustment": -731,
+            "amortization": -1422,
+            "closing": 13211
           }
         ],
         "worst": [
           {
             "period": "2026-ye",
             "opening": 11102,
-            "newbiz": 1675,
-            "interest": 364,
-            "adjustment": -209,
-            "amortization": -1215,
-            "closing": 11717
+            "newbiz": 1762,
+            "interest": 373,
+            "adjustment": -624,
+            "amortization": -1284,
+            "closing": 11329
           },
           {
             "period": "2027-ye",
-            "opening": 11717,
-            "newbiz": 1712,
-            "interest": 382,
-            "adjustment": -227,
-            "amortization": -1266,
-            "closing": 12318
+            "opening": 11329,
+            "newbiz": 1744,
+            "interest": 364,
+            "adjustment": -777,
+            "amortization": -1244,
+            "closing": 11416
           },
           {
             "period": "2028-ye",
-            "opening": 12318,
-            "newbiz": 1796,
-            "interest": 402,
-            "adjustment": -242,
-            "amortization": -1332,
-            "closing": 12942
+            "opening": 11416,
+            "newbiz": 1820,
+            "interest": 369,
+            "adjustment": -802,
+            "amortization": -1258,
+            "closing": 11545
+          },
+          {
+            "period": "2029-ye",
+            "opening": 11545,
+            "newbiz": 1898,
+            "interest": 374,
+            "adjustment": -830,
+            "amortization": -1274,
+            "closing": 11713
           },
           {
             "period": "2030-ye",
-            "opening": 13595,
-            "newbiz": 1979,
-            "interest": 444,
-            "adjustment": -274,
-            "amortization": -1468,
-            "closing": 14276
+            "opening": 11713,
+            "newbiz": 1980,
+            "interest": 380,
+            "adjustment": -858,
+            "amortization": -1296,
+            "closing": 11919
           }
         ],
-        "terminal": {
-          "base": {
-            "period": "2035-ye",
-            "opening": 18345,
-            "newbiz": 2429,
-            "interest": 594,
-            "adjustment": -319,
-            "amortization": -1968,
-            "closing": 19081
-          },
-          "worst": {
-            "period": "2035-ye",
-            "opening": 16775,
-            "newbiz": 2186,
-            "interest": 542,
-            "adjustment": -351,
-            "amortization": -1795,
-            "closing": 17357
-          }
-        },
         "assumptions": {
-          "newbizGrowth": 0.049657,
-          "longTermNewbizGrowth": 0.02,
-          "baseAdjustmentRate": -0.017384,
+          "rawNewbizGrowth": 0.16327,
+          "boundedNewbizGrowth": 0.05,
+          "newbizGrowthBounds": {
+            "lower": -0.05,
+            "upper": 0.05
+          },
+          "optimismBiasPenalty": 0.006756,
+          "backtestMeanErrorBn": 300,
+          "newbizTrendWindow": [
+            {
+              "year": 2024,
+              "value": 1380,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2025,
+              "value": 1588,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2026,
+              "value": 1858,
+              "valueKind": "base_forecast"
+            }
+          ],
+          "newbizGrowthObservations": [
+            {
+              "fromYear": 2024,
+              "toYear": 2025,
+              "rate": 0.1507246376811595,
+              "weight": 0.35
+            },
+            {
+              "fromYear": 2025,
+              "toYear": 2026,
+              "rate": 0.17002518891687668,
+              "weight": 0.65
+            }
+          ],
+          "newbizGrowth": 0.043244,
+          "baseAdjustmentRate": -0.057377,
+          "adjustmentRateMethod": "2024 actual 20% + 2025 actual 30% + 2026 Base forecast 50%, one-off adjustments excluded",
+          "adjustmentRateWeights": [
+            0.0,
+            0.37499999999999994,
+            0.625
+          ],
+          "adjustmentRateWindow": [
+            {
+              "year": 2024,
+              "valueKind": "actual",
+              "opening": 10469,
+              "reportedAdjustment": 151,
+              "oneOffExcluded": 151,
+              "recurringAdjustment": 0,
+              "rate": 0.0,
+              "included": false,
+              "treatment": "연간 순양(+) 조정은 비경상 환입으로 보아 장기 반복에서 제외",
+              "nominalWeight": 0.2,
+              "weight": 0.0
+            },
+            {
+              "year": 2025,
+              "valueKind": "actual",
+              "opening": 11188,
+              "reportedAdjustment": -867,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -867,
+              "rate": -0.07749374329638899,
+              "included": true,
+              "treatment": "연간 순액 사용 · 분기 내 환입·재분류는 별도 반복하지 않음",
+              "nominalWeight": 0.3,
+              "weight": 0.37499999999999994
+            },
+            {
+              "year": 2026,
+              "valueKind": "base_forecast",
+              "opening": 11102,
+              "reportedAdjustment": -503,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -503,
+              "rate": -0.04530715186452891,
+              "included": true,
+              "treatment": "경영목표 연결분과 순양(+) 전망분 제외 · 상반기 일회성 조정은 연간 정상화 전망에서 반복하지 않음",
+              "nominalWeight": 0.5,
+              "weight": 0.625
+            }
+          ],
+          "oneOffAdjustmentPolicy": "연간 순양(+) 조정, 경영목표 연결분과 분기성 환입·재분류의 총액 반복을 제외",
+          "positiveRecurringAdjustmentCap": 0.0,
           "worstNewbizStress": 0.1,
           "worstAdjustmentStress": 0.1,
+          "worstAdjustmentRatePointFloor": 0.01,
           "stressCalibrationQuantile": 0.8,
           "stressCalibrationSampleCount": 6,
           "worstPolicy": {
             "basis": "전 보험사 공통 단순 하방 가정",
             "newbizDiscount": 0.1,
             "adjustmentStress": 0.1,
-            "q1ActualLocked": true
+            "adjustmentRatePointFloor": 0.01,
+            "actualLockedThroughQuarter": 2
           },
           "targetAdjustmentNormalization": null,
-          "longTermMethod": "2030년 Base와 Worst를 각각 앵커로 유지하되 Worst는 공통 단순 하방 가정으로 산출"
+          "fiveYearMethod": "2026~2030년을 매년 동일한 Movement 산식으로 연결하고 Worst는 공통 단순 하방 가정으로 산출"
         },
         "executiveRationale": {
-          "years1to3": "최근 분기 실적과 전년 계절성으로 Base를 산출하고, 증권사 근거가 있는 회사만 제한적으로 반영. Worst는 1분기 확정 실적은 유지하고 잔여 신계약 CSM을 Base 대비 10% 낮추며 CSM 조정은 Base 대비 10% 더 불리하게 적용",
-          "year5": "과거 신계약 추세를 연 +5.0% 범위로 적용하고 경상 CSM 조정률을 유지하며, 2030년까지 Movement를 연결",
-          "year10": "2035년 Base는 신계약 증가율 연 +2.0%와 현재 CSM 조정률을 적용하고, Worst는 같은 공통 하방률을 장기 경로에 적용"
+          "years1to3": "최근 분기 실적과 전년 계절성으로 Base를 산출하고, 증권사 근거가 있는 회사만 제한적으로 반영. Worst는 상반기 확정 실적은 유지하고 잔여 신계약 CSM을 Base 대비 10% 낮추며 CSM 조정은 Base 대비 10% 더 불리하게 적용. 단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 적용",
+          "years4to5": "2024·2025년 실적과 2026년 Base를 연결한 신계약 추세에 통제를 반영해 연 +4.3%를 적용하고, 같은 3개년에서 일회성 조정을 제외한 CSM 조정률 -5.7%를 유지하며, 2030년까지 Movement를 연결"
         },
         "horizonConfidence": {
           "oneYear": "제한적 검증",
           "twoToThreeYears": "모델 경로",
-          "fiveYear": "시나리오",
-          "tenYear": "장기 시나리오"
+          "fourToFiveYears": "시나리오"
         }
       },
       "model": {
-        "version": "rolling-origin-seasonal/v2",
+        "version": "rolling-origin-current-year/v5",
         "baseline": {
-          "remainingNewbiz": 1372,
-          "remainingAdjustment": -157,
+          "remainingNewbiz": 964,
+          "remainingAdjustment": -1072,
           "newbizShares": [
-            0.326629,
-            0.3441,
-            0.329271
+            0.511326,
+            0.488674
           ],
           "adjustmentShares": [
-            0.180661,
-            0.212642,
-            0.606696
+            0.260215,
+            0.739785
           ],
           "drivers": {
             "newbiz": {
-              "priorYearRemaining": 1231,
-              "q1Growth": 0.232493,
-              "priorRemainingGrowth": 0.22123,
-              "appliedGrowthSignal": 0.114276
+              "ytdGrowth": 0.224658,
+              "priorRemainingGrowth": 0.288288,
+              "appliedGrowthSignal": 0.123464,
+              "futureQuarters": [
+                3,
+                4
+              ]
             },
             "adjustment": {
-              "method": "median historical Q2-Q4 adjustment rate to Q1 closing CSM",
-              "medianRate": -0.013896,
+              "method": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+              "rawAnnualRate": -0.045323,
+              "normalizedAnnualRate": -0.045323,
+              "positiveRateCapApplied": false,
+              "annualTarget": -503,
+              "actualYtd": 569,
               "observations": [
                 {
-                  "year": 2023,
-                  "rate": -0.013896,
-                  "remaining": -139
-                },
-                {
                   "year": 2024,
-                  "rate": 0.004003,
-                  "remaining": 43
+                  "opening": 10469,
+                  "adjustment": 151,
+                  "rate": 0.014423536154360492,
+                  "weight": 0.35
                 },
                 {
                   "year": 2025,
-                  "rate": -0.061521,
-                  "remaining": -687
+                  "opening": 11188,
+                  "adjustment": -867,
+                  "rate": -0.07749374329638899,
+                  "weight": 0.65
                 }
               ]
             },
+            "originQuarter": 2,
+            "futureQuarters": [
+              3,
+              4
+            ],
             "rateLookbackPeriods": [
-              "2025-q2",
               "2025-q3",
               "2025-q4",
-              "2026-q1"
+              "2026-q1",
+              "2026-q2"
             ]
           }
         },
@@ -6093,24 +6976,28 @@ window.CSM_FORECAST_DATA = {
           "weight": 0,
           "remainingNewbiz": null,
           "remainingAdjustment": null,
+          "originalQ1RemainingNewbiz": null,
+          "originalQ1RemainingAdjustment": null,
+          "realizedQ2Newbiz": null,
+          "realizedQ2Adjustment": null,
           "reason": "회사별 직접 증권사 근거가 없어 미적용"
         },
         "finalInputs": {
-          "remainingNewbiz": 1372,
-          "remainingAdjustment": -157
+          "remainingNewbiz": 964,
+          "remainingAdjustment": -1072
         },
         "backtest": {
           "sampleCount": 6,
-          "meanAbsolutePercentageError": 0.036533,
-          "meanAbsoluteErrorBn": 407,
-          "meanErrorBn": 50,
+          "meanAbsolutePercentageError": 0.033342,
+          "meanAbsoluteErrorBn": 370,
+          "meanErrorBn": 300,
           "validationLabel": "검증 제한",
           "calibration": {
             "quantile": 0.8,
             "sampleCount": 6,
             "newbizStress": 0.237762,
-            "adjustmentDownsideRateToOpening": 0.064367,
-            "closingErrorP80": 0.04701
+            "adjustmentDownsideRateToOpening": 0.07708,
+            "closingErrorP80": 0.059798
           },
           "samples": [
             {
@@ -6118,16 +7005,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2024-q1",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 11116,
+              "predictedClosing": 11156,
               "actualClosing": 11188,
-              "closingError": -72,
-              "closingAbsolutePercentageError": 0.006435,
+              "closingError": -32,
+              "closingAbsolutePercentageError": 0.00286,
               "predictedRemainingNewbiz": 1123,
               "actualRemainingNewbiz": 1008,
               "newbizAbsolutePercentageError": 0.114087,
-              "predictedRemainingAdjustment": -149,
+              "predictedRemainingAdjustment": -108,
               "actualRemainingAdjustment": 43,
-              "adjustmentAbsoluteErrorToOpening": 0.017872,
+              "adjustmentAbsoluteErrorToOpening": 0.014056,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q2",
@@ -6136,7 +7023,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.013896
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": 0.0,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 7469,
+                    "adjustment": 1140,
+                    "rate": 0.15263087428035882,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 9638,
+                    "adjustment": 2,
+                    "rate": 0.00020751193193608634,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -6144,16 +7048,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2024-q2",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 11000,
+              "predictedClosing": 11122,
               "actualClosing": 11188,
-              "closingError": -188,
-              "closingAbsolutePercentageError": 0.016804,
+              "closingError": -66,
+              "closingAbsolutePercentageError": 0.005899,
               "predictedRemainingNewbiz": 743,
               "actualRemainingNewbiz": 666,
               "newbizAbsolutePercentageError": 0.115616,
-              "predictedRemainingAdjustment": -12,
+              "predictedRemainingAdjustment": 112,
               "actualRemainingAdjustment": 263,
-              "adjustmentAbsoluteErrorToOpening": 0.025788,
+              "adjustmentAbsoluteErrorToOpening": 0.01416,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q3",
@@ -6162,7 +7066,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": -0.001093
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": 0.0,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 7469,
+                    "adjustment": 1140,
+                    "rate": 0.15263087428035882,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 9638,
+                    "adjustment": 2,
+                    "rate": 0.00020751193193608634,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -6170,16 +7091,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2024-q3",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 10378,
+              "predictedClosing": 11073,
               "actualClosing": 11188,
-              "closingError": -810,
-              "closingAbsolutePercentageError": 0.072399,
+              "closingError": -115,
+              "closingAbsolutePercentageError": 0.010279,
               "predictedRemainingNewbiz": 349,
               "actualRemainingNewbiz": 325,
               "newbizAbsolutePercentageError": 0.073846,
-              "predictedRemainingAdjustment": -417,
+              "predictedRemainingAdjustment": 278,
               "actualRemainingAdjustment": 429,
-              "adjustmentAbsoluteErrorToOpening": 0.079496,
+              "adjustmentAbsoluteErrorToOpening": 0.014189,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q4",
@@ -6188,7 +7109,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": -0.039142
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": 0.0,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 7469,
+                    "adjustment": 1140,
+                    "rate": 0.15263087428035882,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 9638,
+                    "adjustment": 2,
+                    "rate": 0.00020751193193608634,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -6196,16 +7134,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2025-q1",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 11458,
+              "predictedClosing": 11690,
               "actualClosing": 11104,
-              "closingError": 354,
-              "closingAbsolutePercentageError": 0.03188,
+              "closingError": 586,
+              "closingAbsolutePercentageError": 0.052774,
               "predictedRemainingNewbiz": 970,
               "actualRemainingNewbiz": 1231,
               "newbizAbsolutePercentageError": 0.212023,
-              "predictedRemainingAdjustment": -55,
+              "predictedRemainingAdjustment": 180,
               "actualRemainingAdjustment": -687,
-              "adjustmentAbsoluteErrorToOpening": 0.056595,
+              "adjustmentAbsoluteErrorToOpening": 0.077639,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q2",
@@ -6214,7 +7152,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.004947
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": 0.0,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 9638,
+                    "adjustment": 2,
+                    "rate": 0.00020751193193608634,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 10469,
+                    "adjustment": 151,
+                    "rate": 0.014423536154360492,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -6222,16 +7177,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2025-q2",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 11626,
+              "predictedClosing": 11768,
               "actualClosing": 11104,
-              "closingError": 522,
-              "closingAbsolutePercentageError": 0.04701,
+              "closingError": 664,
+              "closingAbsolutePercentageError": 0.059798,
               "predictedRemainingNewbiz": 654,
               "actualRemainingNewbiz": 858,
               "newbizAbsolutePercentageError": 0.237762,
-              "predictedRemainingAdjustment": 133,
+              "predictedRemainingAdjustment": 276,
               "actualRemainingAdjustment": -591,
-              "adjustmentAbsoluteErrorToOpening": 0.064367,
+              "adjustmentAbsoluteErrorToOpening": 0.07708,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q3",
@@ -6240,7 +7195,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": 0.011785
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": 0.0,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 9638,
+                    "adjustment": 2,
+                    "rate": 0.00020751193193608634,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 10469,
+                    "adjustment": 151,
+                    "rate": 0.014423536154360492,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -6248,16 +7220,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2025-q3",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 11600,
+              "predictedClosing": 11864,
               "actualClosing": 11104,
-              "closingError": 496,
-              "closingAbsolutePercentageError": 0.044669,
+              "closingError": 760,
+              "closingAbsolutePercentageError": 0.068444,
               "predictedRemainingNewbiz": 328,
               "actualRemainingNewbiz": 435,
               "newbizAbsolutePercentageError": 0.245977,
-              "predictedRemainingAdjustment": 7,
+              "predictedRemainingAdjustment": 271,
               "actualRemainingAdjustment": -596,
-              "adjustmentAbsoluteErrorToOpening": 0.052567,
+              "adjustmentAbsoluteErrorToOpening": 0.075582,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q4",
@@ -6266,32 +7238,50 @@ window.CSM_FORECAST_DATA = {
                   "2025-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": 0.000585
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": 0.0,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 9638,
+                    "adjustment": 2,
+                    "rate": 0.00020751193193608634,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 10469,
+                    "adjustment": 151,
+                    "rate": 0.014423536154360492,
+                    "weight": 0.65
+                  }
+                ]
               }
             }
           ]
         }
       },
       "qualitativeJudgment": {
-        "baseNewbiz": "데이터 모델 1.37조원을 그대로 적용. +11.4% 성장 신호 반영.",
-        "baseAdjustment": "최근 최대 3개년 Q2~Q4 조정률 중앙값 기반 -0.16조원을 그대로 적용.",
+        "baseNewbiz": "데이터 모델 0.96조원을 그대로 적용. +12.3% 성장 신호 반영.",
+        "baseAdjustment": "직전 2개 연말 조정률을 35%·65% 가중하고 양(+) 경상률을 0%로 제한한 정상화 기준 -1.07조원을 그대로 적용.",
         "targetAdjustmentOverlay": "경영목표 연결 조정 없음",
-        "worst": "전 보험사에 같은 단순 하방 가정을 적용. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영. 조정은 Base -0.16조원에서 Worst -0.17조원으로 적용."
+        "worst": "전 보험사에 같은 단순 하방 가정을 적용. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영하되 충격이 작아지지 않도록 기시 CSM의 1%p를 최소 부담으로 적용. 조정은 Base -1.07조원에서 Worst -1.19조원으로 적용."
       },
       "worstAssumption": {
         "basis": "전 보험사 공통 단순 하방 가정",
-        "scope": "2026년 1분기 확정 실적은 유지하고 Q2~Q4 전망 입력에만 적용",
+        "scope": "2026년 상반기 확정 실적은 유지하고 Q3~Q4 전망 입력에만 적용",
         "newbizDiscount": 0.1,
         "adjustmentStress": 0.1,
-        "adjustmentDirection": "CSM 조정이 음수이면 절대 부담을 확대하고, 양수이면 기여 효과를 축소"
+        "adjustmentRatePointFloor": 0.01,
+        "adjustmentDirection": "Base보다 10% 불리하게 적용. 단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 사용"
       },
       "confidence": "검증 제한",
       "validation": {
         "label": "검증 제한",
         "sampleCount": 6,
-        "meanAbsolutePercentageError": 0.036533,
-        "meanAbsoluteErrorBn": 407,
-        "meanErrorBn": 50,
+        "meanAbsolutePercentageError": 0.033342,
+        "meanAbsoluteErrorBn": 370,
+        "meanErrorBn": 300,
         "scope": "회사별 2024·2025년 Q1·Q2·Q3 시점 연말 예측",
         "limitation": "IFRS17 이후 2개 연도·6개 시점으로 장기 확률 신뢰도로 해석하지 않음"
       },
@@ -6310,20 +7300,27 @@ window.CSM_FORECAST_DATA = {
       },
       "sources": [
         {
+          "title": "KB증권 보험업 전망 (2026.06.22)",
+          "url": "https://rdata.kbsec.com/pdf_data/20260622111726153K.pdf",
+          "type": "sell_side",
+          "use": "업계 CSM 성장 둔화 가능성과 잔존 경험조정 위험을 장기 낙관 편향 통제의 방향성 근거로만 사용",
+          "id": "meritz-fire-industry-1"
+        },
+        {
           "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
           "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
           "type": "sell_side",
           "use": "업종 방향성 참고용이며 회사별 수치 오버레이에는 사용하지 않음",
-          "id": "meritz-fire-industry-1"
+          "id": "meritz-fire-industry-2"
         }
       ],
       "evidenceSources": [
         {
-          "id": "meritz-fire-2026-q1-dart",
-          "title": "메리츠화재 [기재정정]분기보고서 (2026.03)",
-          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529001425",
+          "id": "meritz-fire-2026-q2-dart",
+          "title": "메리츠화재 반기보고서 (2026.06)",
+          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814002253",
           "type": "official_filing",
-          "use": "2026년 1분기 CSM Movement 확정값"
+          "use": "2026년 상반기 누적 CSM Movement 확정값"
         },
         {
           "id": "meritz-fire-forecast-methodology",
@@ -6340,15 +7337,15 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 신계약 CSM +0.440조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "meritz-fire-2026-q1-dart"
+              "headline": "2026년 상반기 신계약 CSM +0.894조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "meritz-fire-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 신계약 CSM +1.812조원",
-              "detail": "1분기 확정 +0.440조원과 잔여 3개 분기 +1.372조원을 합산",
+              "headline": "2026년 연간 신계약 CSM +1.858조원",
+              "detail": "상반기 누적 확정 +0.894조원과 잔여 2개 분기 +0.964조원을 합산",
               "sourceId": "meritz-fire-forecast-methodology"
             },
             {
@@ -6366,34 +7363,34 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 이자부리 +0.089조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "meritz-fire-2026-q1-dart"
+              "headline": "2026년 상반기 이자부리 +0.180조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "meritz-fire-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 이자부리 +0.366조원",
+              "headline": "2026년 연간 이자부리 +0.374조원",
               "detail": "분기 이자부리율 0.77%를 기시 CSM과 신계약 CSM 합계에 적용",
               "sourceId": "meritz-fire-forecast-methodology"
             }
           ]
         },
         "adjustment": {
-          "statement": "최근 경험조정과 연말 계리 가정 재점검 부담을 반영해 CSM 조정을 산출",
+          "statement": "과거 연간 조정률을 정상화해 일회성 환입의 반복을 차단하고 CSM 조정을 산출",
           "items": [
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 조정 -0.036조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "meritz-fire-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 조정 +0.569조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "meritz-fire-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 조정 -0.193조원",
-              "detail": "최근 최대 3개년 Q2~Q4 조정률 중앙값으로 잔여 조정 -0.157조원을 산출",
+              "headline": "2026년 연간 CSM 조정 -0.503조원",
+              "detail": "직전 2개 연말 조정률을 35%·65%로 가중하고 양(+)의 경상 조정률은 0%로 제한해 연간 목표 -0.503조원, 잔여 조정 -1.072조원을 산출",
               "sourceId": "meritz-fire-forecast-methodology"
             },
             {
@@ -6411,15 +7408,15 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 상각 -0.304조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "meritz-fire-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 상각 -0.625조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "meritz-fire-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 상각 -1.222조원",
-              "detail": "분기 상각률 2.56%를 기시 CSM과 신계약 CSM 합계에 적용",
+              "headline": "2026년 연간 CSM 상각 -1.289조원",
+              "detail": "분기 상각률 2.64%를 기시 CSM과 신계약 CSM 합계에 적용",
               "sourceId": "meritz-fire-forecast-methodology"
             }
           ]
@@ -6428,23 +7425,23 @@ window.CSM_FORECAST_DATA = {
     },
     "db-insurance": {
       "companyName": "DB손해보험",
-      "asOfPeriod": "2026-q1",
-      "asOfCsm": 12822,
+      "asOfPeriod": "2026-q2",
+      "asOfCsm": 12794,
       "targetPeriod": "2026-ye",
       "anchor": {
         "type": "model_generated",
-        "value": 12521,
+        "value": 12105,
         "note": "담당자 입력값 없음 · 모델 예상치를 사용"
       },
       "ratios": {
-        "interestRate": 0.007973,
-        "amortizationRate": 0.023611,
+        "interestRate": 0.007898,
+        "amortizationRate": 0.023609,
         "denominator": "기시 CSM + 신계약 CSM",
         "lookbackPeriods": [
-          "2025-q2",
           "2025-q3",
           "2025-q4",
-          "2026-q1"
+          "2026-q1",
+          "2026-q2"
         ],
         "lookbackWeights": [
           0.1,
@@ -6456,11 +7453,11 @@ window.CSM_FORECAST_DATA = {
       },
       "base": {
         "opening": 12205,
-        "newbiz": 2764,
-        "interest": 430,
-        "adjustment": -1583,
-        "amortization": -1295,
-        "closing": 12521,
+        "newbiz": 2595,
+        "interest": 418,
+        "adjustment": -1841,
+        "amortization": -1272,
+        "closing": 12105,
         "quarters": [
           {
             "period": "2026-q1",
@@ -6474,79 +7471,71 @@ window.CSM_FORECAST_DATA = {
           },
           {
             "period": "2026-q2",
+            "actual": true,
             "opening": 12822,
-            "newbiz": 751,
-            "interest": 108,
-            "adjustment": -239,
-            "amortization": -320,
-            "closing": 13122
+            "newbiz": 586,
+            "interest": 105,
+            "amortization": -315,
+            "adjustment": -404,
+            "closing": 12794
           },
           {
             "period": "2026-q3",
-            "opening": 13122,
-            "newbiz": 656,
-            "interest": 110,
-            "adjustment": -421,
-            "amortization": -325,
-            "closing": 13142
+            "opening": 12794,
+            "newbiz": 654,
+            "interest": 106,
+            "adjustment": -489,
+            "amortization": -317,
+            "closing": 12748
           },
           {
             "period": "2026-q4",
-            "opening": 13142,
-            "newbiz": 732,
-            "interest": 111,
-            "adjustment": -1136,
-            "amortization": -328,
-            "closing": 12521
+            "opening": 12748,
+            "newbiz": 730,
+            "interest": 106,
+            "adjustment": -1161,
+            "amortization": -318,
+            "closing": 12105
           }
         ],
         "remainingForecast": {
-          "opening": 12822,
-          "newbiz": 2139,
-          "interest": 329,
-          "adjustment": -1796,
-          "amortization": -973,
-          "closing": 12521,
+          "opening": 12794,
+          "newbiz": 1384,
+          "interest": 212,
+          "adjustment": -1650,
+          "amortization": -635,
+          "closing": 12105,
           "quarters": [
             {
-              "period": "2026-q2",
-              "opening": 12822,
-              "newbiz": 751,
-              "interest": 108,
-              "adjustment": -239,
-              "amortization": -320,
-              "closing": 13122
-            },
-            {
               "period": "2026-q3",
-              "opening": 13122,
-              "newbiz": 656,
-              "interest": 110,
-              "adjustment": -421,
-              "amortization": -325,
-              "closing": 13142
+              "opening": 12794,
+              "newbiz": 654,
+              "interest": 106,
+              "adjustment": -489,
+              "amortization": -317,
+              "closing": 12748
             },
             {
               "period": "2026-q4",
-              "opening": 13142,
-              "newbiz": 732,
-              "interest": 111,
-              "adjustment": -1136,
-              "amortization": -328,
-              "closing": 12521
+              "opening": 12748,
+              "newbiz": 730,
+              "interest": 106,
+              "adjustment": -1161,
+              "amortization": -318,
+              "closing": 12105
             }
           ]
         },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "rationale": "전년 동분기 계절성, Q1 성장 신호, 최근 3개년 조정률 중앙값과 최근 4개 분기 이자·상각률로 산출. 증권사 근거가 있는 정성 입력을 25% 오버레이."
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "rationale": "전년 동기간 계절성, 상반기 성장 신호, 직전 2개 연말 정상화 조정률과 최근 4개 분기 이자·상각률로 산출. 증권사 근거가 있는 정성 입력을 25% 오버레이."
       },
       "worst": {
         "opening": 12205,
-        "newbiz": 2550,
-        "interest": 426,
-        "adjustment": -1763,
-        "amortization": -1283,
-        "closing": 12135,
+        "newbiz": 2457,
+        "interest": 417,
+        "adjustment": -2006,
+        "amortization": -1267,
+        "closing": 11806,
         "quarters": [
           {
             "period": "2026-q1",
@@ -6560,80 +7549,72 @@ window.CSM_FORECAST_DATA = {
           },
           {
             "period": "2026-q2",
+            "actual": true,
             "opening": 12822,
-            "newbiz": 676,
-            "interest": 108,
-            "adjustment": -263,
-            "amortization": -319,
-            "closing": 13024
+            "newbiz": 586,
+            "interest": 105,
+            "amortization": -315,
+            "adjustment": -404,
+            "closing": 12794
           },
           {
             "period": "2026-q3",
-            "opening": 13024,
-            "newbiz": 591,
-            "interest": 109,
-            "adjustment": -463,
-            "amortization": -321,
-            "closing": 12940
+            "opening": 12794,
+            "newbiz": 589,
+            "interest": 106,
+            "adjustment": -538,
+            "amortization": -316,
+            "closing": 12635
           },
           {
             "period": "2026-q4",
-            "opening": 12940,
-            "newbiz": 658,
-            "interest": 108,
-            "adjustment": -1250,
-            "amortization": -321,
-            "closing": 12135
+            "opening": 12635,
+            "newbiz": 657,
+            "interest": 105,
+            "adjustment": -1277,
+            "amortization": -314,
+            "closing": 11806
           }
         ],
         "remainingForecast": {
-          "opening": 12822,
-          "newbiz": 1925,
-          "interest": 325,
-          "adjustment": -1976,
-          "amortization": -961,
-          "closing": 12135,
+          "opening": 12794,
+          "newbiz": 1246,
+          "interest": 211,
+          "adjustment": -1815,
+          "amortization": -630,
+          "closing": 11806,
           "quarters": [
             {
-              "period": "2026-q2",
-              "opening": 12822,
-              "newbiz": 676,
-              "interest": 108,
-              "adjustment": -263,
-              "amortization": -319,
-              "closing": 13024
-            },
-            {
               "period": "2026-q3",
-              "opening": 13024,
-              "newbiz": 591,
-              "interest": 109,
-              "adjustment": -463,
-              "amortization": -321,
-              "closing": 12940
+              "opening": 12794,
+              "newbiz": 589,
+              "interest": 106,
+              "adjustment": -538,
+              "amortization": -316,
+              "closing": 12635
             },
             {
               "period": "2026-q4",
-              "opening": 12940,
-              "newbiz": 658,
-              "interest": 108,
-              "adjustment": -1250,
-              "amortization": -321,
-              "closing": 12135
+              "opening": 12635,
+              "newbiz": 657,
+              "interest": 105,
+              "adjustment": -1277,
+              "amortization": -314,
+              "closing": 11806
             }
           ]
         },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "rationale": "전 보험사에 같은 단순 하방 가정을 적용. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영. 조정은 Base -1.80조원에서 Worst -1.98조원으로 적용."
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "rationale": "전 보험사에 같은 단순 하방 가정을 적용. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영하되 충격이 작아지지 않도록 기시 CSM의 1%p를 최소 부담으로 적용. 조정은 Base -1.65조원에서 Worst -1.81조원으로 적용."
       },
       "independentModel": {
         "base": {
           "opening": 12205,
-          "newbiz": 2764,
-          "interest": 430,
-          "adjustment": -1583,
-          "amortization": -1295,
-          "closing": 12521,
+          "newbiz": 2595,
+          "interest": 418,
+          "adjustment": -1841,
+          "amortization": -1272,
+          "closing": 12105,
           "quarters": [
             {
               "period": "2026-q1",
@@ -6647,78 +7628,70 @@ window.CSM_FORECAST_DATA = {
             },
             {
               "period": "2026-q2",
+              "actual": true,
               "opening": 12822,
-              "newbiz": 751,
-              "interest": 108,
-              "adjustment": -239,
-              "amortization": -320,
-              "closing": 13122
+              "newbiz": 586,
+              "interest": 105,
+              "amortization": -315,
+              "adjustment": -404,
+              "closing": 12794
             },
             {
               "period": "2026-q3",
-              "opening": 13122,
-              "newbiz": 656,
-              "interest": 110,
-              "adjustment": -421,
-              "amortization": -325,
-              "closing": 13142
+              "opening": 12794,
+              "newbiz": 654,
+              "interest": 106,
+              "adjustment": -489,
+              "amortization": -317,
+              "closing": 12748
             },
             {
               "period": "2026-q4",
-              "opening": 13142,
-              "newbiz": 732,
-              "interest": 111,
-              "adjustment": -1136,
-              "amortization": -328,
-              "closing": 12521
+              "opening": 12748,
+              "newbiz": 730,
+              "interest": 106,
+              "adjustment": -1161,
+              "amortization": -318,
+              "closing": 12105
             }
           ],
           "remainingForecast": {
-            "opening": 12822,
-            "newbiz": 2139,
-            "interest": 329,
-            "adjustment": -1796,
-            "amortization": -973,
-            "closing": 12521,
+            "opening": 12794,
+            "newbiz": 1384,
+            "interest": 212,
+            "adjustment": -1650,
+            "amortization": -635,
+            "closing": 12105,
             "quarters": [
               {
-                "period": "2026-q2",
-                "opening": 12822,
-                "newbiz": 751,
-                "interest": 108,
-                "adjustment": -239,
-                "amortization": -320,
-                "closing": 13122
-              },
-              {
                 "period": "2026-q3",
-                "opening": 13122,
-                "newbiz": 656,
-                "interest": 110,
-                "adjustment": -421,
-                "amortization": -325,
-                "closing": 13142
+                "opening": 12794,
+                "newbiz": 654,
+                "interest": 106,
+                "adjustment": -489,
+                "amortization": -317,
+                "closing": 12748
               },
               {
                 "period": "2026-q4",
-                "opening": 13142,
-                "newbiz": 732,
-                "interest": 111,
-                "adjustment": -1136,
-                "amortization": -328,
-                "closing": 12521
+                "opening": 12748,
+                "newbiz": 730,
+                "interest": 106,
+                "adjustment": -1161,
+                "amortization": -318,
+                "closing": 12105
               }
             ]
           },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
         },
         "worst": {
           "opening": 12205,
-          "newbiz": 2550,
-          "interest": 426,
-          "adjustment": -1763,
-          "amortization": -1283,
-          "closing": 12135,
+          "newbiz": 2457,
+          "interest": 417,
+          "adjustment": -2006,
+          "amortization": -1267,
+          "closing": 11806,
           "quarters": [
             {
               "period": "2026-q1",
@@ -6732,70 +7705,62 @@ window.CSM_FORECAST_DATA = {
             },
             {
               "period": "2026-q2",
+              "actual": true,
               "opening": 12822,
-              "newbiz": 676,
-              "interest": 108,
-              "adjustment": -263,
-              "amortization": -319,
-              "closing": 13024
+              "newbiz": 586,
+              "interest": 105,
+              "amortization": -315,
+              "adjustment": -404,
+              "closing": 12794
             },
             {
               "period": "2026-q3",
-              "opening": 13024,
-              "newbiz": 591,
-              "interest": 109,
-              "adjustment": -463,
-              "amortization": -321,
-              "closing": 12940
+              "opening": 12794,
+              "newbiz": 589,
+              "interest": 106,
+              "adjustment": -538,
+              "amortization": -316,
+              "closing": 12635
             },
             {
               "period": "2026-q4",
-              "opening": 12940,
-              "newbiz": 658,
-              "interest": 108,
-              "adjustment": -1250,
-              "amortization": -321,
-              "closing": 12135
+              "opening": 12635,
+              "newbiz": 657,
+              "interest": 105,
+              "adjustment": -1277,
+              "amortization": -314,
+              "closing": 11806
             }
           ],
           "remainingForecast": {
-            "opening": 12822,
-            "newbiz": 1925,
-            "interest": 325,
-            "adjustment": -1976,
-            "amortization": -961,
-            "closing": 12135,
+            "opening": 12794,
+            "newbiz": 1246,
+            "interest": 211,
+            "adjustment": -1815,
+            "amortization": -630,
+            "closing": 11806,
             "quarters": [
               {
-                "period": "2026-q2",
-                "opening": 12822,
-                "newbiz": 676,
-                "interest": 108,
-                "adjustment": -263,
-                "amortization": -319,
-                "closing": 13024
-              },
-              {
                 "period": "2026-q3",
-                "opening": 13024,
-                "newbiz": 591,
-                "interest": 109,
-                "adjustment": -463,
-                "amortization": -321,
-                "closing": 12940
+                "opening": 12794,
+                "newbiz": 589,
+                "interest": 106,
+                "adjustment": -538,
+                "amortization": -316,
+                "closing": 12635
               },
               {
                 "period": "2026-q4",
-                "opening": 12940,
-                "newbiz": 658,
-                "interest": 108,
-                "adjustment": -1250,
-                "amortization": -321,
-                "closing": 12135
+                "opening": 12635,
+                "newbiz": 657,
+                "interest": 105,
+                "adjustment": -1277,
+                "amortization": -314,
+                "closing": 11806
               }
             ]
           },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
         }
       },
       "horizon": {
@@ -6803,207 +7768,305 @@ window.CSM_FORECAST_DATA = {
           "2026-ye",
           "2027-ye",
           "2028-ye",
+          "2029-ye",
           "2030-ye"
         ],
-        "terminalPeriod": "2035-ye",
         "base": [
           {
             "period": "2026-ye",
             "opening": 12205,
-            "newbiz": 2764,
-            "interest": 430,
-            "adjustment": -1583,
-            "amortization": -1295,
-            "closing": 12521
+            "newbiz": 2595,
+            "interest": 418,
+            "adjustment": -1841,
+            "amortization": -1272,
+            "closing": 12105
           },
           {
             "period": "2027-ye",
-            "opening": 12521,
-            "newbiz": 2765,
-            "interest": 425,
-            "adjustment": -1624,
-            "amortization": -1259,
-            "closing": 12828
+            "opening": 12105,
+            "newbiz": 2465,
+            "interest": 398,
+            "adjustment": -1968,
+            "amortization": -1191,
+            "closing": 11809
           },
           {
             "period": "2028-ye",
-            "opening": 12828,
-            "newbiz": 2766,
-            "interest": 434,
-            "adjustment": -1664,
-            "amortization": -1286,
-            "closing": 13078
+            "opening": 11809,
+            "newbiz": 2342,
+            "interest": 388,
+            "adjustment": -1920,
+            "amortization": -1158,
+            "closing": 11461
+          },
+          {
+            "period": "2029-ye",
+            "opening": 11461,
+            "newbiz": 2225,
+            "interest": 375,
+            "adjustment": -1864,
+            "amortization": -1121,
+            "closing": 11076
           },
           {
             "period": "2030-ye",
-            "opening": 13283,
-            "newbiz": 2768,
-            "interest": 447,
-            "adjustment": -1723,
-            "amortization": -1326,
-            "closing": 13449
+            "opening": 11076,
+            "newbiz": 2114,
+            "interest": 362,
+            "adjustment": -1801,
+            "amortization": -1082,
+            "closing": 10669
           }
         ],
         "worst": [
           {
             "period": "2026-ye",
             "opening": 12205,
-            "newbiz": 2550,
-            "interest": 426,
-            "adjustment": -1763,
-            "amortization": -1283,
-            "closing": 12135
+            "newbiz": 2457,
+            "interest": 417,
+            "adjustment": -2006,
+            "amortization": -1267,
+            "closing": 11806
           },
           {
             "period": "2027-ye",
-            "opening": 12135,
-            "newbiz": 2488,
-            "interest": 406,
-            "adjustment": -1786,
-            "amortization": -1202,
-            "closing": 12041
+            "opening": 11806,
+            "newbiz": 2218,
+            "interest": 382,
+            "adjustment": -2165,
+            "amortization": -1142,
+            "closing": 11099
           },
           {
             "period": "2028-ye",
-            "opening": 12041,
-            "newbiz": 2489,
-            "interest": 402,
-            "adjustment": -1830,
-            "amortization": -1191,
-            "closing": 11911
+            "opening": 11099,
+            "newbiz": 2108,
+            "interest": 359,
+            "adjustment": -2112,
+            "amortization": -1072,
+            "closing": 10382
+          },
+          {
+            "period": "2029-ye",
+            "opening": 10382,
+            "newbiz": 2002,
+            "interest": 336,
+            "adjustment": -2050,
+            "amortization": -1002,
+            "closing": 9668
           },
           {
             "period": "2030-ye",
-            "opening": 11755,
-            "newbiz": 2491,
-            "interest": 393,
-            "adjustment": -1895,
-            "amortization": -1162,
-            "closing": 11582
+            "opening": 9668,
+            "newbiz": 1903,
+            "interest": 312,
+            "adjustment": -1981,
+            "amortization": -932,
+            "closing": 8970
           }
         ],
-        "terminal": {
-          "base": {
-            "period": "2035-ye",
-            "opening": 13867,
-            "newbiz": 2773,
-            "interest": 464,
-            "adjustment": -1799,
-            "amortization": -1377,
-            "closing": 13928
-          },
-          "worst": {
-            "period": "2035-ye",
-            "opening": 10814,
-            "newbiz": 2496,
-            "interest": 362,
-            "adjustment": -1979,
-            "amortization": -1074,
-            "closing": 10619
-          }
-        },
         "assumptions": {
-          "newbizGrowth": 0.000378,
-          "longTermNewbizGrowth": 0.000189,
-          "baseAdjustmentRate": -0.129701,
+          "rawNewbizGrowth": -0.091394,
+          "boundedNewbizGrowth": -0.05,
+          "newbizGrowthBounds": {
+            "lower": -0.05,
+            "upper": 0.05
+          },
+          "optimismBiasPenalty": 0.013458,
+          "backtestMeanErrorBn": 657,
+          "newbizTrendWindow": [
+            {
+              "year": 2024,
+              "value": 3078,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2025,
+              "value": 2933,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2026,
+              "value": 2595,
+              "valueKind": "base_forecast"
+            }
+          ],
+          "newbizGrowthObservations": [
+            {
+              "fromYear": 2024,
+              "toYear": 2025,
+              "rate": -0.04710851202079269,
+              "weight": 0.35
+            },
+            {
+              "fromYear": 2025,
+              "toYear": 2026,
+              "rate": -0.1152403682236618,
+              "weight": 0.65
+            }
+          ],
+          "newbizGrowth": -0.05,
+          "baseAdjustmentRate": -0.162603,
+          "adjustmentRateMethod": "2024 actual 20% + 2025 actual 30% + 2026 Base forecast 50%, one-off adjustments excluded",
+          "adjustmentRateWeights": [
+            0.2,
+            0.3,
+            0.5
+          ],
+          "adjustmentRateWindow": [
+            {
+              "year": 2024,
+              "valueKind": "actual",
+              "opening": 12152,
+              "reportedAdjustment": -2141,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -2141,
+              "rate": -0.1761849901250823,
+              "included": true,
+              "treatment": "연간 순액 사용 · 분기 내 환입·재분류는 별도 반복하지 않음",
+              "nominalWeight": 0.2,
+              "weight": 0.2
+            },
+            {
+              "year": 2025,
+              "valueKind": "actual",
+              "opening": 12232,
+              "reportedAdjustment": -2118,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -2118,
+              "rate": -0.17315238718116416,
+              "included": true,
+              "treatment": "연간 순액 사용 · 분기 내 환입·재분류는 별도 반복하지 않음",
+              "nominalWeight": 0.3,
+              "weight": 0.3
+            },
+            {
+              "year": 2026,
+              "valueKind": "base_forecast",
+              "opening": 12205,
+              "reportedAdjustment": -1841,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -1841,
+              "rate": -0.15083981974600574,
+              "included": true,
+              "treatment": "경영목표 연결분과 순양(+) 전망분 제외 · 상반기 일회성 조정은 연간 정상화 전망에서 반복하지 않음",
+              "nominalWeight": 0.5,
+              "weight": 0.5
+            }
+          ],
+          "oneOffAdjustmentPolicy": "연간 순양(+) 조정, 경영목표 연결분과 분기성 환입·재분류의 총액 반복을 제외",
+          "positiveRecurringAdjustmentCap": 0.0,
           "worstNewbizStress": 0.1,
           "worstAdjustmentStress": 0.1,
+          "worstAdjustmentRatePointFloor": 0.01,
           "stressCalibrationQuantile": 0.8,
           "stressCalibrationSampleCount": 6,
           "worstPolicy": {
             "basis": "전 보험사 공통 단순 하방 가정",
             "newbizDiscount": 0.1,
             "adjustmentStress": 0.1,
-            "q1ActualLocked": true
+            "adjustmentRatePointFloor": 0.01,
+            "actualLockedThroughQuarter": 2
           },
           "targetAdjustmentNormalization": null,
-          "longTermMethod": "2030년 Base와 Worst를 각각 앵커로 유지하되 Worst는 공통 단순 하방 가정으로 산출"
+          "fiveYearMethod": "2026~2030년을 매년 동일한 Movement 산식으로 연결하고 Worst는 공통 단순 하방 가정으로 산출"
         },
         "executiveRationale": {
-          "years1to3": "최근 분기 실적과 전년 계절성으로 Base를 산출하고, 증권사 근거가 있는 회사만 제한적으로 반영. Worst는 1분기 확정 실적은 유지하고 잔여 신계약 CSM을 Base 대비 10% 낮추며 CSM 조정은 Base 대비 10% 더 불리하게 적용",
-          "year5": "과거 신계약 추세를 연 +0.0% 범위로 적용하고 경상 CSM 조정률을 유지하며, 2030년까지 Movement를 연결",
-          "year10": "2035년 Base는 신계약 증가율 연 +0.0%와 현재 CSM 조정률을 적용하고, Worst는 같은 공통 하방률을 장기 경로에 적용"
+          "years1to3": "최근 분기 실적과 전년 계절성으로 Base를 산출하고, 증권사 근거가 있는 회사만 제한적으로 반영. Worst는 상반기 확정 실적은 유지하고 잔여 신계약 CSM을 Base 대비 10% 낮추며 CSM 조정은 Base 대비 10% 더 불리하게 적용. 단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 적용",
+          "years4to5": "2024·2025년 실적과 2026년 Base를 연결한 신계약 추세에 통제를 반영해 연 -5.0%를 적용하고, 같은 3개년에서 일회성 조정을 제외한 CSM 조정률 -16.3%를 유지하며, 2030년까지 Movement를 연결"
         },
         "horizonConfidence": {
           "oneYear": "제한적 검증",
           "twoToThreeYears": "모델 경로",
-          "fiveYear": "시나리오",
-          "tenYear": "장기 시나리오"
+          "fourToFiveYears": "시나리오"
         }
       },
       "model": {
-        "version": "rolling-origin-seasonal/v2",
+        "version": "rolling-origin-current-year/v5",
         "baseline": {
-          "remainingNewbiz": 2119,
-          "remainingAdjustment": -1994,
+          "remainingNewbiz": 1307,
+          "remainingAdjustment": -1935,
           "newbizShares": [
-            0.351179,
-            0.306869,
-            0.341952
+            0.47255,
+            0.52745
           ],
           "adjustmentShares": [
-            0.133006,
-            0.234451,
-            0.632543
+            0.296442,
+            0.703558
           ],
           "drivers": {
             "newbiz": {
-              "priorYearRemaining": 2225,
-              "q1Growth": -0.115983,
-              "priorRemainingGrowth": -0.057203,
-              "appliedGrowthSignal": -0.047705
+              "ytdGrowth": -0.192667,
+              "priorRemainingGrowth": -0.142943,
+              "appliedGrowthSignal": -0.087632,
+              "futureQuarters": [
+                3,
+                4
+              ]
             },
             "adjustment": {
-              "method": "median historical Q2-Q4 adjustment rate to Q1 closing CSM",
-              "medianRate": -0.155497,
+              "method": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+              "rawAnnualRate": -0.174214,
+              "normalizedAnnualRate": -0.174214,
+              "positiveRateCapApplied": false,
+              "annualTarget": -2126,
+              "actualYtd": -191,
               "observations": [
                 {
-                  "year": 2023,
-                  "rate": -0.111037,
-                  "remaining": -1332
-                },
-                {
                   "year": 2024,
-                  "rate": -0.155497,
-                  "remaining": -1935
+                  "opening": 12152,
+                  "adjustment": -2141,
+                  "rate": -0.1761849901250823,
+                  "weight": 0.35
                 },
                 {
                   "year": 2025,
-                  "rate": -0.177403,
-                  "remaining": -2283
+                  "opening": 12232,
+                  "adjustment": -2118,
+                  "rate": -0.17315238718116416,
+                  "weight": 0.65
                 }
               ]
             },
+            "originQuarter": 2,
+            "futureQuarters": [
+              3,
+              4
+            ],
             "rateLookbackPeriods": [
-              "2025-q2",
               "2025-q3",
               "2025-q4",
-              "2026-q1"
+              "2026-q1",
+              "2026-q2"
             ]
           }
         },
         "analystOverlay": {
           "weight": 0.25,
-          "remainingNewbiz": 2200,
-          "remainingAdjustment": -1200,
+          "remainingNewbiz": 1614,
+          "remainingAdjustment": -796,
+          "originalQ1RemainingNewbiz": 2200,
+          "originalQ1RemainingAdjustment": -1200,
+          "realizedQ2Newbiz": 586,
+          "realizedQ2Adjustment": -404,
           "reason": "1분기 보장성 신계약 매출과 신계약 CSM 감소세를 반영해 잔여 신계약 2.20조원으로 낮춰 설정. 최근 연말 대규모 조정 이력과 1분기 정상화를 함께 반영해 잔여 조정 -1.20조원 적용."
         },
         "finalInputs": {
-          "remainingNewbiz": 2139,
-          "remainingAdjustment": -1796
+          "remainingNewbiz": 1384,
+          "remainingAdjustment": -1650
         },
         "backtest": {
           "sampleCount": 6,
-          "meanAbsolutePercentageError": 0.04265,
-          "meanAbsoluteErrorBn": 521,
-          "meanErrorBn": 314,
+          "meanAbsolutePercentageError": 0.053722,
+          "meanAbsoluteErrorBn": 657,
+          "meanErrorBn": 657,
           "validationLabel": "검증 제한",
           "calibration": {
             "quantile": 0.8,
             "sampleCount": 6,
             "newbizStress": 0.26256,
-            "adjustmentDownsideRateToOpening": 0.044439,
-            "closingErrorP80": 0.054977
+            "adjustmentDownsideRateToOpening": 0.08,
+            "closingErrorP80": 0.078646
           },
           "samples": [
             {
@@ -7011,16 +8074,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2024-q1",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 12591,
+              "predictedClosing": 13221,
               "actualClosing": 12232,
-              "closingError": 359,
-              "closingAbsolutePercentageError": 0.029349,
+              "closingError": 989,
+              "closingAbsolutePercentageError": 0.080853,
               "predictedRemainingNewbiz": 2172,
               "actualRemainingNewbiz": 2360,
               "newbizAbsolutePercentageError": 0.079661,
-              "predictedRemainingAdjustment": -1382,
+              "predictedRemainingAdjustment": -742,
               "actualRemainingAdjustment": -1935,
-              "adjustmentAbsoluteErrorToOpening": 0.044439,
+              "adjustmentAbsoluteErrorToOpening": 0.095869,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q2",
@@ -7029,7 +8092,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.111037
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.078031,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 9719,
+                    "adjustment": 33,
+                    "rate": 0.0033954110505196007,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 11643,
+                    "adjustment": -1419,
+                    "rate": -0.12187580520484412,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -7037,16 +8117,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2024-q2",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 11613,
+              "predictedClosing": 12957,
               "actualClosing": 12232,
-              "closingError": -619,
-              "closingAbsolutePercentageError": 0.050605,
+              "closingError": 725,
+              "closingAbsolutePercentageError": 0.059271,
               "predictedRemainingNewbiz": 1233,
               "actualRemainingNewbiz": 1672,
               "newbizAbsolutePercentageError": 0.26256,
-              "predictedRemainingAdjustment": -2136,
+              "predictedRemainingAdjustment": -779,
               "actualRemainingAdjustment": -1972,
-              "adjustmentAbsoluteErrorToOpening": 0.012669,
+              "adjustmentAbsoluteErrorToOpening": 0.092159,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q3",
@@ -7055,7 +8135,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": -0.164971
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.078031,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 9719,
+                    "adjustment": 33,
+                    "rate": 0.0033954110505196007,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 11643,
+                    "adjustment": -1419,
+                    "rate": -0.12187580520484412,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -7063,16 +8160,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2024-q3",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 12700,
+              "predictedClosing": 13194,
               "actualClosing": 12232,
-              "closingError": 468,
-              "closingAbsolutePercentageError": 0.03826,
+              "closingError": 962,
+              "closingAbsolutePercentageError": 0.078646,
               "predictedRemainingNewbiz": 707,
               "actualRemainingNewbiz": 897,
               "newbizAbsolutePercentageError": 0.211817,
-              "predictedRemainingAdjustment": -950,
+              "predictedRemainingAdjustment": -456,
               "actualRemainingAdjustment": -1649,
-              "adjustmentAbsoluteErrorToOpening": 0.053055,
+              "adjustmentAbsoluteErrorToOpening": 0.09055,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q4",
@@ -7081,7 +8178,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": -0.072081
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.078031,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 9719,
+                    "adjustment": 33,
+                    "rate": 0.0033954110505196007,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 11643,
+                    "adjustment": -1419,
+                    "rate": -0.12187580520484412,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -7089,16 +8203,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2025-q1",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 12889,
-              "actualClosing": 12187,
-              "closingError": 702,
-              "closingAbsolutePercentageError": 0.057602,
+              "predictedClosing": 12538,
+              "actualClosing": 12205,
+              "closingError": 333,
+              "closingAbsolutePercentageError": 0.027284,
               "predictedRemainingNewbiz": 2391,
-              "actualRemainingNewbiz": 2225,
-              "newbizAbsolutePercentageError": 0.074607,
-              "predictedRemainingAdjustment": -1715,
-              "actualRemainingAdjustment": -2283,
-              "adjustmentAbsoluteErrorToOpening": 0.044137,
+              "actualRemainingNewbiz": 2226,
+              "newbizAbsolutePercentageError": 0.074124,
+              "predictedRemainingAdjustment": -2070,
+              "actualRemainingAdjustment": -2265,
+              "adjustmentAbsoluteErrorToOpening": 0.015153,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q2",
@@ -7107,7 +8221,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.133267
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.157177,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 11643,
+                    "adjustment": -1419,
+                    "rate": -0.12187580520484412,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 12152,
+                    "adjustment": -2141,
+                    "rate": -0.1761849901250823,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -7115,16 +8246,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2025-q2",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 12493,
-              "actualClosing": 12187,
-              "closingError": 306,
-              "closingAbsolutePercentageError": 0.025109,
+              "predictedClosing": 12736,
+              "actualClosing": 12205,
+              "closingError": 531,
+              "closingAbsolutePercentageError": 0.043507,
               "predictedRemainingNewbiz": 1800,
-              "actualRemainingNewbiz": 1432,
-              "newbizAbsolutePercentageError": 0.256983,
-              "predictedRemainingAdjustment": -2099,
-              "actualRemainingAdjustment": -2067,
-              "adjustmentAbsoluteErrorToOpening": 0.002419,
+              "actualRemainingNewbiz": 1433,
+              "newbizAbsolutePercentageError": 0.256106,
+              "predictedRemainingAdjustment": -1854,
+              "actualRemainingAdjustment": -2049,
+              "adjustmentAbsoluteErrorToOpening": 0.014738,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q3",
@@ -7133,7 +8264,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": -0.158654
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.157177,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 11643,
+                    "adjustment": -1419,
+                    "rate": -0.12187580520484412,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 12152,
+                    "adjustment": -2141,
+                    "rate": -0.1761849901250823,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -7141,16 +8289,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2025-q3",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 12857,
-              "actualClosing": 12187,
-              "closingError": 670,
-              "closingAbsolutePercentageError": 0.054977,
+              "predictedClosing": 12605,
+              "actualClosing": 12205,
+              "closingError": 400,
+              "closingAbsolutePercentageError": 0.032773,
               "predictedRemainingNewbiz": 947,
-              "actualRemainingNewbiz": 708,
-              "newbizAbsolutePercentageError": 0.337571,
-              "predictedRemainingAdjustment": -1328,
-              "actualRemainingAdjustment": -1793,
-              "adjustmentAbsoluteErrorToOpening": 0.034537,
+              "actualRemainingNewbiz": 709,
+              "newbizAbsolutePercentageError": 0.335684,
+              "predictedRemainingAdjustment": -1580,
+              "actualRemainingAdjustment": -1775,
+              "adjustmentAbsoluteErrorToOpening": 0.014483,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q4",
@@ -7159,32 +8307,50 @@ window.CSM_FORECAST_DATA = {
                   "2025-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": -0.098621
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.157177,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 11643,
+                    "adjustment": -1419,
+                    "rate": -0.12187580520484412,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 12152,
+                    "adjustment": -2141,
+                    "rate": -0.1761849901250823,
+                    "weight": 0.65
+                  }
+                ]
               }
             }
           ]
         }
       },
       "qualitativeJudgment": {
-        "baseNewbiz": "데이터 모델 2.12조원과 애널리스트 판단 2.20조원을 25% 가중해 2.14조원 적용.",
-        "baseAdjustment": "최근 최대 3개년 Q2~Q4 조정률 중앙값 기반 -1.99조원에 애널리스트 판단을 25% 가중해 -1.80조원 적용.",
+        "baseNewbiz": "데이터 모델 1.31조원과 기존 애널리스트 잔여 관점에서 2분기 실적을 차감한 1.61조원을 25% 가중해 1.38조원 적용.",
+        "baseAdjustment": "직전 2개 연말 조정률을 35%·65% 가중하고 양(+) 경상률을 0%로 제한한 정상화 기준 -1.94조원에 애널리스트 판단을 25% 가중해 -1.65조원 적용.",
         "targetAdjustmentOverlay": "경영목표 연결 조정 없음",
-        "worst": "전 보험사에 같은 단순 하방 가정을 적용. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영. 조정은 Base -1.80조원에서 Worst -1.98조원으로 적용."
+        "worst": "전 보험사에 같은 단순 하방 가정을 적용. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영하되 충격이 작아지지 않도록 기시 CSM의 1%p를 최소 부담으로 적용. 조정은 Base -1.65조원에서 Worst -1.81조원으로 적용."
       },
       "worstAssumption": {
         "basis": "전 보험사 공통 단순 하방 가정",
-        "scope": "2026년 1분기 확정 실적은 유지하고 Q2~Q4 전망 입력에만 적용",
+        "scope": "2026년 상반기 확정 실적은 유지하고 Q3~Q4 전망 입력에만 적용",
         "newbizDiscount": 0.1,
         "adjustmentStress": 0.1,
-        "adjustmentDirection": "CSM 조정이 음수이면 절대 부담을 확대하고, 양수이면 기여 효과를 축소"
+        "adjustmentRatePointFloor": 0.01,
+        "adjustmentDirection": "Base보다 10% 불리하게 적용. 단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 사용"
       },
       "confidence": "검증 제한",
       "validation": {
         "label": "검증 제한",
         "sampleCount": 6,
-        "meanAbsolutePercentageError": 0.04265,
-        "meanAbsoluteErrorBn": 521,
-        "meanErrorBn": 314,
+        "meanAbsolutePercentageError": 0.053722,
+        "meanAbsoluteErrorBn": 657,
+        "meanErrorBn": 657,
         "scope": "회사별 2024·2025년 Q1·Q2·Q3 시점 연말 예측",
         "limitation": "IFRS17 이후 2개 연도·6개 시점으로 장기 확률 신뢰도로 해석하지 않음"
       },
@@ -7210,20 +8376,27 @@ window.CSM_FORECAST_DATA = {
           "id": "db-insurance-analyst-1"
         },
         {
+          "title": "KB증권 보험업 전망 (2026.06.22)",
+          "url": "https://rdata.kbsec.com/pdf_data/20260622111726153K.pdf",
+          "type": "sell_side",
+          "use": "업계 CSM 성장 둔화 가능성과 잔존 경험조정 위험을 장기 낙관 편향 통제의 방향성 근거로만 사용",
+          "id": "db-insurance-industry-1"
+        },
+        {
           "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
           "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
           "type": "sell_side",
           "use": "업종 방향성 참고용이며 회사별 수치 오버레이에는 사용하지 않음",
-          "id": "db-insurance-industry-1"
+          "id": "db-insurance-industry-2"
         }
       ],
       "evidenceSources": [
         {
-          "id": "db-insurance-2026-q1-dart",
-          "title": "DB손해보험 분기보고서 (2026.03)",
-          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260515002382",
+          "id": "db-insurance-2026-q2-dart",
+          "title": "DB손해보험 반기보고서 (2026.06)",
+          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814003682",
           "type": "official_filing",
-          "use": "2026년 1분기 CSM Movement 확정값"
+          "use": "2026년 상반기 누적 CSM Movement 확정값"
         },
         {
           "id": "db-insurance-forecast-methodology",
@@ -7240,15 +8413,15 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 신계약 CSM +0.625조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "db-insurance-2026-q1-dart"
+              "headline": "2026년 상반기 신계약 CSM +1.211조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "db-insurance-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 신계약 CSM +2.764조원",
-              "detail": "1분기 확정 +0.625조원과 잔여 3개 분기 +2.139조원을 합산",
+              "headline": "2026년 연간 신계약 CSM +2.595조원",
+              "detail": "상반기 누적 확정 +1.211조원과 잔여 2개 분기 +1.384조원을 합산",
               "sourceId": "db-insurance-forecast-methodology"
             },
             {
@@ -7266,34 +8439,34 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 이자부리 +0.101조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "db-insurance-2026-q1-dart"
+              "headline": "2026년 상반기 이자부리 +0.206조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "db-insurance-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 이자부리 +0.430조원",
-              "detail": "분기 이자부리율 0.80%를 기시 CSM과 신계약 CSM 합계에 적용",
+              "headline": "2026년 연간 이자부리 +0.418조원",
+              "detail": "분기 이자부리율 0.79%를 기시 CSM과 신계약 CSM 합계에 적용",
               "sourceId": "db-insurance-forecast-methodology"
             }
           ]
         },
         "adjustment": {
-          "statement": "최근 경험조정과 연말 계리 가정 재점검 부담을 반영해 CSM 조정을 산출",
+          "statement": "과거 연간 조정률을 정상화해 일회성 환입의 반복을 차단하고 CSM 조정을 산출",
           "items": [
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 조정 +0.213조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "db-insurance-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 조정 -0.191조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "db-insurance-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 조정 -1.583조원",
-              "detail": "최근 최대 3개년 Q2~Q4 조정률 중앙값으로 잔여 조정 -1.796조원을 산출",
+              "headline": "2026년 연간 CSM 조정 -1.841조원",
+              "detail": "직전 2개 연말 조정률을 35%·65%로 가중하고 양(+)의 경상 조정률은 0%로 제한해 연간 목표 -2.126조원, 잔여 조정 -1.650조원을 산출",
               "sourceId": "db-insurance-forecast-methodology"
             },
             {
@@ -7311,14 +8484,14 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 상각 -0.322조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "db-insurance-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 상각 -0.637조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "db-insurance-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 상각 -1.295조원",
+              "headline": "2026년 연간 CSM 상각 -1.272조원",
               "detail": "분기 상각률 2.36%를 기시 CSM과 신계약 CSM 합계에 적용",
               "sourceId": "db-insurance-forecast-methodology"
             }
@@ -7328,23 +8501,23 @@ window.CSM_FORECAST_DATA = {
     },
     "hyundai-marine": {
       "companyName": "현대해상",
-      "asOfPeriod": "2026-q1",
-      "asOfCsm": 9248,
+      "asOfPeriod": "2026-q2",
+      "asOfCsm": 9905,
       "targetPeriod": "2026-ye",
       "anchor": {
         "type": "model_generated",
-        "value": 9172,
+        "value": 9552,
         "note": "담당자 입력값 없음 · 모델 예상치를 사용"
       },
       "ratios": {
-        "interestRate": 0.008169,
-        "amortizationRate": 0.024592,
+        "interestRate": 0.008077,
+        "amortizationRate": 0.025429,
         "denominator": "기시 CSM + 신계약 CSM",
         "lookbackPeriods": [
-          "2025-q2",
           "2025-q3",
           "2025-q4",
-          "2026-q1"
+          "2026-q1",
+          "2026-q2"
         ],
         "lookbackWeights": [
           0.1,
@@ -7356,11 +8529,11 @@ window.CSM_FORECAST_DATA = {
       },
       "base": {
         "opening": 8978,
-        "newbiz": 2042,
-        "interest": 322,
-        "adjustment": -1194,
-        "amortization": -976,
-        "closing": 9172,
+        "newbiz": 2181,
+        "interest": 325,
+        "adjustment": -897,
+        "amortization": -1035,
+        "closing": 9552,
         "quarters": [
           {
             "period": "2026-q1",
@@ -7374,79 +8547,71 @@ window.CSM_FORECAST_DATA = {
           },
           {
             "period": "2026-q2",
+            "actual": true,
             "opening": 9248,
-            "newbiz": 541,
-            "interest": 80,
-            "adjustment": -140,
-            "amortization": -241,
-            "closing": 9488
+            "newbiz": 480,
+            "interest": 78,
+            "amortization": -259,
+            "adjustment": 358,
+            "closing": 9905
           },
           {
             "period": "2026-q3",
-            "opening": 9488,
-            "newbiz": 514,
-            "interest": 82,
-            "adjustment": -250,
-            "amortization": -246,
-            "closing": 9588
+            "opening": 9905,
+            "newbiz": 578,
+            "interest": 85,
+            "adjustment": -424,
+            "amortization": -267,
+            "closing": 9877
           },
           {
             "period": "2026-q4",
-            "opening": 9588,
-            "newbiz": 516,
-            "interest": 83,
-            "adjustment": -767,
-            "amortization": -248,
-            "closing": 9172
+            "opening": 9877,
+            "newbiz": 652,
+            "interest": 85,
+            "adjustment": -794,
+            "amortization": -268,
+            "closing": 9552
           }
         ],
         "remainingForecast": {
-          "opening": 9248,
-          "newbiz": 1571,
-          "interest": 245,
-          "adjustment": -1157,
-          "amortization": -735,
-          "closing": 9172,
+          "opening": 9905,
+          "newbiz": 1230,
+          "interest": 170,
+          "adjustment": -1218,
+          "amortization": -535,
+          "closing": 9552,
           "quarters": [
             {
-              "period": "2026-q2",
-              "opening": 9248,
-              "newbiz": 541,
-              "interest": 80,
-              "adjustment": -140,
-              "amortization": -241,
-              "closing": 9488
-            },
-            {
               "period": "2026-q3",
-              "opening": 9488,
-              "newbiz": 514,
-              "interest": 82,
-              "adjustment": -250,
-              "amortization": -246,
-              "closing": 9588
+              "opening": 9905,
+              "newbiz": 578,
+              "interest": 85,
+              "adjustment": -424,
+              "amortization": -267,
+              "closing": 9877
             },
             {
               "period": "2026-q4",
-              "opening": 9588,
-              "newbiz": 516,
-              "interest": 83,
-              "adjustment": -767,
-              "amortization": -248,
-              "closing": 9172
+              "opening": 9877,
+              "newbiz": 652,
+              "interest": 85,
+              "adjustment": -794,
+              "amortization": -268,
+              "closing": 9552
             }
           ]
         },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "rationale": "전년 동분기 계절성, Q1 성장 신호, 최근 3개년 조정률 중앙값과 최근 4개 분기 이자·상각률로 산출. 증권사 근거가 있는 정성 입력을 25% 오버레이."
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "rationale": "전년 동기간 계절성, 상반기 성장 신호, 직전 2개 연말 정상화 조정률과 최근 4개 분기 이자·상각률로 산출. 증권사 근거가 있는 정성 입력을 25% 오버레이."
       },
       "worst": {
         "opening": 8978,
-        "newbiz": 1885,
-        "interest": 319,
-        "adjustment": -1310,
-        "amortization": -967,
-        "closing": 8905,
+        "newbiz": 2058,
+        "interest": 323,
+        "adjustment": -1019,
+        "amortization": -1029,
+        "closing": 9311,
         "quarters": [
           {
             "period": "2026-q1",
@@ -7460,80 +8625,72 @@ window.CSM_FORECAST_DATA = {
           },
           {
             "period": "2026-q2",
+            "actual": true,
             "opening": 9248,
-            "newbiz": 487,
-            "interest": 80,
-            "adjustment": -154,
-            "amortization": -239,
-            "closing": 9422
+            "newbiz": 480,
+            "interest": 78,
+            "amortization": -259,
+            "adjustment": 358,
+            "closing": 9905
           },
           {
             "period": "2026-q3",
-            "opening": 9422,
-            "newbiz": 463,
-            "interest": 81,
-            "adjustment": -275,
-            "amortization": -243,
-            "closing": 9448
+            "opening": 9905,
+            "newbiz": 520,
+            "interest": 84,
+            "adjustment": -466,
+            "amortization": -265,
+            "closing": 9778
           },
           {
             "period": "2026-q4",
-            "opening": 9448,
-            "newbiz": 464,
-            "interest": 81,
-            "adjustment": -844,
-            "amortization": -244,
-            "closing": 8905
+            "opening": 9778,
+            "newbiz": 587,
+            "interest": 84,
+            "adjustment": -874,
+            "amortization": -264,
+            "closing": 9311
           }
         ],
         "remainingForecast": {
-          "opening": 9248,
-          "newbiz": 1414,
-          "interest": 242,
-          "adjustment": -1273,
-          "amortization": -726,
-          "closing": 8905,
+          "opening": 9905,
+          "newbiz": 1107,
+          "interest": 168,
+          "adjustment": -1340,
+          "amortization": -529,
+          "closing": 9311,
           "quarters": [
             {
-              "period": "2026-q2",
-              "opening": 9248,
-              "newbiz": 487,
-              "interest": 80,
-              "adjustment": -154,
-              "amortization": -239,
-              "closing": 9422
-            },
-            {
               "period": "2026-q3",
-              "opening": 9422,
-              "newbiz": 463,
-              "interest": 81,
-              "adjustment": -275,
-              "amortization": -243,
-              "closing": 9448
+              "opening": 9905,
+              "newbiz": 520,
+              "interest": 84,
+              "adjustment": -466,
+              "amortization": -265,
+              "closing": 9778
             },
             {
               "period": "2026-q4",
-              "opening": 9448,
-              "newbiz": 464,
-              "interest": 81,
-              "adjustment": -844,
-              "amortization": -244,
-              "closing": 8905
+              "opening": 9778,
+              "newbiz": 587,
+              "interest": 84,
+              "adjustment": -874,
+              "amortization": -264,
+              "closing": 9311
             }
           ]
         },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "rationale": "전 보험사에 같은 단순 하방 가정을 적용. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영. 조정은 Base -1.16조원에서 Worst -1.27조원으로 적용."
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "rationale": "전 보험사에 같은 단순 하방 가정을 적용. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영하되 충격이 작아지지 않도록 기시 CSM의 1%p를 최소 부담으로 적용. 조정은 Base -1.22조원에서 Worst -1.34조원으로 적용."
       },
       "independentModel": {
         "base": {
           "opening": 8978,
-          "newbiz": 2042,
-          "interest": 322,
-          "adjustment": -1194,
-          "amortization": -976,
-          "closing": 9172,
+          "newbiz": 2181,
+          "interest": 325,
+          "adjustment": -897,
+          "amortization": -1035,
+          "closing": 9552,
           "quarters": [
             {
               "period": "2026-q1",
@@ -7547,78 +8704,70 @@ window.CSM_FORECAST_DATA = {
             },
             {
               "period": "2026-q2",
+              "actual": true,
               "opening": 9248,
-              "newbiz": 541,
-              "interest": 80,
-              "adjustment": -140,
-              "amortization": -241,
-              "closing": 9488
+              "newbiz": 480,
+              "interest": 78,
+              "amortization": -259,
+              "adjustment": 358,
+              "closing": 9905
             },
             {
               "period": "2026-q3",
-              "opening": 9488,
-              "newbiz": 514,
-              "interest": 82,
-              "adjustment": -250,
-              "amortization": -246,
-              "closing": 9588
+              "opening": 9905,
+              "newbiz": 578,
+              "interest": 85,
+              "adjustment": -424,
+              "amortization": -267,
+              "closing": 9877
             },
             {
               "period": "2026-q4",
-              "opening": 9588,
-              "newbiz": 516,
-              "interest": 83,
-              "adjustment": -767,
-              "amortization": -248,
-              "closing": 9172
+              "opening": 9877,
+              "newbiz": 652,
+              "interest": 85,
+              "adjustment": -794,
+              "amortization": -268,
+              "closing": 9552
             }
           ],
           "remainingForecast": {
-            "opening": 9248,
-            "newbiz": 1571,
-            "interest": 245,
-            "adjustment": -1157,
-            "amortization": -735,
-            "closing": 9172,
+            "opening": 9905,
+            "newbiz": 1230,
+            "interest": 170,
+            "adjustment": -1218,
+            "amortization": -535,
+            "closing": 9552,
             "quarters": [
               {
-                "period": "2026-q2",
-                "opening": 9248,
-                "newbiz": 541,
-                "interest": 80,
-                "adjustment": -140,
-                "amortization": -241,
-                "closing": 9488
-              },
-              {
                 "period": "2026-q3",
-                "opening": 9488,
-                "newbiz": 514,
-                "interest": 82,
-                "adjustment": -250,
-                "amortization": -246,
-                "closing": 9588
+                "opening": 9905,
+                "newbiz": 578,
+                "interest": 85,
+                "adjustment": -424,
+                "amortization": -267,
+                "closing": 9877
               },
               {
                 "period": "2026-q4",
-                "opening": 9588,
-                "newbiz": 516,
-                "interest": 83,
-                "adjustment": -767,
-                "amortization": -248,
-                "closing": 9172
+                "opening": 9877,
+                "newbiz": 652,
+                "interest": 85,
+                "adjustment": -794,
+                "amortization": -268,
+                "closing": 9552
               }
             ]
           },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
         },
         "worst": {
           "opening": 8978,
-          "newbiz": 1885,
-          "interest": 319,
-          "adjustment": -1310,
-          "amortization": -967,
-          "closing": 8905,
+          "newbiz": 2058,
+          "interest": 323,
+          "adjustment": -1019,
+          "amortization": -1029,
+          "closing": 9311,
           "quarters": [
             {
               "period": "2026-q1",
@@ -7632,70 +8781,62 @@ window.CSM_FORECAST_DATA = {
             },
             {
               "period": "2026-q2",
+              "actual": true,
               "opening": 9248,
-              "newbiz": 487,
-              "interest": 80,
-              "adjustment": -154,
-              "amortization": -239,
-              "closing": 9422
+              "newbiz": 480,
+              "interest": 78,
+              "amortization": -259,
+              "adjustment": 358,
+              "closing": 9905
             },
             {
               "period": "2026-q3",
-              "opening": 9422,
-              "newbiz": 463,
-              "interest": 81,
-              "adjustment": -275,
-              "amortization": -243,
-              "closing": 9448
+              "opening": 9905,
+              "newbiz": 520,
+              "interest": 84,
+              "adjustment": -466,
+              "amortization": -265,
+              "closing": 9778
             },
             {
               "period": "2026-q4",
-              "opening": 9448,
-              "newbiz": 464,
-              "interest": 81,
-              "adjustment": -844,
-              "amortization": -244,
-              "closing": 8905
+              "opening": 9778,
+              "newbiz": 587,
+              "interest": 84,
+              "adjustment": -874,
+              "amortization": -264,
+              "closing": 9311
             }
           ],
           "remainingForecast": {
-            "opening": 9248,
-            "newbiz": 1414,
-            "interest": 242,
-            "adjustment": -1273,
-            "amortization": -726,
-            "closing": 8905,
+            "opening": 9905,
+            "newbiz": 1107,
+            "interest": 168,
+            "adjustment": -1340,
+            "amortization": -529,
+            "closing": 9311,
             "quarters": [
               {
-                "period": "2026-q2",
-                "opening": 9248,
-                "newbiz": 487,
-                "interest": 80,
-                "adjustment": -154,
-                "amortization": -239,
-                "closing": 9422
-              },
-              {
                 "period": "2026-q3",
-                "opening": 9422,
-                "newbiz": 463,
-                "interest": 81,
-                "adjustment": -275,
-                "amortization": -243,
-                "closing": 9448
+                "opening": 9905,
+                "newbiz": 520,
+                "interest": 84,
+                "adjustment": -466,
+                "amortization": -265,
+                "closing": 9778
               },
               {
                 "period": "2026-q4",
-                "opening": 9448,
-                "newbiz": 464,
-                "interest": 81,
-                "adjustment": -844,
-                "amortization": -244,
-                "closing": 8905
+                "opening": 9778,
+                "newbiz": 587,
+                "interest": 84,
+                "adjustment": -874,
+                "amortization": -264,
+                "closing": 9311
               }
             ]
           },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
         }
       },
       "horizon": {
@@ -7703,207 +8844,305 @@ window.CSM_FORECAST_DATA = {
           "2026-ye",
           "2027-ye",
           "2028-ye",
+          "2029-ye",
           "2030-ye"
         ],
-        "terminalPeriod": "2035-ye",
         "base": [
           {
             "period": "2026-ye",
             "opening": 8978,
-            "newbiz": 2042,
-            "interest": 322,
-            "adjustment": -1194,
-            "amortization": -976,
-            "closing": 9172
+            "newbiz": 2181,
+            "interest": 325,
+            "adjustment": -897,
+            "amortization": -1035,
+            "closing": 9552
           },
           {
             "period": "2027-ye",
-            "opening": 9172,
-            "newbiz": 2144,
-            "interest": 320,
-            "adjustment": -1220,
-            "amortization": -965,
-            "closing": 9451
+            "opening": 9552,
+            "newbiz": 2248,
+            "interest": 334,
+            "adjustment": -976,
+            "amortization": -1050,
+            "closing": 10108
           },
           {
             "period": "2028-ye",
-            "opening": 9451,
-            "newbiz": 2251,
-            "interest": 332,
-            "adjustment": -1257,
-            "amortization": -996,
-            "closing": 9781
+            "opening": 10108,
+            "newbiz": 2317,
+            "interest": 351,
+            "adjustment": -1032,
+            "amortization": -1108,
+            "closing": 10636
+          },
+          {
+            "period": "2029-ye",
+            "opening": 10636,
+            "newbiz": 2388,
+            "interest": 370,
+            "adjustment": -1086,
+            "amortization": -1162,
+            "closing": 11146
           },
           {
             "period": "2030-ye",
-            "opening": 10154,
-            "newbiz": 2482,
-            "interest": 358,
-            "adjustment": -1350,
-            "amortization": -1076,
-            "closing": 10568
+            "opening": 11146,
+            "newbiz": 2461,
+            "interest": 386,
+            "adjustment": -1138,
+            "amortization": -1215,
+            "closing": 11640
           }
         ],
         "worst": [
           {
             "period": "2026-ye",
             "opening": 8978,
-            "newbiz": 1885,
-            "interest": 319,
-            "adjustment": -1310,
-            "amortization": -967,
-            "closing": 8905
+            "newbiz": 2058,
+            "interest": 323,
+            "adjustment": -1019,
+            "amortization": -1029,
+            "closing": 9311
           },
           {
             "period": "2027-ye",
-            "opening": 8905,
-            "newbiz": 1930,
-            "interest": 308,
-            "adjustment": -1342,
-            "amortization": -922,
-            "closing": 8879
+            "opening": 9311,
+            "newbiz": 2023,
+            "interest": 320,
+            "adjustment": -1074,
+            "amortization": -1009,
+            "closing": 9571
           },
           {
             "period": "2028-ye",
-            "opening": 8879,
-            "newbiz": 2026,
-            "interest": 308,
-            "adjustment": -1383,
-            "amortization": -924,
-            "closing": 8906
+            "opening": 9571,
+            "newbiz": 2085,
+            "interest": 330,
+            "adjustment": -1135,
+            "amortization": -1036,
+            "closing": 9815
+          },
+          {
+            "period": "2029-ye",
+            "opening": 9815,
+            "newbiz": 2149,
+            "interest": 338,
+            "adjustment": -1195,
+            "amortization": -1062,
+            "closing": 10045
           },
           {
             "period": "2030-ye",
-            "opening": 8981,
-            "newbiz": 2234,
-            "interest": 313,
-            "adjustment": -1485,
-            "amortization": -943,
-            "closing": 9100
+            "opening": 10045,
+            "newbiz": 2215,
+            "interest": 346,
+            "adjustment": -1252,
+            "amortization": -1087,
+            "closing": 10267
           }
         ],
-        "terminal": {
-          "base": {
-            "period": "2035-ye",
-            "opening": 11966,
-            "newbiz": 2742,
-            "interest": 417,
-            "adjustment": -1591,
-            "amortization": -1256,
-            "closing": 12278
-          },
-          "worst": {
-            "period": "2035-ye",
-            "opening": 9404,
-            "newbiz": 2468,
-            "interest": 328,
-            "adjustment": -1750,
-            "amortization": -987,
-            "closing": 9463
-          }
-        },
         "assumptions": {
-          "newbizGrowth": 0.05,
-          "longTermNewbizGrowth": 0.02,
-          "baseAdjustmentRate": -0.132992,
+          "rawNewbizGrowth": 0.085816,
+          "boundedNewbizGrowth": 0.05,
+          "newbizGrowthBounds": {
+            "lower": -0.05,
+            "upper": 0.05
+          },
+          "optimismBiasPenalty": 0.019325,
+          "backtestMeanErrorBn": 694,
+          "newbizTrendWindow": [
+            {
+              "year": 2024,
+              "value": 1828,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2025,
+              "value": 2038,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2026,
+              "value": 2181,
+              "valueKind": "base_forecast"
+            }
+          ],
+          "newbizGrowthObservations": [
+            {
+              "fromYear": 2024,
+              "toYear": 2025,
+              "rate": 0.11487964989059085,
+              "weight": 0.35
+            },
+            {
+              "fromYear": 2025,
+              "toYear": 2026,
+              "rate": 0.07016683022571146,
+              "weight": 0.65
+            }
+          ],
+          "newbizGrowth": 0.030675,
+          "baseAdjustmentRate": -0.102136,
+          "adjustmentRateMethod": "2024 actual 20% + 2025 actual 30% + 2026 Base forecast 50%, one-off adjustments excluded",
+          "adjustmentRateWeights": [
+            0.2,
+            0.3,
+            0.5
+          ],
+          "adjustmentRateWindow": [
+            {
+              "year": 2024,
+              "valueKind": "actual",
+              "opening": 9142,
+              "reportedAdjustment": -1198,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -1198,
+              "rate": -0.1310435353314373,
+              "included": true,
+              "treatment": "연간 순액 사용 · 분기 내 환입·재분류는 별도 반복하지 않음",
+              "nominalWeight": 0.2,
+              "weight": 0.2
+            },
+            {
+              "year": 2025,
+              "valueKind": "actual",
+              "opening": 8305,
+              "reportedAdjustment": -719,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -719,
+              "rate": -0.08657435279951836,
+              "included": true,
+              "treatment": "연간 순액 사용 · 분기 내 환입·재분류는 별도 반복하지 않음",
+              "nominalWeight": 0.3,
+              "weight": 0.3
+            },
+            {
+              "year": 2026,
+              "valueKind": "base_forecast",
+              "opening": 8978,
+              "reportedAdjustment": -897,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -897,
+              "rate": -0.09991089329472043,
+              "included": true,
+              "treatment": "경영목표 연결분과 순양(+) 전망분 제외 · 상반기 일회성 조정은 연간 정상화 전망에서 반복하지 않음",
+              "nominalWeight": 0.5,
+              "weight": 0.5
+            }
+          ],
+          "oneOffAdjustmentPolicy": "연간 순양(+) 조정, 경영목표 연결분과 분기성 환입·재분류의 총액 반복을 제외",
+          "positiveRecurringAdjustmentCap": 0.0,
           "worstNewbizStress": 0.1,
           "worstAdjustmentStress": 0.1,
+          "worstAdjustmentRatePointFloor": 0.01,
           "stressCalibrationQuantile": 0.8,
           "stressCalibrationSampleCount": 6,
           "worstPolicy": {
             "basis": "전 보험사 공통 단순 하방 가정",
             "newbizDiscount": 0.1,
             "adjustmentStress": 0.1,
-            "q1ActualLocked": true
+            "adjustmentRatePointFloor": 0.01,
+            "actualLockedThroughQuarter": 2
           },
           "targetAdjustmentNormalization": null,
-          "longTermMethod": "2030년 Base와 Worst를 각각 앵커로 유지하되 Worst는 공통 단순 하방 가정으로 산출"
+          "fiveYearMethod": "2026~2030년을 매년 동일한 Movement 산식으로 연결하고 Worst는 공통 단순 하방 가정으로 산출"
         },
         "executiveRationale": {
-          "years1to3": "최근 분기 실적과 전년 계절성으로 Base를 산출하고, 증권사 근거가 있는 회사만 제한적으로 반영. Worst는 1분기 확정 실적은 유지하고 잔여 신계약 CSM을 Base 대비 10% 낮추며 CSM 조정은 Base 대비 10% 더 불리하게 적용",
-          "year5": "과거 신계약 추세를 연 +5.0% 범위로 적용하고 경상 CSM 조정률을 유지하며, 2030년까지 Movement를 연결",
-          "year10": "2035년 Base는 신계약 증가율 연 +2.0%와 현재 CSM 조정률을 적용하고, Worst는 같은 공통 하방률을 장기 경로에 적용"
+          "years1to3": "최근 분기 실적과 전년 계절성으로 Base를 산출하고, 증권사 근거가 있는 회사만 제한적으로 반영. Worst는 상반기 확정 실적은 유지하고 잔여 신계약 CSM을 Base 대비 10% 낮추며 CSM 조정은 Base 대비 10% 더 불리하게 적용. 단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 적용",
+          "years4to5": "2024·2025년 실적과 2026년 Base를 연결한 신계약 추세에 통제를 반영해 연 +3.1%를 적용하고, 같은 3개년에서 일회성 조정을 제외한 CSM 조정률 -10.2%를 유지하며, 2030년까지 Movement를 연결"
         },
         "horizonConfidence": {
           "oneYear": "제한적 검증",
           "twoToThreeYears": "모델 경로",
-          "fiveYear": "시나리오",
-          "tenYear": "장기 시나리오"
+          "fourToFiveYears": "시나리오"
         }
       },
       "model": {
-        "version": "rolling-origin-seasonal/v2",
+        "version": "rolling-origin-current-year/v5",
         "baseline": {
-          "remainingNewbiz": 1578,
-          "remainingAdjustment": -1276,
+          "remainingNewbiz": 1283,
+          "remainingAdjustment": -1238,
           "newbizShares": [
-            0.344252,
-            0.327166,
-            0.328581
+            0.469734,
+            0.530266
           ],
           "adjustmentShares": [
-            0.121262,
-            0.216253,
-            0.662485
+            0.347813,
+            0.652187
           ],
           "drivers": {
             "newbiz": {
-              "priorYearRemaining": 1559,
-              "q1Growth": -0.016701,
-              "priorRemainingGrowth": 0.100212,
-              "appliedGrowthSignal": 0.012109
+              "ytdGrowth": 0.122786,
+              "priorRemainingGrowth": 0.214067,
+              "appliedGrowthSignal": 0.077367,
+              "futureQuarters": [
+                3,
+                4
+              ]
             },
             "adjustment": {
-              "method": "median historical Q2-Q4 adjustment rate to Q1 closing CSM",
-              "medianRate": -0.138025,
+              "method": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+              "rawAnnualRate": -0.102139,
+              "normalizedAnnualRate": -0.102139,
+              "positiveRateCapApplied": false,
+              "annualTarget": -917,
+              "actualYtd": 321,
               "observations": [
                 {
-                  "year": 2023,
-                  "rate": -0.045763,
-                  "remaining": -404
-                },
-                {
                   "year": 2024,
-                  "rate": -0.200783,
-                  "remaining": -1847
+                  "opening": 9142,
+                  "adjustment": -1198,
+                  "rate": -0.1310435353314373,
+                  "weight": 0.35
                 },
                 {
                   "year": 2025,
-                  "rate": -0.138025,
-                  "remaining": -1265
+                  "opening": 8305,
+                  "adjustment": -719,
+                  "rate": -0.08657435279951836,
+                  "weight": 0.65
                 }
               ]
             },
+            "originQuarter": 2,
+            "futureQuarters": [
+              3,
+              4
+            ],
             "rateLookbackPeriods": [
-              "2025-q2",
               "2025-q3",
               "2025-q4",
-              "2026-q1"
+              "2026-q1",
+              "2026-q2"
             ]
           }
         },
         "analystOverlay": {
           "weight": 0.25,
-          "remainingNewbiz": 1550,
-          "remainingAdjustment": -800,
+          "remainingNewbiz": 1070,
+          "remainingAdjustment": -1158,
+          "originalQ1RemainingNewbiz": 1550,
+          "originalQ1RemainingAdjustment": -800,
+          "realizedQ2Newbiz": 480,
+          "realizedQ2Adjustment": 358,
           "reason": "분기 0.5조원 안팎의 견조한 신계약 흐름을 반영해 잔여 신계약 1.55조원 설정. 예실차 개선과 장기보험 손익 회복을 반영하되 연말 가정변경을 고려해 -0.80조원 적용."
         },
         "finalInputs": {
-          "remainingNewbiz": 1571,
-          "remainingAdjustment": -1157
+          "remainingNewbiz": 1230,
+          "remainingAdjustment": -1218
         },
         "backtest": {
           "sampleCount": 6,
-          "meanAbsolutePercentageError": 0.105977,
-          "meanAbsoluteErrorBn": 894,
-          "meanErrorBn": 894,
+          "meanAbsolutePercentageError": 0.076362,
+          "meanAbsoluteErrorBn": 694,
+          "meanErrorBn": 694,
           "validationLabel": "검증 제한",
           "calibration": {
             "quantile": 0.8,
             "sampleCount": 6,
             "newbizStress": 0.278226,
             "adjustmentDownsideRateToOpening": 0.08,
-            "closingErrorP80": 0.150512
+            "closingErrorP80": 0.091884
           },
           "samples": [
             {
@@ -7911,16 +9150,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2024-q1",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 9387,
-              "actualClosing": 8305,
-              "closingError": 1082,
-              "closingAbsolutePercentageError": 0.130283,
+              "predictedClosing": 9955,
+              "actualClosing": 9142,
+              "closingError": 813,
+              "closingAbsolutePercentageError": 0.08893,
               "predictedRemainingNewbiz": 1119,
               "actualRemainingNewbiz": 1417,
               "newbizAbsolutePercentageError": 0.210303,
-              "predictedRemainingAdjustment": -421,
-              "actualRemainingAdjustment": -1847,
-              "adjustmentAbsoluteErrorToOpening": 0.155017,
+              "predictedRemainingAdjustment": 154,
+              "actualRemainingAdjustment": -1010,
+              "adjustmentAbsoluteErrorToOpening": 0.126535,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q2",
@@ -7929,7 +9168,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.045763
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.003666,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 6739,
+                    "adjustment": 337,
+                    "rate": 0.0500074194984419,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 8352,
+                    "adjustment": -272,
+                    "rate": -0.032567049808429116,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -7937,16 +9193,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2024-q2",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 9555,
-              "actualClosing": 8305,
-              "closingError": 1250,
-              "closingAbsolutePercentageError": 0.150512,
+              "predictedClosing": 9982,
+              "actualClosing": 9142,
+              "closingError": 840,
+              "closingAbsolutePercentageError": 0.091884,
               "predictedRemainingNewbiz": 699,
               "actualRemainingNewbiz": 981,
               "newbizAbsolutePercentageError": 0.287462,
-              "predictedRemainingAdjustment": -106,
-              "actualRemainingAdjustment": -1676,
-              "adjustmentAbsoluteErrorToOpening": 0.168817,
+              "predictedRemainingAdjustment": 325,
+              "actualRemainingAdjustment": -839,
+              "adjustmentAbsoluteErrorToOpening": 0.125161,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q3",
@@ -7955,7 +9211,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": -0.011441
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.003666,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 6739,
+                    "adjustment": 337,
+                    "rate": 0.0500074194984419,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 8352,
+                    "adjustment": -272,
+                    "rate": -0.032567049808429116,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -7963,16 +9236,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2024-q3",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 10240,
-              "actualClosing": 8305,
-              "closingError": 1935,
-              "closingAbsolutePercentageError": 0.232992,
+              "predictedClosing": 10137,
+              "actualClosing": 9142,
+              "closingError": 995,
+              "closingAbsolutePercentageError": 0.108838,
               "predictedRemainingNewbiz": 358,
               "actualRemainingNewbiz": 496,
               "newbizAbsolutePercentageError": 0.278226,
-              "predictedRemainingAdjustment": 677,
-              "actualRemainingAdjustment": -1427,
-              "adjustmentAbsoluteErrorToOpening": 0.224475,
+              "predictedRemainingAdjustment": 574,
+              "actualRemainingAdjustment": -590,
+              "adjustmentAbsoluteErrorToOpening": 0.124186,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q4",
@@ -7981,7 +9254,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": 0.072198
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.003666,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 6739,
+                    "adjustment": 337,
+                    "rate": 0.0500074194984419,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 8352,
+                    "adjustment": -272,
+                    "rate": -0.032567049808429116,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -7989,16 +9279,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2025-q1",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 9084,
+              "predictedClosing": 9491,
               "actualClosing": 8978,
-              "closingError": 106,
-              "closingAbsolutePercentageError": 0.011807,
-              "predictedRemainingNewbiz": 1542,
-              "actualRemainingNewbiz": 1559,
-              "newbizAbsolutePercentageError": 0.010904,
-              "predictedRemainingAdjustment": -1130,
-              "actualRemainingAdjustment": -1265,
-              "adjustmentAbsoluteErrorToOpening": 0.01473,
+              "closingError": 513,
+              "closingAbsolutePercentageError": 0.05714,
+              "predictedRemainingNewbiz": 1466,
+              "actualRemainingNewbiz": 1627,
+              "newbizAbsolutePercentageError": 0.098955,
+              "predictedRemainingAdjustment": -695,
+              "actualRemainingAdjustment": -1368,
+              "adjustmentAbsoluteErrorToOpening": 0.07316,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q2",
@@ -8007,7 +9297,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.123273
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.096577,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 8352,
+                    "adjustment": -272,
+                    "rate": -0.032567049808429116,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 9142,
+                    "adjustment": -1198,
+                    "rate": -0.1310435353314373,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -8015,16 +9322,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2025-q2",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 9284,
+              "predictedClosing": 9493,
               "actualClosing": 8978,
-              "closingError": 306,
-              "closingAbsolutePercentageError": 0.034083,
-              "predictedRemainingNewbiz": 1101,
-              "actualRemainingNewbiz": 1033,
-              "newbizAbsolutePercentageError": 0.065828,
-              "predictedRemainingAdjustment": -903,
-              "actualRemainingAdjustment": -1160,
-              "adjustmentAbsoluteErrorToOpening": 0.027274,
+              "closingError": 515,
+              "closingAbsolutePercentageError": 0.057362,
+              "predictedRemainingNewbiz": 1042,
+              "actualRemainingNewbiz": 1191,
+              "newbizAbsolutePercentageError": 0.125105,
+              "predictedRemainingAdjustment": -524,
+              "actualRemainingAdjustment": -1197,
+              "adjustmentAbsoluteErrorToOpening": 0.072366,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q3",
@@ -8033,7 +9340,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": -0.095828
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.096577,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 8352,
+                    "adjustment": -272,
+                    "rate": -0.032567049808429116,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 9142,
+                    "adjustment": -1198,
+                    "rate": -0.1310435353314373,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -8041,16 +9365,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2025-q3",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 9662,
+              "predictedClosing": 9463,
               "actualClosing": 8978,
-              "closingError": 684,
-              "closingAbsolutePercentageError": 0.076186,
-              "predictedRemainingNewbiz": 552,
-              "actualRemainingNewbiz": 521,
-              "newbizAbsolutePercentageError": 0.059501,
-              "predictedRemainingAdjustment": -387,
-              "actualRemainingAdjustment": -1063,
-              "adjustmentAbsoluteErrorToOpening": 0.069907,
+              "closingError": 485,
+              "closingAbsolutePercentageError": 0.054021,
+              "predictedRemainingNewbiz": 530,
+              "actualRemainingNewbiz": 706,
+              "newbizAbsolutePercentageError": 0.249292,
+              "predictedRemainingAdjustment": -275,
+              "actualRemainingAdjustment": -948,
+              "adjustmentAbsoluteErrorToOpening": 0.071802,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q4",
@@ -8059,32 +9383,50 @@ window.CSM_FORECAST_DATA = {
                   "2025-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": -0.040024
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.096577,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 8352,
+                    "adjustment": -272,
+                    "rate": -0.032567049808429116,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 9142,
+                    "adjustment": -1198,
+                    "rate": -0.1310435353314373,
+                    "weight": 0.65
+                  }
+                ]
               }
             }
           ]
         }
       },
       "qualitativeJudgment": {
-        "baseNewbiz": "데이터 모델 1.58조원과 애널리스트 판단 1.55조원을 25% 가중해 1.57조원 적용.",
-        "baseAdjustment": "최근 최대 3개년 Q2~Q4 조정률 중앙값 기반 -1.28조원에 애널리스트 판단을 25% 가중해 -1.16조원 적용.",
+        "baseNewbiz": "데이터 모델 1.28조원과 기존 애널리스트 잔여 관점에서 2분기 실적을 차감한 1.07조원을 25% 가중해 1.23조원 적용.",
+        "baseAdjustment": "직전 2개 연말 조정률을 35%·65% 가중하고 양(+) 경상률을 0%로 제한한 정상화 기준 -1.24조원에 애널리스트 판단을 25% 가중해 -1.22조원 적용.",
         "targetAdjustmentOverlay": "경영목표 연결 조정 없음",
-        "worst": "전 보험사에 같은 단순 하방 가정을 적용. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영. 조정은 Base -1.16조원에서 Worst -1.27조원으로 적용."
+        "worst": "전 보험사에 같은 단순 하방 가정을 적용. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영하되 충격이 작아지지 않도록 기시 CSM의 1%p를 최소 부담으로 적용. 조정은 Base -1.22조원에서 Worst -1.34조원으로 적용."
       },
       "worstAssumption": {
         "basis": "전 보험사 공통 단순 하방 가정",
-        "scope": "2026년 1분기 확정 실적은 유지하고 Q2~Q4 전망 입력에만 적용",
+        "scope": "2026년 상반기 확정 실적은 유지하고 Q3~Q4 전망 입력에만 적용",
         "newbizDiscount": 0.1,
         "adjustmentStress": 0.1,
-        "adjustmentDirection": "CSM 조정이 음수이면 절대 부담을 확대하고, 양수이면 기여 효과를 축소"
+        "adjustmentRatePointFloor": 0.01,
+        "adjustmentDirection": "Base보다 10% 불리하게 적용. 단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 사용"
       },
       "confidence": "검증 제한",
       "validation": {
         "label": "검증 제한",
         "sampleCount": 6,
-        "meanAbsolutePercentageError": 0.105977,
-        "meanAbsoluteErrorBn": 894,
-        "meanErrorBn": 894,
+        "meanAbsolutePercentageError": 0.076362,
+        "meanAbsoluteErrorBn": 694,
+        "meanErrorBn": 694,
         "scope": "회사별 2024·2025년 Q1·Q2·Q3 시점 연말 예측",
         "limitation": "IFRS17 이후 2개 연도·6개 시점으로 장기 확률 신뢰도로 해석하지 않음"
       },
@@ -8110,20 +9452,27 @@ window.CSM_FORECAST_DATA = {
           "id": "hyundai-marine-analyst-1"
         },
         {
+          "title": "KB증권 보험업 전망 (2026.06.22)",
+          "url": "https://rdata.kbsec.com/pdf_data/20260622111726153K.pdf",
+          "type": "sell_side",
+          "use": "업계 CSM 성장 둔화 가능성과 잔존 경험조정 위험을 장기 낙관 편향 통제의 방향성 근거로만 사용",
+          "id": "hyundai-marine-industry-1"
+        },
+        {
           "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
           "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
           "type": "sell_side",
           "use": "업종 방향성 참고용이며 회사별 수치 오버레이에는 사용하지 않음",
-          "id": "hyundai-marine-industry-1"
+          "id": "hyundai-marine-industry-2"
         }
       ],
       "evidenceSources": [
         {
-          "id": "hyundai-marine-2026-q1-dart",
-          "title": "현대해상 분기보고서 (2026.03)",
-          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260515003004",
+          "id": "hyundai-marine-2026-q2-dart",
+          "title": "현대해상 반기보고서 (2026.06)",
+          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814003474",
           "type": "official_filing",
-          "use": "2026년 1분기 CSM Movement 확정값"
+          "use": "2026년 상반기 누적 CSM Movement 확정값"
         },
         {
           "id": "hyundai-marine-forecast-methodology",
@@ -8140,15 +9489,15 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 신계약 CSM +0.471조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "hyundai-marine-2026-q1-dart"
+              "headline": "2026년 상반기 신계약 CSM +0.951조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "hyundai-marine-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 신계약 CSM +2.042조원",
-              "detail": "1분기 확정 +0.471조원과 잔여 3개 분기 +1.571조원을 합산",
+              "headline": "2026년 연간 신계약 CSM +2.181조원",
+              "detail": "상반기 누적 확정 +0.951조원과 잔여 2개 분기 +1.230조원을 합산",
               "sourceId": "hyundai-marine-forecast-methodology"
             },
             {
@@ -8166,34 +9515,34 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 이자부리 +0.077조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "hyundai-marine-2026-q1-dart"
+              "headline": "2026년 상반기 이자부리 +0.155조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "hyundai-marine-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 이자부리 +0.322조원",
-              "detail": "분기 이자부리율 0.82%를 기시 CSM과 신계약 CSM 합계에 적용",
+              "headline": "2026년 연간 이자부리 +0.325조원",
+              "detail": "분기 이자부리율 0.81%를 기시 CSM과 신계약 CSM 합계에 적용",
               "sourceId": "hyundai-marine-forecast-methodology"
             }
           ]
         },
         "adjustment": {
-          "statement": "최근 경험조정과 연말 계리 가정 재점검 부담을 반영해 CSM 조정을 산출",
+          "statement": "과거 연간 조정률을 정상화해 일회성 환입의 반복을 차단하고 CSM 조정을 산출",
           "items": [
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 조정 -0.037조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "hyundai-marine-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 조정 +0.321조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "hyundai-marine-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 조정 -1.194조원",
-              "detail": "최근 최대 3개년 Q2~Q4 조정률 중앙값으로 잔여 조정 -1.157조원을 산출",
+              "headline": "2026년 연간 CSM 조정 -0.897조원",
+              "detail": "직전 2개 연말 조정률을 35%·65%로 가중하고 양(+)의 경상 조정률은 0%로 제한해 연간 목표 -0.917조원, 잔여 조정 -1.218조원을 산출",
               "sourceId": "hyundai-marine-forecast-methodology"
             },
             {
@@ -8211,15 +9560,15 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 상각 -0.241조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "hyundai-marine-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 상각 -0.500조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "hyundai-marine-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 상각 -0.976조원",
-              "detail": "분기 상각률 2.46%를 기시 CSM과 신계약 CSM 합계에 적용",
+              "headline": "2026년 연간 CSM 상각 -1.035조원",
+              "detail": "분기 상각률 2.54%를 기시 CSM과 신계약 CSM 합계에 적용",
               "sourceId": "hyundai-marine-forecast-methodology"
             }
           ]
@@ -8228,23 +9577,23 @@ window.CSM_FORECAST_DATA = {
     },
     "kb-insurance": {
       "companyName": "KB손해보험",
-      "asOfPeriod": "2026-q1",
-      "asOfCsm": 9478,
+      "asOfPeriod": "2026-q2",
+      "asOfCsm": 10722,
       "targetPeriod": "2026-ye",
       "anchor": {
         "type": "model_generated",
-        "value": 9627,
+        "value": 9479,
         "note": "담당자 입력값 없음 · 모델 예상치를 사용"
       },
       "ratios": {
-        "interestRate": 0.008629,
-        "amortizationRate": 0.022009,
+        "interestRate": 0.00865,
+        "amortizationRate": 0.022834,
         "denominator": "기시 CSM + 신계약 CSM",
         "lookbackPeriods": [
-          "2025-q2",
           "2025-q3",
           "2025-q4",
-          "2026-q1"
+          "2026-q1",
+          "2026-q2"
         ],
         "lookbackWeights": [
           0.1,
@@ -8256,11 +9605,11 @@ window.CSM_FORECAST_DATA = {
       },
       "base": {
         "opening": 9285,
-        "newbiz": 1794,
-        "interest": 346,
-        "adjustment": -914,
-        "amortization": -884,
-        "closing": 9627,
+        "newbiz": 1738,
+        "interest": 362,
+        "adjustment": -945,
+        "amortization": -961,
+        "closing": 9479,
         "quarters": [
           {
             "period": "2026-q1",
@@ -8274,79 +9623,71 @@ window.CSM_FORECAST_DATA = {
           },
           {
             "period": "2026-q2",
+            "actual": true,
             "opening": 9478,
-            "newbiz": 431,
+            "newbiz": 401,
             "interest": 86,
-            "adjustment": -54,
-            "amortization": -218,
-            "closing": 9723
+            "amortization": -239,
+            "adjustment": 996,
+            "closing": 10722
           },
           {
             "period": "2026-q3",
-            "opening": 9723,
-            "newbiz": 475,
-            "interest": 88,
-            "adjustment": -172,
-            "amortization": -224,
-            "closing": 9890
+            "opening": 10722,
+            "newbiz": 462,
+            "interest": 97,
+            "adjustment": -411,
+            "amortization": -255,
+            "closing": 10615
           },
           {
             "period": "2026-q4",
-            "opening": 9890,
-            "newbiz": 466,
-            "interest": 89,
-            "adjustment": -590,
-            "amortization": -228,
-            "closing": 9627
+            "opening": 10615,
+            "newbiz": 453,
+            "interest": 96,
+            "adjustment": -1432,
+            "amortization": -253,
+            "closing": 9479
           }
         ],
         "remainingForecast": {
-          "opening": 9478,
-          "newbiz": 1372,
-          "interest": 263,
-          "adjustment": -816,
-          "amortization": -670,
-          "closing": 9627,
+          "opening": 10722,
+          "newbiz": 915,
+          "interest": 193,
+          "adjustment": -1843,
+          "amortization": -508,
+          "closing": 9479,
           "quarters": [
             {
-              "period": "2026-q2",
-              "opening": 9478,
-              "newbiz": 431,
-              "interest": 86,
-              "adjustment": -54,
-              "amortization": -218,
-              "closing": 9723
-            },
-            {
               "period": "2026-q3",
-              "opening": 9723,
-              "newbiz": 475,
-              "interest": 88,
-              "adjustment": -172,
-              "amortization": -224,
-              "closing": 9890
+              "opening": 10722,
+              "newbiz": 462,
+              "interest": 97,
+              "adjustment": -411,
+              "amortization": -255,
+              "closing": 10615
             },
             {
               "period": "2026-q4",
-              "opening": 9890,
-              "newbiz": 466,
-              "interest": 89,
-              "adjustment": -590,
-              "amortization": -228,
-              "closing": 9627
+              "opening": 10615,
+              "newbiz": 453,
+              "interest": 96,
+              "adjustment": -1432,
+              "amortization": -253,
+              "closing": 9479
             }
           ]
         },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "rationale": "전년 동분기 계절성, Q1 성장 신호, 최근 3개년 조정률 중앙값과 최근 4개 분기 이자·상각률로 산출. 회사별 직접 근거가 없어 정성 오버레이는 0%."
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "rationale": "전년 동기간 계절성, 상반기 성장 신호, 직전 2개 연말 정상화 조정률과 최근 4개 분기 이자·상각률로 산출. 회사별 직접 근거가 없어 정성 오버레이는 0%."
       },
       "worst": {
         "opening": 9285,
-        "newbiz": 1657,
-        "interest": 343,
-        "adjustment": -996,
-        "amortization": -877,
-        "closing": 9412,
+        "newbiz": 1647,
+        "interest": 360,
+        "adjustment": -1129,
+        "amortization": -957,
+        "closing": 9206,
         "quarters": [
           {
             "period": "2026-q1",
@@ -8360,80 +9701,72 @@ window.CSM_FORECAST_DATA = {
           },
           {
             "period": "2026-q2",
+            "actual": true,
             "opening": 9478,
-            "newbiz": 388,
-            "interest": 85,
-            "adjustment": -60,
-            "amortization": -217,
-            "closing": 9674
+            "newbiz": 401,
+            "interest": 86,
+            "amortization": -239,
+            "adjustment": 996,
+            "closing": 10722
           },
           {
             "period": "2026-q3",
-            "opening": 9674,
-            "newbiz": 427,
-            "interest": 87,
-            "adjustment": -189,
-            "amortization": -222,
-            "closing": 9777
+            "opening": 10722,
+            "newbiz": 416,
+            "interest": 96,
+            "adjustment": -451,
+            "amortization": -254,
+            "closing": 10529
           },
           {
             "period": "2026-q4",
-            "opening": 9777,
-            "newbiz": 420,
-            "interest": 88,
-            "adjustment": -649,
-            "amortization": -224,
-            "closing": 9412
+            "opening": 10529,
+            "newbiz": 408,
+            "interest": 95,
+            "adjustment": -1576,
+            "amortization": -250,
+            "closing": 9206
           }
         ],
         "remainingForecast": {
-          "opening": 9478,
-          "newbiz": 1235,
-          "interest": 260,
-          "adjustment": -898,
-          "amortization": -663,
-          "closing": 9412,
+          "opening": 10722,
+          "newbiz": 824,
+          "interest": 191,
+          "adjustment": -2027,
+          "amortization": -504,
+          "closing": 9206,
           "quarters": [
             {
-              "period": "2026-q2",
-              "opening": 9478,
-              "newbiz": 388,
-              "interest": 85,
-              "adjustment": -60,
-              "amortization": -217,
-              "closing": 9674
-            },
-            {
               "period": "2026-q3",
-              "opening": 9674,
-              "newbiz": 427,
-              "interest": 87,
-              "adjustment": -189,
-              "amortization": -222,
-              "closing": 9777
+              "opening": 10722,
+              "newbiz": 416,
+              "interest": 96,
+              "adjustment": -451,
+              "amortization": -254,
+              "closing": 10529
             },
             {
               "period": "2026-q4",
-              "opening": 9777,
-              "newbiz": 420,
-              "interest": 88,
-              "adjustment": -649,
-              "amortization": -224,
-              "closing": 9412
+              "opening": 10529,
+              "newbiz": 408,
+              "interest": 95,
+              "adjustment": -1576,
+              "amortization": -250,
+              "closing": 9206
             }
           ]
         },
-        "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망",
-        "rationale": "전 보험사에 같은 단순 하방 가정을 적용. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영. 조정은 Base -0.82조원에서 Worst -0.90조원으로 적용."
+        "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망",
+        "rationale": "전 보험사에 같은 단순 하방 가정을 적용. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영하되 충격이 작아지지 않도록 기시 CSM의 1%p를 최소 부담으로 적용. 조정은 Base -1.84조원에서 Worst -2.03조원으로 적용."
       },
       "independentModel": {
         "base": {
           "opening": 9285,
-          "newbiz": 1794,
-          "interest": 346,
-          "adjustment": -914,
-          "amortization": -884,
-          "closing": 9627,
+          "newbiz": 1738,
+          "interest": 362,
+          "adjustment": -945,
+          "amortization": -961,
+          "closing": 9479,
           "quarters": [
             {
               "period": "2026-q1",
@@ -8447,78 +9780,70 @@ window.CSM_FORECAST_DATA = {
             },
             {
               "period": "2026-q2",
+              "actual": true,
               "opening": 9478,
-              "newbiz": 431,
+              "newbiz": 401,
               "interest": 86,
-              "adjustment": -54,
-              "amortization": -218,
-              "closing": 9723
+              "amortization": -239,
+              "adjustment": 996,
+              "closing": 10722
             },
             {
               "period": "2026-q3",
-              "opening": 9723,
-              "newbiz": 475,
-              "interest": 88,
-              "adjustment": -172,
-              "amortization": -224,
-              "closing": 9890
+              "opening": 10722,
+              "newbiz": 462,
+              "interest": 97,
+              "adjustment": -411,
+              "amortization": -255,
+              "closing": 10615
             },
             {
               "period": "2026-q4",
-              "opening": 9890,
-              "newbiz": 466,
-              "interest": 89,
-              "adjustment": -590,
-              "amortization": -228,
-              "closing": 9627
+              "opening": 10615,
+              "newbiz": 453,
+              "interest": 96,
+              "adjustment": -1432,
+              "amortization": -253,
+              "closing": 9479
             }
           ],
           "remainingForecast": {
-            "opening": 9478,
-            "newbiz": 1372,
-            "interest": 263,
-            "adjustment": -816,
-            "amortization": -670,
-            "closing": 9627,
+            "opening": 10722,
+            "newbiz": 915,
+            "interest": 193,
+            "adjustment": -1843,
+            "amortization": -508,
+            "closing": 9479,
             "quarters": [
               {
-                "period": "2026-q2",
-                "opening": 9478,
-                "newbiz": 431,
-                "interest": 86,
-                "adjustment": -54,
-                "amortization": -218,
-                "closing": 9723
-              },
-              {
                 "period": "2026-q3",
-                "opening": 9723,
-                "newbiz": 475,
-                "interest": 88,
-                "adjustment": -172,
-                "amortization": -224,
-                "closing": 9890
+                "opening": 10722,
+                "newbiz": 462,
+                "interest": 97,
+                "adjustment": -411,
+                "amortization": -255,
+                "closing": 10615
               },
               {
                 "period": "2026-q4",
-                "opening": 9890,
-                "newbiz": 466,
-                "interest": 89,
-                "adjustment": -590,
-                "amortization": -228,
-                "closing": 9627
+                "opening": 10615,
+                "newbiz": 453,
+                "interest": 96,
+                "adjustment": -1432,
+                "amortization": -253,
+                "closing": 9479
               }
             ]
           },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
         },
         "worst": {
           "opening": 9285,
-          "newbiz": 1657,
-          "interest": 343,
-          "adjustment": -996,
-          "amortization": -877,
-          "closing": 9412,
+          "newbiz": 1647,
+          "interest": 360,
+          "adjustment": -1129,
+          "amortization": -957,
+          "closing": 9206,
           "quarters": [
             {
               "period": "2026-q1",
@@ -8532,70 +9857,62 @@ window.CSM_FORECAST_DATA = {
             },
             {
               "period": "2026-q2",
+              "actual": true,
               "opening": 9478,
-              "newbiz": 388,
-              "interest": 85,
-              "adjustment": -60,
-              "amortization": -217,
-              "closing": 9674
+              "newbiz": 401,
+              "interest": 86,
+              "amortization": -239,
+              "adjustment": 996,
+              "closing": 10722
             },
             {
               "period": "2026-q3",
-              "opening": 9674,
-              "newbiz": 427,
-              "interest": 87,
-              "adjustment": -189,
-              "amortization": -222,
-              "closing": 9777
+              "opening": 10722,
+              "newbiz": 416,
+              "interest": 96,
+              "adjustment": -451,
+              "amortization": -254,
+              "closing": 10529
             },
             {
               "period": "2026-q4",
-              "opening": 9777,
-              "newbiz": 420,
-              "interest": 88,
-              "adjustment": -649,
-              "amortization": -224,
-              "closing": 9412
+              "opening": 10529,
+              "newbiz": 408,
+              "interest": 95,
+              "adjustment": -1576,
+              "amortization": -250,
+              "closing": 9206
             }
           ],
           "remainingForecast": {
-            "opening": 9478,
-            "newbiz": 1235,
-            "interest": 260,
-            "adjustment": -898,
-            "amortization": -663,
-            "closing": 9412,
+            "opening": 10722,
+            "newbiz": 824,
+            "interest": 191,
+            "adjustment": -2027,
+            "amortization": -504,
+            "closing": 9206,
             "quarters": [
               {
-                "period": "2026-q2",
-                "opening": 9478,
-                "newbiz": 388,
-                "interest": 85,
-                "adjustment": -60,
-                "amortization": -217,
-                "closing": 9674
-              },
-              {
                 "period": "2026-q3",
-                "opening": 9674,
-                "newbiz": 427,
-                "interest": 87,
-                "adjustment": -189,
-                "amortization": -222,
-                "closing": 9777
+                "opening": 10722,
+                "newbiz": 416,
+                "interest": 96,
+                "adjustment": -451,
+                "amortization": -254,
+                "closing": 10529
               },
               {
                 "period": "2026-q4",
-                "opening": 9777,
-                "newbiz": 420,
-                "interest": 88,
-                "adjustment": -649,
-                "amortization": -224,
-                "closing": 9412
+                "opening": 10529,
+                "newbiz": 408,
+                "interest": 95,
+                "adjustment": -1576,
+                "amortization": -250,
+                "closing": 9206
               }
             ]
           },
-          "movementBasis": "2025년말 기시 · 2026.1Q 실적 + 2026.2Q~4Q 전망"
+          "movementBasis": "2025년말 기시 · 2026.1Q~2Q 실적 + 2026.3Q~4Q 전망"
         }
       },
       "horizon": {
@@ -8603,182 +9920,276 @@ window.CSM_FORECAST_DATA = {
           "2026-ye",
           "2027-ye",
           "2028-ye",
+          "2029-ye",
           "2030-ye"
         ],
-        "terminalPeriod": "2035-ye",
         "base": [
           {
             "period": "2026-ye",
             "opening": 9285,
-            "newbiz": 1794,
-            "interest": 346,
-            "adjustment": -914,
-            "amortization": -884,
-            "closing": 9627
+            "newbiz": 1738,
+            "interest": 362,
+            "adjustment": -945,
+            "amortization": -961,
+            "closing": 9479
           },
           {
             "period": "2027-ye",
-            "opening": 9627,
-            "newbiz": 1740,
-            "interest": 350,
-            "adjustment": -948,
-            "amortization": -894,
-            "closing": 9875
+            "opening": 9479,
+            "newbiz": 1672,
+            "interest": 344,
+            "adjustment": -976,
+            "amortization": -909,
+            "closing": 9610
           },
           {
             "period": "2028-ye",
-            "opening": 9875,
-            "newbiz": 1688,
-            "interest": 358,
-            "adjustment": -972,
-            "amortization": -912,
-            "closing": 10037
+            "opening": 9610,
+            "newbiz": 1609,
+            "interest": 348,
+            "adjustment": -989,
+            "amortization": -917,
+            "closing": 9661
+          },
+          {
+            "period": "2029-ye",
+            "opening": 9661,
+            "newbiz": 1548,
+            "interest": 348,
+            "adjustment": -995,
+            "amortization": -916,
+            "closing": 9646
           },
           {
             "period": "2030-ye",
-            "opening": 10126,
-            "newbiz": 1588,
-            "interest": 364,
-            "adjustment": -997,
-            "amortization": -928,
-            "closing": 10153
+            "opening": 9646,
+            "newbiz": 1489,
+            "interest": 345,
+            "adjustment": -993,
+            "amortization": -913,
+            "closing": 9574
           }
         ],
         "worst": [
           {
             "period": "2026-ye",
             "opening": 9285,
-            "newbiz": 1657,
-            "interest": 343,
-            "adjustment": -996,
-            "amortization": -877,
-            "closing": 9412
+            "newbiz": 1647,
+            "interest": 360,
+            "adjustment": -1129,
+            "amortization": -957,
+            "closing": 9206
           },
           {
             "period": "2027-ye",
-            "opening": 9412,
-            "newbiz": 1566,
-            "interest": 340,
-            "adjustment": -1043,
-            "amortization": -864,
-            "closing": 9411
+            "opening": 9206,
+            "newbiz": 1505,
+            "interest": 330,
+            "adjustment": -1074,
+            "amortization": -872,
+            "closing": 9095
           },
           {
             "period": "2028-ye",
-            "opening": 9411,
-            "newbiz": 1519,
-            "interest": 336,
-            "adjustment": -1069,
-            "amortization": -859,
-            "closing": 9338
+            "opening": 9095,
+            "newbiz": 1448,
+            "interest": 325,
+            "adjustment": -1088,
+            "amortization": -858,
+            "closing": 8922
+          },
+          {
+            "period": "2029-ye",
+            "opening": 8922,
+            "newbiz": 1393,
+            "interest": 318,
+            "adjustment": -1095,
+            "amortization": -839,
+            "closing": 8699
           },
           {
             "period": "2030-ye",
-            "opening": 9207,
-            "newbiz": 1429,
-            "interest": 328,
-            "adjustment": -1097,
-            "amortization": -837,
-            "closing": 9030
+            "opening": 8699,
+            "newbiz": 1340,
+            "interest": 309,
+            "adjustment": -1092,
+            "amortization": -816,
+            "closing": 8440
           }
         ],
-        "terminal": {
-          "base": {
-            "period": "2035-ye",
-            "opening": 10098,
-            "newbiz": 1510,
-            "interest": 360,
-            "adjustment": -994,
-            "amortization": -921,
-            "closing": 10053
-          },
-          "worst": {
-            "period": "2035-ye",
-            "opening": 8276,
-            "newbiz": 1359,
-            "interest": 295,
-            "adjustment": -1093,
-            "amortization": -752,
-            "closing": 8085
-          }
-        },
         "assumptions": {
-          "newbizGrowth": -0.03,
-          "longTermNewbizGrowth": -0.01,
-          "baseAdjustmentRate": -0.098438,
+          "rawNewbizGrowth": -0.035913,
+          "boundedNewbizGrowth": -0.035913,
+          "newbizGrowthBounds": {
+            "lower": -0.05,
+            "upper": 0.05
+          },
+          "optimismBiasPenalty": 0.001912,
+          "backtestMeanErrorBn": 71,
+          "newbizTrendWindow": [
+            {
+              "year": 2024,
+              "value": 1932,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2025,
+              "value": 1742,
+              "valueKind": "actual"
+            },
+            {
+              "year": 2026,
+              "value": 1738,
+              "valueKind": "base_forecast"
+            }
+          ],
+          "newbizGrowthObservations": [
+            {
+              "fromYear": 2024,
+              "toYear": 2025,
+              "rate": -0.09834368530020698,
+              "weight": 0.35
+            },
+            {
+              "fromYear": 2025,
+              "toYear": 2026,
+              "rate": -0.0022962112514350874,
+              "weight": 0.65
+            }
+          ],
+          "newbizGrowth": -0.037825,
+          "baseAdjustmentRate": -0.102947,
+          "adjustmentRateMethod": "2024 actual 20% + 2025 actual 30% + 2026 Base forecast 50%, one-off adjustments excluded",
+          "adjustmentRateWeights": [
+            0.2,
+            0.3,
+            0.5
+          ],
+          "adjustmentRateWindow": [
+            {
+              "year": 2024,
+              "valueKind": "actual",
+              "opening": 8518,
+              "reportedAdjustment": -1122,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -1122,
+              "rate": -0.13172106128199107,
+              "included": true,
+              "treatment": "연간 순액 사용 · 분기 내 환입·재분류는 별도 반복하지 않음",
+              "nominalWeight": 0.2,
+              "weight": 0.2
+            },
+            {
+              "year": 2025,
+              "valueKind": "actual",
+              "opening": 8820,
+              "reportedAdjustment": -756,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -756,
+              "rate": -0.08571428571428572,
+              "included": true,
+              "treatment": "연간 순액 사용 · 분기 내 환입·재분류는 별도 반복하지 않음",
+              "nominalWeight": 0.3,
+              "weight": 0.3
+            },
+            {
+              "year": 2026,
+              "valueKind": "base_forecast",
+              "opening": 9285,
+              "reportedAdjustment": -945,
+              "oneOffExcluded": 0,
+              "recurringAdjustment": -945,
+              "rate": -0.10177705977382875,
+              "included": true,
+              "treatment": "경영목표 연결분과 순양(+) 전망분 제외 · 상반기 일회성 조정은 연간 정상화 전망에서 반복하지 않음",
+              "nominalWeight": 0.5,
+              "weight": 0.5
+            }
+          ],
+          "oneOffAdjustmentPolicy": "연간 순양(+) 조정, 경영목표 연결분과 분기성 환입·재분류의 총액 반복을 제외",
+          "positiveRecurringAdjustmentCap": 0.0,
           "worstNewbizStress": 0.1,
           "worstAdjustmentStress": 0.1,
+          "worstAdjustmentRatePointFloor": 0.01,
           "stressCalibrationQuantile": 0.8,
           "stressCalibrationSampleCount": 6,
           "worstPolicy": {
             "basis": "전 보험사 공통 단순 하방 가정",
             "newbizDiscount": 0.1,
             "adjustmentStress": 0.1,
-            "q1ActualLocked": true
+            "adjustmentRatePointFloor": 0.01,
+            "actualLockedThroughQuarter": 2
           },
           "targetAdjustmentNormalization": null,
-          "longTermMethod": "2030년 Base와 Worst를 각각 앵커로 유지하되 Worst는 공통 단순 하방 가정으로 산출"
+          "fiveYearMethod": "2026~2030년을 매년 동일한 Movement 산식으로 연결하고 Worst는 공통 단순 하방 가정으로 산출"
         },
         "executiveRationale": {
-          "years1to3": "최근 분기 실적과 전년 계절성으로 Base를 산출하고, 증권사 근거가 있는 회사만 제한적으로 반영. Worst는 1분기 확정 실적은 유지하고 잔여 신계약 CSM을 Base 대비 10% 낮추며 CSM 조정은 Base 대비 10% 더 불리하게 적용",
-          "year5": "과거 신계약 추세를 연 -3.0% 범위로 적용하고 경상 CSM 조정률을 유지하며, 2030년까지 Movement를 연결",
-          "year10": "2035년 Base는 신계약 증가율 연 -1.0%와 현재 CSM 조정률을 적용하고, Worst는 같은 공통 하방률을 장기 경로에 적용"
+          "years1to3": "최근 분기 실적과 전년 계절성으로 Base를 산출하고, 증권사 근거가 있는 회사만 제한적으로 반영. Worst는 상반기 확정 실적은 유지하고 잔여 신계약 CSM을 Base 대비 10% 낮추며 CSM 조정은 Base 대비 10% 더 불리하게 적용. 단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 적용",
+          "years4to5": "2024·2025년 실적과 2026년 Base를 연결한 신계약 추세에 통제를 반영해 연 -3.8%를 적용하고, 같은 3개년에서 일회성 조정을 제외한 CSM 조정률 -10.3%를 유지하며, 2030년까지 Movement를 연결"
         },
         "horizonConfidence": {
           "oneYear": "제한적 검증",
           "twoToThreeYears": "모델 경로",
-          "fiveYear": "시나리오",
-          "tenYear": "장기 시나리오"
+          "fourToFiveYears": "시나리오"
         }
       },
       "model": {
-        "version": "rolling-origin-seasonal/v2",
+        "version": "rolling-origin-current-year/v5",
         "baseline": {
-          "remainingNewbiz": 1372,
-          "remainingAdjustment": -816,
+          "remainingNewbiz": 915,
+          "remainingAdjustment": -1843,
           "newbizShares": [
-            0.314212,
-            0.345861,
-            0.339928
+            0.504641,
+            0.495359
           ],
           "adjustmentShares": [
-            0.066281,
-            0.210407,
-            0.723312
+            0.22274,
+            0.77726
           ],
           "drivers": {
             "newbiz": {
-              "priorYearRemaining": 1354,
-              "q1Growth": 0.087629,
-              "priorRemainingGrowth": -0.087601,
-              "appliedGrowthSignal": 0.013149
+              "ytdGrowth": 0.011057,
+              "priorRemainingGrowth": -0.099029,
+              "appliedGrowthSignal": -0.013737,
+              "futureQuarters": [
+                3,
+                4
+              ]
             },
             "adjustment": {
-              "method": "median historical Q2-Q4 adjustment rate to Q1 closing CSM",
-              "medianRate": -0.086081,
+              "method": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+              "rawAnnualRate": -0.101817,
+              "normalizedAnnualRate": -0.101817,
+              "positiveRateCapApplied": false,
+              "annualTarget": -945,
+              "actualYtd": 898,
               "observations": [
                 {
-                  "year": 2023,
-                  "rate": -0.086081,
-                  "remaining": -705
-                },
-                {
                   "year": 2024,
-                  "rate": -0.134449,
-                  "remaining": -1197
+                  "opening": 8518,
+                  "adjustment": -1122,
+                  "rate": -0.13172106128199107,
+                  "weight": 0.35
                 },
                 {
                   "year": 2025,
-                  "rate": -0.067892,
-                  "remaining": -606
+                  "opening": 8820,
+                  "adjustment": -756,
+                  "rate": -0.08571428571428572,
+                  "weight": 0.65
                 }
               ]
             },
+            "originQuarter": 2,
+            "futureQuarters": [
+              3,
+              4
+            ],
             "rateLookbackPeriods": [
-              "2025-q2",
               "2025-q3",
               "2025-q4",
-              "2026-q1"
+              "2026-q1",
+              "2026-q2"
             ]
           }
         },
@@ -8786,24 +10197,28 @@ window.CSM_FORECAST_DATA = {
           "weight": 0,
           "remainingNewbiz": null,
           "remainingAdjustment": null,
+          "originalQ1RemainingNewbiz": null,
+          "originalQ1RemainingAdjustment": null,
+          "realizedQ2Newbiz": null,
+          "realizedQ2Adjustment": null,
           "reason": "회사별 직접 증권사 근거가 없어 미적용"
         },
         "finalInputs": {
-          "remainingNewbiz": 1372,
-          "remainingAdjustment": -816
+          "remainingNewbiz": 915,
+          "remainingAdjustment": -1843
         },
         "backtest": {
           "sampleCount": 6,
-          "meanAbsolutePercentageError": 0.033321,
-          "meanAbsoluteErrorBn": 302,
-          "meanErrorBn": -74,
+          "meanAbsolutePercentageError": 0.030435,
+          "meanAbsoluteErrorBn": 274,
+          "meanErrorBn": 71,
           "validationLabel": "검증 제한",
           "calibration": {
             "quantile": 0.8,
             "sampleCount": 6,
             "newbizStress": 0.208711,
-            "adjustmentDownsideRateToOpening": 0.048411,
-            "closingErrorP80": 0.040476
+            "adjustmentDownsideRateToOpening": 0.049307,
+            "closingErrorP80": 0.04059
           },
           "samples": [
             {
@@ -8811,16 +10226,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2024-q1",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 9177,
+              "predictedClosing": 9194,
               "actualClosing": 8820,
-              "closingError": 357,
-              "closingAbsolutePercentageError": 0.040476,
+              "closingError": 374,
+              "closingAbsolutePercentageError": 0.042404,
               "predictedRemainingNewbiz": 1459,
               "actualRemainingNewbiz": 1484,
               "newbizAbsolutePercentageError": 0.016846,
-              "predictedRemainingAdjustment": -766,
+              "predictedRemainingAdjustment": -749,
               "actualRemainingAdjustment": -1197,
-              "adjustmentAbsoluteErrorToOpening": 0.048411,
+              "adjustmentAbsoluteErrorToOpening": 0.05032,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q2",
@@ -8829,7 +10244,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.086081
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.079071,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 7255,
+                    "adjustment": -379,
+                    "rate": -0.05223983459682977,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 7945,
+                    "adjustment": -743,
+                    "rate": -0.09351793580868471,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -8837,16 +10269,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2024-q2",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 9144,
+              "predictedClosing": 9178,
               "actualClosing": 8820,
-              "closingError": 324,
-              "closingAbsolutePercentageError": 0.036735,
+              "closingError": 358,
+              "closingAbsolutePercentageError": 0.04059,
               "predictedRemainingNewbiz": 974,
               "actualRemainingNewbiz": 1030,
               "newbizAbsolutePercentageError": 0.054369,
-              "predictedRemainingAdjustment": -642,
+              "predictedRemainingAdjustment": -608,
               "actualRemainingAdjustment": -1056,
-              "adjustmentAbsoluteErrorToOpening": 0.045565,
+              "adjustmentAbsoluteErrorToOpening": 0.049307,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q3",
@@ -8855,7 +10287,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": -0.070672
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.079071,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 7255,
+                    "adjustment": -379,
+                    "rate": -0.05223983459682977,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 7945,
+                    "adjustment": -743,
+                    "rate": -0.09351793580868471,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -8863,16 +10312,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2024-q3",
               "targetPeriod": "2024-ye",
-              "predictedClosing": 8604,
+              "predictedClosing": 9122,
               "actualClosing": 8820,
-              "closingError": -216,
-              "closingAbsolutePercentageError": 0.02449,
+              "closingError": 302,
+              "closingAbsolutePercentageError": 0.03424,
               "predictedRemainingNewbiz": 436,
               "actualRemainingNewbiz": 551,
               "newbizAbsolutePercentageError": 0.208711,
-              "predictedRemainingAdjustment": -1000,
+              "predictedRemainingAdjustment": -482,
               "actualRemainingAdjustment": -930,
-              "adjustmentAbsoluteErrorToOpening": 0.007523,
+              "adjustmentAbsoluteErrorToOpening": 0.048146,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2023-q4",
@@ -8881,7 +10330,24 @@ window.CSM_FORECAST_DATA = {
                   "2024-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": -0.10747
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.079071,
+                "adjustmentObservations": [
+                  {
+                    "year": 2022,
+                    "opening": 7255,
+                    "adjustment": -379,
+                    "rate": -0.05223983459682977,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2023,
+                    "opening": 7945,
+                    "adjustment": -743,
+                    "rate": -0.09351793580868471,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -8889,16 +10355,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 1,
               "asOfPeriod": "2025-q1",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 8992,
+              "predictedClosing": 9083,
               "actualClosing": 9285,
-              "closingError": -293,
-              "closingAbsolutePercentageError": 0.031556,
+              "closingError": -202,
+              "closingAbsolutePercentageError": 0.021756,
               "predictedRemainingNewbiz": 1431,
               "actualRemainingNewbiz": 1354,
               "newbizAbsolutePercentageError": 0.056869,
-              "predictedRemainingAdjustment": -984,
+              "predictedRemainingAdjustment": -894,
               "actualRemainingAdjustment": -606,
-              "adjustmentAbsoluteErrorToOpening": 0.042348,
+              "adjustmentAbsoluteErrorToOpening": 0.032265,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q2",
@@ -8907,7 +10373,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q1"
                 ],
                 "originQuarter": 1,
-                "adjustmentMedianRate": -0.110265
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.11835,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 7945,
+                    "adjustment": -743,
+                    "rate": -0.09351793580868471,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 8518,
+                    "adjustment": -1122,
+                    "rate": -0.13172106128199107,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -8915,16 +10398,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 2,
               "asOfPeriod": "2025-q2",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 9103,
+              "predictedClosing": 9074,
               "actualClosing": 9285,
-              "closingError": -182,
-              "closingAbsolutePercentageError": 0.019602,
+              "closingError": -211,
+              "closingAbsolutePercentageError": 0.022725,
               "predictedRemainingNewbiz": 1010,
               "actualRemainingNewbiz": 928,
               "newbizAbsolutePercentageError": 0.088362,
-              "predictedRemainingAdjustment": -861,
+              "predictedRemainingAdjustment": -890,
               "actualRemainingAdjustment": -602,
-              "adjustmentAbsoluteErrorToOpening": 0.028097,
+              "adjustmentAbsoluteErrorToOpening": 0.031243,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q3",
@@ -8933,7 +10416,24 @@ window.CSM_FORECAST_DATA = {
                   "2025-q2"
                 ],
                 "originQuarter": 2,
-                "adjustmentMedianRate": -0.093447
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.11835,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 7945,
+                    "adjustment": -743,
+                    "rate": -0.09351793580868471,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 8518,
+                    "adjustment": -1122,
+                    "rate": -0.13172106128199107,
+                    "weight": 0.65
+                  }
+                ]
               }
             },
             {
@@ -8941,16 +10441,16 @@ window.CSM_FORECAST_DATA = {
               "originQuarter": 3,
               "asOfPeriod": "2025-q3",
               "targetPeriod": "2025-ye",
-              "predictedClosing": 8848,
+              "predictedClosing": 9091,
               "actualClosing": 9285,
-              "closingError": -437,
-              "closingAbsolutePercentageError": 0.047065,
+              "closingError": -194,
+              "closingAbsolutePercentageError": 0.020894,
               "predictedRemainingNewbiz": 563,
               "actualRemainingNewbiz": 461,
               "newbizAbsolutePercentageError": 0.221258,
-              "predictedRemainingAdjustment": -974,
+              "predictedRemainingAdjustment": -731,
               "actualRemainingAdjustment": -443,
-              "adjustmentAbsoluteErrorToOpening": 0.056525,
+              "adjustmentAbsoluteErrorToOpening": 0.030658,
               "inputAudit": {
                 "rateLookbackPeriods": [
                   "2024-q4",
@@ -8959,32 +10459,50 @@ window.CSM_FORECAST_DATA = {
                   "2025-q3"
                 ],
                 "originQuarter": 3,
-                "adjustmentMedianRate": -0.103708
+                "adjustmentMethod": "prior full-year adjustment rate, 35/65 recency weighted, positive recurring rate capped at 0%",
+                "adjustmentNormalizedAnnualRate": -0.11835,
+                "adjustmentObservations": [
+                  {
+                    "year": 2023,
+                    "opening": 7945,
+                    "adjustment": -743,
+                    "rate": -0.09351793580868471,
+                    "weight": 0.35
+                  },
+                  {
+                    "year": 2024,
+                    "opening": 8518,
+                    "adjustment": -1122,
+                    "rate": -0.13172106128199107,
+                    "weight": 0.65
+                  }
+                ]
               }
             }
           ]
         }
       },
       "qualitativeJudgment": {
-        "baseNewbiz": "데이터 모델 1.37조원을 그대로 적용. +1.3% 성장 신호 반영.",
-        "baseAdjustment": "최근 최대 3개년 Q2~Q4 조정률 중앙값 기반 -0.82조원을 그대로 적용.",
+        "baseNewbiz": "데이터 모델 0.92조원을 그대로 적용. -1.4% 성장 신호 반영.",
+        "baseAdjustment": "직전 2개 연말 조정률을 35%·65% 가중하고 양(+) 경상률을 0%로 제한한 정상화 기준 -1.84조원을 그대로 적용.",
         "targetAdjustmentOverlay": "경영목표 연결 조정 없음",
-        "worst": "전 보험사에 같은 단순 하방 가정을 적용. 1분기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영. 조정은 Base -0.82조원에서 Worst -0.90조원으로 적용."
+        "worst": "전 보험사에 같은 단순 하방 가정을 적용. 상반기 확정 실적은 유지하고 남은 기간 신계약 CSM을 Base 대비 10.0% 낮추며, CSM 조정은 Base 대비 10.0% 더 불리하게 반영하되 충격이 작아지지 않도록 기시 CSM의 1%p를 최소 부담으로 적용. 조정은 Base -1.84조원에서 Worst -2.03조원으로 적용."
       },
       "worstAssumption": {
         "basis": "전 보험사 공통 단순 하방 가정",
-        "scope": "2026년 1분기 확정 실적은 유지하고 Q2~Q4 전망 입력에만 적용",
+        "scope": "2026년 상반기 확정 실적은 유지하고 Q3~Q4 전망 입력에만 적용",
         "newbizDiscount": 0.1,
         "adjustmentStress": 0.1,
-        "adjustmentDirection": "CSM 조정이 음수이면 절대 부담을 확대하고, 양수이면 기여 효과를 축소"
+        "adjustmentRatePointFloor": 0.01,
+        "adjustmentDirection": "Base보다 10% 불리하게 적용. 단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 사용"
       },
       "confidence": "검증 제한",
       "validation": {
         "label": "검증 제한",
         "sampleCount": 6,
-        "meanAbsolutePercentageError": 0.033321,
-        "meanAbsoluteErrorBn": 302,
-        "meanErrorBn": -74,
+        "meanAbsolutePercentageError": 0.030435,
+        "meanAbsoluteErrorBn": 274,
+        "meanErrorBn": 71,
         "scope": "회사별 2024·2025년 Q1·Q2·Q3 시점 연말 예측",
         "limitation": "IFRS17 이후 2개 연도·6개 시점으로 장기 확률 신뢰도로 해석하지 않음"
       },
@@ -9003,20 +10521,27 @@ window.CSM_FORECAST_DATA = {
       },
       "sources": [
         {
+          "title": "KB증권 보험업 전망 (2026.06.22)",
+          "url": "https://rdata.kbsec.com/pdf_data/20260622111726153K.pdf",
+          "type": "sell_side",
+          "use": "업계 CSM 성장 둔화 가능성과 잔존 경험조정 위험을 장기 낙관 편향 통제의 방향성 근거로만 사용",
+          "id": "kb-insurance-industry-1"
+        },
+        {
           "title": "삼성증권 보험업 이슈 브리프 (2026.01.05)",
           "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application%2Fpdf&fileName=2020%2F2026010509115239K_02_03.pdf&inlineYn=Y&saveKey=research.pdf",
           "type": "sell_side",
           "use": "업종 방향성 참고용이며 회사별 수치 오버레이에는 사용하지 않음",
-          "id": "kb-insurance-industry-1"
+          "id": "kb-insurance-industry-2"
         }
       ],
       "evidenceSources": [
         {
-          "id": "kb-insurance-2026-q1-dart",
-          "title": "KB손해보험 [기재정정]분기보고서 (2026.03)",
-          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529001431",
+          "id": "kb-insurance-2026-q2-dart",
+          "title": "KB손해보험 반기보고서 (2026.06)",
+          "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814002234",
           "type": "official_filing",
-          "use": "2026년 1분기 CSM Movement 확정값"
+          "use": "2026년 상반기 누적 CSM Movement 확정값"
         },
         {
           "id": "kb-insurance-forecast-methodology",
@@ -9033,15 +10558,15 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 신계약 CSM +0.422조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "kb-insurance-2026-q1-dart"
+              "headline": "2026년 상반기 신계약 CSM +0.823조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "kb-insurance-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 신계약 CSM +1.794조원",
-              "detail": "1분기 확정 +0.422조원과 잔여 3개 분기 +1.372조원을 합산",
+              "headline": "2026년 연간 신계약 CSM +1.738조원",
+              "detail": "상반기 누적 확정 +0.823조원과 잔여 2개 분기 +0.915조원을 합산",
               "sourceId": "kb-insurance-forecast-methodology"
             },
             {
@@ -9059,34 +10584,34 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 이자부리 +0.083조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "kb-insurance-2026-q1-dart"
+              "headline": "2026년 상반기 이자부리 +0.169조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "kb-insurance-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 이자부리 +0.346조원",
+              "headline": "2026년 연간 이자부리 +0.362조원",
               "detail": "분기 이자부리율 0.86%를 기시 CSM과 신계약 CSM 합계에 적용",
               "sourceId": "kb-insurance-forecast-methodology"
             }
           ]
         },
         "adjustment": {
-          "statement": "최근 경험조정과 연말 계리 가정 재점검 부담을 반영해 CSM 조정을 산출",
+          "statement": "과거 연간 조정률을 정상화해 일회성 환입의 반복을 차단하고 CSM 조정을 산출",
           "items": [
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 조정 -0.098조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "kb-insurance-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 조정 +0.898조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "kb-insurance-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 조정 -0.914조원",
-              "detail": "최근 최대 3개년 Q2~Q4 조정률 중앙값으로 잔여 조정 -0.816조원을 산출",
+              "headline": "2026년 연간 CSM 조정 -0.945조원",
+              "detail": "직전 2개 연말 조정률을 35%·65%로 가중하고 양(+)의 경상 조정률은 0%로 제한해 연간 목표 -0.945조원, 잔여 조정 -1.843조원을 산출",
               "sourceId": "kb-insurance-forecast-methodology"
             },
             {
@@ -9104,15 +10629,15 @@ window.CSM_FORECAST_DATA = {
             {
               "kind": "actual",
               "label": "확정 실적",
-              "headline": "2026년 1분기 CSM 상각 -0.214조원",
-              "detail": "DART 분기보고서에서 파싱·검증한 2026년 1분기 확정 Movement",
-              "sourceId": "kb-insurance-2026-q1-dart"
+              "headline": "2026년 상반기 CSM 상각 -0.453조원",
+              "detail": "DART 반기보고서에서 파싱·검증한 2026년 상반기 누적 확정 Movement",
+              "sourceId": "kb-insurance-2026-q2-dart"
             },
             {
               "kind": "model",
               "label": "산출식",
-              "headline": "2026년 연간 CSM 상각 -0.884조원",
-              "detail": "분기 상각률 2.20%를 기시 CSM과 신계약 CSM 합계에 적용",
+              "headline": "2026년 연간 CSM 상각 -0.961조원",
+              "detail": "분기 상각률 2.28%를 기시 CSM과 신계약 CSM 합계에 적용",
               "sourceId": "kb-insurance-forecast-methodology"
             }
           ]

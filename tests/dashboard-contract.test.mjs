@@ -14,25 +14,41 @@ const companies = getSupportedCompanyKeys(snapshot.data);
 assert.equal(snapshot.data.dataContractVersion, "csm-dashboard-quarterly/v1");
 assert.equal(snapshot.data.runtimeContractVersion, "csm-dashboard-runtime/v1");
 assert.equal(companies.length, 9);
-assert.equal(snapshot.data.reviewItems.length, 234, "each quarterly period needs movement and financial review items");
+assert.equal(snapshot.data.reviewItems.length, 252, "each quarterly period needs movement and financial review items");
 
 for (const companyKey of companies) {
-  assert.equal(getLatestQuarterPeriodKey(snapshot.data, companyKey), "2026-q1");
-  const financial = getFinancialMetric(snapshot.data, companyKey, "2026-q1");
+  assert.equal(getLatestQuarterPeriodKey(snapshot.data, companyKey), "2026-q2");
+  const financial = getFinancialMetric(snapshot.data, companyKey, "2026-q2");
   assert.ok(Number.isFinite(financial.insuranceProfit), `${companyKey} insurance profit`);
   assert.ok(Number.isFinite(financial.netIncome), `${companyKey} net income`);
-  assert.ok(Number.isFinite(financial.kics), `${companyKey} K-ICS`);
+  if (companyKey === "hanwha-life") {
+    assert.equal(financial.kics, null, "Hanwha Q2 K-ICS must stay blank while DART marks it pending");
+  } else {
+    assert.ok(Number.isFinite(financial.kics), `${companyKey} K-ICS`);
+  }
   assert.equal(financial.investmentProfit, null, "unavailable investment profit must stay null");
 }
 
-const clean = getReviewSummary(snapshot.data, "samsung-life", "2026-q1");
+const clean = getReviewSummary(snapshot.data, "samsung-life", "2026-q2");
 assert.equal(clean.status, "passed");
 
-const review = getReviewSummary(snapshot.data, "shinhan-life", "2026-q1");
-assert.equal(review.status, "needs_review");
-assert.equal(review.needsReview, 1);
+const corrected = getReviewSummary(snapshot.data, "shinhan-life", "2026-q2");
+assert.equal(corrected.status, "passed");
+assert.equal(snapshot.data.sampleData["shinhan-life"].periods["2026-q1"].csm, 7722);
+assert.equal(snapshot.data.sampleData["shinhan-life"].periods["2026-q2"].csm, 7911);
+assert.deepEqual(
+  snapshot.data.sampleData["shinhan-life"].periods["2026-q2"].sourceReference.sourceTables,
+  [434, 436, 438],
+);
 assert.equal(
-  review.items.find((item) => item.metric === "csm_movement")
+  corrected.items.find((item) => item.metric === "csm_movement")
     .validation.openingReconciliationDifference,
-  -104,
+  0,
+);
+
+const pending = getReviewSummary(snapshot.data, "hanwha-life", "2026-q2");
+assert.equal(pending.status, "needs_review");
+assert.deepEqual(
+  pending.items.find((item) => item.metric === "financial_metrics").validation.pendingMetrics,
+  ["kics"],
 );

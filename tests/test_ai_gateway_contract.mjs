@@ -18,7 +18,7 @@ test('analyze returns a grounded dashboard bundle for the latest validated perio
 
   assert.equal(result.dataKind, 'actual');
   assert.equal(result.company, 'samsung-life');
-  assert.equal(result.period, '2026-q1');
+  assert.equal(result.period, '2026-q2');
   assert.equal(result.periodScope.mode, 'latest-validated');
   assert.equal(result.validationStatus, 'passed');
   assert.equal(result.dataContractVersion, 'csm-dashboard-quarterly/v1');
@@ -30,13 +30,13 @@ test('analyze returns a grounded dashboard bundle for the latest validated perio
   assert.ok(result.calculation.length > 0);
   assert.ok(result.followUps.length > 0);
   assert.ok(result.answer.summary.length > 0);
-  assert.equal(result.forecastContractVersion, '2026.08.16-v7.5');
+  assert.equal(result.forecastContractVersion, '2026.08.21-v10.3');
   assert.equal(result.forecastRuntimeContractVersion, 'csm-forecast-runtime/v1');
-  assert.equal(result.forecast.independentModel, 14135);
+  assert.equal(result.forecast.independentModel, 13901);
   assert.equal(result.forecast.base, 13500);
-  assert.equal(result.forecast.worst, 13040);
-  assert.equal(result.forecast.targetAdjustmentOverlay, -635);
-  assert.equal(result.forecast.adjustmentBeforeTargetOverlay, -1640);
+  assert.equal(result.forecast.worst, 13187);
+  assert.equal(result.forecast.targetAdjustmentOverlay, -401);
+  assert.equal(result.forecast.adjustmentBeforeTargetOverlay, -1812);
   assert.ok(
     !result.insightCards
       .find((card) => card.key === 'briefing')
@@ -63,7 +63,7 @@ test('all nine dashboard companies use the same latest quarterly contract', asyn
   );
 
   assert.deepEqual(results.map((result) => result.company), companyKeys);
-  assert.ok(results.every((result) => result.period === '2026-q1'));
+  assert.ok(results.every((result) => result.period === '2026-q2'));
   assert.ok(results.every((result) => result.dataContractVersion === 'csm-dashboard-quarterly/v1'));
   assert.ok(results.every((result) => result.snapshotHash === results[0].snapshotHash));
 });
@@ -83,15 +83,16 @@ test('analyze honors an explicit supported actual period', async () => {
 
 test('opening reconciliation differences surface as human review state', async () => {
   const result = await gateway.analyze({
-    company: 'shinhan-life',
+    company: 'hanwha-life',
+    periodKey: '2023-q1',
     audience: 'practitioner',
     analysisType: 'anomaly',
   });
 
-  assert.equal(result.period, '2026-q1');
+  assert.equal(result.period, '2023-q1');
   assert.equal(result.validationStatus, 'needs_review');
   assert.equal(result.reviewState.needsReview, 1);
-  assert.match(result.reviewState.reasons[0], /기초 CSM|104십억원/);
+  assert.match(result.reviewState.reasons[0], /기초 CSM|95십억원/);
 });
 
 test('chat refuses unsupported investment advice', async () => {
@@ -112,8 +113,8 @@ test('chat answers an operational CSM question with evidence', async () => {
   });
 
   assert.equal(result.company, 'hanwha-life');
-  assert.equal(result.period, '2026-q1');
-  assert.equal(result.validationStatus, 'passed');
+  assert.equal(result.period, '2026-q2');
+  assert.equal(result.validationStatus, 'needs_review');
   assert.equal(result.unsupportedReason, null);
   assert.ok(result.evidence.length > 0);
   assert.ok(result.answer.bullets.length > 0);
@@ -140,5 +141,5 @@ test('status reports both quarterly and forecast contract hashes', async () => {
   assert.ok(status.dashboardHash);
   assert.ok(status.forecastHash);
   assert.equal(status.dashboardContractVersion, 'csm-dashboard-quarterly/v1');
-  assert.equal(status.forecastContractVersion, '2026.08.16-v7.5');
+  assert.equal(status.forecastContractVersion, '2026.08.21-v10.3');
 });
