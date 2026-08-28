@@ -11,7 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260821-peer-trend-v91" />
+    <link rel="stylesheet" href="./styles.css?v=20260827-compact-peer-trend-v98" />
   </head>
   <body>
     <div class="app-shell">
@@ -218,6 +218,27 @@
               </div>
             </div>
 
+            <article class="panel peer-trend-panel" aria-labelledby="peer-trend-title">
+              <div class="peer-trend-heading">
+                <div>
+                  <p class="section-kicker">NINE-COMPANY CSM TREND</p>
+                  <h3 id="peer-trend-title">9개사 보유 CSM 추이</h3>
+                  <p>9개사의 실적과 5개년 전망을 하나의 금액축에서 연결하고, 최근 실적과 최종 전망을 직접 표시합니다.</p>
+                </div>
+                <div class="peer-trend-actions">
+                  <div class="peer-trend-scenario" role="group" aria-label="9개사 CSM 전망 시나리오">
+                    <button class="is-active" type="button" data-peer-trend-scenario="base" aria-pressed="true">Base</button>
+                    <button type="button" data-peer-trend-scenario="worst" aria-pressed="false">Worst</button>
+                  </div>
+                  <button class="peer-trend-reset" type="button" id="peer-trend-reset" hidden>전체 비교</button>
+                </div>
+              </div>
+              <div class="peer-trend-chart-scroll">
+                <div class="peer-trend-chart" id="peer-trend-chart" aria-live="polite"></div>
+              </div>
+              <p class="peer-trend-note"><span>회사별 고대비 색상</span><span>생보 ● · 손보 ■</span><span>실선 실적 · 점선 전망</span><span>최근 실적과 5년 전망 직접 표시</span><span>회사명을 선택하면 해당 흐름을 강조합니다.</span></p>
+            </article>
+
             <article class="panel forecast-method-panel" aria-labelledby="forecast-method-title">
               <div class="forecast-method-heading">
                 <div>
@@ -243,28 +264,6 @@
                 <span>단, Base 조정 부담이 매우 작을 때만 기시 CSM의 1% 금액을 최소 하방으로 적용</span>
                 <span>1~5년 수치는 회사 목표가 아닌 동일 산식의 시나리오 결과</span>
               </div>
-            </article>
-
-            <article class="panel peer-trend-panel" aria-labelledby="peer-trend-title">
-              <div class="peer-trend-heading">
-                <div>
-                  <p class="section-kicker">NINE-COMPANY RELATIVE TREND</p>
-                  <h3 id="peer-trend-title">9개사 CSM 추이율 비교</h3>
-                  <p>회사별 최근 보유 CSM을 0%로 놓고 향후 1~5년 누적 증감률을 같은 축에서 비교합니다.</p>
-                </div>
-                <div class="peer-trend-actions">
-                  <div class="peer-trend-scenario" role="group" aria-label="9개사 추이율 전망 시나리오">
-                    <button class="is-active" type="button" data-peer-trend-scenario="base" aria-pressed="true">Base</button>
-                    <button type="button" data-peer-trend-scenario="worst" aria-pressed="false">Worst</button>
-                  </div>
-                  <button class="peer-trend-reset" type="button" id="peer-trend-reset" hidden>전체 비교</button>
-                </div>
-              </div>
-              <div class="peer-trend-chart-scroll">
-                <div class="peer-trend-chart" id="peer-trend-chart" aria-live="polite"></div>
-              </div>
-              <div class="peer-trend-legend" id="peer-trend-legend" aria-label="회사별 선 색상과 5년 누적 증감률"></div>
-              <p class="peer-trend-note"><span>생보 실선</span><span>손보 점선</span><span>범례의 회사를 선택하면 해당 흐름을 강조합니다.</span></p>
             </article>
 
             <div class="trend-grid" id="trend-grid" aria-label="9개사 CSM 추이 전망"></div>
@@ -567,6 +566,6 @@
     <script src="./liability-assumption-data.generated.js?v=20260804-official-source-v4"></script>
     <script src="./management-experience-data.generated.js?v=20260821-v4"></script>
     <script src="./xlsx-export.js?v=20260820-v1"></script>
-    <script src="./script.js?v=20260821-peer-trend-v91"></script>
+    <script src="./script.js?v=20260827-compact-peer-trend-v98"></script>
   </body>
 </html>

@@ -82,15 +82,15 @@ const state = {
 };
 
 const peerTrendColors = {
-  "samsung-life": "#1d4ed8",
-  "hanwha-life": "#7c3aed",
-  "kyobo-life": "#2563eb",
-  "shinhan-life": "#6366f1",
-  "samsung-fire": "#047857",
-  "meritz-fire": "#0f766e",
-  "db-insurance": "#0891b2",
-  "hyundai-marine": "#ca8a04",
-  "kb-insurance": "#c2410c",
+  "samsung-life": "#1455d9",
+  "hanwha-life": "#7048c8",
+  "kyobo-life": "#008c86",
+  "shinhan-life": "#c23b83",
+  "samsung-fire": "#c0392b",
+  "meritz-fire": "#e16b16",
+  "db-insurance": "#2e8b57",
+  "hyundai-marine": "#9a6700",
+  "kb-insurance": "#52677d",
 };
 
 const marketMetrics = {
@@ -501,11 +501,6 @@ function forecastHorizonSeries(projection, scenarioKey) {
   ];
 }
 
-function formatPeerTrendRate(value) {
-  if (!Number.isFinite(value) || Math.abs(value) < 0.05) return "0.0%";
-  return `${value > 0 ? "+" : "−"}${Math.abs(value).toFixed(1)}%`;
-}
-
 function peerTrendSeries() {
   return companyCatalog.flatMap((catalog) => {
     const context = getTrendContext(catalog.key);
@@ -513,15 +508,55 @@ function peerTrendSeries() {
     const projection = calculateForecast(context, state.peerTrendScenario);
     const horizon = forecastHorizonSeries(projection, state.peerTrendScenario);
     if (horizon.length !== 5) return [];
-    const values = [0, ...horizon.map((point) => (point.closing / context.period.csm - 1) * 100)];
-    return [{ catalog, context, horizon, values, color: peerTrendColors[catalog.key] }];
+    const history = trendHistoryPeriodKeys(context.company).map((period) => ({
+      period,
+      value: context.company.periods[period].csm,
+    }));
+    if (!history.length) return [];
+    const values = [...history.map((point) => point.value), ...horizon.map((point) => point.closing)];
+    return [{ catalog, context, history, horizon, values, color: peerTrendColors[catalog.key] }];
   });
+}
+
+function formatPeerTrendAxisValue(value) {
+  const trillion = value / 1000;
+  return `${trillion.toFixed(Number.isInteger(trillion) ? 0 : 1)}조`;
+}
+
+function peerTrendEndLabelPositions(series, toY, plotTop, plotBottom, valueForItem = (item) => item.values.at(-1)) {
+  if (!series.length) return new Map();
+  const gap = Math.min(24, (plotBottom - plotTop - 20) / Math.max(1, series.length - 1));
+  const labels = series
+    .map((item) => ({ key: item.catalog.key, desired: toY(valueForItem(item)), y: toY(valueForItem(item)) }))
+    .sort((left, right) => left.desired - right.desired);
+  const topLimit = plotTop + 10;
+  const bottomLimit = plotBottom - 10;
+  labels[0].y = Math.max(topLimit, labels[0].y);
+  for (let index = 1; index < labels.length; index += 1) {
+    labels[index].y = Math.max(labels[index].y, labels[index - 1].y + gap);
+  }
+  if (labels.at(-1).y > bottomLimit) {
+    const shift = labels.at(-1).y - bottomLimit;
+    labels.forEach((label) => {
+      label.y -= shift;
+    });
+  }
+  for (let index = labels.length - 2; index >= 0; index -= 1) {
+    labels[index].y = Math.min(labels[index].y, labels[index + 1].y - gap);
+  }
+  if (labels[0].y < topLimit) {
+    const shift = topLimit - labels[0].y;
+    labels.forEach((label) => {
+      label.y += shift;
+    });
+  }
+  return new Map(labels.map((label) => [label.key, label.y]));
 }
 
 function renderPeerTrendChart() {
   const chart = document.querySelector("#peer-trend-chart");
-  const legend = document.querySelector("#peer-trend-legend");
-  if (!chart || !legend) return;
+  if (!chart) return;
+
   peerTrendScenarioButtons.forEach((button) => {
     const isActive = button.dataset.peerTrendScenario === state.peerTrendScenario;
     button.classList.toggle("is-active", isActive);
@@ -531,70 +566,129 @@ function renderPeerTrendChart() {
 
   const series = peerTrendSeries();
   if (!series.length) {
-    chart.innerHTML = disclosureEmptyState("9개사 CSM 추이율");
-    legend.innerHTML = "";
+    chart.innerHTML = disclosureEmptyState("9개사 보유 CSM 추이");
     return;
   }
 
-  const width = 1000;
-  const height = 380;
-  const plot = { left: 68, right: 26, top: 26, bottom: 48 };
+  const width = 960;
+  const height = 560;
+  const plot = { left: 68, right: 145, top: 52, bottom: 56 };
+  const plotRight = width - plot.right;
+  const plotBottom = height - plot.bottom;
   const allValues = series.flatMap((item) => item.values);
-  let minValue = Math.min(0, ...allValues);
-  let maxValue = Math.max(0, ...allValues);
-  const padding = Math.max((maxValue - minValue) * 0.12, 2.5);
-  minValue = Math.floor((minValue - padding) / 5) * 5;
-  maxValue = Math.ceil((maxValue + padding) / 5) * 5;
-  if (maxValue - minValue < 10) {
-    minValue -= 5;
-    maxValue += 5;
-  }
-  const x = (index) => plot.left + index * ((width - plot.left - plot.right) / 5);
-  const y = (value) => plot.top + (maxValue - value) / (maxValue - minValue) * (height - plot.top - plot.bottom);
-  const yTicks = Array.from({ length: 5 }, (_, index) => maxValue - index * ((maxValue - minValue) / 4));
-  const xLabels = ["최근 실적", "1년", "2년", "3년", "4년", "5년"];
+  const rawMin = Math.min(...allValues);
+  const rawMax = Math.max(...allValues);
+  const padding = Math.max((rawMax - rawMin) * 0.08, 500);
+  const roughStep = (rawMax - rawMin + padding * 2) / 5;
+  const tickStep = Math.max(500, Math.ceil(roughStep / 500) * 500);
+  const minValue = Math.floor((rawMin - padding) / tickStep) * tickStep;
+  const maxValue = Math.ceil((rawMax + padding) / tickStep) * tickStep;
+  const firstSeries = series[0];
+  const xLabels = [
+    ...firstSeries.history.map((point) => trendPeriodLabel(point.period)),
+    ...firstSeries.horizon.map((point) => trendPeriodLabel(point.period)),
+  ];
+  const latestActualIndex = firstSeries.history.length - 1;
+  const x = (index) => plot.left + index * ((plotRight - plot.left) / Math.max(1, xLabels.length - 1));
+  const y = (value) => plot.top + (maxValue - value) / (maxValue - minValue) * (plotBottom - plot.top);
+  const yTicks = [];
+  for (let tick = minValue; tick <= maxValue + tickStep / 2; tick += tickStep) yTicks.push(tick);
+
   const selectedKey = state.peerTrendCompanyKey;
   const scenarioLabel = state.peerTrendScenario === "base" ? "Base" : "Worst";
+  const endLabelPositions = peerTrendEndLabelPositions(series, y, plot.top + 50, plotBottom);
+  const latestActualLabelPositions = peerTrendEndLabelPositions(
+    series,
+    y,
+    plot.top + 50,
+    plotBottom,
+    (item) => item.history.at(-1).value,
+  );
 
-  chart.innerHTML = `<svg class="peer-trend-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="9개 보험사 ${scenarioLabel} CSM 누적 증감률 비교 그래프">
+  chart.innerHTML = `<svg class="peer-trend-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="9개 보험사의 보유 CSM 실적과 ${scenarioLabel} 5개년 전망 통합 비교 그래프">
+    <rect class="peer-trend-forecast-zone" x="${x(latestActualIndex)}" y="${plot.top}" width="${plotRight - x(latestActualIndex)}" height="${plotBottom - plot.top}"></rect>
+    <rect class="peer-trend-frame" x="${plot.left}" y="${plot.top}" width="${plotRight - plot.left}" height="${plotBottom - plot.top}"></rect>
     <g class="peer-trend-grid" aria-hidden="true">
-      ${yTicks.map((tick) => `<line x1="${plot.left}" x2="${width - plot.right}" y1="${y(tick)}" y2="${y(tick)}"></line><text x="${plot.left - 12}" y="${y(tick) + 4}" text-anchor="end">${formatPeerTrendRate(tick)}</text>`).join("")}
-      <line class="peer-trend-zero" x1="${plot.left}" x2="${width - plot.right}" y1="${y(0)}" y2="${y(0)}"></line>
-      ${xLabels.map((label, index) => `<text x="${x(index)}" y="${height - 14}" text-anchor="middle">${label}</text>`).join("")}
-      <text class="peer-trend-axis-title" x="14" y="${plot.top - 8}">누적 증감률</text>
+      ${yTicks.map((tick) => `<line x1="${plot.left}" x2="${plotRight}" y1="${y(tick)}" y2="${y(tick)}"></line><text x="${plot.left - 12}" y="${y(tick) + 4}" text-anchor="end">${formatPeerTrendAxisValue(tick)}</text>`).join("")}
+      ${xLabels.map((label, index) => `<text x="${x(index)}" y="${height - 25}" text-anchor="middle">${label}</text>`).join("")}
+      <text class="peer-trend-axis-title" x="${plot.left}" y="18">보유 CSM (조원)</text>
+      <text class="peer-trend-axis-title peer-trend-x-axis-title" x="${(plot.left + plotRight) / 2}" y="${height - 5}" text-anchor="middle">연도말 · 2026.2Q는 최근 실적</text>
+      <line class="peer-trend-boundary" x1="${x(latestActualIndex)}" x2="${x(latestActualIndex)}" y1="${plot.top}" y2="${plotBottom}"></line>
+      <text class="peer-trend-zone-label" x="${x(Math.max(0, latestActualIndex - 2))}" y="${plot.top + 20}" text-anchor="middle">실적</text>
+      <text class="peer-trend-zone-label" x="${x(latestActualIndex + 2.5)}" y="${plot.top + 20}" text-anchor="middle">${scenarioLabel} 전망</text>
+      <text class="peer-trend-latest-heading" x="${x(latestActualIndex) - 12}" y="${plot.top + 40}" text-anchor="end">최근 실적 · 26.2Q</text>
+      <text class="peer-trend-end-heading" x="${plotRight + 18}" y="${plot.top + 40}">5년 전망 · 30.YE</text>
     </g>
     <g class="peer-trend-series">
       ${series.map((item) => {
         const dimmed = selectedKey && selectedKey !== item.catalog.key;
         const highlighted = selectedKey === item.catalog.key;
-        const points = item.values.map((value, index) => `${x(index)},${y(value)}`).join(" ");
-        return `<g class="peer-trend-line-group ${dimmed ? "is-dimmed" : ""} ${highlighted ? "is-highlighted" : ""}" data-peer-series="${item.catalog.key}" style="--peer-color:${item.color}">
-          <title>${item.catalog.name} ${scenarioLabel}: 5년 누적 ${formatPeerTrendRate(item.values.at(-1))}</title>
-          <polyline class="peer-trend-line ${item.catalog.sector === "손해보험" ? "is-nonlife" : "is-life"}" points="${points}"></polyline>
-          ${item.values.map((value, index) => `<circle cx="${x(index)}" cy="${y(value)}" r="${index === item.values.length - 1 ? 4 : 3}"><title>${item.catalog.name} ${xLabels[index]} ${formatPeerTrendRate(value)}</title></circle>`).join("")}
+        const actualPoints = item.history.map((point, index) => `${x(index)},${y(point.value)}`).join(" ");
+        const forecastPoints = [
+          `${x(item.history.length - 1)},${y(item.history.at(-1).value)}`,
+          ...item.horizon.map((point, index) => `${x(item.history.length + index)},${y(point.closing)}`),
+        ].join(" ");
+        const actualY = y(item.history.at(-1).value);
+        const finalY = y(item.values.at(-1));
+        const isLife = item.catalog.sector === "생명보험";
+        return `<g class="peer-trend-line-group ${dimmed ? "is-dimmed" : ""} ${highlighted ? "is-highlighted" : ""}" data-peer-series="${item.catalog.key}" data-peer-select="${item.catalog.key}" role="button" tabindex="0" aria-label="${item.catalog.name} 추이 강조" style="--peer-color:${item.color}">
+          <title>${item.catalog.name} ${scenarioLabel}: 최근 ${formatTrendWon(item.context.period.csm)} → 5년 ${formatTrendWon(item.values.at(-1))}</title>
+          <polyline class="peer-trend-line-halo peer-trend-actual-halo" points="${actualPoints}"></polyline>
+          <polyline class="peer-trend-line-halo peer-trend-forecast-halo" points="${forecastPoints}"></polyline>
+          <polyline class="peer-trend-line peer-trend-actual-line" points="${actualPoints}"></polyline>
+          <polyline class="peer-trend-line peer-trend-forecast-line" points="${forecastPoints}"></polyline>
+          ${isLife
+            ? `<circle class="peer-trend-point is-latest" cx="${x(latestActualIndex)}" cy="${actualY}" r="4.5"></circle><circle class="peer-trend-point is-final" cx="${plotRight}" cy="${finalY}" r="3.8"></circle>`
+            : `<rect class="peer-trend-point is-latest" x="${x(latestActualIndex) - 4}" y="${actualY - 4}" width="8" height="8"></rect><rect class="peer-trend-point is-final" x="${plotRight - 3.5}" y="${finalY - 3.5}" width="7" height="7"></rect>`}
+        </g>`;
+      }).join("")}
+    </g>
+    <g class="peer-trend-latest-labels">
+      ${series.map((item) => {
+        const dimmed = selectedKey && selectedKey !== item.catalog.key;
+        const highlighted = selectedKey === item.catalog.key;
+        const actualValue = item.history.at(-1).value;
+        const actualY = y(actualValue);
+        const labelY = latestActualLabelPositions.get(item.catalog.key);
+        const labelX = x(latestActualIndex) - 12;
+        const marker = item.catalog.sector === "생명보험" ? "●" : "■";
+        return `<g class="peer-trend-latest-label ${dimmed ? "is-dimmed" : ""} ${highlighted ? "is-highlighted" : ""}" style="--peer-color:${item.color}">
+          <line x1="${x(latestActualIndex) - 3}" x2="${labelX + 4}" y1="${actualY}" y2="${labelY}"></line>
+          <text data-peer-select="${item.catalog.key}" role="button" tabindex="0" aria-label="${item.catalog.name} 최근 실적 ${formatTrendWon(actualValue)} 강조" x="${labelX}" y="${labelY + 4}" text-anchor="end">${marker} ${item.catalog.name} · ${formatTrendWon(actualValue)}</text>
+        </g>`;
+      }).join("")}
+    </g>
+    <g class="peer-trend-end-labels">
+      ${series.map((item) => {
+        const dimmed = selectedKey && selectedKey !== item.catalog.key;
+        const highlighted = selectedKey === item.catalog.key;
+        const endY = y(item.values.at(-1));
+        const labelY = endLabelPositions.get(item.catalog.key);
+        const labelX = plotRight + 18;
+        const marker = item.catalog.sector === "생명보험" ? "●" : "■";
+        return `<g class="peer-trend-end-label ${dimmed ? "is-dimmed" : ""} ${highlighted ? "is-highlighted" : ""}" style="--peer-color:${item.color}">
+          <line x1="${plotRight + 4}" x2="${labelX - 7}" y1="${endY}" y2="${labelY}"></line>
+          <text class="peer-trend-end-combined" data-peer-select="${item.catalog.key}" role="button" tabindex="0" aria-label="${item.catalog.name} 5년 전망 ${formatTrendWon(item.values.at(-1))} 강조" x="${labelX}" y="${labelY + 4}">${marker} ${item.catalog.name} · ${formatTrendWon(item.values.at(-1))}</text>
         </g>`;
       }).join("")}
     </g>
   </svg>`;
 
-  legend.innerHTML = sectorCatalog.map((sector) => {
-    const sectorSeries = series.filter((item) => item.catalog.sector === sector.name);
-    return `<section class="peer-trend-legend-group sector-${sector.key}">
-      <header><span>${sector.shortName}</span><strong>${sector.name}</strong><small>${sector.name === "생명보험" ? "실선" : "점선"}</small></header>
-      <div>${sectorSeries.map((item) => {
-        const isActive = selectedKey === item.catalog.key;
-        return `<button type="button" data-peer-trend-company="${item.catalog.key}" aria-pressed="${isActive}" style="--peer-color:${item.color}">
-          <i aria-hidden="true"></i><span>${item.catalog.name}</span><strong>${formatPeerTrendRate(item.values.at(-1))}</strong><small>${formatTrendWon(item.horizon.at(-1).closing)}</small>
-        </button>`;
-      }).join("")}</div>
-    </section>`;
-  }).join("");
-
-  legend.querySelectorAll("[data-peer-trend-company]").forEach((button) => {
-    button.addEventListener("click", () => {
-      state.peerTrendCompanyKey = state.peerTrendCompanyKey === button.dataset.peerTrendCompany ? null : button.dataset.peerTrendCompany;
+  document.querySelectorAll("[data-peer-select]").forEach((control) => {
+    const companyKey = control.dataset.peerSelect;
+    const selectCompany = () => {
+      state.peerTrendCompanyKey = state.peerTrendCompanyKey === companyKey ? null : companyKey;
       renderPeerTrendChart();
-    });
+    };
+    control.addEventListener("click", selectCompany);
+    if (control.dataset.peerSelect) {
+      control.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          selectCompany();
+        }
+      });
+    }
   });
 }
 
@@ -1145,6 +1239,42 @@ function forecastTrajectoryLabel(start, midpoint, end) {
   return trajectoryLabels[`${middlePhase}-${longPhase}`] ?? "방향 확인 필요";
 }
 
+function forecastConclusionReason(base, horizonBase, assumptions = {}, direction = "") {
+  const futurePoints = (horizonBase ?? []).filter((point) => point.period !== "2026-ye");
+  const finalPoint = futurePoints.at(-1);
+  if (!finalPoint || !Number.isFinite(base?.closing) || !Number.isFinite(finalPoint.closing)) {
+    return "장기 Movement 근거를 추가 확인해야 합니다";
+  }
+
+  if (direction.includes("회복")) {
+    return "신계약 CSM 유입이 조정·상각 부담을 점차 상쇄";
+  }
+  if (direction.includes("상승 후 하향")) {
+    return "후반 신계약 유입이 조정·상각 부담을 충분히 상쇄하지 못함";
+  }
+  if (direction.includes("상승 후 보합")) {
+    return "신계약·이자 유입이 증가를 이끈 뒤 조정·상각과 균형";
+  }
+  if (direction.includes("하락 후 보합")) {
+    return "조정·상각 부담으로 감소한 뒤 신계약 유입과 균형";
+  }
+
+  const closingChange = finalPoint.closing - base.closing;
+  const materiality = Math.max(Math.abs(base.closing) * 0.01, 100);
+  const newbizGrowth = Number(assumptions.newbizGrowth);
+  if (Math.abs(closingChange) <= materiality || direction === "보합권") {
+    return "신계약·이자 유입과 조정·상각 부담이 대체로 균형";
+  }
+  if (closingChange > 0) {
+    return newbizGrowth > 0.005
+      ? "신계약 CSM 성장으로 유입이 조정·상각 부담을 상회"
+      : "신계약·이자 유입이 조정·상각 부담을 상회";
+  }
+  return newbizGrowth < -0.005
+    ? "신계약 CSM 둔화로 조정·상각 부담을 상쇄하지 못함"
+    : "CSM 조정·상각 부담이 신계약·이자 유입을 상회";
+}
+
 function renderForecastMethodSummary(context, base) {
   const panel = document.querySelector("#forecast-method-summary");
   if (!panel) return;
@@ -1216,12 +1346,19 @@ function renderForecastInsightRail(context, base, worst, driverForecast) {
   const direction = threeYearBase && fiveYearBase
     ? forecastTrajectoryLabel(base.closing, threeYearBase.closing, fiveYearBase.closing)
     : "방향 확인 필요";
+  const conclusionReason = forecastConclusionReason(
+    base,
+    base.forecastMeta?.horizon?.base,
+    assumptions,
+    direction,
+  );
   rail.innerHTML = `
     <div class="insight-rail-heading"><span>CEO READOUT</span><strong>${escapeHtml(context.company.name)} 전망 판단</strong></div>
     <ol>
       <li class="insight-conclusion">
         <span>01 · 전망 결론</span>
         <strong class="insight-conclusion-title"><span>${direction}</span><small>2026년 ${formatTrendWon(base.closing)} → 2030년 ${fiveYearBase ? formatTrendWon(fiveYearBase.closing) : "—"}</small></strong>
+        <p class="insight-conclusion-reason"><b>주요 이유</b><span>${escapeHtml(conclusionReason)}</span></p>
         <div class="insight-fact-list">
           <div><b>2026 Base</b><p>${formatTrendWon(base.closing)} · 전년말 대비 ${formatSignedTrendWon(yearEndChange)}</p></div>
           <div><b>2028 전망</b><p>${threeYearBase ? formatTrendWon(threeYearBase.closing) : "—"}</p></div>

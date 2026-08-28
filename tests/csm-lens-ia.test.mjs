@@ -154,8 +154,9 @@ assert.match(
 assert.match(styles, /\.basis-toggle\b/, "the basis selector should have a visible selected state");
 assert.match(html, /CSM 추이 전망/, "dashboard should name the fifth page as history and forecast");
 assert.ok(
-  html.indexOf('class="panel forecast-method-panel"') < html.indexOf('id="trend-grid"'),
-  "forecast methodology should appear between the page heading and company graph cards",
+  html.indexOf('class="panel peer-trend-panel"') < html.indexOf('class="panel forecast-method-panel"') &&
+    html.indexOf('class="panel forecast-method-panel"') < html.indexOf('id="trend-grid"'),
+  "the integrated peer view should precede methodology and company graph cards",
 );
 assert.match(html, /2026 Base/, "forecast should display the Base path");
 assert.match(html, /2026 Worst/, "forecast should display the Worst path");
