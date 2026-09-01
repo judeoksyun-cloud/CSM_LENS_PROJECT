@@ -21,11 +21,7 @@ for (const companyKey of companies) {
   const financial = getFinancialMetric(snapshot.data, companyKey, "2026-q2");
   assert.ok(Number.isFinite(financial.insuranceProfit), `${companyKey} insurance profit`);
   assert.ok(Number.isFinite(financial.netIncome), `${companyKey} net income`);
-  if (companyKey === "hanwha-life") {
-    assert.equal(financial.kics, null, "Hanwha Q2 K-ICS must stay blank while DART marks it pending");
-  } else {
-    assert.ok(Number.isFinite(financial.kics), `${companyKey} K-ICS`);
-  }
+  assert.ok(Number.isFinite(financial.kics), `${companyKey} K-ICS`);
   assert.equal(financial.investmentProfit, null, "unavailable investment profit must stay null");
 }
 
@@ -46,9 +42,14 @@ assert.equal(
   0,
 );
 
-const pending = getReviewSummary(snapshot.data, "hanwha-life", "2026-q2");
-assert.equal(pending.status, "needs_review");
+const hanwha = getReviewSummary(snapshot.data, "hanwha-life", "2026-q2");
+assert.equal(hanwha.status, "passed");
+assert.equal(getFinancialMetric(snapshot.data, "hanwha-life", "2026-q2").kics, 168.0);
+assert.equal(
+  snapshot.data.sampleData["hanwha-life"].periods["2026-q2"].sourceReference.rceptNo,
+  "20260831001232",
+);
 assert.deepEqual(
-  pending.items.find((item) => item.metric === "financial_metrics").validation.pendingMetrics,
-  ["kics"],
+  hanwha.items.find((item) => item.metric === "financial_metrics").validation.pendingMetrics,
+  [],
 );

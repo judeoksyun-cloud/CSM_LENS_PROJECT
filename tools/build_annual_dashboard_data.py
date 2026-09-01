@@ -391,7 +391,6 @@ def combined_movement(tables: list[dict]) -> dict[str, int]:
 
 
 def kics_ratio(year_data: dict, year: int) -> tuple[float | None, str]:
-    rows = []
     for table in year_data["document_candidates"]:
         if not table["document"].endswith(".xml") or "_" in Path(table["document"]).stem:
             continue
@@ -400,15 +399,13 @@ def kics_ratio(year_data: dict, year: int) -> tuple[float | None, str]:
         for row in table["rows"]:
             label = compact(row[0] if row else "")
             if ("지급여력비율(A/B)" in label or "위험기준지급여력비율(A/B)" in label) and len(row) > 1:
-                values = [
-                    float(value)
-                    for cell in row[1:]
-                    if str(cell).strip() not in {"", "-", "–", "—"}
-                    for value in [number(cell)]
-                    if value is not None
-                ]
-                if values:
-                    return values[0], "RBC" if year == 2022 else "K-ICS"
+                # The first value column is the requested reporting period.
+                # If it says ``산출중``, do not silently fall through to the
+                # prior-year numeric columns. A later correction table can then
+                # supply the finalized current-period ratio.
+                current_period_value = number(row[1])
+                if current_period_value is not None:
+                    return float(current_period_value), "RBC" if year == 2022 else "K-ICS"
     return None, "RBC" if year == 2022 else "K-ICS"
 
 

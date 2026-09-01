@@ -23,7 +23,7 @@ FISIS = ROOT / "external-data" / "fisis-quarterly-financials.json"
 OUTPUT = ROOT / "external-data" / "csm-quarterly-dashboard-data.json"
 DASHBOARD_JS = ROOT / "csm-prototype" / "dashboard-data.generated.js"
 FLOW_KEYS = ("newbiz", "interest", "amortization")
-DATA_REFRESH_DATE = "2026-08-21"
+DATA_REFRESH_DATE = "2026-09-01"
 SHINHAN_2026_CSM_IR = {
     1: {
         "value": 7724.9,
@@ -227,7 +227,8 @@ def period_payload(
         for key, value in financial_audit.items()
         if key.startswith("fisis")
     )
-    disclosure_label = "반기" if quarter == 2 else "분기"
+    correction_prefix = "정정 " if "기재정정" in source_reference.get("reportName", "") else ""
+    disclosure_label = correction_prefix + ("반기" if quarter == 2 else "분기")
     validation_label = "FISIS 교차검증" if fisis_available else "FISIS 미게시"
     financial_audit = {
         **financial_audit,
@@ -275,12 +276,36 @@ def build() -> dict:
     output["dataContractVersion"] = "csm-dashboard-quarterly/v1"
     output["periodBasis"] = "quarterly-point-in-time-with-standalone-flows"
     output["methodologyRegistry"] = {
-        "version": "2026-08-21.5",
+        "version": "2026-09-01.6",
         "recordPolicy": (
             "모든 데이터 변경 시 원본 출처, 파싱 규칙, 단위·기간 환산, "
             "검증 소스, 판정 결과, 예외 처리를 함께 기록한다."
         ),
         "records": [
+            {
+                "effectiveDate": "2026-09-01",
+                "scope": "한화생명 2026년 2분기 K-ICS 확정값",
+                "source": (
+                    "Open DART [기재정정]반기보고서 (2026.06), 접수번호 20260831001232, "
+                    "사업의 내용 > 재무건전성 지급여력비율 표 #10"
+                ),
+                "parsing": (
+                    "지급여력비율 행의 첫 번째 기간열인 2026.06만 선택. 정정 전 '산출중' 행에서 "
+                    "이전 연도 157.5%를 현재 값으로 오인하지 않도록, 첫 기간열이 숫자가 아니면 해당 행을 건너뛴다."
+                ),
+                "conversion": (
+                    "지급여력 25,215,416백만원 ÷ 지급여력기준 15,011,165백만원 × 100을 "
+                    "원문 표시 정밀도에 따라 168.0%로 저장. 경과조치 적용 전 184.7%는 감사 주석으로 구분한다."
+                ),
+                "validation": (
+                    "정정공시 표의 A/B 재계산값 167.98%와 표시값 168.0%를 대사. 회사 FY2026 2분기 IR의 "
+                    "167%(e)는 확정 전 예상치로 분류하고, FISIS SH021/D·A 2026-06 미게시 상태를 재확인했다."
+                ),
+                "result": (
+                    "한화생명 2026 Q2 K-ICS를 null·산출중에서 168.0%·published로 변경하고 "
+                    "원본 접수번호를 20260831001232로 교체. CSM과 보험손익·지배주주 순이익은 변동 없음."
+                ),
+            },
             {
                 "effectiveDate": "2026-08-21",
                 "scope": "당해연도 전망을 포함한 9개사 신계약 추세율·CSM 조정률",

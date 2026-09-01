@@ -380,7 +380,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 794.803,
           "kics": 244.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20230629000651",
@@ -441,7 +441,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -462,7 +462,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 63.084,
           "kics": 244.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20230927000660",
@@ -523,7 +523,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -544,7 +544,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 268.176,
           "kics": 244.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20231228000767",
@@ -605,7 +605,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -671,7 +671,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -692,7 +692,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 622.094,
           "kics": 218.8,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20240627000744",
@@ -753,7 +753,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -774,7 +774,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 746.443,
           "kics": 218.8,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20240930000554",
@@ -835,7 +835,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -856,7 +856,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 673.607,
           "kics": 218.8,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20241231000420",
@@ -917,7 +917,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -983,7 +983,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -1004,7 +1004,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 635.259,
           "kics": 184.9,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20250530002283",
@@ -1065,7 +1065,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -1145,7 +1145,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -1225,7 +1225,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -1291,7 +1291,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -1371,7 +1371,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -1451,7 +1451,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "not_published",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": "Open DART 원문 Movement 항등식·기초 잔액 연속성 검산"
             },
             "csmValidation": null
@@ -1821,9 +1821,9 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": 172.203,
           "parentNetIncome": 470.912,
-          "kics": 162.2,
+          "kics": 181.2,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20230630000658",
@@ -1882,7 +1882,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -1901,9 +1901,9 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": 219.732,
           "parentNetIncome": 147.784,
-          "kics": 162.2,
+          "kics": 180.4,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20230926000613",
@@ -1962,7 +1962,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -1981,9 +1981,9 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": 172.604,
           "parentNetIncome": 27.532,
-          "kics": 162.2,
+          "kics": 184.3,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20231229000204",
@@ -2042,7 +2042,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -2106,7 +2106,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -2125,9 +2125,9 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": 90.828,
           "parentNetIncome": 287.624,
-          "kics": 183.8,
+          "kics": 235.07,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20240628000773",
@@ -2186,7 +2186,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -2205,9 +2205,9 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": 183.724,
           "parentNetIncome": 267.788,
-          "kics": 183.8,
+          "kics": 206.1,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20240930000415",
@@ -2266,7 +2266,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -2285,9 +2285,9 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": 106.828,
           "parentNetIncome": 23.153,
-          "kics": 183.8,
+          "kics": 164.1,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20241231000075",
@@ -2346,7 +2346,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -2410,7 +2410,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -2429,9 +2429,9 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": 104.208,
           "parentNetIncome": 226.061,
-          "kics": 163.7,
+          "kics": 154.1,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20250530002102",
@@ -2490,7 +2490,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -2509,9 +2509,9 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": 71.792,
           "parentNetIncome": 125.095,
-          "kics": 163.7,
+          "kics": 160.6,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20250828001120",
@@ -2570,7 +2570,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -2589,9 +2589,9 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": -36.577,
           "parentNetIncome": 266.994,
-          "kics": 163.7,
+          "kics": 158.2,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20251128001821",
@@ -2650,7 +2650,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -2714,7 +2714,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -2733,9 +2733,9 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": 62.394,
           "parentNetIncome": 324.395,
-          "kics": 157.5,
+          "kics": 162.1,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20260529001672",
@@ -2794,7 +2794,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -2813,19 +2813,19 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": 222.9,
           "parentNetIncome": 447.554,
-          "kics": null,
+          "kics": 168.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 미게시 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 미게시 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
-            "rceptNo": "20260813001536",
-            "reportName": "반기보고서 (2026.06)",
-            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260813001536",
+            "rceptNo": "20260831001232",
+            "reportName": "[기재정정]반기보고서 (2026.06)",
+            "dartUrl": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260831001232",
             "valueKind": "actual",
             "basis": "separate_financial_statement_excluding_reinsurance",
             "unit": "KRW billion",
             "sourceTables": [
-              2529
+              2542
             ],
             "sourcePeriodBasis": "year-to-date-cumulative",
             "displayPeriodBasis": "quarter-standalone",
@@ -2833,7 +2833,7 @@ window.CSM_AGENT_DATA = {
               "openingAnchor": 8714,
               "disclosedOpening": 8714,
               "openingDifference": 0,
-              "sourceDocument": "20260813001536.xml"
+              "sourceDocument": "20260831001232.xml"
             }
           },
           "metricBasis": {
@@ -2871,10 +2871,10 @@ window.CSM_AGENT_DATA = {
               "parentNetIncomeStandaloneStatus": "matched",
               "fisisSeparateNetIncomeCumulative": null,
               "fisisSeparateNetIncomeStandalone": null,
-              "solvencyStatus": "pending_in_source",
-              "solvencyReason": "Open DART 원문이 해당 분기 K-ICS를 산출 중으로 표시",
+              "solvencyStatus": "published",
+              "solvencyReason": null,
               "fisisStatus": "not_published",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": "Open DART 원문 Movement 항등식·기초 잔액 연속성 검산"
             },
             "csmValidation": null
@@ -3244,9 +3244,9 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": 100.173,
           "parentNetIncome": 462.408,
-          "kics": 180.64,
+          "kics": 0.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20230629000584",
@@ -3305,7 +3305,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -3324,9 +3324,9 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": 191.989,
           "parentNetIncome": 272.264,
-          "kics": 180.64,
+          "kics": 0.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20230926000083",
@@ -3385,7 +3385,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -3404,9 +3404,9 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": -104.248,
           "parentNetIncome": 8.175,
-          "kics": 180.64,
+          "kics": 0.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20231229000307",
@@ -3465,7 +3465,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -3529,7 +3529,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -3548,9 +3548,9 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": 104.234,
           "parentNetIncome": 293.315,
-          "kics": 193.78,
+          "kics": 0.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20240628000277",
@@ -3609,7 +3609,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -3630,7 +3630,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 269.791,
           "kics": 193.78,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20240930000074",
@@ -3689,7 +3689,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -3710,7 +3710,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 312.901,
           "kics": 193.78,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20241231000034",
@@ -3769,7 +3769,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -3833,7 +3833,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -3854,7 +3854,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 285.353,
           "kics": 164.16,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20250530001311",
@@ -3913,7 +3913,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -3934,7 +3934,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 297.013,
           "kics": 164.16,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20250829000755",
@@ -3993,7 +3993,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -4014,7 +4014,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 302.051,
           "kics": 164.16,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20251128000611",
@@ -4073,7 +4073,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -4139,7 +4139,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -4160,7 +4160,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 458.684,
           "kics": 165.66,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20260529000841",
@@ -4221,7 +4221,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -4303,7 +4303,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "not_published",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": "Open DART 원문 Movement 항등식·기초 잔액 연속성 검산"
             },
             "csmValidation": null
@@ -4675,7 +4675,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 140.571,
           "kics": 227.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20230516000285",
@@ -4734,7 +4734,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -4753,9 +4753,9 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": 179.055,
           "parentNetIncome": 175.186,
-          "kics": 267.7,
+          "kics": 0.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20230927000235",
@@ -4814,7 +4814,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -4835,7 +4835,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 114.574,
           "kics": 213.8,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20231229000137",
@@ -4894,7 +4894,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -4958,7 +4958,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -4979,7 +4979,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 154.192,
           "kics": 240.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20240628001045",
@@ -5038,7 +5038,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -5059,7 +5059,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 158.715,
           "kics": 238.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20240930000248",
@@ -5118,7 +5118,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -5139,7 +5139,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 154.2,
           "kics": 230.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20241231000502",
@@ -5198,7 +5198,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -5262,7 +5262,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -5283,7 +5283,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 165.172,
           "kics": 188.3,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20250530002359",
@@ -5342,7 +5342,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -5363,7 +5363,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 179.176,
           "kics": 196.7,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20250829002109",
@@ -5422,7 +5422,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -5443,7 +5443,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 170.167,
           "kics": 190.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20251128002077",
@@ -5502,7 +5502,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -5568,7 +5568,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -5589,7 +5589,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 103.145,
           "kics": 200.6,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20260529001251",
@@ -5650,7 +5650,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": {
@@ -5738,7 +5738,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "not_published",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": "Open DART 원문 Movement 항등식·기초 잔액 연속성 검산"
             },
             "csmValidation": {
@@ -5917,7 +5917,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 580.138,
           "kics": 273.23,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20230629000539",
@@ -5976,7 +5976,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -5997,7 +5997,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 604.384,
           "kics": 276.42,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20230926000523",
@@ -6056,7 +6056,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -6077,7 +6077,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 403.21,
           "kics": 263.24,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20231228000111",
@@ -6136,7 +6136,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -6200,7 +6200,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -6221,7 +6221,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 700.962,
           "kics": 277.35,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20240627000579",
@@ -6280,7 +6280,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -6301,7 +6301,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 611.444,
           "kics": 278.9,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20240927000732",
@@ -6360,7 +6360,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -6381,7 +6381,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 554.052,
           "kics": 280.57,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20241227000631",
@@ -6440,7 +6440,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -6504,7 +6504,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -6584,7 +6584,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -6664,7 +6664,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -6744,7 +6744,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -6809,7 +6809,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -6889,7 +6889,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -6969,7 +6969,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "not_published",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": "Open DART 원문 Movement 항등식·기초 잔액 연속성 검산"
             },
             "csmValidation": null
@@ -7336,7 +7336,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 396.526,
           "kics": 165.7,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20230627000338",
@@ -7395,7 +7395,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -7416,7 +7416,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 419.478,
           "kics": 165.7,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20230927000732",
@@ -7475,7 +7475,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -7496,7 +7496,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 480.066,
           "kics": 229.3,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20231229000474",
@@ -7555,7 +7555,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -7619,7 +7619,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -7640,7 +7640,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 491.433,
           "kics": 227.3,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20240628000709",
@@ -7699,7 +7699,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -7720,7 +7720,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 506.536,
           "kics": 224.9,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20240930000380",
@@ -7779,7 +7779,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -7800,7 +7800,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 499.659,
           "kics": 256.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20241230000300",
@@ -7859,7 +7859,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -7923,7 +7923,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -7944,7 +7944,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 464.883,
           "kics": 239.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20250530002001",
@@ -8003,7 +8003,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -8024,7 +8024,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 523.953,
           "kics": 238.9,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20250829001864",
@@ -8083,7 +8083,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -8104,7 +8104,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 463.976,
           "kics": 242.7,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20251128001722",
@@ -8163,7 +8163,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -8228,7 +8228,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -8249,7 +8249,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 470.277,
           "kics": 240.7,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20260529001425",
@@ -8309,7 +8309,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -8390,7 +8390,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "not_published",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": "Open DART 원문 Movement 항등식·기초 잔액 연속성 검산"
             },
             "csmValidation": null
@@ -8561,9 +8561,9 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": 456.176,
           "parentNetIncome": 447.269,
-          "kics": 170.76,
+          "kics": 0.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20230627000467",
@@ -8622,7 +8622,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -8643,7 +8643,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 464.975,
           "kics": 214.1,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20230927000457",
@@ -8703,7 +8703,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -8724,7 +8724,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 363.457,
           "kics": 216.3,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20231227000624",
@@ -8783,7 +8783,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -8847,7 +8847,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -8868,7 +8868,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 580.141,
           "kics": 230.9,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20240628000777",
@@ -8927,7 +8927,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -8948,7 +8948,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 611.231,
           "kics": 228.2,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20240927000911",
@@ -9007,7 +9007,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -9028,7 +9028,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 474.879,
           "kics": 228.9,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20241227000624",
@@ -9087,7 +9087,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -9151,7 +9151,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -9231,7 +9231,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -9311,7 +9311,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -9391,7 +9391,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -9456,7 +9456,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -9536,7 +9536,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -9616,7 +9616,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "not_published",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": "Open DART 원문 Movement 항등식·기초 잔액 연속성 검산"
             },
             "csmValidation": null
@@ -9848,7 +9848,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -9928,7 +9928,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -10008,7 +10008,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -10072,7 +10072,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -10093,7 +10093,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 373.252,
           "kics": 167.8,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20240628000666",
@@ -10152,7 +10152,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -10232,7 +10232,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -10312,7 +10312,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -10376,7 +10376,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -10456,7 +10456,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -10536,7 +10536,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -10616,7 +10616,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -10681,7 +10681,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -10761,7 +10761,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -10841,7 +10841,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "not_published",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": "Open DART 원문 Movement 항등식·기초 잔액 연속성 검산"
             },
             "csmValidation": null
@@ -11011,9 +11011,9 @@ window.CSM_AGENT_DATA = {
           },
           "insuranceProfit": 248.907,
           "parentNetIncome": 264.285,
-          "kics": 171.66,
+          "kics": 0.0,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20230629000441",
@@ -11072,7 +11072,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -11093,7 +11093,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 281.935,
           "kics": 193.96,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20230927000496",
@@ -11152,7 +11152,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -11173,7 +11173,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 162.623,
           "kics": 193.49,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20231229000042",
@@ -11232,7 +11232,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -11296,7 +11296,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -11317,7 +11317,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 291.276,
           "kics": 204.2,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20240628000408",
@@ -11376,7 +11376,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -11397,7 +11397,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 278.89,
           "kics": 202.84,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20240930000204",
@@ -11456,7 +11456,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -11477,7 +11477,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 167.124,
           "kics": 204.39,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20241231000011",
@@ -11536,7 +11536,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -11600,7 +11600,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -11621,7 +11621,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 313.64,
           "kics": 182.1,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20250530002026",
@@ -11680,7 +11680,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -11701,7 +11701,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 243.972,
           "kics": 191.43,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 반기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20250829001942",
@@ -11760,7 +11760,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -11781,7 +11781,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 209.187,
           "kics": 191.79,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20251128001443",
@@ -11840,7 +11840,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -11904,7 +11904,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -11925,7 +11925,7 @@ window.CSM_AGENT_DATA = {
           "parentNetIncome": 205.755,
           "kics": 188.01,
           "solvencyBasis": "K-ICS",
-          "quality": "DART 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
+          "quality": "DART 정정 분기 공시 · FISIS 교차검증 · 누적값 분기 단독 환산",
           "sourceReference": {
             "sourceType": "Open DART",
             "rceptNo": "20260529001431",
@@ -11984,7 +11984,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "available",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": null
             },
             "csmValidation": null
@@ -12064,7 +12064,7 @@ window.CSM_AGENT_DATA = {
               "solvencyStatus": "published",
               "solvencyReason": null,
               "fisisStatus": "not_published",
-              "fisisCheckedAt": "2026-08-21",
+              "fisisCheckedAt": "2026-09-01",
               "fallbackValidation": "Open DART 원문 Movement 항등식·기초 잔액 연속성 검산"
             },
             "csmValidation": null
@@ -12074,9 +12074,18 @@ window.CSM_AGENT_DATA = {
     }
   },
   "methodologyRegistry": {
-    "version": "2026-08-21.5",
+    "version": "2026-09-01.6",
     "recordPolicy": "모든 데이터 변경 시 원본 출처, 파싱 규칙, 단위·기간 환산, 검증 소스, 판정 결과, 예외 처리를 함께 기록한다.",
     "records": [
+      {
+        "effectiveDate": "2026-09-01",
+        "scope": "한화생명 2026년 2분기 K-ICS 확정값",
+        "source": "Open DART [기재정정]반기보고서 (2026.06), 접수번호 20260831001232, 사업의 내용 > 재무건전성 지급여력비율 표 #10",
+        "parsing": "지급여력비율 행의 첫 번째 기간열인 2026.06만 선택. 정정 전 '산출중' 행에서 이전 연도 157.5%를 현재 값으로 오인하지 않도록, 첫 기간열이 숫자가 아니면 해당 행을 건너뛴다.",
+        "conversion": "지급여력 25,215,416백만원 ÷ 지급여력기준 15,011,165백만원 × 100을 원문 표시 정밀도에 따라 168.0%로 저장. 경과조치 적용 전 184.7%는 감사 주석으로 구분한다.",
+        "validation": "정정공시 표의 A/B 재계산값 167.98%와 표시값 168.0%를 대사. 회사 FY2026 2분기 IR의 167%(e)는 확정 전 예상치로 분류하고, FISIS SH021/D·A 2026-06 미게시 상태를 재확인했다.",
+        "result": "한화생명 2026 Q2 K-ICS를 null·산출중에서 168.0%·published로 변경하고 원본 접수번호를 20260831001232로 교체. CSM과 보험손익·지배주주 순이익은 변동 없음."
+      },
       {
         "effectiveDate": "2026-08-21",
         "scope": "당해연도 전망을 포함한 9개사 신계약 추세율·CSM 조정률",

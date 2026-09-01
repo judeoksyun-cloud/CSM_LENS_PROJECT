@@ -56,6 +56,7 @@ assert.ok(
 assert.match(html, /\(참고사항\)/, "navigation should label the reference group");
 assert.match(html, /최적가정 관련 지표/, "navigation should name the best-estimate reference group");
 assert.match(html, /class="nav-label-stack"[\s\S]*?5% 관리기준/, "claim navigation should show the small 5% label");
+assert.match(styles, /\.nav-quality-link \{[\s\S]*grid-template-columns:\s*40px minmax\(0, 1fr\) auto;[\s\S]*column-gap:\s*8px;/, "DATA and 데이터 기준 should have a deliberate navigation gap");
 assert.match(html, /예실차 \(공시기준\)/, "public claim experience should be a standalone reference page");
 assert.match(html, /경과기간 손해율·유지비율/, "loss and maintenance ratios should share one reference page");
 assert.match(html, /data-duration-metric="loss"/, "duration page should expose a loss-ratio tab");
@@ -123,6 +124,15 @@ assert.match(styles, /\.duration-point-value-14/, "mobile duration charts should
 
 assert.match(html, /id="industry-comparison-title"[^>]*>업권별 보유 CSM 비교/, "market view should name the active comparison metric");
 assert.match(script, /업권별 \$\{metric\.label\} 비교/, "market title should follow the selected metric tab");
+assert.match(html, /data-market-metric="netIncome"[\s\S]*?<span>당기순이익<\/span>[\s\S]*?<\/button>/, "market comparison should expose net income as a selectable metric");
+assert.match(html, /data-market-metric="netIncome"[\s\S]*?metric-basis-badge">연결<\/small>/, "net income should visibly declare the consolidated basis");
+assert.match(html, /data-market-metric="insurance"[\s\S]*?metric-basis-badge">별도<\/small>/, "insurance profit should visibly declare the separate basis");
+assert.ok(
+  html.indexOf('data-market-metric="newbiz"') < html.indexOf('data-market-metric="netIncome"') &&
+    html.indexOf('data-market-metric="netIncome"') < html.indexOf('data-market-metric="insurance"'),
+  "net income should sit between new-business CSM and insurance profit",
+);
+assert.match(script, /netIncome:\s*\{\s*label:\s*"당기순이익"[\s\S]*?financial\?\.netIncome/, "net income chart should use the basis-aware financial metric");
 assert.doesNotMatch(script, /escapeHtml\(row\.company\.type\)/, "market chart should not show subjective company-type labels");
 assert.match(script, /const sectorCatalog = \[/, "dashboard should define reusable life/non-life groups");
 assert.match(script, /function renderSectorCardGroups\(/, "multi-company cards should share one sector grouping renderer");

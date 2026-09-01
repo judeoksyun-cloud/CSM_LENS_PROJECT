@@ -82,15 +82,15 @@ const state = {
 };
 
 const peerTrendColors = {
-  "samsung-life": "#1455d9",
-  "hanwha-life": "#7048c8",
-  "kyobo-life": "#008c86",
-  "shinhan-life": "#c23b83",
-  "samsung-fire": "#c0392b",
-  "meritz-fire": "#e16b16",
-  "db-insurance": "#2e8b57",
-  "hyundai-marine": "#9a6700",
-  "kb-insurance": "#52677d",
+  "samsung-life": "#2f65c7",
+  "hanwha-life": "#7457b8",
+  "kyobo-life": "#238a86",
+  "shinhan-life": "#b34f80",
+  "samsung-fire": "#c45142",
+  "meritz-fire": "#d6782d",
+  "db-insurance": "#3d8e63",
+  "hyundai-marine": "#a27921",
+  "kb-insurance": "#5f7088",
 };
 
 const marketMetrics = {
@@ -102,6 +102,11 @@ const marketMetrics = {
   newbiz: {
     label: "신계약 CSM",
     getValue: ({ period }) => period?.movement?.newbiz ?? null,
+    format: formatWon,
+  },
+  netIncome: {
+    label: "당기순이익",
+    getValue: ({ financial }) => financial?.netIncome ?? null,
     format: formatWon,
   },
   insurance: {
@@ -158,13 +163,13 @@ function periodLabel(periodKey) {
 
 function periodShortLabel(periodKey) {
   const { year, quarter, kind } = parsePeriodKey(periodKey);
-  return kind === "ye" ? `${String(year).slice(2)}.YE` : `${String(year).slice(2)}.${quarter}Q`;
+  return kind === "ye" ? `${String(year).slice(2)}.4Q` : `${String(year).slice(2)}.${quarter}Q`;
 }
 
 function trendPeriodLabel(periodKey) {
   const { year, quarter, kind } = parsePeriodKey(periodKey);
   return kind === "ye" || quarter === 4
-    ? `${String(year).slice(2)}.YE`
+    ? `${String(year).slice(2)}.4Q`
     : periodShortLabel(periodKey);
 }
 
@@ -319,7 +324,7 @@ function basisLabel() {
 
 function marketMetricLabel(metricKey) {
   const metric = marketMetrics[metricKey];
-  return ["newbiz", "insurance"].includes(metricKey)
+  return ["newbiz", "netIncome", "insurance"].includes(metricKey)
     ? `${metric.label} · ${basisLabel()}`
     : metric.label;
 }
@@ -350,11 +355,11 @@ function renderHeader() {
     `${periodLabel(state.periodKey)} 검증 스냅샷`;
   const cumulative = state.valueBasis === "cumulative";
   document.querySelector("#industry-basis-note").textContent = cumulative
-    ? "신계약 CSM·보험손익·당기순이익은 당해연도 누적으로 비교합니다."
-    : "신계약 CSM·보험손익·당기순이익은 해당 분기 단독값으로 비교합니다.";
+    ? "신계약 CSM은 당해연도 누적, 당기순이익은 연결·누적, 보험손익은 별도·누적 기준입니다."
+    : "신계약 CSM은 해당 분기 단독, 당기순이익은 연결·분기 단독, 보험손익은 별도·분기 단독 기준입니다.";
   document.querySelector("#comparison-newbiz-heading").textContent = `신계약 CSM (${basisLabel()})`;
-  document.querySelector("#comparison-insurance-heading").textContent = `보험손익 (${basisLabel()})`;
-  document.querySelector("#comparison-net-income-heading").textContent = `당기순이익 (${basisLabel()})`;
+  document.querySelector("#comparison-insurance-heading").innerHTML = `보험손익 <small class="metric-basis-badge">별도</small> (${basisLabel()})`;
+  document.querySelector("#comparison-net-income-heading").innerHTML = `당기순이익 <small class="metric-basis-badge">연결</small> (${basisLabel()})`;
   document.querySelector("#movement-basis-note").textContent = cumulative
     ? "누적 기준 · 기시는 전년도말 · 공란은 데이터 미수집 상태입니다."
     : "분기 기준 · 기시는 전분기말 · 공란은 데이터 미수집 상태입니다.";
@@ -444,8 +449,8 @@ function renderComparisonTable() {
           </td>
           <td><strong>${row.period ? formatWon(row.period.csm) : "—"}</strong></td>
           <td>${row.period ? formatWon(row.period.movement.newbiz) : "—"}</td>
-          <td>${row.financial?.insuranceProfit != null ? formatWon(row.financial.insuranceProfit) : "—"}</td>
           <td>${row.financial?.netIncome != null ? formatWon(row.financial.netIncome) : "—"}</td>
+          <td>${row.financial?.insuranceProfit != null ? formatWon(row.financial.insuranceProfit) : "—"}</td>
           <td>${row.financial?.kics != null ? `<span class="kics-pill">${formatPercent(row.financial.kics, 0)}</span>` : "—"}</td>
         </tr>
       `,
@@ -491,7 +496,7 @@ function forecastTargetLabel(periodKey) {
 function forecastPeriodLabel(periodKey) {
   const { year } = parsePeriodKey(periodKey);
   const term = { 2026: "1년 예상", 2027: "2년 예상", 2028: "3년 예상", 2029: "4년 예상", 2030: "5년 예상" }[year] ?? "전망";
-  return { term, year: `${String(year).slice(2)} YE` };
+  return { term, year: `${String(year).slice(2)} 4Q` };
 }
 
 function forecastHorizonSeries(projection, scenarioKey) {
@@ -572,7 +577,7 @@ function renderPeerTrendChart() {
 
   const width = 960;
   const height = 560;
-  const plot = { left: 68, right: 145, top: 52, bottom: 56 };
+  const plot = { left: 68, right: 160, top: 52, bottom: 56 };
   const plotRight = width - plot.right;
   const plotBottom = height - plot.bottom;
   const allValues = series.flatMap((item) => item.values);
@@ -604,10 +609,17 @@ function renderPeerTrendChart() {
     plotBottom,
     (item) => item.history.at(-1).value,
   );
+  const labelLaneTop = plot.top + 27;
+  const labelLaneHeight = plotBottom - labelLaneTop - 4;
+  const latestLabelLaneX = Math.max(plot.left + 4, x(latestActualIndex) - 156);
+  const latestLabelLaneWidth = x(latestActualIndex) - latestLabelLaneX - 7;
+  const finalLabelLaneX = plotRight + 8;
 
   chart.innerHTML = `<svg class="peer-trend-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="9개 보험사의 보유 CSM 실적과 ${scenarioLabel} 5개년 전망 통합 비교 그래프">
     <rect class="peer-trend-forecast-zone" x="${x(latestActualIndex)}" y="${plot.top}" width="${plotRight - x(latestActualIndex)}" height="${plotBottom - plot.top}"></rect>
     <rect class="peer-trend-frame" x="${plot.left}" y="${plot.top}" width="${plotRight - plot.left}" height="${plotBottom - plot.top}"></rect>
+    <rect class="peer-trend-label-lane peer-trend-latest-lane" x="${latestLabelLaneX}" y="${labelLaneTop}" width="${latestLabelLaneWidth}" height="${labelLaneHeight}" rx="6" aria-hidden="true"></rect>
+    <rect class="peer-trend-label-lane peer-trend-final-lane" x="${finalLabelLaneX}" y="${labelLaneTop}" width="${width - finalLabelLaneX - 4}" height="${labelLaneHeight}" rx="6" aria-hidden="true"></rect>
     <g class="peer-trend-grid" aria-hidden="true">
       ${yTicks.map((tick) => `<line x1="${plot.left}" x2="${plotRight}" y1="${y(tick)}" y2="${y(tick)}"></line><text x="${plot.left - 12}" y="${y(tick) + 4}" text-anchor="end">${formatPeerTrendAxisValue(tick)}</text>`).join("")}
       ${xLabels.map((label, index) => `<text x="${x(index)}" y="${height - 25}" text-anchor="middle">${label}</text>`).join("")}
@@ -617,7 +629,7 @@ function renderPeerTrendChart() {
       <text class="peer-trend-zone-label" x="${x(Math.max(0, latestActualIndex - 2))}" y="${plot.top + 20}" text-anchor="middle">실적</text>
       <text class="peer-trend-zone-label" x="${x(latestActualIndex + 2.5)}" y="${plot.top + 20}" text-anchor="middle">${scenarioLabel} 전망</text>
       <text class="peer-trend-latest-heading" x="${x(latestActualIndex) - 12}" y="${plot.top + 40}" text-anchor="end">최근 실적 · 26.2Q</text>
-      <text class="peer-trend-end-heading" x="${plotRight + 18}" y="${plot.top + 40}">5년 전망 · 30.YE</text>
+      <text class="peer-trend-end-heading" x="${plotRight + 18}" y="${plot.top + 40}">5년 전망 · 30.4Q</text>
     </g>
     <g class="peer-trend-series">
       ${series.map((item) => {
@@ -641,6 +653,20 @@ function renderPeerTrendChart() {
             ? `<circle class="peer-trend-point is-latest" cx="${x(latestActualIndex)}" cy="${actualY}" r="4.5"></circle><circle class="peer-trend-point is-final" cx="${plotRight}" cy="${finalY}" r="3.8"></circle>`
             : `<rect class="peer-trend-point is-latest" x="${x(latestActualIndex) - 4}" y="${actualY - 4}" width="8" height="8"></rect><rect class="peer-trend-point is-final" x="${plotRight - 3.5}" y="${finalY - 3.5}" width="7" height="7"></rect>`}
         </g>`;
+      }).join("")}
+    </g>
+    <g class="peer-trend-history-points">
+      ${series.map((item) => {
+        const dimmed = selectedKey && selectedKey !== item.catalog.key;
+        const highlighted = selectedKey === item.catalog.key;
+        return item.history
+          .map((point, index) => ({ point, index, parsed: parsePeriodKey(point.period) }))
+          .filter(({ index, parsed }) => index < item.history.length - 1 && (parsed.kind === "ye" || parsed.quarter === 4))
+          .map(({ point, index }) => `<g class="peer-trend-history-point ${dimmed ? "is-dimmed" : ""} ${highlighted ? "is-highlighted" : ""}" data-peer-history-point data-company="${escapeHtml(item.catalog.name)}" data-period="${trendPeriodLabel(point.period)}" data-value="${formatTrendWon(point.value)}" role="img" tabindex="0" aria-label="${escapeHtml(item.catalog.name)} ${trendPeriodLabel(point.period)} 보유 CSM ${formatTrendWon(point.value)}" style="--peer-color:${item.color}">
+            <circle class="peer-trend-history-hit" cx="${x(index)}" cy="${y(point.value)}" r="10"></circle>
+            <circle class="peer-trend-history-marker" cx="${x(index)}" cy="${y(point.value)}" r="2.6"></circle>
+          </g>`)
+          .join("");
       }).join("")}
     </g>
     <g class="peer-trend-latest-labels">
@@ -672,7 +698,30 @@ function renderPeerTrendChart() {
         </g>`;
       }).join("")}
     </g>
-  </svg>`;
+  </svg>
+  <div class="peer-trend-tooltip" role="tooltip" hidden><strong></strong><span></span></div>`;
+
+  const historyTooltip = chart.querySelector(".peer-trend-tooltip");
+  const hideHistoryTooltip = () => {
+    historyTooltip.hidden = true;
+  };
+  chart.querySelectorAll("[data-peer-history-point]").forEach((point) => {
+    const showHistoryTooltip = () => {
+      historyTooltip.querySelector("strong").textContent = point.dataset.company;
+      historyTooltip.querySelector("span").textContent = `${point.dataset.period} · ${point.dataset.value}`;
+      historyTooltip.hidden = false;
+      const pointRect = point.getBoundingClientRect();
+      const chartRect = chart.getBoundingClientRect();
+      const desiredLeft = pointRect.left + pointRect.width / 2 - chartRect.left;
+      const halfWidth = historyTooltip.offsetWidth / 2;
+      historyTooltip.style.left = `${Math.max(halfWidth + 8, Math.min(chart.clientWidth - halfWidth - 8, desiredLeft))}px`;
+      historyTooltip.style.top = `${pointRect.top + pointRect.height / 2 - chartRect.top}px`;
+    };
+    point.addEventListener("mouseenter", showHistoryTooltip);
+    point.addEventListener("mouseleave", hideHistoryTooltip);
+    point.addEventListener("focus", showHistoryTooltip);
+    point.addEventListener("blur", hideHistoryTooltip);
+  });
 
   document.querySelectorAll("[data-peer-select]").forEach((control) => {
     const companyKey = control.dataset.peerSelect;
@@ -3007,6 +3056,16 @@ peerTrendScenarioButtons.forEach((button) => {
 });
 
 peerTrendReset?.addEventListener("click", () => {
+  state.peerTrendCompanyKey = null;
+  renderPeerTrendChart();
+});
+
+document.addEventListener("click", (event) => {
+  if (!state.peerTrendCompanyKey) return;
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+  if (target.closest("[data-peer-select], [data-peer-trend-scenario], #peer-trend-reset")) return;
+  if (target.closest("a, button, input, select, textarea, summary, [role=button]")) return;
   state.peerTrendCompanyKey = null;
   renderPeerTrendChart();
 });

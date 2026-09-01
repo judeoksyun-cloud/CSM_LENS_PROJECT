@@ -35,14 +35,7 @@ def main() -> int:
             period = periods[period_key]
             for metric in ("csm", "insuranceProfit", "parentNetIncome"):
                 assert period[metric] is not None, f"{company_key} {period_key} missing {metric}"
-            if company_key == "hanwha-life" and period_key == "2026-q2":
-                assert period["kics"] is None
-                assert (
-                    period["quarterlyAudit"]["financialValidation"]["solvencyStatus"]
-                    == "pending_in_source"
-                )
-            else:
-                assert period["kics"] is not None, f"{company_key} {period_key} missing kics"
+            assert period["kics"] is not None, f"{company_key} {period_key} missing kics"
             movement = period["movement"]
             calculated = sum(
                 movement[key]
@@ -90,6 +83,9 @@ def main() -> int:
     hanwha = companies["hanwha-life"]["periods"]
     assert close(hanwha["2026-q1"]["parentNetIncome"], 324.395)
     assert close(hanwha["2026-q2"]["parentNetIncome"], 447.554)
+    assert hanwha["2026-q2"]["kics"] == 168.0
+    assert hanwha["2026-q2"]["sourceReference"]["rceptNo"] == "20260831001232"
+    assert hanwha["2026-q2"]["quarterlyAudit"]["financialValidation"]["solvencyStatus"] == "published"
 
     db = companies["db-insurance"]["periods"]
     assert db["2025-ye"]["csm"] == 12205

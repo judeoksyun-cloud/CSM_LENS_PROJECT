@@ -11,7 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260827-compact-peer-trend-v98" />
+    <link rel="stylesheet" href="./styles.css?v=20260901-market-basis-v106" />
   </head>
   <body>
     <div class="app-shell">
@@ -114,7 +114,7 @@
                 <span>한눈에 비교합니다.</span>
               </h2>
               <p>
-                생명보험과 손해보험의 보유 CSM, 신계약 창출력, 보험손익과 지급여력을
+                생명보험과 손해보험의 보유 CSM, 신계약 창출력, 보험손익·당기순이익과 지급여력을
                 동일한 기준으로 비교합니다.
               </p>
             </div>
@@ -135,7 +135,12 @@
               <div class="metric-tabs" role="group" aria-label="비교 지표">
                 <button type="button" class="metric-tab is-active" data-market-metric="csm">보유 CSM</button>
                 <button type="button" class="metric-tab" data-market-metric="newbiz">신계약 CSM</button>
-                <button type="button" class="metric-tab" data-market-metric="insurance">보험손익</button>
+                <button type="button" class="metric-tab metric-tab-with-basis" data-market-metric="netIncome">
+                  <span>당기순이익</span><small class="metric-basis-badge">연결</small>
+                </button>
+                <button type="button" class="metric-tab metric-tab-with-basis" data-market-metric="insurance">
+                  <span>보험손익</span><small class="metric-basis-badge">별도</small>
+                </button>
                 <button type="button" class="metric-tab" data-market-metric="kics">K-ICS</button>
               </div>
             </div>
@@ -149,8 +154,8 @@
                     <th class="table-company-heading">회사</th>
                     <th>보유 CSM</th>
                     <th id="comparison-newbiz-heading">신계약 CSM (누적)</th>
-                    <th id="comparison-insurance-heading">보험손익 (누적)</th>
-                    <th id="comparison-net-income-heading">당기순이익 (누적)</th>
+                    <th id="comparison-net-income-heading">당기순이익 <small class="metric-basis-badge">연결</small> (누적)</th>
+                    <th id="comparison-insurance-heading">보험손익 <small class="metric-basis-badge">별도</small> (누적)</th>
                     <th>K-ICS</th>
                   </tr>
                 </thead>
@@ -236,7 +241,7 @@
               <div class="peer-trend-chart-scroll">
                 <div class="peer-trend-chart" id="peer-trend-chart" aria-live="polite"></div>
               </div>
-              <p class="peer-trend-note"><span>회사별 고대비 색상</span><span>생보 ● · 손보 ■</span><span>실선 실적 · 점선 전망</span><span>최근 실적과 5년 전망 직접 표시</span><span>회사명을 선택하면 해당 흐름을 강조합니다.</span></p>
+              <p class="peer-trend-note"><span>● 생보 · ■ 손보</span><span>실선 실적 · 점선 전망</span></p>
             </article>
 
             <article class="panel forecast-method-panel" aria-labelledby="forecast-method-title">
@@ -560,12 +565,12 @@
       </div>
     </dialog>
 
-    <script src="./dashboard-data.generated.js?v=20260821-q2-v7"></script>
+    <script src="./dashboard-data.generated.js?v=20260901-hanwha-kics-v8"></script>
     <script src="./assumption-data.generated.js?v=20260804-official-source-v4"></script>
     <script src="./forecast-data.generated.js?v=20260821-five-year-v9"></script>
     <script src="./liability-assumption-data.generated.js?v=20260804-official-source-v4"></script>
     <script src="./management-experience-data.generated.js?v=20260821-v4"></script>
     <script src="./xlsx-export.js?v=20260820-v1"></script>
-    <script src="./script.js?v=20260827-compact-peer-trend-v98"></script>
+    <script src="./script.js?v=20260901-market-basis-v106"></script>
   </body>
 </html>
